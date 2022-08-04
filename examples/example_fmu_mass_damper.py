@@ -36,7 +36,7 @@ configure_logger()
 ###############################################################################
 # Specify the path to the FMU file
 # ------------------------------------------------
-fmu_file_path = Path('../fmu_files/Mass_Damper.fmu')
+fmu_file_path = Path("../fmu_files/Mass_Damper.fmu")
 
 ##############################################################################
 # Create and instantiate the discipline
@@ -68,8 +68,9 @@ print(discipline_2)
 input_object = ("f", np.sin)
 
 discipline_3 = FMUDiscipline(
-    fmu_file_path, kind="CS",
-    simulate_options={"input": input_object, "start_time": 0, "final_time": 1}
+    fmu_file_path,
+    kind="CS",
+    simulate_options={"input": input_object, "start_time": 0, "final_time": 1},
 )
 print(discipline_3)
 

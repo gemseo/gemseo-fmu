@@ -25,7 +25,9 @@ from gemseo.api import create_scenario
 from numpy import array
 from numpy import ones
 
-from problems.sellar import Sellar1, Sellar2, SellarSystem
+from problems.sellar import Sellar1
+from problems.sellar import Sellar2
+from problems.sellar import SellarSystem
 
 FMU_DIRECTORY_PATH = Path(__file__).parent.parent / "fmu_files"
 

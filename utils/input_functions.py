@@ -16,9 +16,10 @@
 #    INITIAL AUTHORS - initial API and implementation and/or initial documentation
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
-"""Utility to create basic signals in the form of numpy arrays. It is useful to
-seamlessly generate input data usable by the FMUDiscipline."""
+"""Utility to create basic signals in the form of numpy arrays.
 
+It is useful to seamlessly generate input data usable by the FMUDiscipline.
+"""
 import pylab as plt
 import scipy.signal as signal
 from numpy import cos

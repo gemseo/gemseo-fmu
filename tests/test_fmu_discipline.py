@@ -32,6 +32,7 @@ FMU_FILE_PATH = Path(__file__).parent.parent / "fmu_files/Mass_Damper.fmu"
 @pytest.fixture()
 def discipline() -> FMUDiscipline:
     """Return a FMUDiscipline object."""
+    # __import__('pudb').set_trace()
     return FMUDiscipline(FMU_FILE_PATH, kind="CS")
 
 

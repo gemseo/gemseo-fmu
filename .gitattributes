@@ -5,7 +5,6 @@
 * text eol=lf
 
 # Denote all files that are truly binary and should not be modified.
-*.fmu binary
 *.db binary
 *.di binary
 *.dvi binary
@@ -25,3 +24,4 @@
 *.xlsx binary
 *.eot binary
 *.ttf binary
+*.fmu binary

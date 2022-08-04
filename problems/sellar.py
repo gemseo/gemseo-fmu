@@ -80,13 +80,12 @@ from typing import Iterable
 from typing import Optional
 
 import numpy as np
+from gemseo_fmu.fmu_discipline import FMUDiscipline
 from numpy import array
 from numpy import atleast_2d
 from numpy import ndarray
 from numpy import ones
 from numpy import zeros
-
-from gemseo_fmu.fmu_discipline import FMUDiscipline
 
 Y_1 = "y_1"
 Y_2 = "y_2"

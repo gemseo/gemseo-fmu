@@ -18,6 +18,8 @@
 #        :author: Francois Gallard:
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Make a discipline from a Functional Mockup Unit (FMU) model."""
+from __future__ import annotations
+
 from pathlib import Path
 from typing import Dict
 from typing import Optional
@@ -167,14 +169,17 @@ class FMUDiscipline(MDODiscipline):
         # type parameter. Non-numerical variables are filtered-out.
         self._unfiltered_data = self._input_variables.copy()
         self._unfiltered_data.update(self._parameters)
-        self.input_data = {k: v for k, v in self._unfiltered_data.items()
-            if isinstance(self._unfiltered_data[k][0], float)}
+        self.input_data = {
+            k: v
+            for k, v in self._unfiltered_data.items()
+            if isinstance(self._unfiltered_data[k][0], float)
+        }
 
         # Time history variables
         self.history_outputs = history_outputs
         self.history_outputs_with_suffix = []
         for history_output in self.history_outputs:
-            self.history_outputs_with_suffix.append(history_output + '_history')
+            self.history_outputs_with_suffix.append(history_output + "_history")
 
         # Define input/output grammar and default inputs
         self.fmu_input_names = list(self.input_data.keys())
@@ -292,7 +297,8 @@ class FMUDiscipline(MDODiscipline):
             )
 
         for output_name in self.history_outputs:
-            self.local_data[output_name + '_history'] = self._model_simulation_results[
-                output_name]
+            self.local_data[output_name + "_history"] = self._model_simulation_results[
+                output_name
+            ]
 
         self._model.reset()

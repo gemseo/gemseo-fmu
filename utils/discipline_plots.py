@@ -28,7 +28,7 @@ def plot_discipline_fmu(
     fig_name=None,
     x_label=None,
     y_label=None,
-    title=None
+    title=None,
 ):
     """Plots the simulation history of a FMUDiscipline.
 
@@ -56,4 +56,4 @@ def plot_discipline_fmu(
         plt.savefig(fig_name)
     if show:
         plt.show()
-    title=None
+    title = None
