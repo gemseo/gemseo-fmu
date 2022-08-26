@@ -21,6 +21,9 @@ Short example illustrating the MDO Sellar problem based on disciplines extracted
 a FMU file
 ==========================================
 """
+import sys
+from pathlib import Path
+
 from gemseo.api import create_design_space
 from gemseo.api import create_scenario
 from numpy import array
@@ -30,10 +33,14 @@ from problems.sellar import Sellar1
 from problems.sellar import Sellar2
 from problems.sellar import SellarSystem
 
+FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
+
 # Step 1: create the disciplines
-sellar_1 = Sellar1("../fmu_files/SellarDis1.fmu", kind="CS")
-sellar_2 = Sellar2("../fmu_files/SellarDis2.fmu", kind="CS")
-sellar_system = SellarSystem("../fmu_files/SellarSystem.fmu", kind="CS")
+# In this example we take a FMU files directly from the FMU gallery
+# The disciplines are defined as follows:
+sellar_1 = Sellar1(FMU_DIR_PATH / "SellarDis1.fmu", kind="CS")
+sellar_2 = Sellar2(FMU_DIR_PATH / "SellarDis2.fmu", kind="CS")
+sellar_system = SellarSystem(FMU_DIR_PATH / "SellarSystem.fmu", kind="CS")
 
 disciplines = [sellar_1, sellar_2, sellar_system]
 
@@ -57,8 +64,8 @@ scenario.execute()
 
 optimum = scenario.get_optimum()
 print(optimum)
-x_opt = scenario.design_space.get_current_x_dict()
+x_opt = scenario.design_space.get_current_value(as_dict=True)
 print(x_opt)
 
 # Step 4: analyze the results
-scenario.post_process("OptHistoryView", show=True, save=True)
+scenario.post_process("OptHistoryView", show=True, save=False)

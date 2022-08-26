@@ -4,15 +4,15 @@
 #
 #    pip-compile --extra=test --output-file=requirements/test-python3.9.txt
 #
-attrs==21.4.0
+attrs==22.1.0
     # via pytest
 certifi==2022.6.15
     # via requests
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via requests
 covdefaults==2.2.0
     # via gemseo-fmu (setup.py)
-coverage[toml]==6.4.2
+coverage[toml]==6.4.4
     # via
     #   covdefaults
     #   pytest-cov
@@ -24,7 +24,7 @@ execnet==1.9.0
     # via pytest-xdist
 fastjsonschema==2.16.1
     # via gemseo
-fonttools==4.34.4
+fonttools==4.37.1
     # via matplotlib
 gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@develop
     # via gemseo-fmu (setup.py)
@@ -90,7 +90,7 @@ python-dateutil==2.8.2
     # via
     #   matplotlib
     #   pandas
-pytz==2022.1
+pytz==2022.2.1
     # via pandas
 pyxdsm==2.2.1
     # via gemseo
@@ -108,7 +108,7 @@ tqdm==4.64.0
     # via gemseo
 typing-extensions==4.3.0
     # via gemseo
-urllib3==1.26.11
+urllib3==1.26.12
     # via requests
 xdsmjs==1.0.1
     # via gemseo

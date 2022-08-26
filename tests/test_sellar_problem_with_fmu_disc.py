@@ -17,28 +17,26 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for the Sellar problem based on FMU models."""
-from pathlib import Path
-
 import pytest
 from gemseo.api import create_design_space
 from gemseo.api import create_scenario
 from numpy import array
 from numpy import ones
 
+from .test_fmu_discipline import FMU_DIR_PATH
 from problems.sellar import Sellar1
 from problems.sellar import Sellar2
 from problems.sellar import SellarSystem
-
-FMU_DIRECTORY_PATH = Path(__file__).parent.parent / "fmu_files"
 
 
 @pytest.fixture()
 def fmu_disciplines():
     """Build all fmu discipline for Sellar problem."""
-    sellar1 = Sellar1(FMU_DIRECTORY_PATH / "SellarDis1.fmu", kind="CS")
-    sellar2 = Sellar2(FMU_DIRECTORY_PATH / "SellarDis2.fmu", kind="CS")
-    sellar_system = SellarSystem(FMU_DIRECTORY_PATH / "SellarSystem.fmu", kind="CS")
-    return [sellar1, sellar2, sellar_system]
+    return [
+        Sellar1(FMU_DIR_PATH / "SellarDis1.fmu", kind="CS"),
+        Sellar2(FMU_DIR_PATH / "SellarDis2.fmu", kind="CS"),
+        SellarSystem(FMU_DIR_PATH / "SellarSystem.fmu", kind="CS"),
+    ]
 
 
 @pytest.fixture()
@@ -85,7 +83,7 @@ def test_fmu_optim_results(fmu_scenario):
     fmu_scenario.execute(input_data={"max_iter": 20, "algo": "SLSQP"})
 
     optim_res = fmu_scenario.get_optimum()
-    x_opt = fmu_scenario.design_space.get_current_x_dict()
+    x_opt = fmu_scenario.design_space.get_current_value(as_dict=True)
 
     assert pytest.approx(optim_res.f_opt) == 3.188547
     assert pytest.approx(x_opt["x_local"]) == 0.0

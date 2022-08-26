@@ -56,4 +56,3 @@ def plot_discipline_fmu(
         plt.savefig(fig_name)
     if show:
         plt.show()
-    title = None

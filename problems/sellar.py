@@ -14,7 +14,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # Contributors:
 #    INITIAL AUTHORS - API and implementation and/or documentation
-#        :author: Jorge Camacho
+#        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 r"""The disciplines for the MDO problem proposed by Sellar et al. in
 

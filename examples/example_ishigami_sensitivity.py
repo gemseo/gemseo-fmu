@@ -29,15 +29,20 @@
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # Contributors:
 #    INITIAL AUTHORS - initial API and implementation and/or initial documentation
-#        :author: Jorge Camacho
+#        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Comparing sensitivity indices."""
+import sys
+from pathlib import Path
+
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.uncertainty.sensitivity.correlation.analysis import CorrelationAnalysis
 from gemseo.uncertainty.sensitivity.morris.analysis import MorrisAnalysis
 from gemseo_fmu.fmu_discipline import FMUDiscipline
 from matplotlib import pyplot as plt
 from numpy import pi
+
+FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
 
 
 #######################################################################################
@@ -58,8 +63,7 @@ from numpy import pi
 # equation
 #   y = sin(x1) + 7 * sin(x2)^2 + 0.1 * x3^4 * sin(x1);
 # end IshigamiFunction;
-fmu_file_path = "../fmu_files/IshigamiFunction.fmu"
-discipline = FMUDiscipline(fmu_file_path, kind="CS")
+discipline = FMUDiscipline(FMU_DIR_PATH / "IshigamiFunction.fmu", kind="CS")
 
 #######################################################################################
 # The different uncertain variables :math:`X_1` , :math:`X_2` and :math:`X_3`
@@ -90,10 +94,10 @@ morris.compute_indices()
 
 #######################################################################################
 # Lastly, we compare these analyses either using a bar chart:
-morris.plot_comparison(correlation, "y", use_bar_plot=True, save=False, show=False)
+morris.plot_comparison(correlation, "y", use_bar_plot=True, save=False)
 
 #######################################################################################
 # or a radar plot:
-morris.plot_comparison(correlation, "y", use_bar_plot=False, save=False, show=False)
+morris.plot_comparison(correlation, "y", use_bar_plot=False, save=False)
 # Workaround for HTML rendering, instead of ``show=True``
 plt.show()

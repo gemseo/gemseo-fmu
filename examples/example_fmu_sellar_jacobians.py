@@ -20,22 +20,21 @@
 Create a discipline for the Sellar problem from a FMU file and computes its jacobians
 ==========================================
 """
-from gemseo.api import configure_logger
+import sys
+from pathlib import Path
 
 from problems.sellar import Sellar1
 from problems.sellar import Sellar2
 from problems.sellar import SellarSystem
 
-configure_logger()
+FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
+
 
 # Step 1: create the disciplines (with jacobians specific to the Sellar problem)
-sellar1_file = "../fmu_files/SellarDis1.fmu"
-sellar2_file = "../fmu_files/SellarDis2.fmu"
-sellar_system_file = "../fmu_files/SellarSystem.fmu"
-
-disc_sellar_1 = Sellar1(sellar1_file, kind="CS")
-disc_sellar_2 = Sellar2(sellar2_file, kind="CS")
-disc_sellar_system = SellarSystem(sellar_system_file, kind="CS")
+# In this example we take a FMU files directly from the FMU gallery
+disc_sellar_1 = Sellar1(FMU_DIR_PATH / "SellarDis1.fmu", kind="CS")
+disc_sellar_2 = Sellar2(FMU_DIR_PATH / "SellarDis2.fmu", kind="CS")
+disc_sellar_system = SellarSystem(FMU_DIR_PATH / "SellarSystem.fmu", kind="CS")
 
 disciplines = [disc_sellar_1, disc_sellar_2, disc_sellar_system]
 
@@ -50,6 +49,6 @@ disc_sellar_2._compute_jacobian()
 disc_sellar_system._compute_jacobian()
 
 # Step 4: access the jacobians
-print(disc_sellar_1.jac)
-print(disc_sellar_2.jac)
-print(disc_sellar_system.jac)
+print(dict(disc_sellar_1.jac))
+print(dict(disc_sellar_2.jac))
+print(dict(disc_sellar_system.jac))

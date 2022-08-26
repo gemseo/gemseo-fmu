@@ -23,20 +23,21 @@ Create a discipline from a FMU file
 ###############################################################################
 # Import
 # ------
+import sys
 from pathlib import Path
 
 import numpy as np
-from gemseo.api import configure_logger
 from gemseo_fmu.fmu_discipline import FMUDiscipline
 
 from utils.discipline_plots import plot_discipline_fmu
 
-configure_logger()
+FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
 
 ###############################################################################
 # Specify the path to the FMU file
 # ------------------------------------------------
-fmu_file_path = Path("../fmu_files/Mass_Damper.fmu")
+# In this example we take a FMU file available in the FMU gallery
+fmu_file_path = FMU_DIR_PATH / "Mass_Damper.fmu"
 
 ##############################################################################
 # Create and instantiate the discipline

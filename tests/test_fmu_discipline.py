@@ -18,87 +18,28 @@
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for FMUDiscipline."""
 import re
+import sys
 from pathlib import Path
+from typing import Any
 
 import pytest
 from gemseo_fmu.fmu_discipline import FMUDiscipline
 from numpy import array
 from pyfmi.fmi import FMUException
 
-# Test FMU file (Mass_Damper)
-FMU_FILE_PATH = Path(__file__).parent.parent / "fmu_files/Mass_Damper.fmu"
+FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
 
 
-@pytest.fixture()
-def discipline() -> FMUDiscipline:
-    """Return a FMUDiscipline object."""
-    # __import__('pudb').set_trace()
-    return FMUDiscipline(FMU_FILE_PATH, kind="CS")
+def _discipline(file_name: str = "Mass_Damper.fmu", **kwargs: Any) -> FMUDiscipline:
+    return FMUDiscipline(FMU_DIR_PATH / file_name, kind="CS", **kwargs)
 
 
-# Model causality (Parameter=0, Calculated Parameter=1, Input=2, Output=3, Local=4,
-# Independent=5, Unknown=6)
-PARAMETERS_0 = {
-    "damper.d": array([10.0]),
-    "damper.s_nominal": array([0.0001]),
-    "fixed.s0": array([1.0]),
-    "mass.L": array([1.0]),
-    "mass.m": array([1.0]),
-    "spring.c": array([10000.0]),
-    "spring.s_rel0": array([1.0]),
-}
-
-CALCULATED_PARAMETERS_1 = {
-    "damper.flange_b.s": array([0.0]),
-    "fixed.flange.s": array([0.0]),
-    "spring.flange_b.s": array([0.0]),
-    "damper.stateSelect": array([0]),
-    "mass.stateSelect": array([0]),
-    "damper.useHeatPort": array([False]),
-    "force.useSupport": array([False]),
-}
-INPUT_VARIABLES_2 = {"f": array([0.0])}
-OUTPUT_VARIABLES_3 = {"y": array([0.5])}
-LOCAL_VARIABLES_4 = {
-    "damper.s_rel": array([0.0]),
-    "damper.v_rel": array([0.0]),
-    "der(damper.s_rel)": array([0.0]),
-    "der(damper.v_rel)": array([10000.0]),
-    "der(der(mass.flange_b.s))": array([-10000.0]),
-    "der(mass.flange_b.s)": array([-0.0]),
-    "der(mass.s)": array([-0.0]),
-    "der(mass.v)": array([-10000.0]),
-    "damper.f": array([0.0]),
-    "damper.lossPower": array([0.0]),
-    "fixed.flange.f": array([10000.0]),
-    "force.s": array([0.0]),
-    "force.s_support": array([0.0]),
-    "mass.a": array([-10000.0]),
-    "mass.flange_b.f": array([-10000.0]),
-    "mass.flange_b.s": array([1.0]),
-    "mass.s": array([0.5]),
-    "mass.v": array([-0.0]),
-    "spring.f": array([-10000.0]),
-    "spring.s_rel": array([0.0]),
-    "damper.flange_a.f": array([-0.0]),
-    "damper.flange_a.s": array([1.0]),
-    "damper.flange_b.f": array([0.0]),
-    "force.f": array([0.0]),
-    "force.flange.f": array([-0.0]),
-    "force.flange.s": array([0.0]),
-    "mass.flange_a.f": array([0.0]),
-    "mass.flange_a.s": array([0.0]),
-    "spring.flange_a.f": array([10000.0]),
-    "spring.flange_a.s": array([1.0]),
-    "spring.flange_b.f": array([-10000.0]),
-}
-INDEPENDENT_VARIABLES_5 = {}
-UNKNOWN_VARIABLES_6 = {}
+discipline = pytest.fixture(_discipline)
 
 
 def test_fmu_kind(discipline):
     """Tests if the model is either of type Model Exchange or Co-Simulation."""
-    assert discipline.kind in ("ME", "CS")
+    assert discipline._kind in ("ME", "CS")
 
 
 def test_inputs_names_from_fmu(discipline):
@@ -107,7 +48,7 @@ def test_inputs_names_from_fmu(discipline):
     GEMSEO input grammar is defined from FMU model causalities 0 and 2 (i.e. the FMU
     parameters and FMU input variables)
     """
-    assert discipline.get_input_data_names() == [
+    assert discipline.get_input_data_names() == {
         "f",
         "damper.d",
         "damper.s_nominal",
@@ -116,24 +57,13 @@ def test_inputs_names_from_fmu(discipline):
         "mass.m",
         "spring.c",
         "spring.s_rel0",
-    ]
+    }
 
 
 def test_outputs_names_from_fmu(discipline):
     """Test output variables read from fmu file; GEMSEO output grammar is defined from
     FMU model causalities 1 (i.e. the FMU output variables)"""
-    assert discipline.get_output_data_names() == ["y"]
-
-
-def test_variables_values_by_causality(discipline):
-    """Test variable values by causality."""
-    assert discipline._parameters == PARAMETERS_0
-    assert discipline._calculated_parameters == CALCULATED_PARAMETERS_1
-    assert discipline._input_variables == INPUT_VARIABLES_2
-    assert discipline._output_variables == OUTPUT_VARIABLES_3
-    assert discipline._local_variables == LOCAL_VARIABLES_4
-    assert discipline._independent_variables == INDEPENDENT_VARIABLES_5
-    assert discipline._unknown_variables == UNKNOWN_VARIABLES_6
+    assert discipline.get_output_data_names() == {"y"}
 
 
 def test_raises_fmu_file_not_provided(discipline):
@@ -165,11 +95,10 @@ def test_simulation_options():
     )
 
     with pytest.raises(ValueError, match=msg):
-        FMUDiscipline(FMU_FILE_PATH, kind="CS", simulate_options=options)
+        _discipline(simulate_options=options)
 
 
 def test_run_user(discipline):
     """Test that the discipline is correctly ran and returned right values."""
     data = discipline.execute({"f": array([5])})["y"]
-    print(data)
-    assert pytest.approx(data) == array([71.83026655])
+    assert pytest.approx(data) == array([35.64729])
