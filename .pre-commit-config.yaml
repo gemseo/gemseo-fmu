@@ -72,7 +72,7 @@ repos:
         - flake8-logging-format==0.6.0
         - flake8-print==4.0.0
         - pep8-naming==0.12.1
-      exclude: ^utils
+      exclude: ^(utils|problems)
 
 - repo: https://github.com/commitizen-tools/commitizen
   rev: v2.29.1
