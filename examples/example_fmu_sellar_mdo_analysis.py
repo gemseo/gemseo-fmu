@@ -17,55 +17,60 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """
-Short example illustrating the MDO Sellar problem based on disciplines extracted from
-a FMU file
-==========================================
+FMU-based Sellar MDO use case
+=============================
 """
 import sys
 from pathlib import Path
 
+from gemseo.api import configure_logger
 from gemseo.api import create_design_space
 from gemseo.api import create_scenario
-from numpy import array
-from numpy import ones
 
 from problems.sellar import Sellar1
 from problems.sellar import Sellar2
 from problems.sellar import SellarSystem
 
+configure_logger()
+
 FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
 
-# Step 1: create the disciplines
-# In this example we take a FMU files directly from the FMU gallery
+# %%
+# Create the disciplines
+# ----------------------
+# In this example we take the FMU files directly from the FMU gallery.
 # The disciplines are defined as follows:
-sellar_1 = Sellar1(FMU_DIR_PATH / "SellarDis1.fmu", kind="CS")
-sellar_2 = Sellar2(FMU_DIR_PATH / "SellarDis2.fmu", kind="CS")
+sellar_1 = Sellar1(FMU_DIR_PATH / "Sellar1.fmu", kind="CS")
+sellar_2 = Sellar2(FMU_DIR_PATH / "Sellar2.fmu", kind="CS")
 sellar_system = SellarSystem(FMU_DIR_PATH / "SellarSystem.fmu", kind="CS")
 
 disciplines = [sellar_1, sellar_2, sellar_system]
 
-# Step 2: create the design space
+# %%
+# Create the design space
+# -----------------------
 design_space = create_design_space()
-design_space.add_variable("x_local", 1, l_b=0.0, u_b=10.0, value=ones(1))
-design_space.add_variable("x_shared_1", 1, l_b=-10, u_b=10.0, value=array([4.0]))
-design_space.add_variable("x_shared_2", 1, l_b=0.0, u_b=10.0, value=array([3.0]))
-design_space.add_variable("y_1", 1, l_b=-100.0, u_b=100.0, value=ones(1))
-design_space.add_variable("y_2", 1, l_b=-100.0, u_b=100.0, value=ones(1))
+design_space.add_variable("x_local", size=1, l_b=0.0, u_b=10.0, value=1.0)
+design_space.add_variable("x_shared_1", size=1, l_b=-10, u_b=10.0, value=4.0)
+design_space.add_variable("x_shared_2", size=1, l_b=0.0, u_b=10.0, value=3.0)
+design_space.add_variable("y_1", size=1, l_b=-100.0, u_b=100.0, value=1.0)
+design_space.add_variable("y_2", size=1, l_b=-100.0, u_b=100.0, value=1.0)
 
-# Step 3: create and solve the MDO scenario
-scenario = create_scenario(
-    disciplines, "MDF", objective_name="obj", design_space=design_space
-)
+
+# %%
+# Create and execute the MDO scenario
+# -------------------
+scenario = create_scenario(disciplines, "MDF", "obj", design_space)
 scenario.add_constraint("c_1", "ineq")
 scenario.add_constraint("c_2", "ineq")
 scenario.set_differentiation_method("finite_differences", 1e-6)
-scenario.default_inputs = {"max_iter": 15, "algo": "SLSQP"}
-scenario.execute()
+scenario.execute({"algo": "SLSQP", "max_iter": 15})
 
+# %%
+# Analyze the results
+# -------------------
 optimum = scenario.get_optimum()
 print(optimum)
 x_opt = scenario.design_space.get_current_value(as_dict=True)
 print(x_opt)
-
-# Step 4: analyze the results
 scenario.post_process("OptHistoryView", show=True, save=False)

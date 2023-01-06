@@ -32,8 +32,8 @@ FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
 
 # Step 1: create the disciplines (with jacobians specific to the Sellar problem)
 # In this example we take a FMU files directly from the FMU gallery
-disc_sellar_1 = Sellar1(FMU_DIR_PATH / "SellarDis1.fmu", kind="CS")
-disc_sellar_2 = Sellar2(FMU_DIR_PATH / "SellarDis2.fmu", kind="CS")
+disc_sellar_1 = Sellar1(FMU_DIR_PATH / "Sellar1.fmu", kind="CS")
+disc_sellar_2 = Sellar2(FMU_DIR_PATH / "Sellar2.fmu", kind="CS")
 disc_sellar_system = SellarSystem(FMU_DIR_PATH / "SellarSystem.fmu", kind="CS")
 
 disciplines = [disc_sellar_1, disc_sellar_2, disc_sellar_system]
