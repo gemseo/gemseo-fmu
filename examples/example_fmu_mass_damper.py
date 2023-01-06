@@ -20,9 +20,7 @@
 Create a discipline from a FMU file
 ===================================
 """
-###############################################################################
-# Import
-# ------
+# %%
 import sys
 from pathlib import Path
 
@@ -33,32 +31,32 @@ from utils.discipline_plots import plot_discipline_fmu
 
 FMU_DIR_PATH = Path(__file__).parent.parent / "fmu_files" / sys.platform
 
-###############################################################################
+# %%
 # Specify the path to the FMU file
-# ------------------------------------------------
+# --------------------------------
 # In this example we take a FMU file available in the FMU gallery
 fmu_file_path = FMU_DIR_PATH / "Mass_Damper.fmu"
 
-##############################################################################
+# %%
 # Create and instantiate the discipline
 # -------------------------------------
-# either considering PyFMI default options
+# either considering the PyFMI default options
 discipline_1 = FMUDiscipline(fmu_file_path, kind="CS")
 print(discipline_1)
 
-###############################################################################
-# or by defining user-defined simulation options (as per PyFMI standard):
+# %%
+# or by changing some simulation options:
 options = {
     "start_time": 0.0,
     "final_time": 1.0,
     "algorithm": "FMICSAlg",
-    "options": {"ncp": 500},
+    "pyfmi_options": {"ncp": 500},
 }
 
 discipline_2 = FMUDiscipline(fmu_file_path, "CS", simulate_options=options)
 print(discipline_2)
 
-###############################################################################
+# %%
 # An input function can be provided to the discipline by creating an input object:
 
 # Generate input
@@ -73,31 +71,31 @@ discipline_3 = FMUDiscipline(
     kind="CS",
     simulate_options={"input": input_object, "start_time": 0, "final_time": 1},
 )
-print(discipline_3)
+print(discipline_3.__repr__())
 
-###############################################################################
+# %%
 # Execute the discipline
 # ----------------------
 # The discipline can be executed it easily, either considering default inputs:
 discipline_1.execute()
 discipline_2.execute()
 
-###############################################################################
+# %%
 # or using new inputs:
 discipline_3.execute({"mass.m": np.array([1.5]), "spring.c": np.array([1050.0])})
 
-###############################################################################
+# %%
 # The discipline information can be accessed as any other discipline GEMSEO:
 print(discipline_1.get_output_data())
 print(discipline_2.get_output_data())
 print(discipline_3.get_output_data())
 
-###############################################################################
-# Access the history simulation results
-history_results = discipline_1.simulation_results["y"]
+# %%
+# Access the history of the simulation results
+history_results = discipline_3.simulation_results["y"]
 print(history_results)
 
-###############################################################################
+# %%
 # Plotting the variables versus time
 
 plot_discipline_fmu(
@@ -105,6 +103,6 @@ plot_discipline_fmu(
     x_name="time",
     variable_names=["y"],
     x_label="time (seconds)",
-    y_label="my variables",
+    y_label="amplitude (meters)",
     show=True,
 )

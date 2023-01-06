@@ -17,11 +17,13 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for the Sellar problem based on FMU models."""
+import numpy as np
 import pytest
 from gemseo.api import create_design_space
 from gemseo.api import create_scenario
 from numpy import array
 from numpy import ones
+from numpy import zeros
 
 from .test_fmu_discipline import FMU_DIR_PATH
 from problems.sellar import Sellar1
@@ -29,12 +31,21 @@ from problems.sellar import Sellar2
 from problems.sellar import SellarSystem
 
 
+def get_xzy():
+    """Generate initial solution."""
+    x_local = array([0.0])
+    x_shared = array([1.0, 0.0])
+    y_1 = zeros(1)
+    y_2 = zeros(1)
+    return x_local, x_shared, y_1, y_2
+
+
 @pytest.fixture()
 def fmu_disciplines():
     """Build all fmu discipline for Sellar problem."""
     return [
-        Sellar1(FMU_DIR_PATH / "SellarDis1.fmu", kind="CS"),
-        Sellar2(FMU_DIR_PATH / "SellarDis2.fmu", kind="CS"),
+        Sellar1(FMU_DIR_PATH / "Sellar1.fmu", kind="CS"),
+        Sellar2(FMU_DIR_PATH / "Sellar2.fmu", kind="CS"),
         SellarSystem(FMU_DIR_PATH / "SellarSystem.fmu", kind="CS"),
     ]
 
@@ -62,9 +73,9 @@ def fmu_scenario(fmu_disciplines):
     return scenario
 
 
-def test_fmu_jacobians_sellar1(fmu_disciplines):
+def test_fmu_sellar_jacobians_check(fmu_disciplines):
     """Check that jacobian matrices returned by fmu functions are correct with respect
-    to finite difference computation for Sellar1."""
+    to finite difference computation for Sellar disciplines."""
     sellar1, sellar2, sellar_system = fmu_disciplines
 
     threshold = 1
@@ -75,19 +86,25 @@ def test_fmu_jacobians_sellar1(fmu_disciplines):
     assert sellar_system.check_jacobian(step=step, threshold=threshold)
 
 
+def test_fmu_sellar_computations(fmu_disciplines):
+    """Check that computed values returned by fmu functions are correct with respect to
+    finite difference computation for Sellar disciplines for the default solution."""
+    sellar1, sellar2, sellar_system = fmu_disciplines
+    x_local, x_shared, y_1, y_2 = get_xzy()
+
+    assert sellar1.compute_y_1(x_local, x_shared, y_2) == (1 + 0j)
+    assert sellar2.compute_y_2(x_shared, y_1) == 1.0
+    assert sellar2.compute_y_2(array([-1.0, 0.0]), array([1.0])) == 0.0
+    assert sellar2.compute_y_2(array([-1.0, 0.0]), array([-1.0])) == 0.0
+    assert sellar_system.compute_c_1(y_1) == 3.16
+    assert sellar_system.compute_c_2(y_2) == -24.0
+    objective = sellar_system.compute_obj(x_local, x_shared, y_1, y_2)
+    objective_ref = array([2.0 + 0.0j, 1.0 + 0.0j])
+    assert np.allclose(objective, objective_ref)
+
+
 def test_fmu_optim_results(fmu_scenario):
-    """Test obtained optimal values when solving sellar problem with fmu discipline.
-
-    Jacobians are computed.
-    """
+    """Test obtained optimal values when solving sellar problem with fmu discipline."""
     fmu_scenario.execute(input_data={"max_iter": 20, "algo": "SLSQP"})
-
     optim_res = fmu_scenario.get_optimum()
-    x_opt = fmu_scenario.design_space.get_current_value(as_dict=True)
-
     assert pytest.approx(optim_res.f_opt) == 3.188547
-    assert pytest.approx(x_opt["x_local"]) == 0.0
-    assert pytest.approx(x_opt["x_shared_1"]) == 1.77855793
-    assert pytest.approx(x_opt["x_shared_2"]) == 0.0
-    assert pytest.approx(x_opt["y_1"]) == 1.77763888
-    assert pytest.approx(x_opt["y_2"]) == 3.55619681

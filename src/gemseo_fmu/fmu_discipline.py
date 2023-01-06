@@ -20,8 +20,8 @@
 """Make a discipline from a Functional Mockup Unit (FMU) model."""
 from __future__ import annotations
 
-import os
 from pathlib import Path
+from typing import ClassVar
 from typing import Sequence
 
 from gemseo.core.discipline import MDODiscipline
@@ -33,8 +33,8 @@ from pyfmi import load_fmu
 class FMUDiscipline(MDODiscipline):
     """Generic wrapper for Functional Mock-Up Units (FMUs).
 
-    The FMUDiscipline is a wrapper for FMU models that generates a MDODiscipline from
-    its inputs/outputs.
+    This discipline wraps a FMU model and computes some of its outputs from some of
+    its inputs.
     It supports both model exchange (ME) and co-simulation (CS) models.
     This wrapper uses the `PyFMI library <https://jmodelica.org/pyfmi/>`_
     for loading and simulating the FMU model.
@@ -51,30 +51,30 @@ class FMUDiscipline(MDODiscipline):
         >>>}
         >>> discipline = FMUDiscipline(fmu_file_path, "CS", options)
         >>> # To get the available simulation options
-        >>> discipline.get_available_simulate_options()
+        >>> discipline.simulation_options()
         >>> # To see the discipline information
         >>> print(discipline)
     """
 
-    log_level: int
-    """The log level.
+    LOG_LEVEL: ClassVar[int] = 0
+    """The log level of the model.
 
     Available values:
-                NOTHING = 0
-                FATAL = 1
-                ERROR = 2
-                WARNING = 3
-                INFO = 4
-                VERBOSE = 5
-                DEBUG = 6
-                ALL = 7
+    - NOTHING = 0
+    - FATAL = 1
+    - ERROR = 2
+    - WARNING = 3
+    - INFO = 4
+    - VERBOSE = 5
+    - DEBUG = 6
+    - ALL = 7
     """
 
-    silent_mode: bool
+    SILENT_PYFMI_CS: ClassVar[bool] = True
     """Whether to disable the PyFMI log on console. The default is ``True``."""
 
     model: FMUModel
-    """The PyFMI model object."""
+    """The PyFMI model."""
 
     def __init__(
         self,
@@ -137,42 +137,37 @@ class FMUDiscipline(MDODiscipline):
         # FMU model definition
         self._fmu_file_path = Path(fmu_file_path)
         self._kind = kind
-        self.log_level = 0
         self.model = load_fmu(
-            str(self._fmu_file_path), kind=self._kind, log_level=self.log_level
+            str(self._fmu_file_path), kind=self._kind, log_level=self.LOG_LEVEL
         )
-        self._reset_fmu = True
-        self.silent_mode = True
+        self.__reset_fmu = True
 
-        # Simulation options
-        if simulate_options is None:
-            simulate_options = {}
-        self._simulate_options = simulate_options
-        self._options = {}
-        self._default_options = self.model.simulate_options()
-        if self.silent_mode is True and self._kind == "CS":
-            self._options["silent_mode"] = self.silent_mode
-        if "options" in self._simulate_options:
-            self._options.update(self._simulate_options.pop("options"))
+        self._simulate_options = simulate_options or {}
+        self.__pyfmi_options = {}
+        self.__default_options = self.model.simulate_options()
+        if self.SILENT_PYFMI_CS is True and self._kind == "CS":
+            self.__pyfmi_options["silent_mode"] = self.SILENT_PYFMI_CS
+        if "pyfmi_options" in self._simulate_options:
+            self.__pyfmi_options.update(self._simulate_options.pop("pyfmi_options"))
 
-        self._check_simulate_options()
+        self.__check_simulate_options()
 
         # FMU Causality classification
-        self._parameters = {}
-        self._calculated_parameters = {}
-        self._input_variables = {}
-        self._output_variables = {}
-        self._local_variables = {}
-        self._independent_variables = {}
-        self._unknown_variables = {}
+        self.__parameters = {}
+        self.__calculated_parameters = {}
+        self.__input_variables = {}
+        self.__output_variables = {}
+        self.__local_variables = {}
+        self.__independent_variables = {}
+        self.__unknown_variables = {}
 
-        self._classify_model_variables_by_causality()
+        self.__classify_model_variables_by_causality()
 
         # Discipline inputs must exclusively contain causalities of type input and of
         # type parameter.
         # Non-numerical variables are filtered-out.
-        self._unfiltered_data = self._input_variables.copy()
-        self._unfiltered_data.update(self._parameters)
+        self._unfiltered_data = self.__input_variables.copy()
+        self._unfiltered_data.update(self.__parameters)
         self.input_data = {
             k: v
             for k, v in self._unfiltered_data.items()
@@ -180,47 +175,46 @@ class FMUDiscipline(MDODiscipline):
         }
         self.default_inputs = self.input_data
 
-        # Time history variables
-        if history_outputs is None:
-            history_outputs = []
-        self._history_outputs = history_outputs
-        self._history_outputs_with_suffix = []
-        for history_output in self._history_outputs:
-            self._history_outputs_with_suffix.append(history_output + "_history")
+        history_outputs = history_outputs or []
+        self.__history_outputs = history_outputs
+        self.__history_outputs_with_suffix = []
+        for history_output in self.__history_outputs:
+            self.__history_outputs_with_suffix.append(f"{history_output}_history")
 
         # Define input/output grammar and default inputs
-        self._fmu_input_names = list(self.input_data.keys())
-        self._fmu_output_names = list(self._output_variables.keys())
+        self.__fmu_input_names = list(self.input_data.keys())
+        self.__fmu_output_names = list(self.__output_variables.keys())
 
-        self.input_grammar.update(self._fmu_input_names)
+        self.input_grammar.update(self.__fmu_input_names)
         self.output_grammar.update(
-            self._fmu_output_names + self._history_outputs_with_suffix
+            self.__fmu_output_names + self.__history_outputs_with_suffix
         )
 
-        # Simulation results
-        self._model_simulation_results = None
+        self.__model_simulation_results = {}
 
-    def _check_simulate_options(self) -> None:
-        """Check if the simulation options provided exists in PyFMI.
+    def __check_simulate_options(self) -> None:
+        """Check if the simulation options provided are PyFMI options.
 
         Raises:
-            ValueError: If the value provided by the user in simulate_options is not
-                an existing option in PyFMI.
+            ValueError: When a simulation option is not a PyFMI option.
         """
-        simulate_options = self.model.simulate_options()
-        if not all([item in simulate_options for item in self._options]):
+        if not set(self.__pyfmi_options).issubset(self.model.simulate_options()):
             msg = (
-                "Not a PyFMI simulation option. "
-                "Use the method get_available_simulate_options to get a list of "
-                "available options"
+                "Some simulation options are no PyFMI simulation option. "
+                "See simulation_options()."
             )
             raise ValueError(msg)
 
-    def _classify_model_variables_by_causality(self) -> None:
+    def __classify_model_variables_by_causality(self) -> None:
         """Classify the model variables by causality.
 
-        (Parameter=0, Calculated Parameter=1, Input=2, Output=3, Local=4, Independent=5,
-        Unknown=6)
+        - Parameter = 0
+        - Calculated Parameter = 1
+        - Input = 2
+        - Output = 3
+        - Local = 4
+        - Independent = 5
+        - Unknown = 6
         """
         # Model initialization is required to access the model variables.
         # An independent object is created here to avoid conflicts with the original
@@ -228,33 +222,31 @@ class FMUDiscipline(MDODiscipline):
         _fmu_model = load_fmu(self._fmu_file_path)
         _fmu_model.initialize()
 
-        for var in _fmu_model.get_model_variables(causality=0):
-            self._parameters[var] = array(_fmu_model.get(var))
-        for var in _fmu_model.get_model_variables(causality=1):
-            self._calculated_parameters[var] = array(_fmu_model.get(var))
-        for var in _fmu_model.get_model_variables(causality=2):
-            self._input_variables[var] = array(_fmu_model.get(var))
-        for var in _fmu_model.get_model_variables(causality=3):
-            self._output_variables[var] = array(_fmu_model.get(var))
-        for var in _fmu_model.get_model_variables(causality=4):
-            self._local_variables[var] = array(_fmu_model.get(var))
-        for var in _fmu_model.get_model_variables(causality=5):
-            self._independent_variables[var] = array(_fmu_model.get(var))
-        for var in _fmu_model.get_model_variables(causality=6):
-            self._unknown_variables[var] = array(_fmu_model.get(var))
+        causalities = (
+            self.__parameters,
+            self.__calculated_parameters,
+            self.__input_variables,
+            self.__output_variables,
+            self.__local_variables,
+            self.__independent_variables,
+            self.__unknown_variables,
+        )
 
-    def get_available_simulate_options(
-        self,
-    ) -> dict[str, str | int | float]:
-        """Return the model simulation options available in PyFMI."""
+        for causality, variables in enumerate(causalities):
+            for var in _fmu_model.get_model_variables(causality=causality):
+                variables[var] = array(_fmu_model.get(var))
+
+    @property
+    def simulation_options(self) -> dict[str, str | int | float]:
+        """The PyFMI simulation options."""
         return self.model.simulate_options()
 
     @property
     def simulation_results(self) -> dict[str, float]:
-        """Return the history of simulation results."""
-        return self._model_simulation_results
+        """The history of simulation results."""
+        return self.__model_simulation_results
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         s = f"""
 \nFMU model details:
     - Name: {self.model.get_name()}
@@ -262,16 +254,16 @@ class FMUDiscipline(MDODiscipline):
     - Description: {self.model.get_description()}
     - Author: {self.model.get_author()}
     - Variables causality:
-            parameters:             {list(self._parameters.keys())}
-            calculated_parameters:  {list(self._calculated_parameters.keys())}
-            input_variables:        {list(self._input_variables.keys())}
-            output_variables:       {list(self._output_variables.keys())}
-            independent_variables:  {list(self._independent_variables.keys())}
-            unknown_variables:      {list(self._unknown_variables.keys())}
-    """
+            parameters:             {list(self.__parameters.keys())}
+            calculated_parameters:  {list(self.__calculated_parameters.keys())}
+            input_variables:        {list(self.__input_variables.keys())}
+            output_variables:       {list(self.__output_variables.keys())}
+            independent_variables:  {list(self.__independent_variables.keys())}
+            unknown_variables:      {list(self.__unknown_variables.keys())}
+"""
 
         s += "\nSimulation default options (from PyFMI): "
-        for key, val in self._default_options.items():
+        for key, val in self.__default_options.items():
             s += f"\n    - {key}: {val}"
         s += "\n"
 
@@ -279,7 +271,7 @@ class FMUDiscipline(MDODiscipline):
         for key, val in self._simulate_options.items():
             if key != "input":
                 s += f"\n    - {key}: {val}"
-        for key, val in self._options.items():
+        for key, val in self.__pyfmi_options.items():
             s += f"\n    - {key}: {val}"
         s += "\n"
         s += "\nUser-defined inputs: "
@@ -290,38 +282,23 @@ class FMUDiscipline(MDODiscipline):
         return s
 
     def _run(self) -> None:
-        """Run the wrapper using the PyFMI library.
-
-        This method gets the inputs from the input grammar, calls the pyFMI library for
-        model simulation, and writes the simulation outputs to the output grammar.
-        """
-        # Set the input data and simulate the FMU model
         for key, val in self.get_input_data().items():
             self.model.set(key, val)
 
-        self._model_simulation_results = self.model.simulate(
-            options=self._options, **self._simulate_options
+        self.__model_simulation_results = self.model.simulate(
+            options=self.__pyfmi_options, **self._simulate_options
         )
 
-        # Store the simulation results as local data in the discipline
-        for output_name in self._fmu_output_names:
+        for output_name in self.__fmu_output_names:
             self.local_data[output_name] = array(
-                [self._model_simulation_results.final(output_name)]
+                [self.__model_simulation_results.final(output_name)]
             )
 
-        for output_name in self._history_outputs:
-            self.local_data[output_name + "_history"] = self._model_simulation_results[
+        for output_name in self.__history_outputs:
+            self.local_data[f"{output_name}_history"] = self.__model_simulation_results[
                 output_name
             ]
 
         # Reset the model: needed for performing a new simulation
-        if self._reset_fmu:
+        if self.__reset_fmu:
             self.model.reset()
-
-        # Delete PyFMI automatically generated log and mat files when log_level = 0
-        if self.log_level == 0:
-            log_file = Path(self.model.get_log_filename())
-            mat_file = Path(str(log_file).replace("_log.txt", "_result.mat"))
-            if os.path.exists(log_file):
-                Path.unlink(log_file)
-                Path.unlink(mat_file)
