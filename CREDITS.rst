@@ -16,8 +16,14 @@ GEMSEO-fmu depends on software with compatible licenses that are listed below.
 `GEMSEO <http://gemseo.org/>`_
     GNU LGPL v3.0
 
+`numpy <https://numpy.org/>`_
+    BSD 3-Clause
+
 `Python <http://python.org/>`_
     Python Software License
+
+`PyFMI <https://jmodelica.org/pyfmi/>`_
+    GNU LGPL v3.0
 
 Internal Dependencies
 ---------------------
