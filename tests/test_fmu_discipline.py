@@ -17,6 +17,8 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for FMUDiscipline."""
+from __future__ import annotations
+
 import re
 import sys
 from pathlib import Path
@@ -166,14 +168,12 @@ def test_model_simulation_results(discipline_with_inputs):
 
 
 def test_print_with_inputs(discipline_with_inputs):
-    """Test that the method __str__ updates when inputs are defined in the
-    discipline."""
+    """Test that the method __str__ updates when inputs are defined in the discipline."""
     assert discipline.__str__() != discipline_with_inputs.__str__()
 
 
 def test_print_with_history(discipline_history):
-    """Test that the method __str__ updates when history is enabled in the
-    discipline."""
+    """Test that the method __str__ updates when history is enabled in the discipline."""
     assert discipline.__str__() != discipline_history.__str__()
 
 

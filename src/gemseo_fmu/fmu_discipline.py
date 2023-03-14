@@ -71,7 +71,10 @@ class FMUDiscipline(MDODiscipline):
     """
 
     SILENT_PYFMI_CS: ClassVar[bool] = True
-    """Whether to disable the PyFMI log on console. The default is ``True``."""
+    """Whether to disable the PyFMI log on console.
+
+    The default is ``True``.
+    """
 
     model: FMUModel
     """The PyFMI model."""
@@ -173,7 +176,6 @@ class FMUDiscipline(MDODiscipline):
             for k, v in self._unfiltered_data.items()
             if isinstance(self._unfiltered_data[k][0], float)
         }
-        self.default_inputs = self.input_data
 
         history_outputs = history_outputs or []
         self.__history_outputs = history_outputs
@@ -189,6 +191,7 @@ class FMUDiscipline(MDODiscipline):
         self.output_grammar.update(
             self.__fmu_output_names + self.__history_outputs_with_suffix
         )
+        self.default_inputs = self.input_data
 
         self.__model_simulation_results = {}
 

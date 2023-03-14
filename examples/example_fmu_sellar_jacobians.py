@@ -20,6 +20,8 @@
 Create a discipline for the Sellar problem from a FMU file and computes its jacobians
 ==========================================
 """
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 

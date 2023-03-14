@@ -17,6 +17,8 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for the Sellar problem based on FMU models."""
+from __future__ import annotations
+
 import numpy as np
 import pytest
 from gemseo.api import create_design_space
@@ -74,8 +76,8 @@ def fmu_scenario(fmu_disciplines):
 
 
 def test_fmu_sellar_jacobians_check(fmu_disciplines):
-    """Check that jacobian matrices returned by fmu functions are correct with respect
-    to finite difference computation for Sellar disciplines."""
+    """Check that jacobian matrices returned by fmu functions are correct with respect to
+    finite difference computation for Sellar disciplines."""
     sellar1, sellar2, sellar_system = fmu_disciplines
 
     threshold = 1
