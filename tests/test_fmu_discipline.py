@@ -17,6 +17,8 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for FMUDiscipline."""
+from __future__ import annotations
+
 import re
 import sys
 from pathlib import Path

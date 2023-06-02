@@ -17,10 +17,12 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Tests for the Sellar problem based on FMU models."""
+from __future__ import annotations
+
 import numpy as np
 import pytest
-from gemseo.api import create_design_space
-from gemseo.api import create_scenario
+from gemseo import create_design_space
+from gemseo import create_scenario
 from numpy import array
 from numpy import ones
 from numpy import zeros
@@ -106,5 +108,5 @@ def test_fmu_sellar_computations(fmu_disciplines):
 def test_fmu_optim_results(fmu_scenario):
     """Test obtained optimal values when solving sellar problem with fmu discipline."""
     fmu_scenario.execute(input_data={"max_iter": 20, "algo": "SLSQP"})
-    optim_res = fmu_scenario.get_optimum()
+    optim_res = fmu_scenario.optimization_result
     assert pytest.approx(optim_res.f_opt) == 3.188547

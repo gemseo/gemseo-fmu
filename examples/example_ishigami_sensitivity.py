@@ -32,6 +32,8 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Comparing sensitivity indices."""
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 
