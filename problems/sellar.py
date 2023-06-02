@@ -16,7 +16,7 @@
 #    INITIAL AUTHORS - API and implementation and/or documentation
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
-r"""The disciplines for the MDO problem proposed by Sellar et al. in
+r"""The disciplines for the MDO problem proposed by Sellar et al. in.
 
 Sellar, R., Batill, S., & Renaud, J. (1996).
 Response surface based, concurrent subspace optimization
@@ -74,16 +74,15 @@ constraints and objective:
   this :class:`.MDODiscipline` computes both objective and constraints
   from :math:`y_1`, :math:`y_2`, :math:`x_{local}` and :math:`x_{shared,2}`.
 """
+from __future__ import annotations
+
 from cmath import exp
 from cmath import sqrt
-from typing import Iterable
-from typing import Optional
 
 import numpy as np
 from gemseo_fmu.fmu_discipline import FMUDiscipline
 from numpy import array
 from numpy import atleast_2d
-from numpy import ndarray
 from numpy import ones
 from numpy import zeros
 
@@ -155,7 +154,7 @@ class SellarSystem(FMUDiscipline):
         inputs=None,  # type: Optional[Iterable[str]]
         outputs=None,  # type: Optional[Iterable[str]]
     ):  # type: (...) -> None
-        self._init_jacobian(inputs, outputs, with_zeros=True)
+        self._init_jacobian(inputs, outputs)
 
         x_local, _, y_1, y_2 = self.get_inputs_by_name([X_LOCAL, X_SHARED_2, Y_1, Y_2])
         self.jac[C_1][Y_1] = atleast_2d(array([-2.0 * y_1]))
@@ -193,7 +192,7 @@ class Sellar1(FMUDiscipline):
         inputs=None,  # type: Optional[Iterable[str]]
         outputs=None,  # type: Optional[Iterable[str]]
     ):  # type: (...) -> None
-        self._init_jacobian(inputs, outputs, with_zeros=True)
+        self._init_jacobian(inputs, outputs)
         x_local, x_shared_1, x_shared_2, y_2 = self.get_inputs_by_name(
             [X_LOCAL, X_SHARED_1, X_SHARED_2, Y_2]
         )
@@ -215,7 +214,7 @@ class Sellar2(FMUDiscipline):
         inputs=None,  # type: Optional[Iterable[str]]
         outputs=None,  # type: Optional[Iterable[str]]
     ):  # type: (...) -> None
-        self._init_jacobian(inputs, outputs, with_zeros=True)
+        self._init_jacobian(inputs, outputs)
         y_1 = self.get_inputs_by_name(Y_1)
         self.jac[Y_2] = {}
         self.jac[Y_2][X_LOCAL] = zeros((1, 1))

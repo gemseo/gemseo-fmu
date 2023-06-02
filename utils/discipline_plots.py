@@ -17,6 +17,8 @@
 #        :author: Jorge CAMACHO CASERO
 #    OTHER AUTHORS   - MACROSCOPIC CHANGES
 """Plots for FMUDiscipline."""
+from __future__ import annotations
+
 import matplotlib.pyplot as plt
 
 

@@ -20,12 +20,14 @@
 FMU-based Sellar MDO use case
 =============================
 """
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 
-from gemseo.api import configure_logger
-from gemseo.api import create_design_space
-from gemseo.api import create_scenario
+from gemseo import configure_logger
+from gemseo import create_design_space
+from gemseo import create_scenario
 
 from problems.sellar import Sellar1
 from problems.sellar import Sellar2
@@ -69,7 +71,7 @@ scenario.execute({"algo": "SLSQP", "max_iter": 15})
 # %%
 # Analyze the results
 # -------------------
-optimum = scenario.get_optimum()
+optimum = scenario.optimization_result
 print(optimum)
 x_opt = scenario.design_space.get_current_value(as_dict=True)
 print(x_opt)
