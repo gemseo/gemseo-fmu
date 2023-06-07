@@ -21,6 +21,8 @@ Create a discipline from a FMU file
 ===================================
 """
 # %%
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 

@@ -20,6 +20,8 @@
 
 It is useful to seamlessly generate input data usable by the FMUDiscipline.
 """
+from __future__ import annotations
+
 import pylab as plt
 import scipy.signal as signal
 from numpy import cos
@@ -72,7 +74,7 @@ def chirp_wave(
     return amplitude * signal.chirp(x, f0, t1, f1, method, phi, vertex_zero)
 
 
-def pattern_wave(x, amplitude=1, pattern=[0.0, 1.0, 0.0, 1.0, 0.0, 1.0]):
+def pattern_wave(x, amplitude=1, pattern=(0.0, 1.0, 0.0, 1.0, 0.0, 1.0)):
     # pattern =  [0., 1., 1., 0., 1., 0., 0., 1.]
     return amplitude * repeat(pattern, len(x) / len(pattern))
 
