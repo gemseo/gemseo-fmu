@@ -47,8 +47,8 @@ def plot_discipline_fmu(
     var_names = variable_names or discipline.get_input_output_data_names()
     plt.figure(figsize=(30, 20))
     for name in var_names:
-        x = discipline.simulation_results[x_name]
-        y = discipline.simulation_results[name]
+        x = discipline.local_data[x_name]
+        y = discipline.local_data[name]
         plt.plot(x, y, label=name)
         plt.legend(loc="upper left")
         plt.title(title)

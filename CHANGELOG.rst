@@ -25,6 +25,22 @@ The format is based on
 and this project adheres to
 `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
+Develop
+*******
+
+Added
+-----
+
+- The default behavior of :class:`.FMUDiscipline` is either simulating until the final time or during a time step; it can also restart from initial time after each execution.
+- :class:`.FMUDiscipline.execute` can change the behavior of the :class:`.FMUDiscipline` temporarily, to simulate during a given simulation time, with a different time step or from initial time.
+- :class:`.TimeSeries` allows to specify inputs as time series.
+- :meth:`gemseo-fmu.use_cases` contains use cases, either defined as :class:`.FMUDiscipline` or simply as FMU files; use :func:`get_fmu_file_path` to get a FMU file path easily.
+
+Changed
+-------
+
+- The :class:`.FMUDiscipline` relies on the library `FMPy <https://github.com/CATIA-Systems/FMPy>`__.
+- :class:`.FMUDiscipline` is in :mod:`gemseo-fmu.disciplines`.
 
 Version 1.0.1 (June 2023)
 *************************
