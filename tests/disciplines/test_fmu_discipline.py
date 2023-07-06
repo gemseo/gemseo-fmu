@@ -47,8 +47,8 @@ def ramp_discipline(module_tmp_wd) -> FMUDiscipline:
     return discipline
 
 
-@pytest.fixture(scope="module")
-def ramp_discipline_wo_restart(module_tmp_wd) -> FMUDiscipline:
+@pytest.fixture
+def ramp_discipline_wo_restart() -> FMUDiscipline:
     """A ramp model with custom time settings and without restart."""
     discipline = FMUDiscipline(
         FMU_PATH,
@@ -136,6 +136,23 @@ def test_discipline_input_names(ramp_discipline):
     assert set(ramp_discipline.get_input_data_names()) == {INPUT_NAME}
 
 
+def test_discipline_input_names_if_none(module_tmp_wd):
+    """Check the names of the discipline inputs when input_names is None."""
+    discipline = FMUDiscipline(FMU_PATH, None)
+    assert not discipline.get_input_data_names()
+
+
+def test_discipline_input_names_if_empty(module_tmp_wd):
+    """Check the names of the discipline inputs when input_names is empty."""
+    discipline = FMUDiscipline(FMU_PATH, ())
+    assert set(discipline.get_input_data_names()) == {
+        "ramp.duration",
+        "ramp.height",
+        "ramp.offset",
+        "ramp.startTime",
+    }
+
+
 def test_discipline_output_names(ramp_discipline):
     """Check the names of the discipline outputs."""
     assert set(ramp_discipline.get_output_data_names()) == {
@@ -201,7 +218,8 @@ def test_execute_without_do_step(ramp_discipline_wo_restart):
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "The discipline cannot be executed as its current time is final time."
+            "The discipline cannot be executed "
+            "as the current time is the final time (0.6)."
         ),
     ):
         ramp_discipline_wo_restart.execute()
@@ -331,7 +349,22 @@ def test_delete_fmu_instance_directory(delete_fmu_instance_directory, tmp_wd):
 
 
 def test_time_series():
-    """Check the use of time series."""
+    """Check the use of time series.
+
+    Here is a test with the model y(t+1) = k1(t)u1(t) + k2(t)u2(t).
+
+    t      k1(t)    u1(t)    k2(t)    u2(t)    t+1    y(t+1)
+    0      1        1        1        0        0.1    1
+    0.1    1        1        1        0.2      0.2    1.2
+    0.2    1        1        1        0.4      0.3    1.4
+    0.3    1        1        1        0.6      0.4    1.6
+    0.4    1        1        1        0.8      0.5    1.8
+    0.5    1        1        1.5      1        0.6    2.5
+    0.6    1        1        1.5      0.8      0.7    2.2
+    0.7    1        1        1.5      0.6      0.8    1.9
+    0.8    1        1        1.5      0.4      0.9    1.6
+    0.9    1        1        1.5      0.2      1      1.3
+    """
     discipline = FMUDiscipline(get_fmu_file_path("add"), final_time=1.0, time_step=0.1)
     discipline.execute()
     assert_almost_equal(discipline.local_data["y"], array([0.0] * 11))
@@ -340,16 +373,16 @@ def test_time_series():
             "u1": TimeSeries([0.0], [1.0]),
             "u2": TimeSeries([0.0, 0.5, 1.0], [0.0, 1.0, 0.0]),
             "add.k1": array([1.0]),
-            "add.k2": array([2.0]),
+            "add.k2": TimeSeries([0.0, 1.0], [1.0, 2.0]),
         }
     )
     assert_almost_equal(discipline.local_data["add.k1"], array([1.0]))
-    assert_almost_equal(discipline.local_data["add.k2"], array([2.0]))
+    assert_almost_equal(discipline.local_data["add.k2"], array([1.0, 1.5, 2.0]))
     assert_almost_equal(discipline.local_data["u1"], array([1.0, 1.0, 1.0]))
     assert_almost_equal(discipline.local_data["u2"], array([0.0, 1.0, 0.0]))
     assert_almost_equal(
         discipline.local_data["y"],
-        array([0.0, 1.0, 1.4, 1.8, 2.2, 2.6, 3.0, 2.6, 2.2, 1.8, 1.4]),
+        array([0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.5, 2.2, 1.9, 1.6, 1.3]),
     )
 
 
@@ -425,3 +458,11 @@ def test_get_default_time_value(
         get_default_time_value(default_experiment, "stopTime", 2.5)
         == expected_final_time
     )
+
+
+def test_check_name_causality():
+    """Test the function checking the causality of a variable."""
+    discipline = FMUDiscipline(get_fmu_file_path("add"))
+    assert discipline._FMUDiscipline__check_name_causality("u1", "input")
+    assert not discipline._FMUDiscipline__check_name_causality("k1", "input")
+    assert not discipline._FMUDiscipline__check_name_causality("k1", "parameter")
