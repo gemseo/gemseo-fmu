@@ -14,5 +14,3 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Entry point to gemseo fmu."""
 from __future__ import annotations
-
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline  # noqa: F401
