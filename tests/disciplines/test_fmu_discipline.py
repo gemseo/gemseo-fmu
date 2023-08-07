@@ -466,3 +466,25 @@ def test_check_name_causality():
     assert discipline._FMUDiscipline__check_name_causality("u1", "input")
     assert not discipline._FMUDiscipline__check_name_causality("k1", "input")
     assert not discipline._FMUDiscipline__check_name_causality("k1", "parameter")
+
+
+@pytest.mark.parametrize("as_default_input", [False, True])
+def test_time_series_default_inputs_or_input_data(as_default_input):
+    """Test that FMUDiscipline can use TimeSeries in default_inputs and input_data."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("Mass_Damper"),
+        ["mass.m", "spring.c"],
+        ["y"],
+        initial_time=0.0,
+        final_time=1.0,
+        time_step=0.0001,
+    )
+    custom_input_data = {"mass.m": TimeSeries(array([0.0]), array([1.5]))}
+    if as_default_input:
+        discipline.default_inputs.update(custom_input_data)
+        input_data = {}
+    else:
+        input_data = custom_input_data
+
+    discipline.execute(input_data)
+    assert discipline.local_data["y"].sum() == pytest.approx(-4995.949237827578)

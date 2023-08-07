@@ -451,22 +451,21 @@ class FMUDiscipline(MDODiscipline):
     def execute(  # noqa:D102
         self, input_data: Mapping[str, ndarray | TimeSeries] = MappingProxyType({})
     ) -> dict[str, ndarray]:
+        full_input_data = self._filter_inputs(input_data)
         self.__names_to_time_series = {
             name: value
-            for name, value in input_data.items()
+            for name, value in full_input_data.items()
             if isinstance(value, TimeSeries)
         }
         self.__inputs_as_time_series = [
             name
-            for name, value in input_data.items()
-            if isinstance(value, TimeSeries)
-            and self.__check_name_causality(name, self._Constants.INPUT)
+            for name in self.__names_to_time_series
+            if self.__check_name_causality(name, self._Constants.INPUT)
         ]
         self.__parameters_as_time_series = [
             name
-            for name, value in input_data.items()
-            if isinstance(value, TimeSeries)
-            and self.__check_name_causality(name, self._Constants.PARAMETER)
+            for name in self.__names_to_time_series
+            if self.__check_name_causality(name, self._Constants.PARAMETER)
         ]
         self.__time_series_time_steps = array([self.__current_time])
         if self.__names_to_time_series:
@@ -487,7 +486,7 @@ class FMUDiscipline(MDODiscipline):
                     for name in self.__inputs_as_time_series
                 ]
             )
-            input_data.update(
+            full_input_data.update(
                 {
                     name: tuple(ts.observable)
                     for name, ts in self.__names_to_time_series.items()
@@ -499,7 +498,7 @@ class FMUDiscipline(MDODiscipline):
                     dtype=[(self.__TIME, double)]
                     + [(name, double) for name in self.__inputs_as_time_series],
                 )
-        return super().execute(input_data)
+        return super().execute(full_input_data)
 
     def set_next_execution(
         self,
