@@ -6,7 +6,7 @@
 #
 attrs==23.1.0
     # via fmpy
-certifi==2023.5.7
+certifi==2023.7.22
     # via requests
 charset-normalizer==3.2.0
     # via requests
@@ -30,7 +30,7 @@ fastjsonschema==2.16.3
     # via gemseo
 fmpy==0.3.15
     # via gemseo-fmu (setup.py)
-fonttools==4.40.0
+fonttools==4.42.0
     # via matplotlib
 gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@develop
     # via gemseo-fmu (setup.py)
@@ -40,7 +40,7 @@ h5py==3.8.0
     # via gemseo
 idna==3.4
     # via requests
-importlib-resources==6.0.0
+importlib-resources==6.0.1
     # via matplotlib
 iniconfig==2.0.0
     # via pytest
@@ -50,7 +50,7 @@ jinja2==3.1.2
     #   gemseo
 kiwisolver==1.4.4
     # via matplotlib
-lark==1.1.5
+lark==1.1.7
     # via fmpy
 lxml==4.9.3
     # via fmpy
@@ -86,7 +86,7 @@ pluggy==1.2.0
     # via pytest
 pydantic==1.10.8
     # via gemseo
-pyparsing==3.1.0
+pyparsing==3.1.1
     # via matplotlib
 pytest==7.4.0
     # via
@@ -127,11 +127,11 @@ typing-extensions==4.7.1
     #   pydantic
 tzdata==2023.3
     # via pandas
-urllib3==2.0.3
+urllib3==2.0.4
     # via requests
 xdsmjs==2.0.0
     # via gemseo
 xxhash==3.2.0
     # via gemseo
-zipp==3.16.0
+zipp==3.16.2
     # via importlib-resources
