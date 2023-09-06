@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 08af238
+_src_path: /home/ad/gemseo-copier
+author_email: contact@gemseo.org
+author_name: GEMSEO team
+gemseo_min_version: '5'
+package_is_a_gemseo_plugin: true
+project_is_open_source: true
+project_name: gemseo-fmu
+project_name_suffix: fmu
+project_slug: gemseo_fmu
+short_description: GEMSEO plugin for FMU dynamic models.\
+use_gemseo_develop: true
