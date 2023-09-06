@@ -2,5 +2,4 @@ include:
   - remote: "https://gitlab.com/gemseo/dev/ci-includes/-/raw/main/plugin.yml"
 
 variables:
-  TEST_DOCKER_IMAGE: registry.gitlab.com/gemseo/dev/gemseo/multi-python
-  PYTEST_NUM_PROCESSES: 1
+  TOX_EXE: tox4
