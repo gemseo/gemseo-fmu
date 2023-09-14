@@ -161,6 +161,32 @@ def test_discipline_output_names(ramp_discipline):
     }
 
 
+@pytest.mark.parametrize(
+    "use_input_namespace, input_name",
+    [(False, INPUT_NAME), (True, f"ns:{INPUT_NAME}")],
+)
+@pytest.mark.parametrize(
+    "use_output_namespace, output_name",
+    [(False, OUTPUT_NAME), (True, f"ns:{OUTPUT_NAME}")],
+)
+def test_namespace(
+    ramp_discipline_do_step_w_restart,
+    use_input_namespace,
+    input_name,
+    use_output_namespace,
+    output_name,
+):
+    """Check that execution handles IO namespaces."""
+    if use_input_namespace:
+        ramp_discipline_do_step_w_restart.add_namespace_to_input(INPUT_NAME, "ns")
+    if use_output_namespace:
+        ramp_discipline_do_step_w_restart.add_namespace_to_output(OUTPUT_NAME, "ns")
+    ramp_discipline_do_step_w_restart.execute({input_name: array([1.0])})
+    assert_almost_equal(
+        ramp_discipline_do_step_w_restart.local_data[output_name], array([0.2])
+    )
+
+
 def test_str(ramp_discipline):
     """Check the string representation of a FMUDiscipline."""
     assert str(ramp_discipline) == "ramp"

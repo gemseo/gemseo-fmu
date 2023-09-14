@@ -533,7 +533,7 @@ class FMUDiscipline(MDODiscipline):
         if not self.__simulation_settings:
             self.__simulation_settings = self.__default_simulation_settings
 
-        input_data = self.get_input_data()
+        input_data = self.get_input_data(with_namespaces=False)
         if self.__simulation_settings[self._Constants.RESTART]:
             self._current_time = self._initial_time
             self.__fmu_model.reset()
@@ -580,15 +580,15 @@ class FMUDiscipline(MDODiscipline):
 
         self.__time = array([self._current_time + time_step])
         self._current_time = self.__time[0]
-        for output_name in self.get_output_data_names(False):
+        output_data = {}
+        for output_name in self.get_output_data_names(with_namespaces=False):
             if output_name == self.__TIME:
-                self.local_data[
-                    self.output_grammar.to_namespaced[self.__TIME]
-                ] = self.__time
+                output_data[self.__TIME] = self.__time
             else:
-                self.local_data[output_name] = array(
+                output_data[output_name] = array(
                     self.__fmu_model.getReal([self.__names_to_references[output_name]])
                 )
+        self.store_local_data(**output_data)
 
     def __simulate_to_final_time(
         self, input_data: Mapping[str, NDArray[float]]
@@ -648,11 +648,11 @@ class FMUDiscipline(MDODiscipline):
             terminate=False,
         )
         self.__time = result[self.__TIME]
-        for output_name in self.get_output_data_names(False):
-            ns_output_name = self.output_grammar.to_namespaced.get(
-                output_name, output_name
-            )
-            self.local_data[ns_output_name] = result[output_name]
+        output_data = {
+            output_name: result[output_name]
+            for output_name in self.get_output_data_names(with_namespaces=False)
+        }
+        self.store_local_data(**output_data)
 
         self._current_time = final_time
 
