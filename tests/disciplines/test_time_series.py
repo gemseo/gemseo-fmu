@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import re
+from dataclasses import FrozenInstanceError
 
 import pytest
 from gemseo_fmu.disciplines.time_series import TimeSeries
@@ -26,6 +27,16 @@ def test_time_series():
     time_series = TimeSeries([1, 2], [3, 4])
     assert time_series.time == [1, 2]
     assert time_series.observable == [3, 4]
+    assert time_series.size == 2
+
+
+def test_frozen_time_series():
+    """Check that the TimeSeries is a frozen dataclass."""
+    time_series = TimeSeries([1, 2], [3, 4])
+    with pytest.raises(
+        FrozenInstanceError, match=re.escape("cannot assign to field 'time'")
+    ):
+        time_series.time = [5, 6]
 
 
 def test_time_series_error():
@@ -33,7 +44,7 @@ def test_time_series_error():
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "The lengths of fields 'time' (2) and 'observable' (3) are different."
+            "The lengths of fields 'time' (2) and 'observable' (3) do not match."
         ),
     ):
         TimeSeries([1, 2], [3, 4, 5])

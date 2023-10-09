@@ -476,8 +476,10 @@ class FMUDiscipline(MDODiscipline):
                     )
                 )
             )
-            for ts in self.__names_to_time_series.values():
-                ts.observable = interp(time, ts.time, ts.observable)
+            for name, ts in self.__names_to_time_series.items():
+                self.__names_to_time_series[name] = TimeSeries(
+                    time, interp(time, ts.time, ts.observable)
+                )
 
             values = vstack(
                 [time]
