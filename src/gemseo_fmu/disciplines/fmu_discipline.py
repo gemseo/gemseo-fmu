@@ -200,7 +200,7 @@ class FMUDiscipline(MDODiscipline):
             restart: Whether the model is restarted at ``initial_time`` after execution.
             do_step: Whether the model is simulated over only one ``time_step``
                 when calling :meth:`.execute`.
-                Otherwise, simulate the model from ``initial_time`` to ``final_time``.
+                Otherwise, simulate the model from current time to final time in one go.
             use_co_simulation: Whether the co-simulation FMI type is used.
                 Otherwise, use model-exchange FMI type.
                 When ``do_step`` is ``True``, the co-simulation FMI type is required.
@@ -226,8 +226,7 @@ class FMUDiscipline(MDODiscipline):
         # The description of the FMU model, read from the XML file in the archive.
         self.__fmu_model_description = read_model_description(self.__fmu_model_dir_path)
 
-        all_input_names = []
-        all_output_names = []
+        # The causalities of the variables bound to the names of the variables.
         self.__causalities_to_variable_names = {}
         for variable in self.__fmu_model_description.modelVariables:
             causality = variable.causality
@@ -239,17 +238,29 @@ class FMUDiscipline(MDODiscipline):
         self.__fmu_model_name = self.__fmu_model_description.modelName
         self.__fmu_model_fmi_version = self.__fmu_model_description.fmiVersion
 
+        # The names of all the input and output variables.
+        all_input_names = []
+        all_output_names = []
         for variable in self.__fmu_model_description.modelVariables:
             if variable.causality in ["input", "parameter"]:
                 all_input_names.append(variable.name)
             elif variable.causality == "output":
                 all_output_names.append(variable.name)
 
+        # The names of the input and output variables of the discipline.
         output_names = output_names or all_output_names
-        if input_names is None:
-            input_names = []
-        else:
-            input_names = input_names or all_input_names
+        input_names = [] if input_names is None else input_names or all_input_names
+
+        # The initial values of the input and output variables of the discipline.
+        self.__initial_values = {}
+        io_names = input_names + output_names
+        for variable in self.__fmu_model_description.modelVariables:
+            variable_name = variable.name
+            if variable_name in io_names:
+                initial_value = variable.start
+                if initial_value is not None:
+                    initial_value = float(initial_value)
+                self.__initial_values[variable_name] = array([initial_value])
 
         # The type of FMI.
         self.__fmu_model_type = (
@@ -287,6 +298,7 @@ class FMUDiscipline(MDODiscipline):
         else:
             self._initial_time = initial_time
 
+        self.__initial_values[self.__TIME] = array([self._initial_time])
         self.__current_time = self._initial_time
 
         if final_time is None:
@@ -303,19 +315,7 @@ class FMUDiscipline(MDODiscipline):
         # Initialize the FMU model.
         pre_instantiation_parameters = pre_instantiation_parameters or {}
         self._pre_instantiate(**pre_instantiation_parameters)
-        self.__fmu_model.setupExperiment(startTime=self._initial_time)
-        self.__fmu_model.enterInitializationMode()
-        self.__fmu_model.exitInitializationMode()
-
-        # Store the initial values of the discipline outputs,
-        # namely model outputs and time.
-        self.__initial_values = {
-            output_name: array(
-                self.__fmu_model.getReal([self.__names_to_references[output_name]])
-            )
-            for output_name in self.__fmu_model_output_names
-        }
-        self.__initial_values[self.__TIME] = array([self._initial_time])
+        self.__reset_fmu_model()
 
         # Whether to execute step by step.
         self.__do_step = do_step
@@ -351,12 +351,8 @@ class FMUDiscipline(MDODiscipline):
 
         # Set the default values of the inputs and update the initial values.
         self.default_inputs = {
-            input_name: array(
-                self.__fmu_model.getReal([self.__names_to_references[input_name]])
-            )
-            for input_name in input_names
+            input_name: self.__initial_values[input_name] for input_name in input_names
         }
-        self.__initial_values.update(self.default_inputs)
 
         # Store the initial output values in the local data.
         self.local_data.update(self.__initial_values)
@@ -457,16 +453,9 @@ class FMUDiscipline(MDODiscipline):
             for name, value in full_input_data.items()
             if isinstance(value, TimeSeries)
         }
-        self.__inputs_as_time_series = [
-            name
-            for name in self.__names_to_time_series
-            if self.__check_name_causality(name, self._Constants.INPUT)
-        ]
-        self.__parameters_as_time_series = [
-            name
-            for name in self.__names_to_time_series
-            if self.__check_name_causality(name, self._Constants.PARAMETER)
-        ]
+        get_ts_variables = self.__get_variables_set_with_time_series
+        self.__inputs_as_time_series = get_ts_variables(self._Constants.INPUT)
+        self.__parameters_as_time_series = get_ts_variables(self._Constants.PARAMETER)
         self.__time_series_time_steps = array([self.__current_time])
         if self.__names_to_time_series:
             self.__time_series_time_steps = time = array(
@@ -538,9 +527,7 @@ class FMUDiscipline(MDODiscipline):
         input_data = self.get_input_data(with_namespaces=False)
         if self.__simulation_settings[self._Constants.RESTART]:
             self._current_time = self._initial_time
-            self.__fmu_model.reset()
-            self.__fmu_model.enterInitializationMode()
-            self.__fmu_model.exitInitializationMode()
+            self.__reset_fmu_model()
 
         if self._initial_time < self._current_time == self._final_time:
             raise ValueError(
@@ -554,6 +541,13 @@ class FMUDiscipline(MDODiscipline):
             self.__simulate_to_final_time(input_data)
 
         self.__simulation_settings = {}
+
+    def __reset_fmu_model(self) -> None:
+        """Reset the FMU model."""
+        self.__fmu_model.reset()
+        self.__fmu_model.setupExperiment(startTime=self._initial_time)
+        self.__fmu_model.enterInitializationMode()
+        self.__fmu_model.exitInitializationMode()
 
     def __del__(self) -> None:
         self.__fmu_model.terminate()
@@ -640,8 +634,7 @@ class FMUDiscipline(MDODiscipline):
             stop_time=final_time,
             input=self.__fmpy_input_time_series,
             solver=self.__solver_name,
-            output_interval=time_step or 1.0,
-            step_size=time_step,
+            output_interval=1 if initial_time == final_time else (time_step or None),
             output=self.__fmu_model_output_names,
             fmu_instance=self.__fmu_model,
             model_description=self.__fmu_model_description,
@@ -655,17 +648,19 @@ class FMUDiscipline(MDODiscipline):
             for output_name in self.get_output_data_names(with_namespaces=False)
         }
         self.store_local_data(**output_data)
-
         self._current_time = final_time
 
-    def __check_name_causality(self, name: str, causality: str) -> bool:
-        """Check the causality of a variable from its name.
+    def __get_variables_set_with_time_series(self, causality: str) -> list[str]:
+        """Return the names of the variables set with time series.
 
         Args:
-            name: The name of the variable.
             causality: The causality to be checked.
 
         Returns:
-            Whether the variable has the given causality
+            The names of the time series.
         """
-        return name in self.__causalities_to_variable_names.get(causality, ())
+        return [
+            name
+            for name in self.__names_to_time_series
+            if name in self.__causalities_to_variable_names.get(causality, ())
+        ]
