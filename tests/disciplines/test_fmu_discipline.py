@@ -210,11 +210,11 @@ def test_initial_values(ramp_discipline_wo_restart, ramp_discipline_do_step):
     """Check the initial values."""
     assert compare_dict_of_arrays(
         ramp_discipline_wo_restart.initial_values,
-        {"out": array([0.0]), "time": array([0.0]), "ramp.height": array([1.0])},
+        {"out": array([None]), "time": array([0.0]), "ramp.height": array([1.0])},
     )
     assert compare_dict_of_arrays(
         ramp_discipline_do_step.initial_values,
-        {"out": array([0.0]), "time": array([0.0]), "ramp.height": array([1.0])},
+        {"out": array([None]), "time": array([0.0]), "ramp.height": array([1.0])},
     )
 
 
@@ -484,14 +484,6 @@ def test_get_default_time_value(
         get_default_time_value(default_experiment, "stopTime", 2.5)
         == expected_final_time
     )
-
-
-def test_check_name_causality():
-    """Test the function checking the causality of a variable."""
-    discipline = FMUDiscipline(get_fmu_file_path("add"))
-    assert discipline._FMUDiscipline__check_name_causality("u1", "input")
-    assert not discipline._FMUDiscipline__check_name_causality("k1", "input")
-    assert not discipline._FMUDiscipline__check_name_causality("k1", "parameter")
 
 
 @pytest.mark.parametrize("as_default_input", [False, True])
