@@ -431,14 +431,6 @@ def test_causalities_to_variable_names(ramp_discipline):
     }
 
 
-def get_default_time_value(experiment, field: str, default_value: float):
-    value = getattr(experiment, field)
-    if experiment is None or value is None:
-        return default_value
-
-    return float(value)
-
-
 @pytest.mark.parametrize("add_time_to_output_grammar", [False, True])
 @pytest.mark.parametrize("do_step", [False, True])
 def test_time_output_grammar(add_time_to_output_grammar, do_step):

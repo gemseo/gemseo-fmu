@@ -58,7 +58,7 @@ LOGGER = logging.getLogger(__name__)
 class FMUDiscipline(MDODiscipline):
     """A discipline wrapping a Functional Mockup Unit (FMU) model.
 
-    This discipline relies on `FMPy <https://github.com/CATIA-Systems/FMPy>`__.
+    This discipline relies on [FMPy](https://github.com/CATIA-Systems/FMPy).
 
     Notes:
         The time series are interpolated at the time steps
@@ -142,10 +142,10 @@ class FMUDiscipline(MDODiscipline):
     """The input names bound to the time series at the last execution."""
 
     __inputs_as_time_series: list[str]
-    """The FMU inputs passed as :class:`.TimeSeries` at the last execution."""
+    """The FMU inputs passed as ``TimeSeries`` at the last execution."""
 
     __parameters_as_time_series: list[str]
-    """The FMU parameters passed as :class:`.TimeSeries` at the last execution."""
+    """The FMU parameters passed as ``TimeSeries`` at the last execution."""
 
     __time_series_time_steps: NDArray[float]
     """The time steps of the time series after pre-processing of the original ones."""
@@ -199,8 +199,9 @@ class FMUDiscipline(MDODiscipline):
             add_time_to_output_grammar: Whether the time is added to the output grammar.
             restart: Whether the model is restarted at ``initial_time`` after execution.
             do_step: Whether the model is simulated over only one ``time_step``
-                when calling :meth:`.execute`.
-                Otherwise, simulate the model from current time to final time in one go.
+                when calling
+                [execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
+                Otherwise, simulate the model from ``initial_time`` to ``final_time``.
             use_co_simulation: Whether the co-simulation FMI type is used.
                 Otherwise, use model-exchange FMI type.
                 When ``do_step`` is ``True``, the co-simulation FMI type is required.
@@ -211,7 +212,7 @@ class FMUDiscipline(MDODiscipline):
             delete_fmu_instance_directory: Whether to delete the directory
                 of the FMU instance when deleting the discipline.
             **pre_instantiation_parameters: The parameters to be passed
-                to :meth:`._pre_instantiate`.
+                to ``_pre_instantiate()``.
         """  # noqa: D205 D212 D415
         self.__delete_fmu_instance_directory = delete_fmu_instance_directory
 
@@ -497,7 +498,7 @@ class FMUDiscipline(MDODiscipline):
         simulation_time: float | None = None,
         time_step: float | None = None,
     ) -> None:
-        """Change the simulation settings for the next call to :meth:`.execute`.
+        """Change the simulation settings for the execution.
 
         Args:
             time_step: The time step of the simulation;

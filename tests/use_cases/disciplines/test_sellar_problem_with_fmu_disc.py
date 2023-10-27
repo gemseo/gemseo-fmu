@@ -70,8 +70,7 @@ def fmu_scenario(fmu_disciplines):
 
 
 def test_fmu_sellar_jacobians_check(fmu_disciplines):
-    """Check that jacobian matrices returned by fmu functions are correct with respect
-    to finite difference computation for Sellar disciplines."""
+    """Check that the Jacobian matrices returned by fmu functions are correct."""
     sellar1, sellar2, sellar_system = fmu_disciplines
 
     threshold = 1
@@ -83,8 +82,7 @@ def test_fmu_sellar_jacobians_check(fmu_disciplines):
 
 
 def test_fmu_sellar_computations(fmu_disciplines):
-    """Check that computed values returned by fmu functions are correct with respect to
-    finite difference computation for Sellar disciplines for the default solution."""
+    """Check that the computed values returned by fmu functions are correct."""
     sellar1, sellar2, sellar_system = fmu_disciplines
     x_local, x_shared, y_1, y_2 = get_xzy()
 

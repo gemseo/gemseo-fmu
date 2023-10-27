@@ -32,6 +32,17 @@ test = [
     "pytest-cov",
     "pytest-xdist",
 ]
+doc = [
+    "black",
+    "mkdocs-gallery",
+    "mkdocs-section-index",
+    "mkdocs-literate-nav",
+    "mkdocs-gen-files",
+    "mkdocstrings[python]",
+    "mkdocs-material",
+    "mkdocs-include-markdown-plugin",
+    "mkdocs-bibtex",
+]
 dev = [
     "gemseo[all]@git+https://gitlab.com/gemseo/dev/gemseo.git@develop",
 ]

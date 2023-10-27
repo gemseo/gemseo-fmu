@@ -18,25 +18,25 @@ from __future__ import annotations
 from typing import Final
 
 Y_1: Final[str] = "y_1"
-r"""The name of the coupling variable :math:`y_1` computed by :class:`.Sellar1`."""
+r"""The name of the coupling variable $y_1$ computed by ``Sellar1``."""
 
 Y_2: Final[str] = "y_2"
-r"""The name of the coupling variable :math:`y_2` computed by :class:`.Sellar2`."""
+r"""The name of the coupling variable $y_2$ computed by ``Sellar2``."""
 
 X_SHARED_1: Final[str] = "x_shared_1"
-r"""The name of the 1st component of the design variable :math:`x_{\textrm{shared}}`."""
+r"""The name of the 1st component of the design variable $x_{\textrm{shared}}$."""
 
 X_SHARED_2: Final[str] = "x_shared_2"
-r"""The name of the 2nd component of the design variable :math:`x_{\textrm{shared}}`."""
+r"""The name of the 2nd component of the design variable $x_{\textrm{shared}}$."""
 
 X_LOCAL: Final[str] = "x_local"
-r"""The name of the design variable :math:`x_{\textrm{local}`."""
+r"""The name of the design variable $x_{\textrm{local}}$."""
 
 OBJ: Final[str] = "obj"
-r"""The name of the objective :math:`\textrm{obj} computed by :class:`.SellarSystem`."""
+r"""The name of the objective $\textrm{obj}$ computed by ``SellarSystem``."""
 
 C_1: Final[str] = "c_1"
-r"""The name of the 1st constraint :math:`c_1` computed by :class:`.SellarSystem`."""
+r"""The name of the 1st constraint $c_1$ computed by ``SellarSystem``."""
 
 C_2: Final[str] = "c_2"
-r"""The name of the 2nd constraint :math:`c_2` computed by :class:`.SellarSystem`."""
+r"""The name of the 2nd constraint $c_2$ computed by ``SellarSystem``."""
