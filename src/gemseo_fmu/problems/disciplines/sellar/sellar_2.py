@@ -35,7 +35,7 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 
 class FMUSellar2(FMUDiscipline):
-    """The discipline to compute the coupling variable :math:`y_2`."""
+    """The discipline to compute the coupling variable $y_2$."""
 
     def __init__(self) -> None:  # noqa: D107
         super().__init__(
@@ -70,7 +70,7 @@ class FMUSellar2(FMUDiscipline):
             y_1: The coupling variable coming from the first discipline.
 
         Returns:
-            The value of the coupling variable :math:`y_2`.
+            The value of the coupling variable $y_2$.
         """
         out = x_shared[0] + x_shared[1]
         y_10 = y_1[0]

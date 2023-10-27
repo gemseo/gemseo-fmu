@@ -12,30 +12,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""
-From initial time to final time
-===============================
-"""
 from __future__ import annotations
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
-from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from matplotlib import pyplot as plt
-from numpy import array
+from pathlib import Path
 
-discipline = FMUDiscipline(
-    get_fmu_file_path("Mass_Damper"),
-    ["mass.m", "spring.c"],
-    ["y"],
-    initial_time=0.0,
-    final_time=1.0,
-    time_step=0.0001,
-)
-discipline.execute()
-plt.plot(discipline.time, discipline.local_data["y"], label="Default")
-discipline.execute({"mass.m": array([1.5]), "spring.c": array([1050.0])})
-plt.plot(discipline.time, discipline.local_data["y"], label="Custom")
-plt.xlabel("Time [s]")
-plt.ylabel("Amplitude [m]")
-plt.legend()
-plt.show()
+gallery_dir = Path(__file__).parent / "generated" / "examples"
+examples_dir = Path(__file__).parent / "examples"
+examples_subdirs = [
+    subdir.name
+    for subdir in examples_dir.iterdir()
+    if (examples_dir / subdir).is_dir()
+    and (examples_dir / subdir / "README.md").is_file()
+]
+examples_dirs = [examples_dir / subdir for subdir in examples_subdirs]
+gallery_dirs = [gallery_dir / subdir for subdir in examples_subdirs]
+
+conf = {"examples_dirs": examples_dirs, "gallery_dirs": gallery_dirs}

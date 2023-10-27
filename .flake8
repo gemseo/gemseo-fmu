@@ -20,8 +20,7 @@ select = ANN,B,C,D,E,F,G,N,T,W,B950
 max-line-length = 88
 docstring-convention = google
 per-file-ignores =
-    tests/*.py: D,ANN
+    tests/*.py: D100,D104,ANN
     # T201 print found
-    doc_src/*.py: D,T201
+    docs/*.py: D,T201
     utils/*.py: D,ANN
-    examples/*.py: D,ANN,T201

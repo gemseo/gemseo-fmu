@@ -55,7 +55,7 @@ class FMUSellarSystem(FMUDiscipline):
         y_1: ndarray,
         y_2: ndarray,
     ) -> float:
-        """Evaluate the objective :math:`obj`.
+        """Evaluate the objective $obj$.
 
         Args:
             x_local: The design variables local to the first discipline.
@@ -64,7 +64,7 @@ class FMUSellarSystem(FMUDiscipline):
             y_2: The coupling variable coming from the second discipline.
 
         Returns:
-            The value of the objective :math:`obj`.
+            The value of the objective $obj$.
         """
         return x_local[0] ** 2 + x_shared[1] + y_1[0] ** 2 + exp(-y_2[0])
 
@@ -72,13 +72,13 @@ class FMUSellarSystem(FMUDiscipline):
     def compute_c_1(
         y_1: ndarray,
     ) -> float:
-        """Evaluate the constraint :math:`c_1`.
+        """Evaluate the constraint $c_1$.
 
         Args:
             y_1: The coupling variable coming from the first discipline.
 
         Returns:
-            The value of the constraint :math:`c_1`.
+            The value of the constraint $c_1$.
         """
         return 3.16 - y_1[0] ** 2
 
@@ -86,13 +86,13 @@ class FMUSellarSystem(FMUDiscipline):
     def compute_c_2(
         y_2: ndarray,
     ) -> float:
-        """Evaluate the constraint :math:`c_2`.
+        """Evaluate the constraint $c_2$.
 
         Args:
             y_2: The coupling variable coming from the second discipline.
 
         Returns:
-            The value of the constraint :math:`c_2`.
+            The value of the constraint $c_2$.
         """
         return y_2[0] - 24.0
 

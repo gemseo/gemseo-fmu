@@ -40,7 +40,7 @@ and this project adheres to
     different time step or from initial time.
 - `.TimeSeries`{.interpreted-text role="class"} allows to specify
     inputs as time series.
-- `gemseo-fmu.use_cases`{.interpreted-text role="meth"} contains use
+- `gemseo-fmu.problems`{.interpreted-text role="meth"} contains use
     cases, either defined as `.FMUDiscipline`{.interpreted-text
     role="class"} or simply as FMU files; use
     `get_fmu_file_path`{.interpreted-text role="func"} to get a FMU file
