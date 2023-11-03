@@ -38,7 +38,7 @@ fmpy==0.3.15
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.43.1
     # via matplotlib
-gemseo[all]==5.1.2.dev99+g2ca9a995
+gemseo[all]==5.1.2.dev114+gf7b1bbb5
     # via gemseo-fmu (pyproject.toml)
 genson==1.2.2
     # via gemseo
