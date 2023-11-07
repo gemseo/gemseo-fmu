@@ -30,28 +30,29 @@ and this project adheres to
 
 ## Added
 
-- The default behavior of `.FMUDiscipline`{.interpreted-text
-    role="class"} is either simulating until the final time or during a
-    time step; it can also restart from initial time after each
-    execution.
-- `.FMUDiscipline.execute`{.interpreted-text role="class"} can change
-    the behavior of the `.FMUDiscipline`{.interpreted-text role="class"}
-    temporarily, to simulate during a given simulation time, with a
-    different time step or from initial time.
-- `.TimeSeries`{.interpreted-text role="class"} allows to specify
-    inputs as time series.
-- `gemseo-fmu.problems`{.interpreted-text role="meth"} contains use
-    cases, either defined as `.FMUDiscipline`{.interpreted-text
-    role="class"} or simply as FMU files; use
-    `get_fmu_file_path`{.interpreted-text role="func"} to get a FMU file
-    path easily.
+- The default behavior of
+  [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  is either simulating until the final time or during a time step;
+  it can also restart from initial time after each execution.
+- [FMUDiscipline.execute][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute]
+  can change the behavior of the
+  [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  temporarily, to simulate during a given simulation time, with a
+  different time step or from initial time.
+- [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries]
+  allows to specify inputs as time series.
+- [gemseo-fmu.problems][gemseo_fmu.problems] contains use cases,
+  either defined as [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  or simply as FMU files;
+  use [get_fmu_file_path][gemseo_fmu.problems.fmu_files.get_fmu_file_path]
+  to get a FMU file path easily.
 
 ## Changed
 
-- The `.FMUDiscipline`{.interpreted-text role="class"} relies on the
-    library [FMPy](https://github.com/CATIA-Systems/FMPy).
-- `.FMUDiscipline`{.interpreted-text role="class"} is in
-    `gemseo-fmu.disciplines`{.interpreted-text role="mod"}.
+- The [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  relies on the library [FMPy](https://github.com/CATIA-Systems/FMPy).
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  is in [gemseo-fmu.disciplines][gemseo_fmu.disciplines].
 
 # Version 1.0.1 (June 2023)
 
