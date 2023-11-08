@@ -46,6 +46,12 @@ and this project adheres to
   or simply as FMU files;
   use [get_fmu_file_path][gemseo_fmu.problems.fmu_files.get_fmu_file_path]
   to get a FMU file path easily.
+- [DoStepFMUDiscipline][gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline]
+  is an [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  whose execution is only one time step ahead.
+- [DoStepFMUDiscipline][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+  is a system of static and time-stepping disciplines
+  which executes them sequentially at each time step.
 
 ## Changed
 
