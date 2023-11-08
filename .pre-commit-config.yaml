@@ -10,6 +10,7 @@ repos:
       # !reference is specific to gitlab
       exclude: .gitlab-ci.yml
     - id: check-added-large-files
+      args: ['--maxkb=2000']
     - id: check-json
     - id: check-toml
     - id: destroyed-symlinks

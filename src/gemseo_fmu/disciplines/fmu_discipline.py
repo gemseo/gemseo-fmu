@@ -71,6 +71,12 @@ class FMUDiscipline(MDODiscipline):
         the time series are considered as constant.
     """
 
+    class Solver(StrEnum):
+        """The solver to simulate a model-exchange model."""
+
+        EULER = "Euler"
+        CVODE = "CVode"
+
     class _Constants(StrEnum):
         """String constants."""
 
@@ -84,6 +90,7 @@ class FMUDiscipline(MDODiscipline):
         TIME_STEP = "time_step"
         INPUT = "input"
         PARAMETER = "parameter"
+        DO_STEP = "do_step"
 
     __TIME: Final[str] = _Constants.TIME.value
 
@@ -164,7 +171,7 @@ class FMUDiscipline(MDODiscipline):
 
     def __init__(
         self,
-        fmu_file_path: str | Path,
+        file_path: str | Path,
         input_names: Iterable[str] | None = (),
         output_names: Iterable[str] = (),
         initial_time: float | None = None,
@@ -175,14 +182,14 @@ class FMUDiscipline(MDODiscipline):
         do_step: bool = False,
         name: str = "",
         use_co_simulation: bool = True,
-        solver_name: str = "CVode",
+        solver_name: Solver = Solver.CVODE,
         fmu_instance_directory: str | Path = "",
         delete_fmu_instance_directory: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
         """
         Args:
-            fmu_file_path: The path to the FMU model file.
+            file_path: The path to the FMU model file.
             input_names: The names of the FMU model inputs;
                 if empty, use all the inputs and parameters of the FMU model;
                 if ``None``, do not use inputs.
@@ -217,11 +224,11 @@ class FMUDiscipline(MDODiscipline):
         self.__delete_fmu_instance_directory = delete_fmu_instance_directory
 
         # The path to the FMU file, which is a ZIP archive.
-        self.__fmu_file_path = Path(fmu_file_path)
+        self.__fmu_file_path = Path(file_path)
 
         # The path to unzipped archive.
         self.__fmu_model_dir_path = Path(
-            extract(str(fmu_file_path), unzipdir=fmu_instance_directory or None)
+            extract(str(file_path), unzipdir=fmu_instance_directory or None)
         ).resolve()
 
         # The description of the FMU model, read from the XML file in the archive.
@@ -322,7 +329,7 @@ class FMUDiscipline(MDODiscipline):
         self.__do_step = do_step
 
         # The numerical solver to simulate the FMU model
-        self.__solver_name = solver_name
+        self.__solver_name = str(solver_name)
 
         # Define the default values of the simulation settings.
         self.__default_simulation_settings = {
