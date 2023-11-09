@@ -41,13 +41,12 @@ class DoStepFMUDiscipline(FMUDiscipline):
         delete_fmu_instance_directory: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
-        do_step_str = self._Constants.DO_STEP.value
-        do_step = pre_instantiation_parameters.get(do_step_str, None)
+        do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
         if do_step is False:
             raise ValueError("DoStepFMUDiscipline has no do_step parameter.")
 
         if do_step is True:
-            del pre_instantiation_parameters[do_step_str]
+            del pre_instantiation_parameters[self._DO_STEP]
 
         super().__init__(
             file_path,

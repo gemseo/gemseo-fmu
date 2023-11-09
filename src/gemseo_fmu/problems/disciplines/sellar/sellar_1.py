@@ -26,7 +26,7 @@ import numpy as np
 from numpy import array
 from numpy import ndarray
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.disciplines.sellar.variable_names import X_LOCAL
 from gemseo_fmu.problems.disciplines.sellar.variable_names import X_SHARED_1
 from gemseo_fmu.problems.disciplines.sellar.variable_names import X_SHARED_2
@@ -35,16 +35,11 @@ from gemseo_fmu.problems.disciplines.sellar.variable_names import Y_2
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 
-class FMUSellar1(FMUDiscipline):
+class FMUSellar1(StaticFMUDiscipline):
     """The discipline to compute the coupling variable $y_1$."""
 
     def __init__(self) -> None:  # noqa: D107
-        super().__init__(
-            get_fmu_file_path("Sellar1", "sellar"),
-            initial_time=0.0,
-            final_time=0.0,
-            add_time_to_output_grammar=False,
-        )
+        super().__init__(get_fmu_file_path("Sellar1", "sellar"))
 
     @staticmethod
     def compute_y_1(x_local: ndarray, x_shared: ndarray, y_2: ndarray) -> complex:

@@ -26,7 +26,7 @@ from numpy import array
 from numpy import ndarray
 from numpy import ones
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.disciplines.sellar.variable_names import C_1
 from gemseo_fmu.problems.disciplines.sellar.variable_names import C_2
 from gemseo_fmu.problems.disciplines.sellar.variable_names import OBJ
@@ -37,16 +37,11 @@ from gemseo_fmu.problems.disciplines.sellar.variable_names import Y_2
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 
-class FMUSellarSystem(FMUDiscipline):
+class FMUSellarSystem(StaticFMUDiscipline):
     """The discipline to compute the objective and constraints of the Sellar problem."""
 
     def __init__(self) -> None:  # noqa: D107
-        super().__init__(
-            get_fmu_file_path("SellarSystem", "sellar"),
-            initial_time=0.0,
-            final_time=0.0,
-            add_time_to_output_grammar=False,
-        )
+        super().__init__(get_fmu_file_path("SellarSystem", "sellar"))
 
     @staticmethod
     def compute_obj(

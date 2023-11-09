@@ -26,7 +26,7 @@ from numpy import ones
 from numpy import sign
 from numpy import zeros
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.disciplines.sellar.variable_names import X_SHARED_1
 from gemseo_fmu.problems.disciplines.sellar.variable_names import X_SHARED_2
 from gemseo_fmu.problems.disciplines.sellar.variable_names import Y_1
@@ -34,16 +34,11 @@ from gemseo_fmu.problems.disciplines.sellar.variable_names import Y_2
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 
-class FMUSellar2(FMUDiscipline):
+class FMUSellar2(StaticFMUDiscipline):
     """The discipline to compute the coupling variable $y_2$."""
 
     def __init__(self) -> None:  # noqa: D107
-        super().__init__(
-            get_fmu_file_path("Sellar2", "sellar"),
-            initial_time=0.0,
-            final_time=0.0,
-            add_time_to_output_grammar=False,
-        )
+        super().__init__(get_fmu_file_path("Sellar2", "sellar"))
 
     def _compute_jacobian(
         self,
