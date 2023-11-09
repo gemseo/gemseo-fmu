@@ -37,13 +37,13 @@ def discipline(fmu_file_path) -> DoStepFMUDiscipline:
 
 def test_do_step(discipline, fmu_file_path):
     """Check that a DoStepFMUDiscipline is an FMUDiscipline with do_step=True."""
-    assert discipline._FMUDiscipline__do_step is True
+    assert discipline._BaseFMUDiscipline__do_step is True
 
 
 def test_do_step_cannot_be_set(discipline, fmu_file_path):
     """Check that setting do_step raises a ValueError only if False."""
     DoStepFMUDiscipline(fmu_file_path, do_step=True)
-    assert discipline._FMUDiscipline__do_step is True
+    assert discipline._BaseFMUDiscipline__do_step is True
 
     with pytest.raises(
         ValueError, match=re.escape("DoStepFMUDiscipline has no do_step parameter.")
@@ -53,11 +53,9 @@ def test_do_step_cannot_be_set(discipline, fmu_file_path):
 
 def test_co_simulation(discipline):
     """Check that a DoStepFMUDiscipline is an FMUDiscipline with CS type."""
-    assert (
-        discipline._FMUDiscipline__fmu_model_type == discipline._Constants.CO_SIMULATION
-    )
+    assert discipline._BaseFMUDiscipline__model_type == discipline._CO_SIMULATION
 
 
 def test_restart(discipline):
     """Check that the default value of restart is False."""
-    assert discipline._FMUDiscipline__default_simulation_settings["restart"] is False
+    assert not discipline._BaseFMUDiscipline__default_simulation_settings["restart"]

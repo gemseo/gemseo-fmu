@@ -24,7 +24,7 @@ from __future__ import annotations
 
 from gemseo.algos.parameter_space import ParameterSpace
 from gemseo.uncertainty.sensitivity.morris.analysis import MorrisAnalysis
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from numpy import pi
 
@@ -47,7 +47,7 @@ from numpy import pi
 #     end IshigamiFunction;
 # ```
 #
-discipline = FMUDiscipline(get_fmu_file_path("IshigamiFunction"))
+discipline = StaticFMUDiscipline(get_fmu_file_path("IshigamiFunction"))
 
 # %%
 # The different uncertain variables $X_1$ , $X_2$ and $X_3$

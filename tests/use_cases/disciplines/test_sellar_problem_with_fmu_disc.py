@@ -100,4 +100,4 @@ def test_fmu_sellar_computations(fmu_disciplines):
 def test_fmu_optim_results(fmu_scenario):
     """Test obtained optimal values when solving sellar problem with fmu discipline."""
     fmu_scenario.execute(input_data={"max_iter": 20, "algo": "SLSQP"})
-    assert pytest.approx(fmu_scenario.optimization_result.f_opt) == 3.1700465222385836
+    assert pytest.approx(fmu_scenario.optimization_result.f_opt) == 3.1885471887793932

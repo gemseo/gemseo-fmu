@@ -18,14 +18,14 @@ from __future__ import annotations
 import logging
 import re
 from collections import namedtuple
-from pathlib import Path
 from unittest import mock
 
 import pytest
 from fmpy.fmi2 import FMU2Slave
 from fmpy.model_description import ModelDescription
 from gemseo.utils.comparisons import compare_dict_of_arrays
-from gemseo_fmu.disciplines import fmu_discipline
+from gemseo_fmu.disciplines import base_fmu_discipline
+from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
@@ -114,7 +114,7 @@ def ramp_discipline_do_step_w_restart(tmp_wd) -> FMUDiscipline:
 
 def test_do_step(ramp_discipline):
     """Check that the disciplines does not execute the FMU model step by step."""
-    assert not ramp_discipline._FMUDiscipline__do_step
+    assert not ramp_discipline._BaseFMUDiscipline__do_step
 
 
 def test_do_step_and_me(caplog):
@@ -122,9 +122,7 @@ def test_do_step_and_me(caplog):
     discipline = FMUDiscipline(
         FMU_PATH, [INPUT_NAME], [OUTPUT_NAME], do_step=True, use_co_simulation=False
     )
-    assert (
-        discipline._FMUDiscipline__fmu_model_type == discipline._Constants.CO_SIMULATION
-    )
+    assert discipline._BaseFMUDiscipline__model_type == discipline._CO_SIMULATION
     caplog.set_level(logging.WARNING)
     assert (
         "The FMUDiscipline requires a co-simulation model when do_step is True."
@@ -360,19 +358,20 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     )
 
 
-@pytest.mark.parametrize("delete_fmu_instance_directory", [False, True])
-def test_delete_fmu_instance_directory(delete_fmu_instance_directory, tmp_wd):
-    """Check the argument delete_fmu_instance_directory."""
-    discipline = FMUDiscipline(
+@pytest.mark.parametrize("delete_model_instance_directory", [False, True])
+def test_delete_fmu_instance_directory(delete_model_instance_directory, tmp_wd):
+    """Check the argument delete_model_instance_directory."""
+    model_instance_directory = tmp_wd / "foo"
+    discipline = BaseFMUDiscipline(
         FMU_PATH,
-        delete_fmu_instance_directory=delete_fmu_instance_directory,
-        fmu_instance_directory="foo",
+        delete_model_instance_directory=delete_model_instance_directory,
+        model_instance_directory=model_instance_directory,
     )
-    with mock.patch.object(fmu_discipline, "rmtree") as mock_method:
+    with mock.patch.object(base_fmu_discipline, "rmtree") as mock_method:
         del discipline
-        assert mock_method.called is delete_fmu_instance_directory
-        if delete_fmu_instance_directory:
-            mock_method.assert_called_with(Path.cwd() / "foo", ignore_errors=True)
+        assert mock_method.called is delete_model_instance_directory
+        if delete_model_instance_directory:
+            mock_method.assert_called_with(model_instance_directory, ignore_errors=True)
 
 
 def test_time_series():
@@ -414,13 +413,13 @@ def test_time_series():
 
 
 def test_fmu_model_description(ramp_discipline):
-    """Check the property fmu_model_description."""
-    assert isinstance(ramp_discipline.fmu_model_description, ModelDescription)
+    """Check the property model_description."""
+    assert isinstance(ramp_discipline.model_description, ModelDescription)
 
 
 def test_fmu_model(ramp_discipline):
-    """Check the property fmu_model."""
-    assert isinstance(ramp_discipline.fmu_model, FMU2Slave)
+    """Check the property model."""
+    assert isinstance(ramp_discipline.model, FMU2Slave)
 
 
 def test_causalities_to_variable_names(ramp_discipline):
@@ -467,8 +466,8 @@ DefaultExperiment = namedtuple(
 def test_get_default_time_value(
     default_experiment, expected_initial_time, expected_final_time
 ):
-    """Check the private method __get_default_time_value."""
-    get_default_time_value = FMUDiscipline._FMUDiscipline__get_default_time_value
+    """Check the private method __get_field_value."""
+    get_default_time_value = FMUDiscipline._BaseFMUDiscipline__get_field_value
     assert (
         get_default_time_value(default_experiment, "startTime", 1.5)
         == expected_initial_time
