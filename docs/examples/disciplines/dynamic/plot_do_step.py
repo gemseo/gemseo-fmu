@@ -13,29 +13,27 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# From initial time to final time
+"""# Use time stepping
 
-The most obvious use of the
-[FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
-is to simulate an FMU model
-from an initial time to a final time
-in one go.
+The
+[DoStepFMUDiscipline][gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline]
+can be used to simulate a co-simulation FMU model
+by manually advancing one step at a time.
 """
 from __future__ import annotations
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from matplotlib import pyplot as plt
-from numpy import array
 
 # %%
 # Let us create a discipline
-# to simulate a mass damper defined in a FMU model
+# to simulate a mass damper defined in an FMU model
 # from 0 to 1 second with a time step of 0.1 millisecond.
 # We only use the mass of the sliding mass [kg]
-# and the spring constant [N/m] as inputs
-# and the position of the mass [m] as output.
-discipline = FMUDiscipline(
+# and the spring constant [N/m] as inputs.
+# The position of the mass [m] is used as output.
+discipline = DoStepFMUDiscipline(
     get_fmu_file_path("Mass_Damper"),
     ["mass.m", "spring.c"],
     ["y"],
@@ -45,26 +43,24 @@ discipline = FMUDiscipline(
 )
 
 # %%
-# Firstly,
-# we simulate the FMU with the default input values:
-discipline.execute()
-
-# %%
-# and store the time evolution of the position of the mass:
-default_y_evolution = discipline.local_data["y"]
-
-# %%
 # Then,
-# we repeat the experiment with custom values
-# of the mass and spring constants:
-discipline.execute({"mass.m": array([1.5]), "spring.c": array([1050.0])})
-
-# %%
-# Lastly,
-# we use a chart to compare the positions of the mass:
-plt.plot(discipline.time, default_y_evolution, label="Default")
-plt.plot(discipline.time, discipline.local_data["y"], label="Custom")
+# we execute the discipline 10 times
+# and create the graph as we go along with different point colors.
+# In that case,
+# executing the discipline 10 times
+# means that we are advancing 10 times by one time step.
+for _ in range(10):
+    discipline.execute()
+    plt.scatter(
+        discipline.time,
+        discipline.local_data["y"],
+    )
 plt.xlabel("Time [s]")
 plt.ylabel("Amplitude [m]")
-plt.legend()
 plt.show()
+
+# %%
+# !!! note
+#     We can also do time stepping with
+#     [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
+#     by setting ``do_step`` to ``False`` and ``restart`` to ``False``.

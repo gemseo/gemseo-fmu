@@ -7,4 +7,4 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-# Sellar
+# Static FMU discipline

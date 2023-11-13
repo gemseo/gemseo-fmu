@@ -15,18 +15,23 @@
 """A system of disciplines based on static and time-stepping disciplines."""
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 from typing import Final
 from typing import Iterable
 from typing import Mapping
+from typing import TYPE_CHECKING
 
 from gemseo.core.discipline import MDODiscipline
 from numpy import array
 from numpy import concatenate
-from numpy.typing import NDArray
 
+from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from numpy.typing import NDArray
 
 
 class TimeSteppingSystem(MDODiscipline):
@@ -61,6 +66,9 @@ class TimeSteppingSystem(MDODiscipline):
     __initial_time: float
     """The initial time."""
 
+    __current_time: float
+    """The current time."""
+
     __restart: bool
     """Whether the system starts from the initial time at each execution."""
 
@@ -76,9 +84,9 @@ class TimeSteppingSystem(MDODiscipline):
     def __init__(
         self,
         disciplines: Iterable[str | Path | MDODiscipline],
-        time_step: float,
         final_time: float,
-        restart: bool = False,
+        time_step: float,
+        restart: bool = True,
         do_step: bool = False,
         **fmu_options: Any,
     ) -> None:
@@ -87,10 +95,10 @@ class TimeSteppingSystem(MDODiscipline):
             disciplines: The static and time-stepping disciplines.
                 The disciplines will be executed circularly
                 according to the order of their definition.
-            time_step: The time step of the system.
-                The time-stepping disciplines will use this time step.
             final_time: The final time of the simulation
                 (the initial time is 0).
+            time_step: The time step of the system.
+                The time-stepping disciplines will use this time step.
             restart: Whether the system is restarted at initial time
                 after each  execution.
             do_step: Whether the model is simulated over only one ``time_step``
@@ -102,7 +110,7 @@ class TimeSteppingSystem(MDODiscipline):
 
         # Set the time properties.
         self.__do_step = do_step
-        self.__initial_time = 0.0
+        self.__current_time = self.__initial_time = 0.0
         self.__final_time = final_time
         self.__restart = restart
         self.__time_step = time_step
@@ -160,10 +168,21 @@ class TimeSteppingSystem(MDODiscipline):
     def execute(  # noqa: D102
         self, input_data: Mapping[str, Any] | None = None
     ) -> dict[str, Any]:
+        if self.__restart:
+            self.__current_time = self.__initial_time
+            self.__time_step_id = array([0])
+            for discipline in self.__disciplines:
+                if isinstance(discipline, BaseFMUDiscipline):
+                    discipline.set_next_execution(restart=True)
+
+            if self.cache is not None:
+                self.cache.clear()
+
         if self.__do_step:
             input_data = input_data or {}
             self.__time_step_id += 1
             input_data[self.__TIME_STEP_ID_LABEL] = self.__time_step_id
+
         return super().execute(input_data)
 
     def _run(self) -> None:
@@ -194,14 +213,14 @@ class TimeSteppingSystem(MDODiscipline):
             {k: v for k, v in self.local_data.items() if k in self.__coupling_names}
         )
 
+        self.__current_time += self.__time_step
+
     def __simulate_to_final_time(self) -> None:
         """Simulate the multidisciplinary system until final time."""
         local_data_history = []
-        current_time = self.__initial_time
-        while current_time + self.__time_step < self.__final_time:
+        while self.__current_time + self.__time_step < self.__final_time:
             self.__simulate_one_time_step()
             local_data_history.append(self.local_data.copy())
-            current_time += self.__time_step
 
         self.store_local_data(
             **{

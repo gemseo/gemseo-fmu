@@ -13,56 +13,58 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Use do step
+"""# From initial time to final time
 
-The
-[FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
-can be used to simulate a co-simulation FMU model
-by manually advancing one step at a time.
+The most obvious use of the
+[DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
+is to simulate an FMU model
+from an initial time to a final time
+in one go.
 """
 from __future__ import annotations
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from matplotlib import pyplot as plt
+from numpy import array
 
 # %%
 # Let us create a discipline
-# to simulate a mass damper defined in an FMU model
+# to simulate a mass damper defined in a FMU model
 # from 0 to 1 second with a time step of 0.1 millisecond.
 # We only use the mass of the sliding mass [kg]
-# and the spring constant [N/m] as inputs.
-# The position of the mass [m] is used as output.
-discipline = FMUDiscipline(
+# and the spring constant [N/m] as inputs
+# and the position of the mass [m] as output.
+discipline = DynamicFMUDiscipline(
     get_fmu_file_path("Mass_Damper"),
     ["mass.m", "spring.c"],
     ["y"],
     initial_time=0.0,
     final_time=1.0,
     time_step=0.0001,
-    do_step=True,
-    restart=False,
 )
 
 # %%
-# !!! note
-#     We had to set ``do_step`` to ``True`` and ``restart`` to ``False``
-#     as the default behavior of the
-#     [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
-#     is to simulate over a time window.
-#
+# Firstly,
+# we simulate the FMU with the default input values:
+discipline.execute()
+
+# %%
+# and store the time evolution of the position of the mass:
+default_y_evolution = discipline.local_data["y"]
+
+# %%
 # Then,
-# we execute the discipline 10 times
-# and create the graph as we go along with different point colors.
-# In that case,
-# executing the discipline 10 times
-# means that we are advancing 10 times by one time step.
-for _ in range(10):
-    discipline.execute()
-    plt.scatter(
-        discipline.time,
-        discipline.local_data["y"],
-    )
+# we repeat the experiment with custom values
+# of the mass and spring constants:
+discipline.execute({"mass.m": array([1.5]), "spring.c": array([1050.0])})
+
+# %%
+# Lastly,
+# we use a chart to compare the positions of the mass:
+plt.plot(discipline.time, default_y_evolution, label="Default")
+plt.plot(discipline.time, discipline.local_data["y"], label="Custom")
 plt.xlabel("Time [s]")
 plt.ylabel("Amplitude [m]")
+plt.legend()
 plt.show()
