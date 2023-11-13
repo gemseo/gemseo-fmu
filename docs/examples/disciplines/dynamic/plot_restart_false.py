@@ -17,12 +17,12 @@
 
 In some situations,
 we may want to configure the
-[FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+[DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
 so that each execution starts where the previous one stopped.
 """
 from __future__ import annotations
 
-from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from matplotlib import pyplot as plt
 from numpy import array
@@ -34,7 +34,7 @@ from numpy import array
 # We only use the mass of the sliding mass [kg]
 # and the spring constant [N/m] as inputs.
 # The position of the mass [m] is used as output.
-discipline = FMUDiscipline(
+discipline = DynamicFMUDiscipline(
     get_fmu_file_path("Mass_Damper"),
     ["mass.m", "spring.c"],
     ["y"],
@@ -47,7 +47,7 @@ discipline = FMUDiscipline(
 # !!! note
 #     We had to set ``restart`` to ``False``
 #     as the default behavior of the
-#     [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+#     [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
 #     is to run each execution from the start time.
 #
 # Then,

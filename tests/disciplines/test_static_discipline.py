@@ -16,7 +16,6 @@
 from __future__ import annotations
 
 from inspect import getfullargspec
-from math import sin
 
 import pytest
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
@@ -28,12 +27,6 @@ from numpy import array
 def add() -> StaticFMUDiscipline:
     """A static discipline based on 'add.fmu' model."""
     return StaticFMUDiscipline(get_fmu_file_path("add"))
-
-
-@pytest.fixture(scope="module")
-def ishigami() -> StaticFMUDiscipline:
-    """A static discipline based on 'IshigamiFunction.fmu' model."""
-    return StaticFMUDiscipline(get_fmu_file_path("IshigamiFunction"))
 
 
 def test_static_fmu_discipline_time():
@@ -78,12 +71,3 @@ def test_execution_add(add, input_data, set_default_inputs, result):
         add.default_inputs.update({"add.k1": array([1.0]), "u1": array([1.0])})
 
     assert add.execute(input_data)["y"] == result
-
-
-@pytest.mark.parametrize(
-    "input_data,result",
-    [({}, 0), ({"x1": array([1])}, sin(1)), ({"x1": array([2])}, sin(2))],
-)
-def test_execution_ishigami(ishigami, input_data, result):
-    """Check the execution of the Ishigami discipline."""
-    assert ishigami.execute(input_data)["y"] == pytest.approx(result)

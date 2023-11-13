@@ -15,6 +15,7 @@
 """Tests for TimeSteppingSystem."""
 from __future__ import annotations
 
+import pytest
 from gemseo.disciplines.linear_combination import LinearCombination
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_stepping_system import TimeSteppingSystem
@@ -36,13 +37,32 @@ def test_standard_use():
             get_fmu_file_path("MassSpringSubSystem2"),
             LinearCombination(["x2"], "x2_plus_one", offset=1),
         ),
-        final_time=10,
-        time_step=0.01,
+        10,
+        0.01,
     )
     discipline.execute()
 
     assert_allclose(discipline.local_data["x2"], x2_ref[1:])
     assert_allclose(discipline.local_data["x2_plus_one"], x2_ref[1:] + 1, rtol=1e-1)
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "n_calls"), [({}, 2), ({"restart": False}, 1), ({"restart": True}, 2)]
+)
+def test_restart(kwargs, n_calls):
+    """Check the option restart."""
+    discipline = TimeSteppingSystem(
+        (
+            get_fmu_file_path("MassSpringSubSystem1"),
+            get_fmu_file_path("MassSpringSubSystem2"),
+        ),
+        10,
+        0.01,
+        **kwargs,
+    )
+    discipline.execute()["x2"]
+    assert discipline.execute()["x2"].size == 1000
+    assert discipline.n_calls == n_calls
 
 
 def test_do_step():
@@ -66,9 +86,10 @@ def test_do_step():
             get_fmu_file_path("MassSpringSubSystem2"),
             LinearCombination(["x2"], "x2_plus_one", offset=1),
         ),
-        final_time=10,
-        time_step=0.01,
+        10,
+        0.01,
         do_step=True,
+        restart=False,
     )
     discipline.execute()
     first_x_2_system = discipline.local_data["x2"]

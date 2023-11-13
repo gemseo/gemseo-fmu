@@ -14,9 +14,54 @@ is a popular free standard to exchange dynamic simulation models.
 This standard defines the notion of functional mock-up unit (FMU)
 through a ZIP file containg a mix of XML files, binaries and C code.
 GEMSEO-FMU proposes
-the [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
-as a particular [MDODiscipline][gemseo.core.discipline.MDODiscipline]
-to simulate a FMU model.
+new types of [MDODiscipline][gemseo.core.discipline.MDODiscipline]
+to simulate an FMU model:
+
+- the [StaticFMUDiscipline][gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline]
+  to simulate a time-independent FMU model $f$
+  like $y=f(x)$
+  where $x$ is the input and $y$ is the output,
+- the [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
+  to simulate a time-dependent FMU model $f$
+  like $y(t_k)=f(y(t_{k-1}),x(t_{k-1}),\Delta t_k)$
+  where $t_{k-1}$ is the previous time,
+  $t_k$ is the current time
+  and $\Delta t_k=t_k-t_{k-1}$ is the time step,
+- the [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  to simulate a time-independent or time-dependent FMU model $f$
+  like $y=f(x)$ or $y(t_k)=f(y(t_{k-1}),x(t_{k-1}),\Delta t_k)$.
+
+!!! info
+    [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+    is an alias of [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
+    and can be used to simulate both time-dependent and time-independent FMU models.
+    Most of the time,
+    the FMU model are dynamic and so this naming shortcut can be useful.
+
+    !!! note
+        ``gemseo-fmu`` distinguishes between static and dynamic models
+        to facilitate use by newcomers in the FMI standard.
+        However,
+        it should be noted that an FMU model does not make this distinction:
+        all FMU models include the notion of time.
+        Thus,
+        a model summing two operands $a$ and $b$ can be run
+        with different time steps and different final times;
+        it will then produce the same result $c=a+b$ at each time step.
+
+In the following,
+we will talk about the
+[FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline].
+The content would be the same for
+[StaticFMUDiscipline][gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline]
+except for the parts related to the notion of time,
+which are specific to the
+[DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline].
+You will find examples of both
+[StaticFMUDiscipline][gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline]
+and
+[DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline].
+in the galleries of examples.
 
 ## Basics
 
@@ -81,6 +126,14 @@ An execution can also advance a single time step from the start time
 by using ``do_step=True``.
 When using both ``do_step=True`` and ``restart=False``,
 an execution advances a single time step from the previous one.
+
+!!! info
+    The [DoStepFMUDiscipline][gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline]
+    is an [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+    whose execution advances a single time step from the previous time.
+    It can be useful if you want
+    an [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+    doing time stepping throughout its life cycle.
 
 Lastly,
 the final time can be changed with the float argument ``final_time``.
