@@ -27,10 +27,7 @@ plugins:
         import:
         - https://docs.python.org/3/objects.inv
         - https://gemseo.readthedocs.io/en/stable/objects.inv
-        - https://matplotlib.org/stable/objects.inv
         - https://numpy.org/doc/stable/objects.inv
-        - https://docs.scipy.org/doc/scipy/objects.inv
-        - https://openturns.github.io/openturns/latest/objects.inv
         options:
           extensions:
           - docs/_docstring_inheritance.py:DocstringInheritance
@@ -57,6 +54,10 @@ plugins:
 - include-markdown
 - bibtex:
     bib_file: "docs/references.bib"
+- mike:
+    canonical_version: latest
+    # Gitlab pages expects the docs in this directory.
+    deploy_prefix: public
 
 nav:
 - Home: index.md
@@ -90,3 +91,7 @@ extra_javascript:
 watch:
   # mkdoc serve will rebuild the pages when changes in the docstrings.
   - src/gemseo_fmu
+
+extra:
+  version:
+    provider: mike

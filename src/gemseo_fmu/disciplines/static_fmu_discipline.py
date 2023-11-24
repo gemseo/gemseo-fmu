@@ -15,11 +15,14 @@
 """A static discipline wrapping a Functional Mockup Unit (FMU) model."""
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Iterable
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 class StaticFMUDiscipline(BaseFMUDiscipline):

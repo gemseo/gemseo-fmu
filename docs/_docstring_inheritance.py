@@ -1,17 +1,20 @@
 from __future__ import annotations
 
-import ast
 import inspect
+from typing import TYPE_CHECKING
 from typing import Any
 
 from griffe import Attribute
 from griffe import Class
 from griffe import Docstring
-from griffe import dynamic_import
 from griffe import Extension
-from griffe import get_logger
 from griffe import Object
 from griffe import ObjectNode
+from griffe import dynamic_import
+from griffe import get_logger
+
+if TYPE_CHECKING:
+    import ast
 
 logger = get_logger(__name__)
 

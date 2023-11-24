@@ -36,11 +36,11 @@ allows to perform this _co-simulation_ task.
 """
 from __future__ import annotations
 
+from matplotlib import pyplot as plt
+
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_stepping_system import TimeSteppingSystem
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from matplotlib import pyplot as plt
-
 
 # %%
 # Let us consider a set of two mass-spring pairs connected to each other

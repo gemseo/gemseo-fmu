@@ -22,9 +22,10 @@ by manually advancing one step at a time.
 """
 from __future__ import annotations
 
+from matplotlib import pyplot as plt
+
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from matplotlib import pyplot as plt
 
 # %%
 # Let us create a discipline

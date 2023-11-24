@@ -19,6 +19,7 @@ import re
 from dataclasses import FrozenInstanceError
 
 import pytest
+
 from gemseo_fmu.disciplines.time_series import TimeSeries
 
 

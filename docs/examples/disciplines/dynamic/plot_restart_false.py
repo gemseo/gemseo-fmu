@@ -22,10 +22,11 @@ so that each execution starts where the previous one stopped.
 """
 from __future__ import annotations
 
-from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
-from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from matplotlib import pyplot as plt
 from numpy import array
+
+from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
+from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 # %%
 # Let us create a discipline

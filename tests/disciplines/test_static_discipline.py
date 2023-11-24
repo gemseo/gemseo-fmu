@@ -18,9 +18,10 @@ from __future__ import annotations
 from inspect import getfullargspec
 
 import pytest
+from numpy import array
+
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from numpy import array
 
 
 @pytest.fixture(scope="module")
@@ -41,7 +42,7 @@ def test_static_fmu_discipline_do_step():
 
 
 @pytest.mark.parametrize(
-    "input_data,set_default_inputs,result",
+    ("input_data", "set_default_inputs", "result"),
     [
         ({}, False, 0),
         ({}, True, 1),
