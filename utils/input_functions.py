@@ -80,7 +80,7 @@ def pattern_wave(x, amplitude=1, pattern=(0.0, 1.0, 0.0, 1.0, 0.0, 1.0)):
 
 
 def noisy_wave(func, scale=1, size=0.9):
-    sig_noise = random.normal(scale, size, func.shape)
+    sig_noise = random.Generator(scale, size, func.shape)
     return func + sig_noise
 
 

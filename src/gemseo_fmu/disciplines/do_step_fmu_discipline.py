@@ -15,11 +15,14 @@
 """An FMU discipline whose execution simulates only one time step."""
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Iterable
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 class DoStepFMUDiscipline(FMUDiscipline):

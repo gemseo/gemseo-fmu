@@ -21,9 +21,10 @@ can be used to simulate a time-independent FMU model.
 """
 from __future__ import annotations
 
+from numpy import array
+
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from numpy import array
 
 # %%
 # Let us create a discipline based on an FMU model

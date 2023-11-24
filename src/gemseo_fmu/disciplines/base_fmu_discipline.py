@@ -19,6 +19,7 @@ import logging
 from pathlib import Path
 from shutil import rmtree
 from types import MappingProxyType
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
 from typing import Iterable
@@ -35,9 +36,6 @@ from fmpy.fmi2 import FMU2Model
 from fmpy.fmi2 import FMU2Slave
 from fmpy.fmi3 import FMU3Model
 from fmpy.fmi3 import FMU3Slave
-from fmpy.model_description import DefaultExperiment
-from fmpy.model_description import ModelDescription
-from fmpy.simulation import Recorder
 from fmpy.util import fmu_info
 from gemseo.core.discipline import MDODiscipline
 from numpy import array
@@ -45,10 +43,15 @@ from numpy import double
 from numpy import interp
 from numpy import ndarray
 from numpy import vstack
-from numpy.typing import NDArray
 from strenum import StrEnum
 
 from gemseo_fmu.disciplines.time_series import TimeSeries
+
+if TYPE_CHECKING:
+    from fmpy.model_description import DefaultExperiment
+    from fmpy.model_description import ModelDescription
+    from fmpy.simulation import Recorder
+    from numpy.typing import NDArray
 
 FMUModel = Union[FMU1Model, FMU2Model, FMU3Model, FMU1Slave, FMU2Slave, FMU3Slave]
 

@@ -15,9 +15,12 @@
 """A dynamic discipline wrapping a Functional Mockup Unit (FMU) model."""
 from __future__ import annotations
 
-from numpy.typing import NDArray
+from typing import TYPE_CHECKING
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 
 class FMUDiscipline(BaseFMUDiscipline):

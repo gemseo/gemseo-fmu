@@ -16,11 +16,15 @@
 from __future__ import annotations
 
 import re
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
+
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @pytest.fixture(scope="module")

@@ -17,10 +17,11 @@ from __future__ import annotations
 
 import pytest
 from gemseo.disciplines.linear_combination import LinearCombination
+from numpy.testing import assert_allclose
+
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_stepping_system import TimeSteppingSystem
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from numpy.testing import assert_allclose
 
 
 def test_standard_use():

@@ -15,11 +15,11 @@
 """A system of disciplines based on static and time-stepping disciplines."""
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
 from typing import Iterable
 from typing import Mapping
-from typing import TYPE_CHECKING
 
 from gemseo.core.discipline import MDODiscipline
 from numpy import array

@@ -24,14 +24,15 @@ import pytest
 from fmpy.fmi2 import FMU2Slave
 from fmpy.model_description import ModelDescription
 from gemseo.utils.comparisons import compare_dict_of_arrays
+from numpy import array
+from numpy.testing import assert_almost_equal
+from numpy.testing import assert_equal
+
 from gemseo_fmu.disciplines import base_fmu_discipline
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
-from numpy import array
-from numpy.testing import assert_almost_equal
-from numpy.testing import assert_equal
 
 INPUT_NAME = "ramp.height"
 OUTPUT_NAME = "out"
@@ -48,7 +49,7 @@ def ramp_discipline(module_tmp_wd) -> FMUDiscipline:
     return discipline
 
 
-@pytest.fixture
+@pytest.fixture()
 def ramp_discipline_wo_restart() -> FMUDiscipline:
     """A ramp model with custom time settings and without restart."""
     discipline = FMUDiscipline(
@@ -96,7 +97,7 @@ def ramp_discipline_do_step(module_tmp_wd) -> FMUDiscipline:
     return discipline
 
 
-@pytest.fixture
+@pytest.fixture()
 def ramp_discipline_do_step_w_restart(tmp_wd) -> FMUDiscipline:
     """A FMU discipline with custom time settings, with restart and with do_step."""
     discipline = FMUDiscipline(
@@ -161,11 +162,11 @@ def test_discipline_output_names(ramp_discipline):
 
 
 @pytest.mark.parametrize(
-    "use_input_namespace, input_name",
+    ("use_input_namespace", "input_name"),
     [(False, INPUT_NAME), (True, f"ns:{INPUT_NAME}")],
 )
 @pytest.mark.parametrize(
-    "use_output_namespace, output_name",
+    ("use_output_namespace", "output_name"),
     [(False, OUTPUT_NAME), (True, f"ns:{OUTPUT_NAME}")],
 )
 def test_namespace(
@@ -454,7 +455,7 @@ DefaultExperiment = namedtuple(
 
 
 @pytest.mark.parametrize(
-    "default_experiment,expected_initial_time,expected_final_time",
+    ("default_experiment", "expected_initial_time", "expected_final_time"),
     [
         (None, 1.5, 2.5),
         (DefaultExperiment(), 1.5, 2.5),
