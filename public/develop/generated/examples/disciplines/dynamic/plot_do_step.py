@@ -20,6 +20,7 @@ The
 can be used to simulate a co-simulation FMU model
 by manually advancing one step at a time.
 """
+
 from __future__ import annotations
 
 from matplotlib import pyplot as plt

@@ -1835,8 +1835,7 @@ to <code>_pre_instantiate()</code>.</p>
 
                 <details class="quote">
                   <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
-<span class="normal">184</span>
+                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span>
@@ -1911,7 +1910,8 @@ to <code>_pre_instantiate()</code>.</p>
 <span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
-<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">259</span>
+<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">input_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(),</span>
@@ -2243,8 +2243,7 @@ to <code>_pre_instantiate()</code>.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">542</span>
-<span class="normal">543</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">543</span>
 <span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
@@ -2289,7 +2288,8 @@ to <code>_pre_instantiate()</code>.</p>
 <span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
-<span class="normal">588</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
+<span class="normal">588</span>
+<span class="normal">589</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimeSeries</span><span class="p">]</span> <span class="o">=</span> <span class="n">MappingProxyType</span><span class="p">({})</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">]:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__executed</span> <span class="o">=</span> <span class="kc">True</span>
@@ -2406,8 +2406,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">590</span>
-<span class="normal">591</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">591</span>
 <span class="normal">592</span>
 <span class="normal">593</span>
 <span class="normal">594</span>
@@ -2431,7 +2430,8 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 <span class="normal">612</span>
 <span class="normal">613</span>
 <span class="normal">614</span>
-<span class="normal">615</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
+<span class="normal">615</span>
+<span class="normal">616</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">simulation_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

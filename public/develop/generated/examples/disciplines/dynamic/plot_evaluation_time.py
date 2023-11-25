@@ -25,6 +25,7 @@ The
 [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
 makes this possible.
 """
+
 from __future__ import annotations
 
 from matplotlib import pyplot as plt
