@@ -20,6 +20,7 @@ we may want to configure the
 [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
 so that each execution starts where the previous one stopped.
 """
+
 from __future__ import annotations
 
 from matplotlib import pyplot as plt

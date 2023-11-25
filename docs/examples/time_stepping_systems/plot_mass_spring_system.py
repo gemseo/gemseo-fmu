@@ -34,6 +34,7 @@ we may want to simulate a system of several FMU models coupled together.
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
 allows to perform this _co-simulation_ task.
 """
+
 from __future__ import annotations
 
 from matplotlib import pyplot as plt

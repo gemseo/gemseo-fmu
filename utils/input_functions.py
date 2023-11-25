@@ -20,6 +20,7 @@
 
 It is useful to seamlessly generate input data usable by the FMUDiscipline.
 """
+
 from __future__ import annotations
 
 import pylab as plt

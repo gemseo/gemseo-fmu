@@ -19,6 +19,7 @@ The
 [StaticFMUDiscipline][gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline]
 can be used to simulate a time-independent FMU model.
 """
+
 from __future__ import annotations
 
 from numpy import array
