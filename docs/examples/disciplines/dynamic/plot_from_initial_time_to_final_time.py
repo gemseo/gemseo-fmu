@@ -21,6 +21,7 @@ is to simulate an FMU model
 from an initial time to a final time
 in one go.
 """
+
 from __future__ import annotations
 
 from matplotlib import pyplot as plt
