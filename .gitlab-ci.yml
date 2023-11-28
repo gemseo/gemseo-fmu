@@ -21,18 +21,15 @@ pages:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
       variables:
         MIKE_ARGS: $CI_COMMIT_REF_NAME
-    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TAG
+      changes:
+        - src/**/*.*
+        - docs/**/*.*
+        - requirements/doc.txt
+    - if: $CI_COMMIT_TAG
       variables:
-        MIKE_ARGS: $CI_COMMIT_TAG latest --update-aliases
+        MIKE_ARGS: --update-aliases $CI_COMMIT_TAG latest
   before_script:
-    - |
-      function config_git_push() {
-        # Configure git to be able to make changes and push.
-        git config user.email "<>"
-        git config user.name "$GITLAB_USER_LOGIN"
-        local git_base_url=$(echo "$CI_REPOSITORY_URL" | cut -d\@ -f2)
-        git remote set-url origin https://token:$GITLAB_API_AND_PUSH_TOKEN@$git_base_url
-      }
+    - !reference [.bash-functions]
   script:
     - $TOX_EXE -e doc --notest
     - . .tox/doc/bin/activate
@@ -40,7 +37,7 @@ pages:
     - git fetch origin $MIKE_BRANCH --depth=1
     - config_git_push
     - mike deploy --branch $MIKE_BRANCH --push $MIKE_ARGS
-    # - mike set-default --branch $MIKE_BRANCH --push $MIKE_ARGS
+    - if [[ -n $CI_COMMIT_TAG ]]; then mike set-default --branch $MIKE_BRANCH --push latest; fi
     - git checkout $MIKE_BRANCH -- public
   artifacts:
     paths:
