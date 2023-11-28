@@ -7,7 +7,7 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-# Dynamic FMU discipline
+## Dynamic FMU discipline
 
 !!! info
     [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]

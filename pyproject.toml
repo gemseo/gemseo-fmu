@@ -39,7 +39,7 @@ doc = [
     "mkdocs-section-index",
     "mkdocs-literate-nav",
     "mkdocs-gen-files",
-    "mkdocstrings[python]",
+    "mkdocstrings[python] <= 1.7.3",
     "mkdocs-material",
     "mkdocs-include-markdown-plugin",
     "mkdocs-bibtex",
