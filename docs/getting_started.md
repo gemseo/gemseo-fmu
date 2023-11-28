@@ -28,4 +28,4 @@ as a particular [MDODiscipline][gemseo.core.discipline.MDODiscipline]
 to simulate an FMU model.
 
 [Read more](user_guide/fmu_discipline.md){ .md-button }
-[Examples](generated/examples/fmu_discipline/index.md){ .md-button }
+[Examples](generated/examples/disciplines/index.md){ .md-button }
