@@ -38,7 +38,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.45.1
     # via matplotlib
-gemseo[all]==5.1.2.dev181+ge1da81c3
+gemseo[all]==5.1.2.dev185+ga82207ec
     # via
     #   gemseo
     #   gemseo-fmu (pyproject.toml)
@@ -162,7 +162,7 @@ tomli==2.0.1
     #   pytest
 tqdm==4.66.1
     # via gemseo
-typing-extensions==4.8.0
+typing-extensions==4.9.0rc1
     # via
     #   gemseo
     #   pydantic
