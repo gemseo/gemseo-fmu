@@ -1720,11 +1720,7 @@ Otherwise, simulate the model from initial time to <code>final_time</code>.</p>
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1793,20 +1789,16 @@ Otherwise, simulate the model from initial time to <code>final_time</code>.</p>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">__coupling_data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__disciplines</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__coupling_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="n">input_name</span><span class="p">:</span> <span class="n">input_value</span>
-                <span class="k">for</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coupling_names</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="n">input_name</span><span class="p">:</span> <span class="n">input_value</span>
-                <span class="k">for</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="n">input_names</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coupling_data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="n">input_name</span><span class="p">:</span> <span class="n">input_value</span>
+            <span class="k">for</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coupling_names</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="n">input_name</span><span class="p">:</span> <span class="n">input_value</span>
+            <span class="k">for</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="n">input_names</span>
+        <span class="p">})</span>
 </code></pre></div></td></tr></table></div>
                 </details>
 
@@ -1909,7 +1901,11 @@ self.run_solves_residuals is False. This is not supported yet.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
@@ -1923,11 +1919,7 @@ self.run_solves_residuals is False. This is not supported yet.</p>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span><span class="p">:</span>
