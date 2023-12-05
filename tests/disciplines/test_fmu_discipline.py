@@ -396,14 +396,12 @@ def test_time_series():
     discipline = FMUDiscipline(get_fmu_file_path("add"), final_time=1.0, time_step=0.1)
     discipline.execute()
     assert_almost_equal(discipline.local_data["y"], array([0.0] * 11))
-    discipline.execute(
-        {
-            "u1": TimeSeries([0.0], [1.0]),
-            "u2": TimeSeries([0.0, 0.5, 1.0], [0.0, 1.0, 0.0]),
-            "add.k1": array([1.0]),
-            "add.k2": TimeSeries([0.0, 1.0], [1.0, 2.0]),
-        }
-    )
+    discipline.execute({
+        "u1": TimeSeries([0.0], [1.0]),
+        "u2": TimeSeries([0.0, 0.5, 1.0], [0.0, 1.0, 0.0]),
+        "add.k1": array([1.0]),
+        "add.k2": TimeSeries([0.0, 1.0], [1.0, 2.0]),
+    })
     assert_almost_equal(discipline.local_data["add.k1"], array([1.0]))
     assert_almost_equal(discipline.local_data["add.k2"], array([1.0, 1.5, 2.0]))
     assert_almost_equal(discipline.local_data["u1"], array([1.0, 1.0, 1.0]))
