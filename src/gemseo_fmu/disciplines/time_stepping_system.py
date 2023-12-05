@@ -151,20 +151,16 @@ class TimeSteppingSystem(MDODiscipline):
 
         self.__coupling_data = {}
         for discipline in self.__disciplines[::-1]:
-            self.__coupling_data.update(
-                {
-                    input_name: input_value
-                    for input_name, input_value in discipline.default_inputs.items()
-                    if input_name in self.__coupling_names
-                }
-            )
-            self.default_inputs.update(
-                {
-                    input_name: input_value
-                    for input_name, input_value in discipline.default_inputs.items()
-                    if input_name in input_names
-                }
-            )
+            self.__coupling_data.update({
+                input_name: input_value
+                for input_name, input_value in discipline.default_inputs.items()
+                if input_name in self.__coupling_names
+            })
+            self.default_inputs.update({
+                input_name: input_value
+                for input_name, input_value in discipline.default_inputs.items()
+                if input_name in input_names
+            })
 
     def execute(  # noqa: D102
         self, input_data: Mapping[str, Any] | None = None
@@ -200,19 +196,17 @@ class TimeSteppingSystem(MDODiscipline):
                 for input_name, input_value in self.get_input_data().items()
                 if input_name in discipline.input_grammar.names
             }
-            input_data.update(
-                {
-                    input_name: input_value
-                    for input_name, input_value in self.__coupling_data.items()
-                    if input_name in discipline.input_grammar.names
-                }
-            )
+            input_data.update({
+                input_name: input_value
+                for input_name, input_value in self.__coupling_data.items()
+                if input_name in discipline.input_grammar.names
+            })
             discipline.execute(input_data)
             self.store_local_data(**discipline.get_output_data())
 
-        self.__coupling_data.update(
-            {k: v for k, v in self.local_data.items() if k in self.__coupling_names}
-        )
+        self.__coupling_data.update({
+            k: v for k, v in self.local_data.items() if k in self.__coupling_names
+        })
 
         self.__current_time += self.__time_step
 
@@ -223,11 +217,7 @@ class TimeSteppingSystem(MDODiscipline):
             self.__simulate_one_time_step()
             local_data_history.append(self.local_data.copy())
 
-        self.store_local_data(
-            **{
-                name: concatenate(
-                    [local_data[name] for local_data in local_data_history]
-                )
-                for name in local_data_history[0]
-            }
-        )
+        self.store_local_data(**{
+            name: concatenate([local_data[name] for local_data in local_data_history])
+            for name in local_data_history[0]
+        })

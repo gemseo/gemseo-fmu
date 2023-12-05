@@ -557,9 +557,9 @@ class BaseFMUDiscipline(MDODiscipline):
         if self.__names_to_time_series:
             self.__time_series_time_steps = time = array(
                 sorted(
-                    set.union(
-                        *[set(ts.time) for ts in self.__names_to_time_series.values()]
-                    )
+                    set.union(*[
+                        set(ts.time) for ts in self.__names_to_time_series.values()
+                    ])
                 )
             )
             for name, ts in self.__names_to_time_series.items():
@@ -574,12 +574,10 @@ class BaseFMUDiscipline(MDODiscipline):
                     for name in self.__inputs_as_time_series
                 ]
             )
-            full_input_data.update(
-                {
-                    name: tuple(ts.observable)
-                    for name, ts in self.__names_to_time_series.items()
-                }
-            )
+            full_input_data.update({
+                name: tuple(ts.observable)
+                for name, ts in self.__names_to_time_series.items()
+            })
             if len(values) > 1:
                 self.__fmpy_input_time_series = array(
                     [tuple(row) for row in values.T],
