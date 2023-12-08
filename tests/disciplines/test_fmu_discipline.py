@@ -498,3 +498,32 @@ def test_time_series_default_inputs_or_input_data(as_default_input):
 
     discipline.execute(input_data)
     assert discipline.local_data["y"].sum() == pytest.approx(-4995.949237827578)
+
+
+@pytest.mark.parametrize("do_step", [False, True])
+@pytest.mark.parametrize("restart", [False, True])
+def test_serialize(tmp_wd, do_step, restart):
+    """Verify the serialization of an FMUDiscipline."""
+    file_path = "fmu_discipline.pkl"
+
+    original_discipline = FMUDiscipline(
+        FMU_PATH,
+        [INPUT_NAME],
+        [OUTPUT_NAME],
+        final_time=1.0,
+        do_step=do_step,
+        restart=restart,
+    )
+    original_discipline.to_pickle(file_path)
+    original_discipline.execute()
+
+    discipline = FMUDiscipline.from_pickle(file_path)
+    discipline.execute()
+
+    assert discipline._BaseFMUDiscipline__do_step == do_step
+    assert (
+        discipline._BaseFMUDiscipline__default_simulation_settings["restart"] == restart
+    )
+    assert_almost_equal(
+        discipline.local_data[OUTPUT_NAME], original_discipline.local_data[OUTPUT_NAME]
+    )
