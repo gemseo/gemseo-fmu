@@ -770,3 +770,15 @@ class BaseFMUDiscipline(MDODiscipline):
             for name in self.__names_to_time_series
             if name in self.__causalities_to_variable_names.get(causality, ())
         ]
+
+    def __setstate__(self, state: Mapping[str, Any]) -> None:
+        super().__setstate__(state)
+        self.__model = instantiate_fmu(
+            self.__model_dir_path,
+            self.__model_description,
+            fmi_type=self.__model_type,
+        )
+
+    _ATTR_NOT_TO_SERIALIZE = MDODiscipline._ATTR_NOT_TO_SERIALIZE.union([
+        "_BaseFMUDiscipline__model"
+    ])
