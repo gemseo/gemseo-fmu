@@ -23,8 +23,6 @@ from types import MappingProxyType
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
-from typing import Iterable
-from typing import Mapping
 from typing import Union
 
 from fmpy import extract
@@ -49,6 +47,9 @@ from strenum import StrEnum
 from gemseo_fmu.disciplines.time_series import TimeSeries
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Mapping
+
     from fmpy.model_description import DefaultExperiment
     from fmpy.model_description import ModelDescription
     from fmpy.simulation import Recorder

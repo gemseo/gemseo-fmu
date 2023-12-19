@@ -19,8 +19,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
-from typing import Iterable
-from typing import Mapping
 
 from gemseo.core.discipline import MDODiscipline
 from numpy import array
@@ -30,6 +28,8 @@ from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Mapping
     from pathlib import Path
 
     from numpy.typing import NDArray
