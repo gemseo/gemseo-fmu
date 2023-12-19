@@ -30,6 +30,7 @@ and this project adheres to
 
 ## Added
 
+- Support for Python 3.11.
 - The default behavior of
   [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   is either simulating until the final time or during a time step;
@@ -59,6 +60,10 @@ and this project adheres to
   relies on the library [FMPy](https://github.com/CATIA-Systems/FMPy).
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   is in [gemseo-fmu.disciplines][gemseo_fmu.disciplines].
+
+## Removed
+
+- Support for Python 3.8.
 
 # Version 1.0.1 (June 2023)
 
