@@ -62,7 +62,7 @@ kiwisolver==1.4.5
     # via matplotlib
 lark==1.1.8
     # via fmpy
-lxml==4.9.3
+lxml==4.9.4
     # via fmpy
 markupsafe==2.1.3
     # via jinja2
