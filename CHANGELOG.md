@@ -26,6 +26,16 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# Develop
+
+## Changed
+
+- The installation page of the documentation no longer mentions the possibility
+  of installing via conda-forge.
+- The installation page of the documentation no longer mentions the possibility
+  of using gemseo-fmu with Python 3.8.
+- The readme file of the project now includes links to the documentation.
+
 # Version 2.0.0 (December 2023)
 
 ## Added

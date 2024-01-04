@@ -46,7 +46,8 @@ doc = [
 ]
 
 [project.urls]
-Homepage = "https://gitlab.com/gemseo"
+Homepage = "https://gemseo.gitlab.io/dev/gemseo-fmu/latest/"
+Documentation = "https://gemseo.gitlab.io/dev/gemseo-fmu/latest/"
 Source = "https://gitlab.com/gemseo/dev/gemseo-fmu"
 Tracker = "https://gitlab.com/gemseo/dev/gemseo-fmu/-/issues"
 

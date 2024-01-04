@@ -30,17 +30,6 @@ pip install gemseo-fmu
 
 See [pip](https://pip.pypa.io/en/stable/getting-started/) for more information.
 
-### Install from Anaconda
-
-Install the latest version
-in an anaconda environment named *gemseo-fmu* for Python 3.9 with
-
-```bash
-conda create -c conda-forge -n gemseo-fmu python=3.9 gemseo-fmu
-```
-
-You can change the Python version to 3.8 or 3.10.
-
 ## Test the installation
 
 ### Basic test
