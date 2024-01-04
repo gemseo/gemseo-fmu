@@ -28,11 +28,13 @@ FMPy, and so by GEMSEO-FMU.
 # Generic examples
 
 Many examples are available to illustrate the main features of
-GEMSEO-FMU. See in the examples directory.
+GEMSEO-FMU. See the examples directory or go to the
+[examples section](https://gemseo.gitlab.io/dev/gemseo-fmu/latest/generated/examples/)
+of the documentation.
 
 # Documentation
 
-The documentation is not yet available.
+The documentation is available at <https://gemseo.gitlab.io/dev/gemseo-fmu/latest/>.
 
 # Bugs/Questions
 
