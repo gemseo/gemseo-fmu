@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -1670,7 +1670,7 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-<h1 id="fmu-discipline">FMU discipline</h1>
+<h1 id="fmu-discipline">FMU discipline<a class="headerlink" href="#fmu-discipline" title="Permanent link">&para;</a></h1>
 <p>The <a href="https://fmi-standard.org/">functional mock-up interface (FMI)</a>
 is a popular free standard to exchange dynamic simulation models.
 This standard defines the notion of functional mock-up unit (FMU)
@@ -1726,20 +1726,20 @@ You will find examples of both
 and
 <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
 in the galleries of examples.</p>
-<h2 id="basics">Basics</h2>
+<h2 id="basics">Basics<a class="headerlink" href="#basics" title="Permanent link">&para;</a></h2>
 <p>As any <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>,
 you mainly need to know
 how to instantiate an
 <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>,
 and how to execute it.
 Advanced features will be presented later.</p>
-<h3 id="instantiation">Instantiation</h3>
+<h3 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h3>
 <p>The only mandatory argument is the path to the FMU file:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.fmu_discipline</span> <span class="kn">import</span> <span class="n">FMUDiscipline</span>
 
 <span class="n">discipline</span> <span class="o">=</span> <span class="n">FMUDiscipline</span><span class="p">(</span><span class="s2">&quot;my_model.fmu&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h4 id="input-and-outputs">Input and outputs</h4>
+<h4 id="input-and-outputs">Input and outputs<a class="headerlink" href="#input-and-outputs" title="Permanent link">&para;</a></h4>
 <p>In that case,
 the input variables of the discipline are
 all the variables of the FMU model with type <em>input</em> or <em>parameter</em>
@@ -1756,7 +1756,7 @@ by using <code>input_names=some_input_names</code>.
 The output variables can also be a subset
 of the outputs of the FMU model
 by using <code>output_names=some_output_names</code>.</p>
-<h4 id="time-settings">Time settings</h4>
+<h4 id="time-settings">Time settings<a class="headerlink" href="#time-settings" title="Permanent link">&para;</a></h4>
 <p>Regarding the time settings,
 this minimal instantiation implies that
 each execution of the discipline will execute the FMU model
@@ -1790,7 +1790,7 @@ the final time can be changed with the float argument <code>final_time</code>.</
 <p class="admonition-title">Warning</p>
 <p>The discipline cannot be executed after the final time.</p>
 </div>
-<h3 id="execution">Execution</h3>
+<h3 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
 <p>An <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 can be easily executed with the default values of its inputs:</p>
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
@@ -1798,8 +1798,8 @@ can be easily executed with the default values of its inputs:</p>
 <p>or with custom ones passed as a dictionary:</p>
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;my_input&quot;</span><span class="p">:</span> <span class="n">my_input_value</span><span class="p">})</span>
 </code></pre></div>
-<h2 id="advanced">Advanced</h2>
-<h3 id="time-series">Time series</h3>
+<h2 id="advanced">Advanced<a class="headerlink" href="#advanced" title="Permanent link">&para;</a></h2>
+<h3 id="time-series">Time series<a class="headerlink" href="#time-series" title="Permanent link">&para;</a></h3>
 <p>An input value can be either a scalar
 or a <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_series/#gemseo_fmu.disciplines.time_series.TimeSeries">TimeSeries</a>.</p>
 <p>For instance,
@@ -1822,7 +1822,7 @@ either to set the default inputs:</p>
 <p>or to execute the discipline:</p>
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;my_input&quot;</span><span class="p">:</span> <span class="n">my_time_series</span><span class="p">})</span>
 </code></pre></div>
-<h3 id="configure-the-next-execution">Configure the next execution</h3>
+<h3 id="configure-the-next-execution">Configure the next execution<a class="headerlink" href="#configure-the-next-execution" title="Permanent link">&para;</a></h3>
 <p>The time settings of the next execution of the discipline
 depends on the time settings defined at instantiation
 but can be changed temporarily.</p>
@@ -1862,7 +1862,7 @@ less than or equal to the time remaining before the final time.</p>
 <span class="c1"># Simulate with custome values until final time (i.e. during 7 seconds)</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">16.8</span><span class="p">])})</span>
 </code></pre></div>
-<h3 id="restart">Restart</h3>
+<h3 id="restart">Restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h3>
 <p>The argument <code>restart</code> has already been introduced in this page.</p>
 <p>It can also be used to compare trajectories:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
