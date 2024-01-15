@@ -141,16 +141,16 @@ class BaseFMUDiscipline(MDODiscipline):
     """Whether the time belongs to the output grammar."""
 
     __time: NDArray[float] | None
-    """The time steps of the last execution; ``None`` when not yet executed."""
+    """The time steps of the last execution; `None` when not yet executed."""
 
     __names_to_time_series: dict[str, TimeSeries]
     """The input names bound to the time series at the last execution."""
 
     __inputs_as_time_series: list[str]
-    """The FMU inputs passed as ``TimeSeries`` at the last execution."""
+    """The FMU inputs passed as `TimeSeries` at the last execution."""
 
     __parameters_as_time_series: list[str]
-    """The FMU parameters passed as ``TimeSeries`` at the last execution."""
+    """The FMU parameters passed as `TimeSeries` at the last execution."""
 
     __time_series_time_steps: NDArray[float]
     """The time steps of the time series after pre-processing of the original ones."""
@@ -173,10 +173,10 @@ class BaseFMUDiscipline(MDODiscipline):
     _initial_values: dict[str, NDArray[float]]
     """The initial values of the discipline outputs."""
 
-    _initial_time: float
+    __initial_time: float
     """The initial time."""
 
-    _final_time: float
+    __final_time: float
     """The final time."""
 
     __executed: bool
@@ -205,34 +205,34 @@ class BaseFMUDiscipline(MDODiscipline):
             file_path: The path to the FMU model file.
             input_names: The names of the FMU model inputs;
                 if empty, use all the inputs and parameters of the FMU model;
-                if ``None``, do not use inputs.
+                if `None`, do not use inputs.
             output_names: The names of the FMU model outputs.
                 if empty, use all the outputs of the FMU model.
             initial_time: The initial time of the simulation;
-                if ``None``, use the start time defined in the FMU model if any;
+                if `None`, use the start time defined in the FMU model if any;
                 otherwise use 0.
             final_time: The final time of the simulation;
-                if ``None``, use the stop time defined in the FMU model if any;
+                if `None`, use the stop time defined in the FMU model if any;
                 otherwise use the initial time.
             time_step: The time step of the simulation.
-                If ``0.``, it is computed by the wrapped library ``fmpy``.
+                If `0.`, it is computed by the wrapped library `fmpy`.
             add_time_to_output_grammar: Whether the time is added to the output grammar.
-            restart: Whether the model is restarted at ``initial_time`` after execution.
-            do_step: Whether the model is simulated over only one ``time_step``
+            restart: Whether the model is restarted at `initial_time` after execution.
+            do_step: Whether the model is simulated over only one `time_step`
                 when calling
                 [execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
                 Otherwise, simulate the model from current time to final time in one go.
             use_co_simulation: Whether the co-simulation FMI type is used.
                 Otherwise, use model-exchange FMI type.
-                When ``do_step`` is ``True``, the co-simulation FMI type is required.
+                When `do_step` is `True`, the co-simulation FMI type is required.
             solver_name: The name of the solver to simulate a model-exchange model.
             model_instance_directory: The directory of the FMU instance,
                 containing the files extracted from the FMU model file;
-                if empty, let ``fmpy`` create a temporary directory.
+                if empty, let `fmpy` create a temporary directory.
             delete_model_instance_directory: Whether to delete the directory
                 of the FMU instance when deleting the discipline.
             **pre_instantiation_parameters: The parameters to be passed
-                to ``_pre_instantiate()``.
+                to `_pre_instantiate()`.
         """  # noqa: D205 D212 D415
         self.__delete_model_instance_directory = delete_model_instance_directory
         self.__executed = False
@@ -292,49 +292,66 @@ class BaseFMUDiscipline(MDODiscipline):
 
         Args:
             initial_time: The initial time of the simulation;
-                if ``None``, use the start time defined in the FMU model if any;
+                if `None`, use the start time defined in the FMU model if any;
                 otherwise use 0.
             final_time: The final time of the simulation;
-                if ``None``, use the stop time defined in the FMU model if any;
+                if `None`, use the stop time defined in the FMU model if any;
                 otherwise use the initial time.
             time_step: The time step of the simulation.
-                If ``0.``, it is computed by the wrapped library ``fmpy``.
-            do_step: Whether the model is simulated over only one ``time_step``
+                If `0.`, it is computed by the wrapped library `fmpy`.
+            do_step: Whether the model is simulated over only one `time_step`
                 when calling
                 [execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
                 Otherwise, simulate the model from current time to final time in one go.
-            restart: Whether the model is restarted at ``initial_time`` after execution.
+            restart: Whether the model is restarted at `initial_time` after execution.
         """
+        self.__default_simulation_settings = {
+            self._RESTART: restart,
+            self._TIME_STEP: time_step,
+        }
+        self.__simulation_settings = {}
+        self.__do_step = do_step
+        self.__time_step = time_step
+        self._time = None
+        self._initial_time = initial_time
+        self._final_time = final_time
+
+    @property
+    def _initial_time(self) -> float:
+        """The initial time."""
+        return self.__initial_time
+
+    @_initial_time.setter
+    def _initial_time(self, initial_time: float | None) -> None:
         if initial_time is None:
-            self._initial_time = self.__get_field_value(
+            self.__initial_time = self.__get_field_value(
                 self.__model_description.defaultExperiment, "startTime", 0.0
             )
         else:
-            self._initial_time = initial_time
+            self.__initial_time = initial_time
 
-        self._initial_values[self._TIME] = array([self._initial_time])
-        self.__current_time = self._initial_time
+        self._initial_values[self._TIME] = array([self.__initial_time])
+        self.__current_time = self.__initial_time
+
+    @property
+    def _final_time(self) -> float:
+        """The final time."""
+        return self.__final_time
+
+    @_final_time.setter
+    def _final_time(self, final_time: float | None) -> None:
         if final_time is None:
-            self._final_time = self.__get_field_value(
+            self.__final_time = self.__get_field_value(
                 self.__model_description.defaultExperiment,
                 "stopTime",
                 self._initial_time,
             )
         else:
-            self._final_time = final_time
+            self.__final_time = final_time
 
-        self.__time_step = time_step
-        self.__do_step = do_step
-        self._time = None
-
-        self.__simulation_settings = {}
-        self.__default_simulation_settings = {
-            self._RESTART: restart,
-            self._TIME_STEP: self.__time_step,
-        }
-        if not do_step:
+        if not self.__do_step:
             self.__default_simulation_settings[self._SIMULATION_TIME] = (
-                self._final_time - self._initial_time
+                self.__final_time - self.__initial_time
             )
 
     def __set_fmu_model(
@@ -350,14 +367,14 @@ class BaseFMUDiscipline(MDODiscipline):
             file_path: The path to the FMU model file.
             model_instance_directory: The directory of the FMU instance,
                 containing the files extracted from the FMU model file;
-                if empty, let ``fmpy`` create a temporary directory.
-            do_step: Whether the model is simulated over only one ``time_step``
+                if empty, let `fmpy` create a temporary directory.
+            do_step: Whether the model is simulated over only one `time_step`
                 when calling
                 [execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
                 Otherwise, simulate the model from current time to final time in one go.
             use_co_simulation: Whether the co-simulation FMI type is used.
                 Otherwise, use model-exchange FMI type.
-                When ``do_step`` is ``True``, the co-simulation FMI type is required.
+                When `do_step` is `True`, the co-simulation FMI type is required.
         """
         # The path to the FMU file, which is a ZIP archive.
         self.__file_path = Path(file_path)
@@ -416,7 +433,7 @@ class BaseFMUDiscipline(MDODiscipline):
         Args:
             input_names: The names of the FMU model inputs;
                 if empty, use all the inputs and parameters of the FMU model;
-                if ``None``, do not use inputs.
+                if `None`, do not use inputs.
             output_names: The names of the FMU model outputs.
                 if empty, use all the outputs of the FMU model.
         """
@@ -477,10 +494,10 @@ class BaseFMUDiscipline(MDODiscipline):
 
         Args:
             default_experiment: The default experiment.
-                If ``None``, return ``default_value``.
+                If `None`, return `default_value`.
             field: The field of the experiment.
-            default_value: The default value if ``experiment`` is ``None``
-                or if the field is missing or its value is ``None``.
+            default_value: The default value if `experiment` is `None`
+                or if the field is missing or its value is `None`.
 
         Returns:
             The default value of the field.
@@ -539,7 +556,11 @@ class BaseFMUDiscipline(MDODiscipline):
         self.__current_time = current_time
 
     def _pre_instantiate(self, **kwargs: Any) -> None:
-        """Do different things before initializing the FMU model."""
+        """Some actions to be done just before calling `MDODiscipline.__init__`.
+
+        Args:
+            **kwargs: The parameters of the method.
+        """
 
     def execute(  # noqa:D102
         self, input_data: Mapping[str, ndarray | TimeSeries] = MappingProxyType({})
@@ -596,13 +617,13 @@ class BaseFMUDiscipline(MDODiscipline):
         """Change the simulation settings for the execution.
 
         Args:
-            restart: Whether to restart the model at ``initial_time``
+            restart: Whether to restart the model at `initial_time`
                 before executing it;
-                if ``None``, use the value passed at the instantiation.
+                if `None`, use the value passed at the instantiation.
             simulation_time: The duration of the simulation;
-                if ``None``, execute until the final time.
+                if `None`, execute until the final time.
             time_step: The time step of the simulation;
-                if ``None``, use the value passed at the instantiation.
+                if `None`, use the value passed at the instantiation.
         """  # noqa: D205 D212 D415
         self.__simulation_settings = self.__default_simulation_settings.copy()
         if time_step is not None:

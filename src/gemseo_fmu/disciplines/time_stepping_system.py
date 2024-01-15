@@ -102,9 +102,9 @@ class TimeSteppingSystem(MDODiscipline):
                 The time-stepping disciplines will use this time step.
             restart: Whether the system is restarted at initial time
                 after each  execution.
-            do_step: Whether the model is simulated over only one ``time_step``
+            do_step: Whether the model is simulated over only one `time_step`
                 when calling the execution method.
-                Otherwise, simulate the model from initial time to ``final_time``.
+                Otherwise, simulate the model from initial time to `final_time`.
             **fmu_options: The options to instantiate the FMU disciplines.
         """  # noqa: D205 D212 D415
         super().__init__()
