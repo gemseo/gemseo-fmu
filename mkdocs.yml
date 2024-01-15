@@ -27,16 +27,20 @@ plugins:
         import:
         - https://docs.python.org/3/objects.inv
         - https://gemseo.readthedocs.io/en/stable/objects.inv
+        - https://matplotlib.org/stable/objects.inv
         - https://numpy.org/doc/stable/objects.inv
+        - https://docs.scipy.org/doc/scipy/objects.inv
+        - https://openturns.github.io/openturns/latest/objects.inv
         options:
           extensions:
-          - docs/_docstring_inheritance.py:DocstringInheritance
+          - docs/docstring_inheritance.py:DocstringInheritance
           filters:
           - "!^_"
-          # docstring_options:
+          docstring_options:
           #   ignore_init_summary: true
+            returns_multiple_items: False
           docstring_section_style: list
-          heading_level: 1
+          # heading_level: 1
           inherited_members: true
 #          preload_modules:
 #          - gemseo
@@ -45,9 +49,10 @@ plugins:
           show_root_heading: true
           show_root_full_path: false
           show_signature_annotations: true
-          # show_symbol_type_heading: true
+          show_symbol_type_heading: true
           show_symbol_type_toc: true
-          # signature_crossrefs: true
+          show_category_heading: true
+          signature_crossrefs: true
 - gallery:
     conf_script: docs/gallery_conf.py
     default_thumb_file: docs/images/monogram.png
@@ -79,6 +84,9 @@ markdown_extensions:
       - name: mermaid
         class: mermaid
 - footnotes
+- toc:
+    permalink: true
+- pymdownx.snippets
 
 extra_javascript:
 - javascripts/mathjax.js
