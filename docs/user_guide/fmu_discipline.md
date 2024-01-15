@@ -39,7 +39,7 @@ to simulate an FMU model:
     the FMU model are dynamic and so this naming shortcut can be useful.
 
     !!! note
-        ``gemseo-fmu`` distinguishes between static and dynamic models
+        `gemseo-fmu` distinguishes between static and dynamic models
         to facilitate use by newcomers in the FMI standard.
         However,
         it should be noted that an FMU model does not make this distinction:
@@ -92,17 +92,17 @@ all the outputs of the FMU model
 plus the time.
 
 The time can be excluded from the outputs
-with ``add_time_to_output_grammar=False``.
+with `add_time_to_output_grammar=False`.
 
 The discipline has no input variables
-with ``input_names=None``.
+with `input_names=None`.
 
 The input variables can be a subset
 of the inputs and parameters of the FMU model
-by using ``input_names=some_input_names``.
+by using `input_names=some_input_names`.
 The output variables can also be a subset
 of the outputs of the FMU model
-by using ``output_names=some_output_names``.
+by using `output_names=some_output_names`.
 
 #### Time settings
 
@@ -120,11 +120,11 @@ this time is set to the start time,
 and it is therefore advisable to use a custom value.
 
 The time step and the solver can be changed
-with the float argument ``time_step`` and the string argument ``solver_name``.
+with the float argument `time_step` and the string argument `solver_name`.
 
 An execution can also advance a single time step from the start time
-by using ``do_step=True``.
-When using both ``do_step=True`` and ``restart=False``,
+by using `do_step=True`.
+When using both `do_step=True` and `restart=False`,
 an execution advances a single time step from the previous one.
 
 !!! info
@@ -136,7 +136,7 @@ an execution advances a single time step from the previous one.
     doing time stepping throughout its life cycle.
 
 Lastly,
-the final time can be changed with the float argument ``final_time``.
+the final time can be changed with the float argument `final_time`.
 
 !!! warning
     The discipline cannot be executed after the final time.
@@ -205,7 +205,7 @@ but can be changed temporarily.
 allows to
 change the duration of the simulation associated to the next execution,
 change the time step used during the next execution
-and restart the discipline instantiated with ``restart=False``
+and restart the discipline instantiated with `restart=False`
 (and vice-versa).
 
 !!! warning "Only the next execution"
@@ -241,7 +241,7 @@ discipline.execute({"x": array([16.8])})
 
 ### Restart
 
-The argument ``restart`` has already been introduced in this page.
+The argument `restart` has already been introduced in this page.
 
 It can also be used to compare trajectories:
 

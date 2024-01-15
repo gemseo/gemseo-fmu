@@ -19,6 +19,7 @@ from __future__ import annotations
 import logging
 import re
 from collections import namedtuple
+from typing import Any
 from unittest import mock
 
 import pytest
@@ -527,3 +528,27 @@ def test_serialize(tmp_wd, do_step, restart):
     assert_almost_equal(
         discipline.local_data[OUTPUT_NAME], original_discipline.local_data[OUTPUT_NAME]
     )
+
+
+def test_initial_and_final_times_setter():
+    """Check that FMUDiscipline._final_time updates the default time settings.
+
+    It is also a way to check that FMUDiscipline._pre_instantiate works correctly.
+    """
+
+    initial_time = 1.25
+    final_time = 3.0
+
+    class NewFMUDiscipline(BaseFMUDiscipline):
+        """A new FMU discipline."""
+
+        def _pre_instantiate(self, **kwargs: Any) -> None:
+            self._initial_time = initial_time
+            self._final_time = 3.0
+
+    discipline = NewFMUDiscipline(FMU_PATH)
+    settings = discipline._BaseFMUDiscipline__default_simulation_settings
+    assert discipline._initial_time == initial_time
+    assert discipline._final_time == final_time
+    assert discipline._initial_values[discipline._TIME] == initial_time
+    assert settings[discipline._SIMULATION_TIME] == final_time - initial_time

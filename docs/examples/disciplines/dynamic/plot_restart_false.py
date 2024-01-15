@@ -47,7 +47,7 @@ discipline = DynamicFMUDiscipline(
 )
 # %%
 # !!! note
-#     We had to set ``restart`` to ``False``
+#     We had to set `restart` to `False`
 #     as the default behavior of the
 #     [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
 #     is to run each execution from the start time.

@@ -36,6 +36,11 @@ and this project adheres to
   of using gemseo-fmu with Python 3.8.
 - The readme file of the project now includes links to the documentation.
 
+## Fixed
+
+- `BaseFMUDiscipline._pre_instantiate` can now redefine time properties
+  relative to initial and final times, e.g. simulation time and current value.
+
 # Version 2.0.0 (December 2023)
 
 ## Added

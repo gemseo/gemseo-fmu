@@ -28,7 +28,7 @@ executes a collection of such disciplines one after the other.
 
 !!! note
     The order of execution is the user one.
-    Future versions of ``gemseo-fmu`` should implement advanced strategies
+    Future versions of `gemseo-fmu` should implement advanced strategies
     based on the
     [MDOCouplingStructure][gemseo.core.coupling_structure.MDOCouplingStructure]
     of the disciplines.
@@ -60,10 +60,10 @@ and will be executed according to their order of definition.
 
 By default,
 an execution starts from the initial time.
-Set ``restart`` to ``False`` in order to restart from the initial time.
+Set `restart` to `False` in order to restart from the initial time.
 
 ## Time stepping
 
 By default,
 an execution simulates from the initial time to the final time.
-Set ``do_step`` to ``True`` if you want to simulate with only one time step.
+Set `do_step` to `True` if you want to simulate with only one time step.
