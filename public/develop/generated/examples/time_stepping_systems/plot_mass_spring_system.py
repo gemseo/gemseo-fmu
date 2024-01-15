@@ -62,7 +62,7 @@ system = TimeSteppingSystem(
 system.execute()
 
 # %%
-# or with time stepping by setting ``do_step`` to ``False``
+# or with time stepping by setting `do_step` to `False`
 # For this particular example,
 # we also have a FMU model of the complete system:
 reference = FMUDiscipline(

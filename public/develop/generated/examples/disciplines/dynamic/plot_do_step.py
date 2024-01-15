@@ -65,4 +65,4 @@ plt.show()
 # !!! note
 #     We can also do time stepping with
 #     [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
-#     by setting ``do_step`` to ``False`` and ``restart`` to ``False``.
+#     by setting `do_step` to `False` and `restart` to `False`.
