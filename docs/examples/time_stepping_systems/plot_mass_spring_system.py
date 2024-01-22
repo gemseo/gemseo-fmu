@@ -13,20 +13,6 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License version 3 as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """# Time stepping system.
 
 Sometimes,
@@ -45,7 +31,24 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 # %%
 # Let us consider a set of two mass-spring pairs connected to each other
-# and modelled by two FMU models.
+# and modelled by two FMU models:
+#
+# $$
+# \begin{cases}
+# x_1' = v_1\\
+# v_1' = -\frac{k_1+k_2}{m_1}x_1+\frac{k_2}{m_1}x_2
+# \end{cases}
+# $$
+#
+# and
+#
+# $$
+# \begin{cases}
+# x_2' = v_2\\
+# v_2' = -\frac{k_2+k_3}{m_2}x_2+\frac{k_2}{m_2}x_1
+# \end{cases}
+# $$
+#
 # These models can be co-simulated by instantiating a
 # [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]:
 system = TimeSteppingSystem(
