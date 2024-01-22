@@ -51,6 +51,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/dynamic/plot_time_series/</loc>
+         <lastmod>2024-01-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/static/mg_execution_times/</loc>
          <lastmod>2024-01-22</lastmod>
          <changefreq>daily</changefreq>

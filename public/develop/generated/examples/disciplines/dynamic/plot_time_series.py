@@ -13,21 +13,19 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# From initial time to final time
+"""# Use time series
 
-The most obvious use of the
-[DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
-is to simulate an FMU model
-from an initial time to a final time
-in one go.
+The input variables with `input` causality
+as well as some input variables with `parameter` causality
+can be set with time series.
 """
 
 from __future__ import annotations
 
 from matplotlib import pyplot as plt
-from numpy import array
 
 from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
+from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 # %%
@@ -51,18 +49,20 @@ discipline = DynamicFMUDiscipline(
 
 # %%
 # Firstly,
-# we simulate the FMU with the default input values:
+# we simulate the FMU with the default input values,
+# and in particular a constant value for the mass:
 discipline.execute()
 
 # %%
-# and store the time evolution of the position of the mass:
+# and store the time evolution of its position:
 default_y_evolution = discipline.local_data["y"]
-
+print(discipline.local_data["mass.m"])
 # %%
 # Then,
-# we repeat the experiment with custom values
-# of the mass and spring constants:
-discipline.execute({"mass.m": array([1.5]), "spring.c": array([1050.0])})
+# we repeat the experiment with a custom time series for the mass,
+# characterized by a sharp change after 0.5 seconds.
+time_series = TimeSeries(time=[0.0, 0.25, 0.5, 1.0], observable=[4.0, 2.0, 0.2, 0.1])
+discipline.execute({"mass.m": time_series})
 
 # %%
 # Lastly,
