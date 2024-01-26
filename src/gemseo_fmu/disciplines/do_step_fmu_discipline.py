@@ -25,6 +25,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
 
+    from gemseo_fmu.utils.time import TimeType
+
 
 class DoStepFMUDiscipline(FMUDiscipline):
     """An FMU discipline whose execution simulates only one time step."""
@@ -34,9 +36,9 @@ class DoStepFMUDiscipline(FMUDiscipline):
         file_path: str | Path,
         input_names: Iterable[str] | None = (),
         output_names: Iterable[str] = (),
-        initial_time: float | None = None,
-        final_time: float | None = None,
-        time_step: float = 0.0,
+        initial_time: TimeType | None = None,
+        final_time: TimeType | None = None,
+        time_step: TimeType = 0.0,
         add_time_to_output_grammar: bool = True,
         restart: bool = False,
         name: str = "",
@@ -47,7 +49,8 @@ class DoStepFMUDiscipline(FMUDiscipline):
     ) -> None:
         do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
         if do_step is False:
-            raise ValueError("DoStepFMUDiscipline has no do_step parameter.")
+            msg = "DoStepFMUDiscipline has no do_step parameter."
+            raise ValueError(msg)
 
         if do_step is True:
             del pre_instantiation_parameters[self._DO_STEP]

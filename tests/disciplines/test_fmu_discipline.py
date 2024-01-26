@@ -535,7 +535,6 @@ def test_initial_and_final_times_setter():
 
     It is also a way to check that FMUDiscipline._pre_instantiate works correctly.
     """
-
     initial_time = 1.25
     final_time = 3.0
 
@@ -552,3 +551,23 @@ def test_initial_and_final_times_setter():
     assert discipline._final_time == final_time
     assert discipline._initial_values[discipline._TIME] == initial_time
     assert settings[discipline._SIMULATION_TIME] == final_time - initial_time
+
+
+@pytest.mark.parametrize(
+    ("initial", "final", "step"), [(0.0, 1.0, 0.25), ("0s", "1s", "0.25s")]
+)
+def test_string_time(initial, final, step):
+    """Verify that the times can be set from string values."""
+    discipline = FMUDiscipline(
+        FMU_PATH,
+        [INPUT_NAME],
+        [OUTPUT_NAME],
+        initial_time=initial,
+        final_time=final,
+        time_step=step,
+    )
+    discipline.execute()
+    assert_equal(discipline.local_data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
+    discipline.set_next_execution(simulation_time=final, time_step=step)
+    discipline.execute()
+    assert_equal(discipline.local_data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))

@@ -20,6 +20,9 @@ from dataclasses import dataclass
 from dataclasses import field
 from typing import TYPE_CHECKING
 
+from gemseo_fmu.utils.time_duration import TimeDuration
+from gemseo_fmu.utils.time_duration import TimeDurationType
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -28,8 +31,12 @@ if TYPE_CHECKING:
 class TimeSeries:
     """The time series of an observable."""
 
-    time: Sequence[float]
-    """The increasing values of the time."""
+    time: Sequence[TimeDurationType]
+    """The increasing values of the time.
+
+    The components can be either numbers in seconds or strings of characters (see
+    [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]).
+    """
 
     observable: Sequence[float]
     """The values of the observable associated to the values of the time."""
@@ -45,8 +52,10 @@ class TimeSeries:
         time_size = len(self.time)
         observable_size = len(self.observable)
         if time_size != observable_size:
-            raise ValueError(
+            msg = (
                 f"The lengths of fields 'time' ({time_size}) "
                 f"and 'observable' ({observable_size}) do not match."
             )
+            raise ValueError(msg)
+        object.__setattr__(self, "time", [TimeDuration(t).seconds for t in self.time])
         object.__setattr__(self, "size", time_size)
