@@ -51,6 +51,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/dynamic/plot_string_time/</loc>
+         <lastmod>2024-01-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/dynamic/plot_time_series/</loc>
          <lastmod>2024-01-26</lastmod>
          <changefreq>daily</changefreq>
@@ -137,6 +142,16 @@
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/gemseo_fmu/problems/fmu_files/</loc>
+         <lastmod>2024-01-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/gemseo_fmu/utils/</loc>
+         <lastmod>2024-01-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/gemseo_fmu/utils/time_duration/</loc>
          <lastmod>2024-01-26</lastmod>
          <changefreq>daily</changefreq>
     </url>

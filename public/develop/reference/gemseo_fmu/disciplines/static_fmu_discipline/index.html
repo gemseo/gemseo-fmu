@@ -579,6 +579,8 @@
       
         
       
+        
+      
     
     
     
@@ -692,6 +694,27 @@
   
   <span class="md-ellipsis">
     Plot restart false
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../generated/examples/disciplines/dynamic/plot_string_time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot string time
   </span>
   
 
@@ -934,6 +957,10 @@
   
     
     
+      
+        
+          
+        
       
         
           
@@ -1454,6 +1481,84 @@
   
   <span class="md-ellipsis">
     Fmu files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../utils/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/time_duration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time duration
   </span>
   
 
@@ -2211,20 +2316,7 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">578</span>
 <span class="normal">579</span>
 <span class="normal">580</span>
 <span class="normal">581</span>
@@ -2255,7 +2347,20 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <span class="normal">606</span>
 <span class="normal">607</span>
 <span class="normal">608</span>
-<span class="normal">609</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimeSeries</span><span class="p">]</span> <span class="o">=</span> <span class="n">MappingProxyType</span><span class="p">({})</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">]:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__executed</span> <span class="o">=</span> <span class="kc">True</span>
@@ -2318,8 +2423,8 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <a href="#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline.set_next_execution" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">set_next_execution</span><span class="p">(</span>
     <span class="n">restart</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">simulation_time</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">simulation_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_step</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2345,23 +2450,27 @@ if <code>None</code>, use the value passed at the instantiation.</p>
       </li>
       <li class="field-body">
         <b><code>simulation_time</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
+            (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                 <code>None</code>
 )
         –
         <div class="doc-md-description">
           <p>The duration of the simulation;
+either a number in seconds or a string of characters
+(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>None</code>, execute until the final time.</p>
         </div>
       </li>
       <li class="field-body">
         <b><code>time_step</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
+            (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                 <code>None</code>
 )
         –
         <div class="doc-md-description">
           <p>The time step of the simulation;
+either a number in seconds or a string of characters
+(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>None</code>, use the value passed at the instantiation.</p>
         </div>
       </li>
@@ -2369,20 +2478,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">624</span>
 <span class="normal">625</span>
 <span class="normal">626</span>
 <span class="normal">627</span>
@@ -2394,11 +2490,31 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 <span class="normal">633</span>
 <span class="normal">634</span>
 <span class="normal">635</span>
-<span class="normal">636</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">simulation_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">simulation_time</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_step</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Change the simulation settings for the execution.</span>
 
@@ -2407,18 +2523,25 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 <span class="sd">            before executing it;</span>
 <span class="sd">            if `None`, use the value passed at the instantiation.</span>
 <span class="sd">        simulation_time: The duration of the simulation;</span>
+<span class="sd">            either a number in seconds or a string of characters</span>
+<span class="sd">            (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);</span>
 <span class="sd">            if `None`, execute until the final time.</span>
 <span class="sd">        time_step: The time step of the simulation;</span>
+<span class="sd">            either a number in seconds or a string of characters</span>
+<span class="sd">            (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);</span>
 <span class="sd">            if `None`, use the value passed at the instantiation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__simulation_settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_simulation_settings</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__simulation_settings</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_TIME_STEP</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__simulation_settings</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_TIME_STEP</span><span class="p">]</span> <span class="o">=</span> <span class="n">TimeDuration</span><span class="p">(</span>
+            <span class="n">time_step</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
 
     <span class="k">if</span> <span class="n">restart</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__simulation_settings</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_RESTART</span><span class="p">]</span> <span class="o">=</span> <span class="n">restart</span>
 
     <span class="k">if</span> <span class="n">simulation_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">simulation_time</span> <span class="o">=</span> <span class="n">TimeDuration</span><span class="p">(</span><span class="n">simulation_time</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__simulation_settings</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_SIMULATION_TIME</span><span class="p">]</span> <span class="o">=</span> <span class="n">simulation_time</span>
 </code></pre></div></td></tr></table></div>
           </details>
