@@ -50,3 +50,9 @@ def test_time_series_error():
         ),
     ):
         TimeSeries([1, 2], [3, 4, 5])
+
+
+def test_time_series_from_string_time_values():
+    """Check that the TimeSeries can be set from string time values."""
+    time_series = TimeSeries(["1h", "2h"], [3, 4])
+    assert time_series.time == [3600, 7200]

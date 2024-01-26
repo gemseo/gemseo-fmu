@@ -45,6 +45,7 @@ from numpy import vstack
 from strenum import StrEnum
 
 from gemseo_fmu.disciplines.time_series import TimeSeries
+from gemseo_fmu.utils.time_duration import TimeDuration
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -54,6 +55,8 @@ if TYPE_CHECKING:
     from fmpy.model_description import ModelDescription
     from fmpy.simulation import Recorder
     from numpy.typing import NDArray
+
+    from gemseo_fmu.utils.time_duration import TimeDurationType
 
 FMUModel = Union[FMU1Model, FMU2Model, FMU3Model, FMU1Slave, FMU2Slave, FMU3Slave]
 
@@ -80,83 +83,50 @@ class BaseFMUDiscipline(MDODiscipline):
         PARAMETER = "parameter"
 
     _CO_SIMULATION: Final[str] = "CoSimulation"
+    _DO_STEP: Final[str] = "do_step"
     _FINAL_TIME: Final[str] = "final_time"
     _INITIAL_TIME: Final[str] = "initial_time"
+    _INPUT: Final[str] = _Causality.INPUT
     _MODEL_EXCHANGE: Final[str] = "ModelExchange"
+    _PARAMETER: Final[str] = _Causality.PARAMETER
     _RESTART: Final[str] = "restart"
     _SIMULATION_TIME: Final[str] = "simulation_time"
     _TIME: Final[str] = "time"
     _TIME_STEP: Final[str] = "time_step"
-    _INPUT: Final[str] = _Causality.INPUT
-    _PARAMETER: Final[str] = _Causality.PARAMETER
-    _DO_STEP: Final[str] = "do_step"
 
-    __file_path: Path
-    """The path to the FMU file, which is a ZIP archive."""
+    _initial_values: dict[str, NDArray[float]]
+    """The initial values of the discipline outputs."""
+
+    __causalities_to_variable_names: dict[str, list[str]]
+    """The names of the variables sorted by causality."""
+
+    __current_time: float
+    """The current time."""
+
+    __default_simulation_settings: dict[str, bool | float]
+    """The default values of the simulation settings."""
 
     __delete_model_instance_directory: bool
     """Whether trying to delete the directory of the FMU instance when deleting the
     discipline."""
 
-    __model_dir_path: Path
-    """The description of the FMU model, read from the XML file in the archive."""
-
-    __model_description: ModelDescription
-    """The description of the FMU model."""
-
-    __causalities_to_variable_names: dict[str, list[str]]
-    """The names of the variables sorted by causality."""
-
-    __model_name: str
-    """The name of the FMU model."""
-
-    __model_fmi_version: str
-    """The FMI version of the FMU model."""
-
-    __model: FMUModel
-    """The FMU model."""
-
-    __names_to_references: dict[str, int]
-    """The value references bound to the variables names."""
-
-    __current_time: float
-    """The current time."""
-
-    __time_step: float
-    """The execution time step."""
-
     __do_step: bool
     """Whether the discipline is executed step by step."""
 
-    __solver_name: str
-    """The name of the ODE solver."""
+    __executed: bool
+    """Whether the discipline has already been executed."""
 
-    __default_simulation_settings: dict[str, bool | float]
-    """The default values of the simulation settings."""
+    __file_path: Path
+    """The path to the FMU file, which is a ZIP archive."""
 
-    __simulation_settings: dict[str, bool | float]
-    """The values of the simulation settings."""
-
-    __use_time_in_output_grammar: bool
-    """Whether the time belongs to the output grammar."""
-
-    __time: NDArray[float] | None
-    """The time steps of the last execution; `None` when not yet executed."""
-
-    __names_to_time_series: dict[str, TimeSeries]
-    """The input names bound to the time series at the last execution."""
-
-    __inputs_as_time_series: list[str]
-    """The FMU inputs passed as `TimeSeries` at the last execution."""
-
-    __parameters_as_time_series: list[str]
-    """The FMU parameters passed as `TimeSeries` at the last execution."""
-
-    __time_series_time_steps: NDArray[float]
-    """The time steps of the time series after pre-processing of the original ones."""
+    __final_time: float
+    """The final time."""
 
     __fmpy_input_time_series: NDArray[float] | None
     """The fmpy-formatted input time series."""
+
+    __initial_time: float
+    """The initial time."""
 
     __input_input_names: list[str]
     """The discipline variables with input causality."""
@@ -164,32 +134,65 @@ class BaseFMUDiscipline(MDODiscipline):
     __input_names: list[str]
     """The discipline inputs."""
 
+    __inputs_as_time_series: list[str]
+    """The FMU inputs passed as `TimeSeries` at the last execution."""
+
+    __model: FMUModel
+    """The FMU model."""
+
+    __model_description: ModelDescription
+    """The description of the FMU model."""
+
+    __model_dir_path: Path
+    """The description of the FMU model, read from the XML file in the archive."""
+
+    __model_fmi_version: str
+    """The FMI version of the FMU model."""
+
+    __model_name: str
+    """The name of the FMU model."""
+
+    __names_to_references: dict[str, int]
+    """The value references bound to the variables names."""
+
+    __names_to_time_series: dict[str, TimeSeries]
+    """The input names bound to the time series at the last execution."""
+
     __output_names: list[str]
     """The discipline outputs."""
 
     __parameter_input_names: list[str]
     """The discipline inputs with parameter causality."""
 
-    _initial_values: dict[str, NDArray[float]]
-    """The initial values of the discipline outputs."""
+    __parameters_as_time_series: list[str]
+    """The FMU parameters passed as `TimeSeries` at the last execution."""
 
-    __initial_time: float
-    """The initial time."""
+    __simulation_settings: dict[str, bool | float]
+    """The values of the simulation settings."""
 
-    __final_time: float
-    """The final time."""
+    __solver_name: str
+    """The name of the ODE solver."""
 
-    __executed: bool
-    """Whether the discipline has already been executed."""
+    __time: NDArray[float] | None
+    """The time steps of the last execution; `None` when not yet executed."""
+
+    __time_series_time_steps: NDArray[float]
+    """The time steps of the time series after pre-processing of the original ones."""
+
+    __time_step: float
+    """The execution time step."""
+
+    __use_time_in_output_grammar: bool
+    """Whether the time belongs to the output grammar."""
 
     def __init__(
         self,
         file_path: str | Path,
         input_names: Iterable[str] | None = (),
         output_names: Iterable[str] = (),
-        initial_time: float | None = None,
-        final_time: float | None = None,
-        time_step: float = 0.0,
+        initial_time: TimeDurationType | None = None,
+        final_time: TimeDurationType | None = None,
+        time_step: TimeDurationType = 0.0,
         add_time_to_output_grammar: bool = True,
         restart: bool = True,
         do_step: bool = False,
@@ -209,13 +212,19 @@ class BaseFMUDiscipline(MDODiscipline):
             output_names: The names of the FMU model outputs.
                 if empty, use all the outputs of the FMU model.
             initial_time: The initial time of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
                 if `None`, use the start time defined in the FMU model if any;
                 otherwise use 0.
             final_time: The final time of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
                 if `None`, use the stop time defined in the FMU model if any;
                 otherwise use the initial time.
-            time_step: The time step of the simulation.
-                If `0.`, it is computed by the wrapped library `fmpy`.
+            time_step: The time step of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
+                if `0.`, it is computed by the wrapped library `fmpy`.
             add_time_to_output_grammar: Whether the time is added to the output grammar.
             restart: Whether the model is restarted at `initial_time` after execution.
             do_step: Whether the model is simulated over only one `time_step`
@@ -282,9 +291,9 @@ class BaseFMUDiscipline(MDODiscipline):
 
     def __set_time(
         self,
-        initial_time: float | None,
-        final_time: float | None,
-        time_step: float,
+        initial_time: TimeDurationType | None,
+        final_time: TimeDurationType | None,
+        time_step: TimeDurationType,
         do_step: bool,
         restart: bool,
     ) -> None:
@@ -305,6 +314,7 @@ class BaseFMUDiscipline(MDODiscipline):
                 Otherwise, simulate the model from current time to final time in one go.
             restart: Whether the model is restarted at `initial_time` after execution.
         """
+        time_step = TimeDuration(time_step).seconds
         self.__default_simulation_settings = {
             self._RESTART: restart,
             self._TIME_STEP: time_step,
@@ -322,12 +332,13 @@ class BaseFMUDiscipline(MDODiscipline):
         return self.__initial_time
 
     @_initial_time.setter
-    def _initial_time(self, initial_time: float | None) -> None:
+    def _initial_time(self, initial_time: TimeDurationType | None) -> None:
         if initial_time is None:
             self.__initial_time = self.__get_field_value(
                 self.__model_description.defaultExperiment, "startTime", 0.0
             )
         else:
+            initial_time = TimeDuration(initial_time).seconds
             self.__initial_time = initial_time
 
         self._initial_values[self._TIME] = array([self.__initial_time])
@@ -339,7 +350,7 @@ class BaseFMUDiscipline(MDODiscipline):
         return self.__final_time
 
     @_final_time.setter
-    def _final_time(self, final_time: float | None) -> None:
+    def _final_time(self, final_time: TimeDurationType | None) -> None:
         if final_time is None:
             self.__final_time = self.__get_field_value(
                 self.__model_description.defaultExperiment,
@@ -347,6 +358,7 @@ class BaseFMUDiscipline(MDODiscipline):
                 self._initial_time,
             )
         else:
+            final_time = TimeDuration(final_time).seconds
             self.__final_time = final_time
 
         if not self.__do_step:
@@ -548,10 +560,11 @@ class BaseFMUDiscipline(MDODiscipline):
             ValueError: When the current time is greater than the final time.
         """
         if current_time > self._final_time:
-            raise ValueError(
+            msg = (
                 f"The current time ({current_time}) is greater "
                 f"than the final time ({self._final_time})."
             )
+            raise ValueError(msg)
 
         self.__current_time = current_time
 
@@ -611,8 +624,8 @@ class BaseFMUDiscipline(MDODiscipline):
     def set_next_execution(
         self,
         restart: bool | None = None,
-        simulation_time: float | None = None,
-        time_step: float | None = None,
+        simulation_time: TimeDurationType | None = None,
+        time_step: TimeDurationType | None = None,
     ) -> None:
         """Change the simulation settings for the execution.
 
@@ -621,18 +634,25 @@ class BaseFMUDiscipline(MDODiscipline):
                 before executing it;
                 if `None`, use the value passed at the instantiation.
             simulation_time: The duration of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
                 if `None`, execute until the final time.
             time_step: The time step of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
                 if `None`, use the value passed at the instantiation.
         """  # noqa: D205 D212 D415
         self.__simulation_settings = self.__default_simulation_settings.copy()
         if time_step is not None:
-            self.__simulation_settings[self._TIME_STEP] = time_step
+            self.__simulation_settings[self._TIME_STEP] = TimeDuration(
+                time_step
+            ).seconds
 
         if restart is not None:
             self.__simulation_settings[self._RESTART] = restart
 
         if simulation_time is not None:
+            simulation_time = TimeDuration(simulation_time).seconds
             self.__simulation_settings[self._SIMULATION_TIME] = simulation_time
 
     def _run(self) -> None:
@@ -658,10 +678,11 @@ class BaseFMUDiscipline(MDODiscipline):
             self.__model.exitInitializationMode()
 
         if self._initial_time < self.__current_time == self._final_time:
-            raise ValueError(
+            msg = (
                 "The discipline cannot be executed "
                 f"as the current time is the final time ({self.__current_time})."
             )
+            raise ValueError(msg)
 
         if self.__do_step:
             self.__simulate_one_time_step(input_data)

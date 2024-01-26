@@ -28,6 +28,21 @@ and this project adheres to
 
 # Develop
 
+## Added
+
+- The components of
+  [TimeSeries.time][gemseo_fmu.disciplines.time_series.TimeSeries.time]
+  can be either strings of characters such as `"2h 34m 5s"`,
+  or numbers expressed in seconds
+- The arguments `initial_time`, `final_time` and `time_step` of
+  [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  can be strings of characters such as `"2h 34m 5s"`,
+  in addition to numbers expressed in seconds.
+- [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]
+  allows to define a time duration
+  based on a number expressed in seconds
+  or a string of characters such as `"2h 34m 5s"`.
+
 ## Changed
 
 - The installation page of the documentation no longer mentions the possibility

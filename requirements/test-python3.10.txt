@@ -24,6 +24,8 @@ coverage[toml]==7.4.0
     #   pytest-cov
 cycler==0.12.1
     # via matplotlib
+delta==0.4.2
+    # via gemseo-fmu (pyproject.toml)
 dill==0.3.7
     # via openturns
 docstring-inheritance==2.1.2

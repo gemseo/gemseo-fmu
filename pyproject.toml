@@ -20,8 +20,9 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.9, <3.12"
 dependencies = [
-    "gemseo[all] >=5",
+    "delta == 0.4.2",
     "fmpy >=0.3.13,<=0.3.19",
+    "gemseo[all] >=5",
     "numpy",
 ]
 
