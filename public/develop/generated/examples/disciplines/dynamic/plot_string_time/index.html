@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.6">
     
     
       
@@ -1583,6 +1583,16 @@ include y, m, w, d, h, min, s, ms).</p>
 <span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.dynamic_fmu_discipline</span> <span class="kn">import</span> <span class="n">DynamicFMUDiscipline</span>
 <span class="kn">from</span> <span class="nn">gemseo_fmu.problems.fmu_files</span> <span class="kn">import</span> <span class="n">get_fmu_file_path</span>
 </code></pre></div>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib/python3.9/site-packages/gemseo/core/cache.py:52:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>
+Pyarrow<span class="w"> </span>will<span class="w"> </span>become<span class="w"> </span>a<span class="w"> </span>required<span class="w"> </span>dependency<span class="w"> </span>of<span class="w"> </span>pandas<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>next<span class="w"> </span>major<span class="w"> </span>release<span class="w"> </span>of<span class="w"> </span>pandas<span class="w"> </span><span class="o">(</span>pandas<span class="w"> </span><span class="m">3</span>.0<span class="o">)</span>,
+<span class="o">(</span>to<span class="w"> </span>allow<span class="w"> </span>more<span class="w"> </span>performant<span class="w"> </span>data<span class="w"> </span>types,<span class="w"> </span>such<span class="w"> </span>as<span class="w"> </span>the<span class="w"> </span>Arrow<span class="w"> </span>string<span class="w"> </span>type,<span class="w"> </span>and<span class="w"> </span>better<span class="w"> </span>interoperability<span class="w"> </span>with<span class="w"> </span>other<span class="w"> </span>libraries<span class="o">)</span>
+but<span class="w"> </span>was<span class="w"> </span>not<span class="w"> </span>found<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>installed<span class="w"> </span>on<span class="w"> </span>your<span class="w"> </span>system.
+If<span class="w"> </span>this<span class="w"> </span>would<span class="w"> </span>cause<span class="w"> </span>problems<span class="w"> </span><span class="k">for</span><span class="w"> </span>you,
+please<span class="w"> </span>provide<span class="w"> </span>us<span class="w"> </span>feedback<span class="w"> </span>at<span class="w"> </span>https://github.com/pandas-dev/pandas/issues/54466
+
+<span class="w">  </span>from<span class="w"> </span>pandas<span class="w"> </span>import<span class="w"> </span>MultiIndex
+</code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 31-40 -->
 
 <p>Let us create and use a discipline
@@ -1620,7 +1630,7 @@ with <code>"1 second"</code> and <code>"0.1ms"</code> instead of <code>1</code> 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <p><img alt="plot string time" class="mkd-glr-single-img" src="../images/mkd_glr_plot_string_time_001.png" srcset="../images/mkd_glr_plot_string_time_001.png" /></p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.757 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.738 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_string_time.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg></span> Download Python source code: plot_string_time.py</a></p>
@@ -1672,10 +1682,10 @@ with <code>"1 second"</code> and <code>"0.1ms"</code> instead of <code>1</code> 
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.e1c3ead8.min.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       
