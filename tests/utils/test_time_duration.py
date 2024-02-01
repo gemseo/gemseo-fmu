@@ -45,20 +45,21 @@ def test_comparison(value, other_value, operators):
 
 
 @pytest.mark.parametrize(
-    ("value", "name", "expected"),
+    ("value", "time_unit", "expected"),
     [
-        (1.6, "microseconds", 1600000),
-        (1.6, "milliseconds", 1600),
-        (1.6, "seconds", 1.6),
-        (4500, "minutes", 75),
-        (4500, "hours", 1.25),
-        (108000, "days", 1.25),
-        (907200, "weeks", 1.5),
-        (47336400, "months", 18),
-        (47336400, "years", 1.5),
+        (1.6, TimeDuration.TimeUnit.MICROSECONDS, 1600000),
+        (1.6, TimeDuration.TimeUnit.MILLISECONDS, 1600),
+        (1.6, TimeDuration.TimeUnit.SECONDS, 1.6),
+        (4500, TimeDuration.TimeUnit.MINUTES, 75),
+        (4500, TimeDuration.TimeUnit.HOURS, 1.25),
+        (108000, TimeDuration.TimeUnit.DAYS, 1.25),
+        (907200, TimeDuration.TimeUnit.WEEKS, 1.5),
+        (47336400, TimeDuration.TimeUnit.MONTHS, 18),
+        (47336400, TimeDuration.TimeUnit.YEARS, 1.5),
     ],
 )
-def test_units(value, name, expected):
+def test_units(value, time_unit, expected):
     """Verify that Time can be expressed with usual time units."""
     time = TimeDuration(value)
-    assert getattr(time, name) == expected
+    assert getattr(time, time_unit) == expected
+    assert time.to(time_unit) == expected

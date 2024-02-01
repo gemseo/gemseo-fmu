@@ -52,6 +52,19 @@ class TimeDuration:
     e.g. `assert TimeDuration("1 week") < TimeDuration("8 days")`.
     """
 
+    class TimeUnit:
+        """Time unit."""
+
+        MICROSECONDS = "microseconds"
+        MILLISECONDS = "milliseconds"
+        SECONDS = "seconds"
+        MINUTES = "minutes"
+        HOURS = "hours"
+        DAYS = "days"
+        WEEKS = "weeks"
+        MONTHS = "months"
+        YEARS = "years"
+
     __value: float
     """The duration in seconds."""
 
@@ -133,3 +146,14 @@ class TimeDuration:
     def microseconds(self) -> float:
         """The time duration in microseconds."""
         return self.__value * 1000000
+
+    def to(self, time_unit: TimeUnit) -> float:
+        """Return the time duration with a given time unit.
+
+        Args:
+            time_unit: The time unit.
+
+        Returns:
+            The time duration.
+        """
+        return getattr(self, time_unit)
