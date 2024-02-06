@@ -30,6 +30,9 @@ and this project adheres to
 
 ## Added
 
+- The method
+  [FMUDiscipline.plot][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot]
+  draws the temporal evolution of output variables with lines.
 - The components of
   [TimeSeries.time][gemseo_fmu.disciplines.time_series.TimeSeries.time]
   can be either strings of characters such as `"2h 34m 5s"`,

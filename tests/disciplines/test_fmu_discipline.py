@@ -26,6 +26,7 @@ import pytest
 from fmpy.fmi2 import FMU2Slave
 from fmpy.model_description import ModelDescription
 from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.utils.testing.helpers import image_comparison
 from numpy import array
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
@@ -33,6 +34,7 @@ from numpy.testing import assert_equal
 from gemseo_fmu.disciplines import base_fmu_discipline
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+from gemseo_fmu.disciplines.fmu_discipline import Lines
 from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
@@ -571,3 +573,51 @@ def test_string_time(initial, final, step):
     discipline.set_next_execution(simulation_time=final, time_step=step)
     discipline.execute()
     assert_equal(discipline.local_data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
+
+
+@pytest.fixture(scope="module")
+def discipline() -> FMUDiscipline:
+    """The MassSpringSystem discipline after execution."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.01
+    )
+    discipline.execute()
+    return discipline
+
+
+@pytest.mark.parametrize(
+    ("baseline_images", "output_names"),
+    [(["one_output"], "x1"), (["two_outputs"], ["x1", "x2"])],
+)
+@image_comparison(None)
+def test_plot(discipline, baseline_images, output_names):
+    """Verify that the discipline can plot the last execution."""
+    discipline.plot(output_names, save=False)
+
+
+@image_comparison(["time_unit"])
+def test_plot_time_unit(discipline):
+    """Verify that the discipline can plot the last execution with a given time unit."""
+    discipline.plot("x1", save=False, time_unit=discipline.TimeUnit.MINUTES)
+
+
+@image_comparison(["abscissa_name"])
+def test_plot_abscissa_name(discipline):
+    """Verify that the discipline can plot the last execution w.r.t.
+
+    a variable.
+    """
+    discipline.plot("x1", save=False, abscissa_name="x2")
+
+
+def test_plot_options(discipline):
+    """Verify that FMUDiscipline.plot correctly uses save, show and file_path."""
+    with mock.patch.object(Lines, "execute") as execute:
+        figure = discipline.plot("x1", show=True, file_path="foo.png")
+
+    assert isinstance(figure, Lines)
+    assert execute.call_args.kwargs == {
+        "save": True,
+        "show": True,
+        "file_path": "foo.png",
+    }
