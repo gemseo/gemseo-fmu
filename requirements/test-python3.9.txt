@@ -40,9 +40,9 @@ fastjsonschema==2.19.1
     # via gemseo
 fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
-fonttools==4.47.2
+fonttools==4.48.1
     # via matplotlib
-gemseo[all]==5.2.1.dev99+ge306b617
+gemseo[all]==5.2.1.dev111+g72dde4ca
     # via
     #   gemseo
     #   gemseo-fmu (pyproject.toml)
