@@ -1226,6 +1226,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;TimeUnit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.causalities_to_variable_names" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;causalities_to_variable_names
@@ -1322,6 +1331,15 @@
   <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;execute
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;plot
     </span>
   </a>
   
@@ -1784,6 +1802,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;TimeUnit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.causalities_to_variable_names" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;causalities_to_variable_names
@@ -1880,6 +1907,15 @@
   <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;execute
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;plot
     </span>
   </a>
   
@@ -2367,6 +2403,30 @@ to <code>_pre_instantiate()</code>.</p>
 
 
 
+<h6 id="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">TimeUnit</span>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">TimeUnit</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.utils.time_duration.TimeDuration.TimeUnit" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration.TimeUnit">TimeUnit</a></span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Time unit.</p>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h6 id="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.causalities_to_variable_names" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>          <span class="doc doc-object-name doc-attribute-name">causalities_to_variable_names</span>
 
@@ -2709,6 +2769,205 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
                 <span class="o">+</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">double</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__inputs_as_time_series</span><span class="p">],</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">full_input_data</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h6 id="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>          <span class="doc doc-object-name doc-function-name">plot</span>
+
+
+<a href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot" class="headerlink" title="Permanent link">&para;</a></h6>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">plot</span><span class="p">(</span>
+    <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">],</span>
+    <span class="n">abscissa_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">time_unit</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit">TimeUnit</a></span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+    <span class="n">save</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.post.dataset.lines.Lines" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.post.dataset.lines.html#gemseo.post.dataset.lines.Lines">Lines</a></span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Plot the time evolution of output variables.</p>
+
+
+
+  <p>Parameters:</p>
+  <ul>
+      <li class="field-body">
+        <b><code>output_names</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>)
+        –
+        <div class="doc-md-description">
+          <p>The name(s) of the output variable(s).</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>abscissa_name</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                <code>&#39;&#39;</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>The name of the variable to be plotted on the x-axis.
+If empty, use the time variable.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>time_unit</code></b>
+            (<code><a class="autorefs autorefs-internal" title="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" href="#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit">TimeUnit</a></code>, default:
+                <code><span title="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit.SECONDS">SECONDS</span></code>
+)
+        –
+        <div class="doc-md-description">
+          <p>The unit to express the time.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>save</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                <code>True</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>Whether to save the figure.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>show</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                <code>False</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>Whether to show the figure.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>file_path</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+                <code>&#39;&#39;</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>The path of the file to save the figure.
+The directory path and file format are deduced from it.
+If empty,
+save the file in the current directory,
+with the output name as file name and PNG format.</p>
+        </div>
+      </li>
+  </ul>
+
+
+
+  <p>Returns:</p>
+  <ul>
+      <li class="field-body">
+            <code><a class="autorefs autorefs-external" title="gemseo.post.dataset.lines.Lines" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.post.dataset.lines.html#gemseo.post.dataset.lines.Lines">Lines</a></code>
+        –
+        <div class="doc-md-description">
+          <p>The figure.</p>
+      </div>
+      </li>
+  </ul>
+
+          <details class="quote">
+            <summary>Source code in <code>src/gemseo_fmu/disciplines/fmu_discipline.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">output_names</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">abscissa_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">time_unit</span><span class="p">:</span> <span class="n">TimeUnit</span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+    <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Lines</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the time evolution of output variables.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        output_names: The name(s) of the output variable(s).</span>
+<span class="sd">        abscissa_name: The name of the variable to be plotted on the x-axis.</span>
+<span class="sd">            If empty, use the time variable.</span>
+<span class="sd">        time_unit: The unit to express the time.</span>
+<span class="sd">        save: Whether to save the figure.</span>
+<span class="sd">        show: Whether to show the figure.</span>
+<span class="sd">        file_path: The path of the file to save the figure.</span>
+<span class="sd">            The directory path and file format are deduced from it.</span>
+<span class="sd">            If empty,</span>
+<span class="sd">            save the file in the current directory,</span>
+<span class="sd">            with the output name as file name and PNG format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The figure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">output_names</span><span class="p">]</span>
+
+    <span class="n">time_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Time (</span><span class="si">{</span><span class="n">time_unit</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">abscissa_name</span><span class="p">:</span>
+        <span class="n">abscissa_name</span> <span class="o">=</span> <span class="n">time_name</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">()</span>
+    <span class="n">time_duration</span> <span class="o">=</span> <span class="n">TimeDuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">])</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">time_name</span><span class="p">,</span> <span class="n">time_duration</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">time_unit</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">output_names</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">({</span><span class="n">abscissa_name</span><span class="p">})</span> <span class="o">-</span> <span class="p">{</span><span class="n">time_name</span><span class="p">}:</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="n">name</span><span class="p">][:,</span> <span class="n">newaxis</span><span class="p">])</span>
+
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">Lines</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">abscissa_variable</span><span class="o">=</span><span class="n">abscissa_name</span><span class="p">)</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">figure</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
