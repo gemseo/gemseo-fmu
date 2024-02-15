@@ -500,7 +500,9 @@ class BaseFMUDiscipline(MDODiscipline):
 
     @staticmethod
     def __get_field_value(
-        default_experiment: DefaultExperiment | None, field: str, default_value: float
+        default_experiment: DefaultExperiment | None,
+        field: str,
+        default_value: float | None,
     ) -> float:
         """Get the value of a field of a default experiment.
 
@@ -666,7 +668,12 @@ class BaseFMUDiscipline(MDODiscipline):
         ):
             self.__current_time = self._initial_time
             self.__model.reset()
-            self.__model.setupExperiment(startTime=self.__current_time)
+            self.__model.setupExperiment(
+                tolerance=self.__get_field_value(
+                    self.__model_description.defaultExperiment, "tolerance", None
+                ),
+                startTime=self.__current_time,
+            )
             for parameter_name in self.__parameter_input_names:
                 data = input_data[parameter_name]
                 if not isinstance(data, TimeSeries):
