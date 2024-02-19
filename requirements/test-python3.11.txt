@@ -40,7 +40,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.49.0
     # via matplotlib
-gemseo[all]==5.2.1.dev131+gc99c21a1
+gemseo[all]==5.2.1.dev135+g62e36392
     # via gemseo-fmu (pyproject.toml)
 genson==1.2.2
     # via gemseo
@@ -167,7 +167,7 @@ typing-extensions==4.10.0rc1
     #   pydantic-core
 tzdata==2024.1
     # via pandas
-urllib3==2.2.0
+urllib3==2.2.1
     # via requests
 xdsmjs==2.0.0
     # via gemseo
