@@ -28,6 +28,8 @@ from fmpy.model_description import ModelDescription
 from gemseo.utils.comparisons import compare_dict_of_arrays
 from gemseo.utils.testing.helpers import image_comparison
 from numpy import array
+from numpy import ones
+from numpy import zeros
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
@@ -224,6 +226,9 @@ def test_initial_values(ramp_discipline_wo_restart, ramp_discipline_do_step):
 
 def test_set_current_time(ramp_discipline):
     """Check that a current time cannot be greater than the stop time."""
+    ramp_discipline._current_time = 0.5
+    assert ramp_discipline._current_time == 0.5
+
     with pytest.raises(
         ValueError,
         match=re.escape("The current time (2.0) is greater than the final time (1.0)."),
@@ -273,7 +278,12 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
     assert_almost_equal(ramp_discipline_w_restart.local_data[OUTPUT_NAME], output_data)
     caplog.set_level(logging.WARNING)
-    assert "Stop the simulation at 0.6." in caplog.text
+    _, level, msg = caplog.record_tuples[0]
+    assert level == logging.WARNING
+    assert msg == (
+        "The cumulated simulation time (0.6) exceeds the final time "
+        "set at instantiation (0.6); stop the simulation at final time."
+    )
 
 
 def test_execute_with_do_step(ramp_discipline_do_step):
@@ -384,34 +394,92 @@ def test_time_series():
 
     Here is a test with the model y(t+1) = k1(t)u1(t) + k2(t)u2(t).
 
-    t      k1(t)    u1(t)    k2(t)    u2(t)    t+1    y(t+1)
-    0      1        1        1        0        0.1    1
-    0.1    1        1        1        0.2      0.2    1.2
-    0.2    1        1        1        0.4      0.3    1.4
-    0.3    1        1        1        0.6      0.4    1.6
-    0.4    1        1        1        0.8      0.5    1.8
-    0.5    1        1        1.5      1        0.6    2.5
-    0.6    1        1        1.5      0.8      0.7    2.2
-    0.7    1        1        1.5      0.6      0.8    1.9
-    0.8    1        1        1.5      0.4      0.9    1.6
-    0.9    1        1        1.5      0.2      1      1.3
+    t      k1(t)    u1(t)    k2(t)    u2(t)    y(t+1)
+    0      1        1        1        0        1
+    0.1    1        1        1        0        1
+    0.2    1        1        1        0        1
+    0.3    1        1        1        0        1
+    0.4    1        1        1        0        1
+    0.5    1        1        1        1        2
+    0.6    1        1        1        1        2
+    0.7    1        1        1        0        1
+    0.8    1        1        1        0        1
+    0.9    1        1        2        0        1
+    1      1        1        2        0        1
     """
     discipline = FMUDiscipline(get_fmu_file_path("add"), final_time=1.0, time_step=0.1)
     discipline.execute()
-    assert_almost_equal(discipline.local_data["y"], array([0.0] * 11))
+    assert_almost_equal(discipline.local_data["y"], zeros([11]))
     discipline.execute({
-        "u1": TimeSeries([0.0], [1.0]),
-        "u2": TimeSeries([0.0, 0.5, 1.0], [0.0, 1.0, 0.0]),
+        "u1": array([1.0]),
+        "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0]),
         "add.k1": array([1.0]),
-        "add.k2": TimeSeries([0.0, 1.0], [1.0, 2.0]),
+        "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0]),
     })
+    assert_almost_equal(
+        discipline.local_data["time"],
+        array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
+    )
     assert_almost_equal(discipline.local_data["add.k1"], array([1.0]))
-    assert_almost_equal(discipline.local_data["add.k2"], array([1.0, 1.5, 2.0]))
-    assert_almost_equal(discipline.local_data["u1"], array([1.0, 1.0, 1.0]))
-    assert_almost_equal(discipline.local_data["u2"], array([0.0, 1.0, 0.0]))
+    assert_almost_equal(
+        discipline.local_data["add.k2"],
+        array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0]),
+    )
+    assert_almost_equal(discipline.local_data["u1"], array([1.0]))
+    assert_almost_equal(
+        discipline.local_data["u2"],
+        array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+    )
     assert_almost_equal(
         discipline.local_data["y"],
-        array([0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.5, 2.2, 1.9, 1.6, 1.3]),
+        array([1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0]),
+    )
+
+
+def test_time_series_do_step():
+    """Check the use of time series with do_step=True."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("add"),
+        final_time=1.0,
+        time_step=0.1,
+        do_step=True,
+        restart=False,
+    )
+    discipline.default_inputs.update({
+        "u1": array([1.0]),
+        "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0], 1e-3),
+        "add.k1": array([1.0]),
+        "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0], 1e-3),
+    })
+    time = []
+    y = []
+    u1 = []
+    u2 = []
+    k1 = []
+    k2 = []
+    for _ in range(10):
+        result = discipline.execute()
+        time.append(result["time"][0])
+        y.append(result["y"][0])
+        u1.append(result["u1"][0])
+        u2.append(result["u2"][0])
+        k1.append(result["add.k1"][0])
+        k2.append(result["add.k2"][0])
+
+    assert_almost_equal(
+        time,
+        array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
+    )
+    assert_almost_equal(k1, ones(10))
+    assert_almost_equal(k2, array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0]))
+    assert_almost_equal(u1, ones(10))
+    assert_almost_equal(
+        u2,
+        array([0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+    )
+    assert_almost_equal(
+        y,
+        array([1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0]),
     )
 
 
@@ -482,7 +550,10 @@ def test_get_default_time_value(
 
 
 @pytest.mark.parametrize("as_default_input", [False, True])
-def test_time_series_default_inputs_or_input_data(as_default_input):
+@pytest.mark.parametrize(
+    ("t0", "expected"), [(0, -4995.949237827578), (0.1, -4984.17842896)]
+)
+def test_time_series_default_inputs_or_input_data(as_default_input, t0, expected):
     """Test that FMUDiscipline can use TimeSeries in default_inputs and input_data."""
     discipline = FMUDiscipline(
         get_fmu_file_path("Mass_Damper"),
@@ -492,7 +563,7 @@ def test_time_series_default_inputs_or_input_data(as_default_input):
         final_time=1.0,
         time_step=0.0001,
     )
-    custom_input_data = {"mass.m": TimeSeries(array([0.0]), array([1.5]))}
+    custom_input_data = {"mass.m": TimeSeries(array([t0]), array([1.5]))}
     if as_default_input:
         discipline.default_inputs.update(custom_input_data)
         input_data = {}
@@ -500,7 +571,7 @@ def test_time_series_default_inputs_or_input_data(as_default_input):
         input_data = custom_input_data
 
     discipline.execute(input_data)
-    assert discipline.local_data["y"].sum() == pytest.approx(-4995.949237827578)
+    assert discipline.local_data["y"].sum() == pytest.approx(expected)
 
 
 @pytest.mark.parametrize("do_step", [False, True])

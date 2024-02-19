@@ -13,11 +13,11 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Use time series
+"""# Use time functions
 
 The input variables with `input` causality
 as well as some input variables with `parameter` causality
-can be set with time series.
+can be set with time functions.
 """
 
 from __future__ import annotations
@@ -25,7 +25,6 @@ from __future__ import annotations
 from matplotlib import pyplot as plt
 
 from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
-from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 # %%
@@ -54,16 +53,14 @@ discipline = DynamicFMUDiscipline(
 discipline.execute()
 
 # %%
-# and store the time evolution of both its position and the mass:
+# and store the time evolution of its position:
 default_y_evolution = discipline.local_data["y"]
 default_mass = discipline.local_data["mass.m"]
 
 # %%
 # Then,
-# we repeat the experiment with a custom time series for the mass,
-# characterized by a sharp change after 0.5 seconds.
-time_series = TimeSeries(time=[0.0, 0.25, 0.5, 1.0], observable=[4.0, 2.0, 0.2, 0.1])
-discipline.execute({"mass.m": time_series})
+# we repeat the experiment with a time linear function for the mass:
+discipline.execute({"mass.m": lambda t: 4 - 3 * t})
 
 # %%
 # Lastly,

@@ -32,7 +32,8 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
-    from numpy.typing import NDArray
+    from gemseo.typing import IntegerArray
+    from gemseo.typing import RealArray
 
 
 class TimeSteppingSystem(MDODiscipline):
@@ -46,7 +47,7 @@ class TimeSteppingSystem(MDODiscipline):
     other.
     """
 
-    __coupling_data: dict[str, NDArray[float]]
+    __coupling_data: dict[str, RealArray]
     """The coupling variable names bound to the coupling variable values."""
 
     __coupling_names: set[str]
@@ -76,7 +77,7 @@ class TimeSteppingSystem(MDODiscipline):
     __time_step: float
     """The time step of the system."""
 
-    __time_step_id: NDArray[int]
+    __time_step_id: IntegerArray
     """The identifier of the time step."""
 
     __TIME_STEP_ID_LABEL: Final[str] = "time_step_id"

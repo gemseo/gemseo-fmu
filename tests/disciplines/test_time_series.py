@@ -56,3 +56,25 @@ def test_time_series_from_string_time_values():
     """Check that the TimeSeries can be set from string time values."""
     time_series = TimeSeries(["1h", "2h"], [3, 4])
     assert time_series.time == [3600, 7200]
+
+
+@pytest.mark.parametrize(("time", "expected"), [(1, 3), (1.5, 3), (2, 4), (2.5, 4)])
+def test_compute(time, expected):
+    """Verify that TimeSeries.compute is a stairs function."""
+    time_series = TimeSeries([1, 2], [3, 4])
+    assert time_series.compute(time) == expected
+
+
+def test_compute_string():
+    """Verify that TimeSeries.compute works with string values."""
+    time_series = TimeSeries([1, 2], [3, 4])
+    assert time_series.compute("1.5s") == 3
+
+
+def test_compute_error():
+    """Verify that TimeSeries.compute cannot be evaluated before the first time."""
+    time_series = TimeSeries([1, 2], [3, 4])
+    with pytest.raises(
+        ValueError, match=re.escape("The time series starts at 1; got 0.5.")
+    ):
+        time_series.compute(0.5)
