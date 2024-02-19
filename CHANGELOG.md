@@ -30,6 +30,11 @@ and this project adheres to
 
 ## Added
 
+- A time-varying FMU model input can also be defined
+  as a time function of type `Callable[[TimeDurationType], float]`,
+  and not only a constant value or a
+  [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries];
+  the documentation provides an example of this functionality.
 - The method
   [FMUDiscipline.plot][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot]
   draws the temporal evolution of output variables with lines.
@@ -48,6 +53,11 @@ and this project adheres to
 
 ## Changed
 
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  stores the time evolution of its time-varying inputs
+  in its [local_data][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.local_data]
+  when `do_step` is `False`
+  and their values at current time otherwise.
 - The installation page of the documentation no longer mentions the possibility
   of installing via conda-forge.
 - The installation page of the documentation no longer mentions the possibility
@@ -58,6 +68,11 @@ and this project adheres to
 
 - `BaseFMUDiscipline._pre_instantiate` can now redefine time properties
   relative to initial and final times, e.g. simulation time and current value.
+- The points of a
+  [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries]
+  are interpreted as the starting points of the intervals of a stairs function
+  for FMU model inputs of causality `input`,
+  which is consistent with the FMU model input of causality `parameter`.
 
 # Version 2.0.0 (December 2023)
 

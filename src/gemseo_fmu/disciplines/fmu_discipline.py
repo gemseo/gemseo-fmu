@@ -29,7 +29,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
 
-    from numpy.typing import NDArray
+    from gemseo.typing import NumberArray
+    from gemseo.typing import RealArray
 
 
 class FMUDiscipline(BaseFMUDiscipline):
@@ -51,12 +52,12 @@ class FMUDiscipline(BaseFMUDiscipline):
     TimeUnit = TimeDuration.TimeUnit
 
     @property
-    def initial_values(self) -> dict[str, NDArray[float]]:
+    def initial_values(self) -> dict[str, NumberArray]:
         """The initial input, output and time values."""
         return self._initial_values
 
     @property
-    def time(self) -> NDArray[float] | None:
+    def time(self) -> RealArray | None:
         """The time steps of the last execution if any."""
         return self._time
 

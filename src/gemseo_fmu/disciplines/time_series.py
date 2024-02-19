@@ -19,6 +19,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from dataclasses import field
 from typing import TYPE_CHECKING
+from typing import Callable
 
 from gemseo_fmu.utils.time_duration import TimeDuration
 from gemseo_fmu.utils.time_duration import TimeDurationType
@@ -41,8 +42,14 @@ class TimeSeries:
     observable: Sequence[float]
     """The values of the observable associated to the values of the time."""
 
+    tolerance: TimeDurationType = 0.0
+    """The tolerance for the stairs function."""
+
     size: int = field(init=False)
     """The size of the time series."""
+
+    compute: Callable[[float], float] = field(init=False)
+    """The stairs function built from this time series."""
 
     def __post_init__(self) -> None:
         """
@@ -57,5 +64,30 @@ class TimeSeries:
                 f"and 'observable' ({observable_size}) do not match."
             )
             raise ValueError(msg)
+        object.__setattr__(self, "tolerance", TimeDuration(self.tolerance).seconds)
         object.__setattr__(self, "time", [TimeDuration(t).seconds for t in self.time])
         object.__setattr__(self, "size", time_size)
+        object.__setattr__(self, "compute", self.__stairs_function)
+
+    def __stairs_function(self, time: TimeDurationType) -> float:
+        """The stairs function built from the time series.
+
+        Args:
+            time: The input value.
+
+        Returns:
+            The output value.
+
+        Raises:
+            ValueError: When the input value is strictly lower than the initial time.
+        """
+        time = TimeDuration(time).seconds
+        if time < self.time[0]:
+            msg = f"The time series starts at {self.time[0]}; got {time}."
+            raise ValueError(msg)
+
+        for time_i, observable_i in zip(self.time[1:], self.observable[:-1]):
+            if time + self.tolerance < time_i:
+                return observable_i
+
+        return self.observable[-1]
