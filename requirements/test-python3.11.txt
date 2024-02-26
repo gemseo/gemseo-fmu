@@ -40,7 +40,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.49.0
     # via matplotlib
-gemseo[all]==5.2.1.dev161+g7b433001
+gemseo[all]==5.2.1.dev163+g289ca1ca
     # via gemseo-fmu (pyproject.toml)
 genson==1.2.2
     # via gemseo
@@ -160,7 +160,7 @@ threadpoolctl==3.3.0
     # via scikit-learn
 tqdm==4.66.1
     # via gemseo
-typing-extensions==4.10.0rc1
+typing-extensions==4.10.0
     # via
     #   gemseo
     #   pydantic
