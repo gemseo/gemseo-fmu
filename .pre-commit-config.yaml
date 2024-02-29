@@ -17,6 +17,7 @@ repos:
         --autofix,
         --no-sort-keys,
       ]
+      exclude: \.ipynb
     - id: check-toml
     - id: destroyed-symlinks
     - id: check-symlinks
