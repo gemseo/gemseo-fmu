@@ -53,6 +53,7 @@ and this project adheres to
 
 ## Changed
 
+- [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries] supports the `==` and `!=` operators.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   stores the time evolution of its time-varying inputs
   in its [local_data][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.local_data]

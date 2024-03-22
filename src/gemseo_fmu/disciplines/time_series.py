@@ -19,7 +19,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from dataclasses import field
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import Callable
+
+from numpy import array
 
 from gemseo_fmu.utils.time_duration import TimeDuration
 from gemseo_fmu.utils.time_duration import TimeDurationType
@@ -91,3 +94,11 @@ class TimeSeries:
                 return observable_i
 
         return self.observable[-1]
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, TimeSeries):
+            return False
+
+        return (array(self.time) == array(other.time)).all() and (
+            array(self.observable) == array(other.observable)
+        ).all()
