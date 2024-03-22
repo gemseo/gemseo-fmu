@@ -78,3 +78,18 @@ def test_compute_error():
         ValueError, match=re.escape("The time series starts at 1; got 0.5.")
     ):
         time_series.compute(0.5)
+
+
+@pytest.mark.parametrize(
+    ("other_time_series", "are_equal"),
+    [
+        (TimeSeries([1, 2], [3, 4]), True),
+        (TimeSeries([1, 2], [3, 5]), False),
+        (TimeSeries([1, 3], [3, 4]), False),
+        (TimeSeries([1, 3], [3, 5]), False),
+        (1, False),
+    ],
+)
+def test_eq(other_time_series, are_equal):
+    """Verify that the __eq__ method works correctly."""
+    assert (TimeSeries([1, 2], [3, 4]) == other_time_series) == are_equal
