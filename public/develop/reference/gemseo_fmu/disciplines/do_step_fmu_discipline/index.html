@@ -580,6 +580,8 @@
       
         
       
+        
+      
     
     
       
@@ -673,6 +675,27 @@
   
   <span class="md-ellipsis">
     Plot from initial time to final time
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../generated/examples/disciplines/dynamic/plot_plot_time_evolution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot plot time evolution
   </span>
   
 
@@ -2670,6 +2693,7 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
     <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">],</span>
     <span class="n">abscissa_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">time_unit</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.TimeUnit">TimeUnit</a></span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+    <span class="n">time_window</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">save</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">show</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -2711,6 +2735,18 @@ If empty, use the time variable.</p>
         –
         <div class="doc-md-description">
           <p>The unit to express the time.</p>
+        </div>
+      </li>
+      <li class="field-body">
+        <b><code>time_window</code></b>
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>, default:
+                <code>0</code>
+)
+        –
+        <div class="doc-md-description">
+          <p>The time windows over which to draw the time evolution.
+Either the start time index (the end one will be the final time one)
+or both the start and end time indices.</p>
         </div>
       </li>
       <li class="field-body">
@@ -2806,11 +2842,20 @@ with the output name as file name and PNG format.</p>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">abscissa_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">time_unit</span><span class="p">:</span> <span class="n">TimeUnit</span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">,</span>
+    <span class="n">time_window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -2822,6 +2867,9 @@ with the output name as file name and PNG format.</p>
 <span class="sd">        abscissa_name: The name of the variable to be plotted on the x-axis.</span>
 <span class="sd">            If empty, use the time variable.</span>
 <span class="sd">        time_unit: The unit to express the time.</span>
+<span class="sd">        time_window: The time windows over which to draw the time evolution.</span>
+<span class="sd">            Either the start time index (the end one will be the final time one)</span>
+<span class="sd">            or both the start and end time indices.</span>
 <span class="sd">        save: Whether to save the figure.</span>
 <span class="sd">        show: Whether to show the figure.</span>
 <span class="sd">        file_path: The path of the file to save the figure.</span>
@@ -2840,11 +2888,15 @@ with the output name as file name and PNG format.</p>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">abscissa_name</span><span class="p">:</span>
         <span class="n">abscissa_name</span> <span class="o">=</span> <span class="n">time_name</span>
 
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_window</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">time_window</span> <span class="o">=</span> <span class="p">(</span><span class="n">time_window</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">()</span>
-    <span class="n">time_duration</span> <span class="o">=</span> <span class="n">TimeDuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[:,</span> <span class="n">newaxis</span><span class="p">])</span>
+    <span class="n">time_window</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="n">time_window</span><span class="p">)</span>
+    <span class="n">time_duration</span> <span class="o">=</span> <span class="n">TimeDuration</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">time_window</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">])</span>
     <span class="n">dataset</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">time_name</span><span class="p">,</span> <span class="n">time_duration</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">time_unit</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">output_names</span><span class="p">)</span><span class="o">.</span><span class="n">union</span><span class="p">({</span><span class="n">abscissa_name</span><span class="p">})</span> <span class="o">-</span> <span class="p">{</span><span class="n">time_name</span><span class="p">}:</span>
-        <span class="n">dataset</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="n">name</span><span class="p">][:,</span> <span class="n">newaxis</span><span class="p">])</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">time_window</span><span class="p">,</span> <span class="n">newaxis</span><span class="p">])</span>
 
     <span class="n">figure</span> <span class="o">=</span> <span class="n">Lines</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">abscissa_variable</span><span class="o">=</span><span class="n">abscissa_name</span><span class="p">)</span>
     <span class="n">figure</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="n">file_path</span><span class="p">)</span>
