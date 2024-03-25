@@ -66,6 +66,7 @@ class FMUDiscipline(BaseFMUDiscipline):
         output_names: str | Iterable[str],
         abscissa_name: str = "",
         time_unit: TimeUnit = TimeUnit.SECONDS,
+        time_window: int | tuple[int, int] = 0,
         save: bool = True,
         show: bool = False,
         file_path: str | Path = "",
@@ -77,6 +78,9 @@ class FMUDiscipline(BaseFMUDiscipline):
             abscissa_name: The name of the variable to be plotted on the x-axis.
                 If empty, use the time variable.
             time_unit: The unit to express the time.
+            time_window: The time windows over which to draw the time evolution.
+                Either the start time index (the end one will be the final time one)
+                or both the start and end time indices.
             save: Whether to save the figure.
             show: Whether to show the figure.
             file_path: The path of the file to save the figure.
@@ -95,11 +99,15 @@ class FMUDiscipline(BaseFMUDiscipline):
         if not abscissa_name:
             abscissa_name = time_name
 
+        if isinstance(time_window, int):
+            time_window = (time_window, self.time.size)
+
         dataset = Dataset()
-        time_duration = TimeDuration(self.time[:, newaxis])
+        time_window = slice(*time_window)
+        time_duration = TimeDuration(self.time[time_window, newaxis])
         dataset.add_variable(time_name, time_duration.to(time_unit))
         for name in set(output_names).union({abscissa_name}) - {time_name}:
-            dataset.add_variable(name, self.local_data[name][:, newaxis])
+            dataset.add_variable(name, self.local_data[name][time_window, newaxis])
 
         figure = Lines(dataset, output_names, abscissa_variable=abscissa_name)
         figure.execute(save=save, show=show, file_path=file_path)

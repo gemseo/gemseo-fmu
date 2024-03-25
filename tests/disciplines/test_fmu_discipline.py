@@ -674,11 +674,20 @@ def test_plot_time_unit(discipline):
 
 @image_comparison(["abscissa_name"])
 def test_plot_abscissa_name(discipline):
-    """Verify that the discipline can plot the last execution w.r.t.
-
-    a variable.
-    """
+    """Verify that the discipline can plot the last execution wrt a variable."""
     discipline.plot("x1", save=False, abscissa_name="x2")
+
+
+@image_comparison(["time_window_as_integer"])
+def test_plot_time_window_as_integer(discipline):
+    """Verify that the discipline can plot the last execution from a time index."""
+    discipline.plot("x1", save=False, time_window=500)
+
+
+@image_comparison(["time_window_as_tuple"])
+def test_plot_time_window_as_tuple(discipline):
+    """Verify that the discipline can plot the last execution from time indices."""
+    discipline.plot("x1", save=False, time_window=(500, 700))
 
 
 def test_plot_options(discipline):
