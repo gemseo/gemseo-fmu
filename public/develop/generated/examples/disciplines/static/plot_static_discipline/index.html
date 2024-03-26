@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.15">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.10ba22f1.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.7e359304.min.css">
       
         
         <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
@@ -1622,35 +1622,33 @@ to download the full example code</p>
 <p>The
 <a class="autorefs autorefs-internal" href="../../../../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
 can be used to simulate a time-independent FMU model.</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 22-30 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 22-28 -->
 
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
 
 <span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.static_fmu_discipline</span> <span class="kn">import</span> <span class="n">StaticFMUDiscipline</span>
 <span class="kn">from</span> <span class="nn">gemseo_fmu.problems.fmu_files</span> <span class="kn">import</span> <span class="n">get_fmu_file_path</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 31-34 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 29-32 -->
 
 <p>Let us create a discipline based on an FMU model
 computing the output <span class="arithmatex">\(y\)</span> from the inputs <span class="arithmatex">\(u_1\)</span> and <span class="arithmatex">\(u_2\)</span>
 as <span class="arithmatex">\(y=f(u_1,u_2)=k_1u_1+k_2u_2\)</span>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 34-36 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 32-34 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">StaticFMUDiscipline</span><span class="p">(</span><span class="n">get_fmu_file_path</span><span class="p">(</span><span class="s2">&quot;add&quot;</span><span class="p">))</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 37-38 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 35-36 -->
 
 <p>We can have a look to the default inputs:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 38-40 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 36-38 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span>
 </code></pre></div>
 <p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><span class="o">{</span><span class="s1">&#39;add.k2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;add.k1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;u2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;u1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.<span class="o">])}</span>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><span class="o">{</span><span class="s1">&#39;u2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;add.k1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;u1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;add.k2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])}</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 41-47 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 39-45 -->
 
 <p>and see that they are equal to zero.
 We can also see that <span class="arithmatex">\(k_1\)</span> and <span class="arithmatex">\(k_2\)</span> are discipline inputs
@@ -1658,52 +1656,61 @@ in the same way as <span class="arithmatex">\(u_1\)</span> and <span class="arit
 However,
 their causality is <em>parameter</em>
 while the causality of <span class="arithmatex">\(u_1\)</span> and <span class="arithmatex">\(u_2\)</span> is <em>parameter</em>:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 47-49 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 45-47 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">causalities_to_variable_names</span>
 </code></pre></div>
 <p class="mkd-glr-script-out">Out:</p>
 <div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><span class="o">{</span><span class="s1">&#39;input&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;u1&#39;</span>,<span class="w"> </span><span class="s1">&#39;u2&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;output&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;y&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;parameter&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;add.k1&#39;</span>,<span class="w"> </span><span class="s1">&#39;add.k2&#39;</span><span class="o">]</span>,<span class="w"> </span><span class="s1">&#39;local&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;add.u1&#39;</span>,<span class="w"> </span><span class="s1">&#39;add.u2&#39;</span>,<span class="w"> </span><span class="s1">&#39;add.y&#39;</span><span class="o">]}</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 50-52 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 48-50 -->
 
 <p>Then,
 we can execute the discipline with the default input values</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 52-55 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 50-53 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">get_output_data</span><span class="p">()</span>
 </code></pre></div>
 <p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><span class="o">{</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.<span class="o">])}</span>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib/python3.9/site-packages/pydantic/main.py:509:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span>cls.__pydantic_validator__.validate_python<span class="o">(</span>
+
+<span class="o">{</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.<span class="o">])}</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 56-59 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 54-57 -->
 
 <p>and check that the output is equal to 0 as expected.
 Then,
 we can execute this discipline with new input values:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 59-62 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 57-60 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">]),</span> <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">])})</span>
+<div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">})</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">get_output_data</span><span class="p">()</span>
 </code></pre></div>
 <p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><span class="o">{</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">5</span>.<span class="o">])}</span>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib/python3.9/site-packages/pydantic/main.py:509:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span>cls.__pydantic_validator__.validate_python<span class="o">(</span>
+
+<span class="o">{</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">5</span>.<span class="o">])}</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 63-66 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 61-64 -->
 
 <p>and check that the output is equal to 5 as expected.
 Lastly,
 we can also change the values of the inputs with <em>parameter</em> causality:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 66-69 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 64-67 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">]),</span> <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">]),</span> <span class="s2">&quot;add.k1&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">])})</span>
+<div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s2">&quot;add.k1&quot;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">})</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">get_output_data</span><span class="p">()</span>
 </code></pre></div>
 <p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><span class="o">{</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">11</span>.<span class="o">])}</span>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib/python3.9/site-packages/pydantic/main.py:509:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span>cls.__pydantic_validator__.validate_python<span class="o">(</span>
+
+<span class="o">{</span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">11</span>.<span class="o">])}</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 70-71 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 68-69 -->
 
 <p>The output is equal to 11 as expected.</p>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.037 seconds)</p>

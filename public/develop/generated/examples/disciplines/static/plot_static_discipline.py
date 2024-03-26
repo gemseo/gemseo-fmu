@@ -22,8 +22,6 @@ can be used to simulate a time-independent FMU model.
 
 from __future__ import annotations
 
-from numpy import array
-
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
@@ -56,14 +54,14 @@ discipline.get_output_data()
 # and check that the output is equal to 0 as expected.
 # Then,
 # we can execute this discipline with new input values:
-discipline.execute({"u1": array([2.0]), "u2": array([3.0])})
+discipline.execute({"u1": 2.0, "u2": 3.0})
 discipline.get_output_data()
 
 # %%
 # and check that the output is equal to 5 as expected.
 # Lastly,
 # we can also change the values of the inputs with _parameter_ causality:
-discipline.execute({"u1": array([2.0]), "u2": array([3.0]), "add.k1": array([4.0])})
+discipline.execute({"u1": 2.0, "u2": 3.0, "add.k1": 4.0})
 discipline.get_output_data()
 
 # %%

@@ -24,7 +24,6 @@ so that each execution starts where the previous one stopped.
 from __future__ import annotations
 
 from matplotlib import pyplot as plt
-from numpy import array
 
 from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
@@ -68,7 +67,7 @@ time_evolution_1 = (discipline.time, discipline.local_data["y"])
 # %%
 # We repeat this experiment with custom input values:
 discipline.set_next_execution(simulation_time=0.3)
-discipline.execute({"mass.m": array([1.5]), "spring.c": array([1050.0])})
+discipline.execute({"mass.m": 1.5, "spring.c": 1050.0})
 
 # %%
 # store the results:
