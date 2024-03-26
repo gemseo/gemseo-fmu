@@ -16,33 +16,38 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Sequence
 from dataclasses import field
-from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
+from typing import Union
 
+from gemseo.core.grammars.pydantic_ndarray import NDArrayPydantic
 from numpy import array
+from pydantic.dataclasses import dataclass
 
 from gemseo_fmu.utils.time_duration import TimeDuration
 from gemseo_fmu.utils.time_duration import TimeDurationType
 
-if TYPE_CHECKING:
-    from collections.abc import Sequence
+ObservableType = Union[Sequence[float], NDArrayPydantic[float]]
+"""The type for a sequence of observable values."""
+
+TimeType = Union[Sequence[TimeDurationType], NDArrayPydantic]
+"""The type for a sequence of time values."""
 
 
 @dataclass(frozen=True)
 class TimeSeries:
     """The time series of an observable."""
 
-    time: Sequence[TimeDurationType]
+    time: TimeType
     """The increasing values of the time.
 
     The components can be either numbers in seconds or strings of characters (see
     [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]).
     """
 
-    observable: Sequence[float]
+    observable: ObservableType
     """The values of the observable associated to the values of the time."""
 
     tolerance: TimeDurationType = 0.0
@@ -67,10 +72,10 @@ class TimeSeries:
                 f"and 'observable' ({observable_size}) do not match."
             )
             raise ValueError(msg)
-        object.__setattr__(self, "tolerance", TimeDuration(self.tolerance).seconds)
-        object.__setattr__(self, "time", [TimeDuration(t).seconds for t in self.time])
-        object.__setattr__(self, "size", time_size)
         object.__setattr__(self, "compute", self.__stairs_function)
+        object.__setattr__(self, "size", time_size)
+        object.__setattr__(self, "time", [TimeDuration(t).seconds for t in self.time])
+        object.__setattr__(self, "tolerance", TimeDuration(self.tolerance).seconds)
 
     def __stairs_function(self, time: TimeDurationType) -> float:
         """The stairs function built from the time series.

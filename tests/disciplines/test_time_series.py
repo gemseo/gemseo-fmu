@@ -75,7 +75,7 @@ def test_compute_error():
     """Verify that TimeSeries.compute cannot be evaluated before the first time."""
     time_series = TimeSeries([1, 2], [3, 4])
     with pytest.raises(
-        ValueError, match=re.escape("The time series starts at 1; got 0.5.")
+        ValueError, match=re.escape("The time series starts at 1.0; got 0.5.")
     ):
         time_series.compute(0.5)
 

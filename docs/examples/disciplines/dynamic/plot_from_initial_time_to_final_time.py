@@ -25,7 +25,6 @@ in one go.
 from __future__ import annotations
 
 from matplotlib import pyplot as plt
-from numpy import array
 
 from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
@@ -62,7 +61,7 @@ default_y_evolution = discipline.local_data["y"]
 # Then,
 # we repeat the experiment with custom values
 # of the mass and spring constants:
-discipline.execute({"mass.m": array([1.5]), "spring.c": array([1050.0])})
+discipline.execute({"mass.m": 1.5, "spring.c": 1050.0})
 
 # %%
 # Lastly,

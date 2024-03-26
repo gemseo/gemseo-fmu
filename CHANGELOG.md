@@ -30,6 +30,7 @@ and this project adheres to
 
 ## Added
 
+- Any [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] can use scalar input variables.
 - A time-varying FMU model input can also be defined
   as a time function of type `Callable[[TimeDurationType], float]`,
   and not only a constant value or a

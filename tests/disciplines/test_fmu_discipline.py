@@ -701,3 +701,24 @@ def test_plot_options(discipline):
         "show": True,
         "file_path": "foo.png",
     }
+
+
+def test_scalar_input_variables():
+    """Check that an FMUDiscipline can use scalar input variables."""
+    discipline = FMUDiscipline(
+        FMU_PATH,
+        [INPUT_NAME],
+        [OUTPUT_NAME],
+        initial_time=0.0,
+        final_time=2.0,
+        time_step=0.2,
+    )
+    discipline.default_inputs[INPUT_NAME] = array([2.0])
+    discipline.execute()
+    discipline.execute({INPUT_NAME: array([2.1])})
+    output_data_with_array_input = discipline.local_data[OUTPUT_NAME]
+
+    discipline.default_inputs[INPUT_NAME] = 2.0
+    discipline.execute()
+    discipline.execute({INPUT_NAME: 2.1})
+    assert_equal(discipline.local_data[OUTPUT_NAME], output_data_with_array_input)

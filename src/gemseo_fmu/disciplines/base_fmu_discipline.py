@@ -38,6 +38,7 @@ from fmpy.fmi3 import FMU3Model
 from fmpy.fmi3 import FMU3Slave
 from fmpy.util import fmu_info
 from gemseo.core.discipline import MDODiscipline
+from gemseo.core.grammars.pydantic_ndarray import NDArrayPydantic
 from numpy import append
 from numpy import array
 from numpy import ndarray
@@ -239,6 +240,7 @@ class BaseFMUDiscipline(MDODiscipline):
                 name or self.__model_description.modelName or self.__class__.__name__
             ),
             cache_type=self.CacheType.NONE,
+            grammar_type=self.GrammarType.PYDANTIC,
         )
         self.__set_grammars(add_time_to_output_grammar)
         self.default_inputs = {
@@ -252,10 +254,16 @@ class BaseFMUDiscipline(MDODiscipline):
         Args:
             add_time_to_output_grammar: Whether the time is added to the output grammar.
         """
-        self.input_grammar.update_from_names(self.__input_names)
+        self.input_grammar.update_from_types(
+            dict.fromkeys(
+                self.__input_names, Union[int, float, NDArrayPydantic, TimeSeries]
+            )
+        )
         self.output_grammar.update_from_names(self.__output_names)
         if add_time_to_output_grammar:
-            self.output_grammar.update_from_names([self._TIME])
+            self.output_grammar.update_from_types({
+                self._TIME: Union[float, NDArrayPydantic[float]]
+            })
             self.output_grammar.add_namespace(self._TIME, self.name)
 
     def __set_time(
@@ -664,8 +672,10 @@ class BaseFMUDiscipline(MDODiscipline):
 
                 if store:
                     self._local_data[input_name] = array([value])
-            else:
+            elif isinstance(input_value, ndarray):
                 value = input_value[0]
+            else:
+                value = input_value
             self.__model.setReal([self.__names_to_references[input_name]], [value])
 
     def __do_when_step_finished(self, time: float, recorder: Recorder) -> bool:
@@ -724,7 +734,7 @@ class BaseFMUDiscipline(MDODiscipline):
         )
         self._time = result[self._TIME]
         output_data = {
-            output_name: result[output_name]
+            output_name: array(result[output_name])
             for output_name in self.get_output_data_names(with_namespaces=False)
         }
         self.store_local_data(**output_data)
