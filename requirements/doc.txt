@@ -38,26 +38,26 @@ fastjsonschema==2.19.1
 fmpy==0.3.19
 fonttools==4.50.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@cc54cd239a8297261ab7cf65219b425d21f9878b
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@abcbf58d8d3497a6623a780ff6bb28790dfcb804
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
     # via mkdocs
-graphviz==0.20.1
+graphviz==0.20.3
     # via gemseo
-griffe==0.42.0
+griffe==0.42.1
     # via mkdocstrings-python
 h5py==3.10.0
     # via gemseo
 idna==3.6
     # via requests
-importlib-metadata==7.0.2
+importlib-metadata==7.1.0
     # via
     #   markdown
     #   mike
     #   mkdocs
     #   mkdocstrings
-importlib-resources==6.3.1
+importlib-resources==6.4.0
     # via
     #   matplotlib
     #   mike
@@ -111,12 +111,12 @@ mkdocs==1.5.3
     #   mkdocstrings
 mkdocs-autorefs==1.0.1
     # via mkdocstrings
-mkdocs-bibtex==2.14.1
+mkdocs-bibtex==2.14.4
 mkdocs-gallery==0.10.1
 mkdocs-gen-files==0.5.0
-mkdocs-include-markdown-plugin==6.0.4
+mkdocs-include-markdown-plugin==6.0.5
 mkdocs-literate-nav==0.6.1
-mkdocs-material==9.5.14
+mkdocs-material==9.5.15
     # via mkdocs-gallery
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
@@ -177,7 +177,7 @@ platformdirs==4.2.0
     #   black
     #   mkdocs
     #   mkdocstrings
-plotly==5.19.0
+plotly==5.20.0
     # via gemseo
 psutil==5.9.8
     # via openturns
@@ -247,7 +247,7 @@ sympy==1.12
     # via gemseo
 tenacity==8.2.3
     # via plotly
-threadpoolctl==3.3.0
+threadpoolctl==3.4.0
     # via scikit-learn
 tomli==2.0.1
     # via black
@@ -266,7 +266,7 @@ tzdata==2024.1
     # via pandas
 urllib3==2.2.1
     # via requests
-validators==0.22.0
+validators==0.24.0
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
