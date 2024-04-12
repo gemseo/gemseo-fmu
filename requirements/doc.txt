@@ -38,7 +38,7 @@ fastjsonschema==2.19.1
 fmpy==0.3.19
 fonttools==4.51.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a431e2e67f59a949bc8f5bc23ff55d96c9b1c888
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@3e87114917ef88ed985d02ee5b9f2584ceddcca1
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
@@ -49,7 +49,7 @@ griffe==0.42.1
     # via mkdocstrings-python
 h5py==3.10.0
     # via gemseo
-idna==3.6
+idna==3.7
     # via requests
 importlib-metadata==7.1.0
     # via
