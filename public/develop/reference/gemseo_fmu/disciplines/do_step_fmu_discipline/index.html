@@ -2053,9 +2053,9 @@
     <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span><span class="p">,</span>
     <span class="n">input_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(),</span>
     <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
-    <span class="n">initial_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time.TimeType">TimeType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">final_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time.TimeType">TimeType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">time_step</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time.TimeType">TimeType</span></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">initial_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeType">TimeType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">final_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeType">TimeType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_step</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeType">TimeType</span></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">add_time_to_output_grammar</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -2123,7 +2123,7 @@ if empty, use all the outputs of the FMU model.</p>
       </li>
       <li class="field-body">
         <b><code>initial_time</code></b>
-            (<code><span title="gemseo_fmu.utils.time.TimeType">TimeType</span> | None</code>, default:
+            (<code><span title="gemseo_fmu.utils.time_duration.TimeType">TimeType</span> | None</code>, default:
                 <code>None</code>
 )
         –
@@ -2137,7 +2137,7 @@ otherwise use 0.</p>
       </li>
       <li class="field-body">
         <b><code>final_time</code></b>
-            (<code><span title="gemseo_fmu.utils.time.TimeType">TimeType</span> | None</code>, default:
+            (<code><span title="gemseo_fmu.utils.time_duration.TimeType">TimeType</span> | None</code>, default:
                 <code>None</code>
 )
         –
@@ -2151,7 +2151,7 @@ otherwise use the initial time.</p>
       </li>
       <li class="field-body">
         <b><code>time_step</code></b>
-            (<code><span title="gemseo_fmu.utils.time.TimeType">TimeType</span></code>, default:
+            (<code><span title="gemseo_fmu.utils.time_duration.TimeType">TimeType</span></code>, default:
                 <code>0.0</code>
 )
         –
