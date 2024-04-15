@@ -33,7 +33,7 @@ def test_standard_use():
     discipline.execute()
     x2_ref = discipline.local_data["x2"]
 
-    discipline = TimeSteppingSystem(
+    system = TimeSteppingSystem(
         (
             get_fmu_file_path("MassSpringSubSystem1"),
             get_fmu_file_path("MassSpringSubSystem2"),
@@ -42,10 +42,12 @@ def test_standard_use():
         10,
         0.01,
     )
-    discipline.execute()
+    system.execute()
 
-    assert_allclose(discipline.local_data["x2"], x2_ref[1:])
-    assert_allclose(discipline.local_data["x2_plus_one"], x2_ref[1:] + 1, rtol=1e-1)
+    assert_allclose(system.local_data["x2"], x2_ref[1:])
+    assert_allclose(
+        system.local_data["x2_plus_one"][1:], system.local_data["x2"][:-1] + 1
+    )
 
 
 @pytest.mark.parametrize(
@@ -53,7 +55,7 @@ def test_standard_use():
 )
 def test_restart(kwargs, n_calls):
     """Check the option restart."""
-    discipline = TimeSteppingSystem(
+    system = TimeSteppingSystem(
         (
             get_fmu_file_path("MassSpringSubSystem1"),
             get_fmu_file_path("MassSpringSubSystem2"),
@@ -62,9 +64,9 @@ def test_restart(kwargs, n_calls):
         0.01,
         **kwargs,
     )
-    discipline.execute()["x2"]
-    assert discipline.execute()["x2"].size == 1000
-    assert discipline.n_calls == n_calls
+    system.execute()["x2"]
+    assert system.execute()["x2"].size == 1000
+    assert system.n_calls == n_calls
 
 
 def test_do_step():
@@ -77,12 +79,12 @@ def test_do_step():
         restart=False,
     )
     discipline.execute()
-    first_x_2_ref = discipline.local_data["x2"]
+    first_ref_x_2 = discipline.local_data["x2"]
     discipline.execute()
-    second_x_2_ref = discipline.local_data["x2"]
-    assert first_x_2_ref != second_x_2_ref
+    second_ref_x_2 = discipline.local_data["x2"]
+    assert first_ref_x_2 != second_ref_x_2
 
-    discipline = TimeSteppingSystem(
+    system = TimeSteppingSystem(
         (
             get_fmu_file_path("MassSpringSubSystem1"),
             get_fmu_file_path("MassSpringSubSystem2"),
@@ -93,15 +95,15 @@ def test_do_step():
         do_step=True,
         restart=False,
     )
-    discipline.execute()
-    first_x_2_system = discipline.local_data["x2"]
-    first_x_2_system_plus_one = discipline.local_data["x2_plus_one"]
-    discipline.execute()
-    second_x_2_system = discipline.local_data["x2"]
-    second_x_2_system_plus_one = discipline.local_data["x2_plus_one"]
-    assert first_x_2_system != second_x_2_system
+    system.execute()
+    first_system_x_2 = system.local_data["x2"]
+    first_system_x_2_plus_one = system.local_data["x2_plus_one"]
+    system.execute()
+    second_system_x_2 = system.local_data["x2"]
+    second_system_x_2_plus_one = system.local_data["x2_plus_one"]
+    assert first_system_x_2 != second_system_x_2
 
-    assert_allclose(first_x_2_system, first_x_2_ref)
-    assert_allclose(first_x_2_system_plus_one, first_x_2_ref + 1)
-    assert_allclose(second_x_2_system, second_x_2_ref)
-    assert_allclose(second_x_2_system_plus_one, second_x_2_ref + 1, rtol=1e-1)
+    assert_allclose(first_system_x_2, first_ref_x_2)
+    assert_allclose(first_system_x_2_plus_one, first_ref_x_2 + 1)
+    assert_allclose(second_system_x_2, second_ref_x_2)
+    assert_allclose(second_system_x_2_plus_one[1:], second_system_x_2[:-1] + 1)

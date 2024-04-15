@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from pathlib import Path
 
-    from gemseo_fmu.utils.time import TimeType
+    from gemseo_fmu.utils.time_duration import TimeType
 
 
 class DoStepFMUDiscipline(FMUDiscipline):
