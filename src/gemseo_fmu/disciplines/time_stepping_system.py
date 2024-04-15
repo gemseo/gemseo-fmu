@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
 
+from gemseo.core.chain import MDOParallelChain
 from gemseo.core.discipline import MDODiscipline
 from numpy import array
 from numpy import concatenate
@@ -32,11 +33,11 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
+    from gemseo.core.discipline_data import DisciplineData
     from gemseo.typing import IntegerArray
-    from gemseo.typing import RealArray
 
 
-class TimeSteppingSystem(MDODiscipline):
+class TimeSteppingSystem(MDOParallelChain):
     """A system of static and time-stepping disciplines.
 
     A static discipline computes an output at time $t_k$ from an input at time $t_k$
@@ -47,14 +48,8 @@ class TimeSteppingSystem(MDODiscipline):
     other.
     """
 
-    __coupling_data: dict[str, RealArray]
-    """The coupling variable names bound to the coupling variable values."""
-
-    __coupling_names: set[str]
-    """The names of the coupling variables."""
-
-    __disciplines: list[MDODiscipline]
-    """The static and time-stepping disciplines."""
+    __current_time: float
+    """The current time."""
 
     __do_step: bool
     """Whether an execution of the system does a single step.
@@ -67,9 +62,6 @@ class TimeSteppingSystem(MDODiscipline):
 
     __initial_time: float
     """The initial time."""
-
-    __current_time: float
-    """The current time."""
 
     __restart: bool
     """Whether the system starts from the initial time at each execution."""
@@ -108,17 +100,12 @@ class TimeSteppingSystem(MDODiscipline):
                 Otherwise, simulate the model from initial time to `final_time`.
             **fmu_options: The options to instantiate the FMU disciplines.
         """  # noqa: D205 D212 D415
-        super().__init__()
-
-        # Set the time properties.
         self.__do_step = do_step
         self.__current_time = self.__initial_time = 0.0
         self.__final_time = final_time
         self.__restart = restart
         self.__time_step = time_step
-
-        # Set the disciplines.
-        self.__disciplines = [
+        disciplines = [
             discipline
             if isinstance(discipline, MDODiscipline)
             else DoStepFMUDiscipline(
@@ -129,47 +116,30 @@ class TimeSteppingSystem(MDODiscipline):
             )
             for discipline in disciplines
         ]
-
-        # The outputs of the discipline are all the outputs of all the disciplines.
-        output_names = set.union(
-            *(set(discipline.output_grammar.names) for discipline in self.__disciplines)
-        )
-        self.output_grammar.update_from_names(output_names)
-
-        # The inputs of the discipline are all the inputs of all the FMU disciplines
-        # but the coupling variables.
-        all_input_names = set.union(
-            *(set(discipline.input_grammar.names) for discipline in self.__disciplines)
-        )
-        input_names = all_input_names - output_names
-        self.input_grammar.update_from_names(input_names)
-        self.__coupling_names = all_input_names & output_names
-
+        super().__init__(disciplines, grammar_type=MDODiscipline.GrammarType.SIMPLER)
         if self.__do_step:
             # Workaround to be replaced by something related to time step.
             self.__time_step_id = array([0])
             self.input_grammar.update_from_names([self.__TIME_STEP_ID_LABEL])
 
-        self.__coupling_data = {}
-        for discipline in self.__disciplines[::-1]:
-            self.__coupling_data.update({
-                input_name: input_value
-                for input_name, input_value in discipline.default_inputs.items()
-                if input_name in self.__coupling_names
-            })
+        # Discipline i has priority over discipline i+1 to set the default inputs.
+        self.default_inputs.clear()
+        for discipline in self.disciplines[::-1]:
             self.default_inputs.update({
                 input_name: input_value
                 for input_name, input_value in discipline.default_inputs.items()
-                if input_name in input_names
+                if input_name in self.input_grammar.names
             })
+        self.__original_default_inputs = self.default_inputs.copy()
 
     def execute(  # noqa: D102
         self, input_data: Mapping[str, Any] | None = None
-    ) -> dict[str, Any]:
+    ) -> DisciplineData:
         if self.__restart:
+            self.default_inputs = self.__original_default_inputs.copy()
             self.__current_time = self.__initial_time
             self.__time_step_id = array([0])
-            for discipline in self.__disciplines:
+            for discipline in self.disciplines:
                 if isinstance(discipline, BaseFMUDiscipline):
                     discipline.set_next_execution(restart=True)
 
@@ -178,7 +148,7 @@ class TimeSteppingSystem(MDODiscipline):
 
         if self.__do_step:
             input_data = input_data or {}
-            self.__time_step_id += 1
+            self.__time_step_id = self.__time_step_id + 1
             input_data[self.__TIME_STEP_ID_LABEL] = self.__time_step_id
 
         return super().execute(input_data)
@@ -186,29 +156,13 @@ class TimeSteppingSystem(MDODiscipline):
     def _run(self) -> None:
         if self.__do_step:
             self.__simulate_one_time_step()
+            self.default_inputs.update(self.get_input_data())
         else:
             self.__simulate_to_final_time()
 
     def __simulate_one_time_step(self) -> None:
         """Simulate the multidisciplinary system with only one time step."""
-        for discipline in self.__disciplines:
-            input_data = {
-                input_name: input_value
-                for input_name, input_value in self.get_input_data().items()
-                if input_name in discipline.input_grammar.names
-            }
-            input_data.update({
-                input_name: input_value
-                for input_name, input_value in self.__coupling_data.items()
-                if input_name in discipline.input_grammar.names
-            })
-            discipline.execute(input_data)
-            self.store_local_data(**discipline.get_output_data())
-
-        self.__coupling_data.update({
-            k: v for k, v in self.local_data.items() if k in self.__coupling_names
-        })
-
+        super()._run()
         self.__current_time += self.__time_step
 
     def __simulate_to_final_time(self) -> None:
