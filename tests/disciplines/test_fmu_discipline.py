@@ -35,8 +35,11 @@ from numpy.testing import assert_equal
 
 from gemseo_fmu.disciplines import base_fmu_discipline
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
+from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
+from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import Lines
+from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
@@ -722,3 +725,37 @@ def test_scalar_input_variables():
     discipline.execute()
     discipline.execute({INPUT_NAME: 2.1})
     assert_equal(discipline.local_data[OUTPUT_NAME], output_data_with_array_input)
+
+
+@pytest.mark.parametrize(
+    ("cls", "warn"),
+    [
+        (FMUDiscipline, True),
+        (DoStepFMUDiscipline, True),
+        (DynamicFMUDiscipline, True),
+        (StaticFMUDiscipline, False),
+    ],
+)
+def test_zero_time_step_warning(caplog, cls, warn):
+    """Check that a warning message is logged when the time step is zero."""
+    discipline = cls(FMU_PATH)
+    assert discipline._time_step == 0.0
+    assert (
+        (
+            "gemseo_fmu.disciplines.base_fmu_discipline",
+            30,
+            "The time step is equal to 0.",
+        )
+        in caplog.record_tuples
+    ) is warn
+
+
+def test_zero_time_step(caplog):
+    """Check that no warning message is logged when the time step is not zero."""
+    discipline = FMUDiscipline(FMU_PATH, time_step=0.2)
+    assert discipline._time_step == 0.2
+    assert (
+        "gemseo_fmu.disciplines.base_fmu_discipline",
+        30,
+        "The time step is equal to 0.",
+    ) not in caplog.record_tuples

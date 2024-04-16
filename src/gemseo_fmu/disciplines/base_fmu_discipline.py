@@ -23,6 +23,7 @@ from types import MappingProxyType
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
+from typing import ClassVar
 from typing import Final
 from typing import Union
 
@@ -95,6 +96,9 @@ class BaseFMUDiscipline(MDODiscipline):
     _SIMULATION_TIME: Final[str] = "simulation_time"
     _TIME: Final[str] = "time"
     _TIME_STEP: Final[str] = "time_step"
+
+    _WARN_ABOUT_ZERO_TIME_STEP: ClassVar[bool] = True
+    """Whether to log a warning message when the time step is zero."""
 
     _initial_values: dict[str, NumberArray]
     """The initial values of the discipline outputs."""
@@ -205,7 +209,8 @@ class BaseFMUDiscipline(MDODiscipline):
             time_step: The time step of the simulation;
                 either a number in seconds or a string of characters
                 (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
-                if `0.`, it is computed by the wrapped library `fmpy`.
+                if `0.`, use the stop time defined in the FMU model if any;
+                otherwise use `0.`.
             add_time_to_output_grammar: Whether the time is added to the output grammar.
             restart: Whether the model is restarted at `initial_time` after execution.
             do_step: Whether the model is simulated over only one `time_step`
@@ -298,10 +303,26 @@ class BaseFMUDiscipline(MDODiscipline):
         }
         self.__simulation_settings = {}
         self.__do_step = do_step
-        self.__time_step = time_step
+        self._time_step = time_step
         self._time = None
         self._initial_time = initial_time
         self._final_time = final_time
+
+    @property
+    def _time_step(self) -> float:
+        """The time step."""
+        return self.__time_step
+
+    @_time_step.setter
+    def _time_step(self, time_step: TimeDurationType) -> None:
+        if time_step == 0.0:
+            self.__time_step = self.__get_field_value(
+                self.__model_description.defaultExperiment, "stepSize", 0.0
+            )
+            if self._WARN_ABOUT_ZERO_TIME_STEP:
+                LOGGER.warning("The time step is equal to 0.")
+        else:
+            self.__time_step = TimeDuration(time_step).seconds
 
     @property
     def _initial_time(self) -> float:

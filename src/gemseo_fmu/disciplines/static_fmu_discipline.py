@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 
@@ -31,6 +32,8 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
 
     This discipline relies on [FMPy](https://github.com/CATIA-Systems/FMPy).
     """
+
+    _WARN_ABOUT_ZERO_TIME_STEP: ClassVar[bool] = False
 
     def __init__(  # noqa: D107
         self,
