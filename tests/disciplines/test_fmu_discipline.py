@@ -133,11 +133,11 @@ def test_do_step_and_me(caplog):
         FMU_PATH, [INPUT_NAME], [OUTPUT_NAME], do_step=True, use_co_simulation=False
     )
     assert discipline._BaseFMUDiscipline__model_type == discipline._CO_SIMULATION
-    caplog.set_level(logging.WARNING)
     assert (
-        "The FMUDiscipline requires a co-simulation model when do_step is True."
-        in caplog.text
-    )
+        "gemseo_fmu.disciplines.base_fmu_discipline",
+        logging.WARNING,
+        "The FMUDiscipline 'ramp' requires a co-simulation model when do_step is True.",
+    ) in caplog.record_tuples
 
 
 def test_discipline_input_names(ramp_discipline):
@@ -234,7 +234,10 @@ def test_set_current_time(ramp_discipline):
 
     with pytest.raises(
         ValueError,
-        match=re.escape("The current time (2.0) is greater than the final time (1.0)."),
+        match=re.escape(
+            "The current time (2.0) of the FMUDiscipline 'ramp' is greater "
+            "than its final time (1.0)."
+        ),
     ):
         ramp_discipline._current_time = 2.0
 
@@ -256,8 +259,8 @@ def test_execute_without_do_step(ramp_discipline_wo_restart):
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "The discipline cannot be executed "
-            "as the current time is the final time (0.6)."
+            "The FMUDiscipline 'ramp' cannot be executed "
+            "as its current time is its final time (0.6)."
         ),
     ):
         ramp_discipline_wo_restart.execute()
@@ -284,8 +287,9 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
     _, level, msg = caplog.record_tuples[0]
     assert level == logging.WARNING
     assert msg == (
-        "The cumulated simulation time (0.6) exceeds the final time "
-        "set at instantiation (0.6); stop the simulation at final time."
+        "The cumulated simulation time (0.6) of the FMUDiscipline 'ramp' "
+        "exceeds its final time set at instantiation (0.6); "
+        "stop its simulation at final time."
     )
 
 
@@ -744,7 +748,7 @@ def test_zero_time_step_warning(caplog, cls, warn):
         (
             "gemseo_fmu.disciplines.base_fmu_discipline",
             30,
-            "The time step is equal to 0.",
+            "The time step of the FMUDiscipline 'ramp' is equal to 0.",
         )
         in caplog.record_tuples
     ) is warn
@@ -757,5 +761,5 @@ def test_zero_time_step(caplog):
     assert (
         "gemseo_fmu.disciplines.base_fmu_discipline",
         30,
-        "The time step is equal to 0.",
+        "The time step of the FMUDiscipline 'ramp' is equal to 0.",
     ) not in caplog.record_tuples

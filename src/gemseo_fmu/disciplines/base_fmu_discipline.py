@@ -233,17 +233,15 @@ class BaseFMUDiscipline(MDODiscipline):
         self.__executed = False
         self.__names_to_time_functions = {}
         self.__solver_name = str(solver_name)
-        self.__set_fmu_model(
-            file_path, model_instance_directory, do_step, use_co_simulation
+        self.name = self.__set_fmu_model(
+            file_path, model_instance_directory, do_step, use_co_simulation, name
         )
         self.__set_variable_names_references_and_causalities(input_names, output_names)
         self.__set_initial_values()
         self.__set_time(initial_time, final_time, time_step, do_step, restart)
         self._pre_instantiate(**(pre_instantiation_parameters or {}))
         super().__init__(
-            name=(
-                name or self.__model_description.modelName or self.__class__.__name__
-            ),
+            name=self.name,
             cache_type=self.CacheType.NONE,
             grammar_type=self.GrammarType.PYDANTIC,
         )
@@ -320,7 +318,9 @@ class BaseFMUDiscipline(MDODiscipline):
                 self.__model_description.defaultExperiment, "stepSize", 0.0
             )
             if self._WARN_ABOUT_ZERO_TIME_STEP:
-                LOGGER.warning("The time step is equal to 0.")
+                LOGGER.warning(
+                    "The time step of the FMUDiscipline %r is equal to 0.", self.name
+                )
         else:
             self.__time_step = TimeDuration(time_step).seconds
 
@@ -368,7 +368,8 @@ class BaseFMUDiscipline(MDODiscipline):
         model_instance_directory: str | Path,
         do_step: bool,
         use_co_simulation: bool,
-    ) -> None:
+        name: str,
+    ) -> str:
         """Read the FMU model.
 
         Args:
@@ -383,6 +384,11 @@ class BaseFMUDiscipline(MDODiscipline):
             use_co_simulation: Whether the co-simulation FMI type is used.
                 Otherwise, use model-exchange FMI type.
                 When `do_step` is `True`, the co-simulation FMI type is required.
+            name: The default name of the discipline.
+                If empty, deduce it from the FMU file.
+
+        Returns:
+            The name of the discipline.
         """
         # The path to the FMU file, which is a ZIP archive.
         self.__file_path = Path(file_path)
@@ -399,9 +405,14 @@ class BaseFMUDiscipline(MDODiscipline):
         self.__model_type = (
             self._CO_SIMULATION if use_co_simulation else self._MODEL_EXCHANGE
         )
+        name = name or self.__model_description.modelName or self.__class__.__name__
         if do_step and not use_co_simulation:
             LOGGER.warning(
-                "The FMUDiscipline requires a co-simulation model when do_step is True."
+                (
+                    "The FMUDiscipline %r requires a co-simulation model "
+                    "when do_step is True."
+                ),
+                name,
             )
             self.__model_type = self._CO_SIMULATION
 
@@ -411,6 +422,8 @@ class BaseFMUDiscipline(MDODiscipline):
             self.__model_description,
             fmi_type=self.__model_type,
         )
+
+        return name
 
     def __set_initial_values(self) -> None:
         """Set the initial values of the inputs and outputs of the disciplines."""
@@ -534,8 +547,8 @@ class BaseFMUDiscipline(MDODiscipline):
         """
         if current_time > self._final_time:
             msg = (
-                f"The current time ({current_time}) is greater "
-                f"than the final time ({self._final_time})."
+                f"The current time ({current_time}) of the FMUDiscipline {self.name!r} "
+                f"is greater than its final time ({self._final_time})."
             )
             raise ValueError(msg)
 
@@ -633,8 +646,8 @@ class BaseFMUDiscipline(MDODiscipline):
 
         if self._initial_time < self.__current_time == self._final_time:
             msg = (
-                "The discipline cannot be executed "
-                f"as the current time is the final time ({self.__current_time})."
+                f"The FMUDiscipline {self.name!r} cannot be executed "
+                f"as its current time is its final time ({self.__current_time})."
             )
             raise ValueError(msg)
 
@@ -732,10 +745,12 @@ class BaseFMUDiscipline(MDODiscipline):
             stop_time = self._final_time
             LOGGER.warning(
                 (
-                    "The cumulated simulation time (%s) exceeds the final time "
-                    "set at instantiation (%s); stop the simulation at final time."
+                    "The cumulated simulation time (%s) of the FMUDiscipline %r "
+                    "exceeds its final time set at instantiation (%s); "
+                    "stop its simulation at final time."
                 ),
                 stop_time,
+                self.name,
                 self._final_time,
             )
 
