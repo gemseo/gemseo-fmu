@@ -2349,9 +2349,7 @@ to <code>_pre_instantiate()</code>.</p>
 <span class="normal">249</span>
 <span class="normal">250</span>
 <span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">252</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">input_names</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(),</span>
@@ -2414,17 +2412,15 @@ to <code>_pre_instantiate()</code>.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">__executed</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__names_to_time_functions</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__solver_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">solver_name</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__set_fmu_model</span><span class="p">(</span>
-        <span class="n">file_path</span><span class="p">,</span> <span class="n">model_instance_directory</span><span class="p">,</span> <span class="n">do_step</span><span class="p">,</span> <span class="n">use_co_simulation</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__set_fmu_model</span><span class="p">(</span>
+        <span class="n">file_path</span><span class="p">,</span> <span class="n">model_instance_directory</span><span class="p">,</span> <span class="n">do_step</span><span class="p">,</span> <span class="n">use_co_simulation</span><span class="p">,</span> <span class="n">name</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__set_variable_names_references_and_causalities</span><span class="p">(</span><span class="n">input_names</span><span class="p">,</span> <span class="n">output_names</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__set_initial_values</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__set_time</span><span class="p">(</span><span class="n">initial_time</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">do_step</span><span class="p">,</span> <span class="n">restart</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pre_instantiate</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">pre_instantiation_parameters</span> <span class="ow">or</span> <span class="p">{}))</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__model_description</span><span class="o">.</span><span class="n">modelName</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
         <span class="n">cache_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">CacheType</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
         <span class="n">grammar_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GrammarType</span><span class="o">.</span><span class="n">PYDANTIC</span><span class="p">,</span>
     <span class="p">)</span>
@@ -2730,20 +2726,7 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">564</span>
 <span class="normal">565</span>
 <span class="normal">566</span>
 <span class="normal">567</span>
@@ -2758,7 +2741,20 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <span class="normal">576</span>
 <span class="normal">577</span>
 <span class="normal">578</span>
-<span class="normal">579</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
         <span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimeSeries</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">TimeDurationType</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
@@ -3088,20 +3084,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">594</span>
 <span class="normal">595</span>
 <span class="normal">596</span>
 <span class="normal">597</span>
@@ -3120,7 +3103,20 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 <span class="normal">610</span>
 <span class="normal">611</span>
 <span class="normal">612</span>
-<span class="normal">613</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">simulation_time</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
