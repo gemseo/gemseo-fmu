@@ -1835,9 +1835,9 @@ other.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>disciplines</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a>]</code>)
         –
@@ -1847,7 +1847,7 @@ The disciplines will be executed circularly
 according to the order of their definition.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>final_time</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
         –
@@ -1856,7 +1856,7 @@ according to the order of their definition.</p>
 (the initial time is 0).</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>time_step</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
         –
@@ -1865,7 +1865,7 @@ according to the order of their definition.</p>
 The time-stepping disciplines will use this time step.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>restart</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>True</code>
@@ -1876,7 +1876,7 @@ The time-stepping disciplines will use this time step.</p>
 after each  execution.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>do_step</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>False</code>
@@ -1888,7 +1888,7 @@ when calling the execution method.
 Otherwise, simulate the model from initial time to <code>final_time</code>.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>**fmu_options</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>{}</code>
@@ -2076,9 +2076,9 @@ Each discipline may itself run on several CPUs.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>input_data</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>] | None</code>, default:
                 <code>None</code>
@@ -2094,9 +2094,9 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
 
 
-  <p>Returns:</p>
+  <p><span class="doc-section-title">Returns:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-external" title="gemseo.core.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline_data.html#gemseo.core.discipline_data.DisciplineData">DisciplineData</a></code>
         –
         <div class="doc-md-description">

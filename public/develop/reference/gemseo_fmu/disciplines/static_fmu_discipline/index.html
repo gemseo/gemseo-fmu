@@ -2001,9 +2001,9 @@
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>file_path</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
         –
@@ -2011,7 +2011,7 @@
           <p>The path to the FMU model file.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>input_names</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
                 <code>()</code>
@@ -2023,7 +2023,7 @@ if empty, use all the inputs and parameters of the FMU model;
 if <code>None</code>, do not use inputs.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>output_names</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
                 <code>()</code>
@@ -2034,7 +2034,7 @@ if <code>None</code>, do not use inputs.</p>
 if empty, use all the outputs of the FMU model.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>name</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
                 <code>&#39;&#39;</code>
@@ -2045,7 +2045,7 @@ if empty, use all the outputs of the FMU model.</p>
 If empty, use the class name.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>use_co_simulation</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>True</code>
@@ -2057,7 +2057,7 @@ Otherwise, use model-exchange FMI type.
 When <code>do_step</code> is <code>True</code>, the co-simulation FMI type is required.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>model_instance_directory</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
                 <code>&#39;&#39;</code>
@@ -2069,7 +2069,7 @@ containing the files extracted from the FMU model file;
 if empty, let <code>fmpy</code> create a temporary directory.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>delete_model_instance_directory</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>True</code>
@@ -2080,7 +2080,7 @@ if empty, let <code>fmpy</code> create a temporary directory.</p>
 of the FMU instance when deleting the discipline.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>**pre_instantiation_parameters</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>{}</code>
@@ -2336,9 +2336,9 @@ to <code>_pre_instantiate()</code>.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>input_data</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a> | <a class="autorefs autorefs-internal" title="gemseo_fmu.disciplines.time_series.TimeSeries" href="../time_series/#gemseo_fmu.disciplines.time_series.TimeSeries">TimeSeries</a> | <a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>, default:
                 <code><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a>({})</code>
@@ -2354,9 +2354,9 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
 
 
-  <p>Returns:</p>
+  <p><span class="doc-section-title">Returns:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-external" title="gemseo.core.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline_data.html#gemseo.core.discipline_data.DisciplineData">DisciplineData</a></code>
         –
         <div class="doc-md-description">
@@ -2453,9 +2453,9 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>restart</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
                 <code>None</code>
@@ -2467,7 +2467,7 @@ before executing it;
 if <code>None</code>, use the value passed at the instantiation.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>simulation_time</code></b>
             (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                 <code>None</code>
@@ -2480,7 +2480,7 @@ either a number in seconds or a string of characters
 if <code>None</code>, execute until the final time.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>time_step</code></b>
             (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                 <code>None</code>
