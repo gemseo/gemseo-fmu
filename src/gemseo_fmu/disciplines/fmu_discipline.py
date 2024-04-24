@@ -27,6 +27,7 @@ from gemseo_fmu.utils.time_duration import TimeDuration
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from collections.abc import Sequence
     from pathlib import Path
 
     from gemseo.typing import NumberArray
@@ -66,7 +67,7 @@ class FMUDiscipline(BaseFMUDiscipline):
         output_names: str | Iterable[str],
         abscissa_name: str = "",
         time_unit: TimeUnit = TimeUnit.SECONDS,
-        time_window: int | tuple[int, int] = 0,
+        time_window: int | Sequence[int] = 0,
         save: bool = True,
         show: bool = False,
         file_path: str | Path = "",

@@ -357,7 +357,9 @@ class BaseFMUDiscipline(MDODiscipline):
         else:
             self.__final_time = TimeDuration(final_time).seconds
 
-        if not self.__do_step:
+        if self.__do_step:
+            self.__default_simulation_settings[self._SIMULATION_TIME] = 0.0
+        else:
             self.__default_simulation_settings[self._SIMULATION_TIME] = (
                 self.__final_time - self.__initial_time
             )
@@ -591,6 +593,47 @@ class BaseFMUDiscipline(MDODiscipline):
         })
         return super().execute(full_input_data)
 
+    def set_default_execution(
+        self,
+        do_step: bool | None = None,
+        final_time: TimeDurationType | None = None,
+        restart: bool | None = None,
+        time_step: TimeDurationType | None = None,
+    ) -> None:
+        """Change the default simulation settings.
+
+        Args:
+            do_step: Whether the model is simulated over only one `time_step`
+                when calling
+                [execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
+                Otherwise, simulate the model from current time to final time in one go.
+                If `None`, use the value considered at the instantiation.
+            final_time: The final time of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
+                If `None`, use the value considered at the instantiation.
+            restart: Whether to restart the model at `initial_time`
+                before executing it;
+                if `None`, use the value passed at the instantiation.
+            time_step: The time step of the simulation;
+                either a number in seconds or a string of characters
+                (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
+                If `None`, use the value considered at the instantiation.
+        """
+        if do_step is not None:
+            self.__do_step = do_step
+
+        if restart is not None:
+            self.__default_simulation_settings[self._RESTART] = restart
+
+        if final_time is not None:
+            final_time = TimeDuration(final_time).seconds
+            self._final_time = final_time
+
+        if time_step is not None:
+            time_step = TimeDuration(time_step).seconds
+            self.__default_simulation_settings[self._TIME_STEP] = time_step
+
     def set_next_execution(
         self,
         restart: bool | None = None,
@@ -606,13 +649,18 @@ class BaseFMUDiscipline(MDODiscipline):
             simulation_time: The duration of the simulation;
                 either a number in seconds or a string of characters
                 (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
-                if `None`, execute until the final time.
+                if `None` and the `do_step` passed at instantiation is `False`,
+                execute until the final time;
+                if `None` and the `do_step` passed at instantiation is `True`,
+                execute during a single time step.
             time_step: The time step of the simulation;
                 either a number in seconds or a string of characters
                 (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
                 if `None`, use the value passed at the instantiation.
         """  # noqa: D205 D212 D415
-        self.__simulation_settings = self.__default_simulation_settings.copy()
+        if not self.__simulation_settings:
+            self.__simulation_settings = self.__default_simulation_settings.copy()
+
         if time_step is not None:
             self.__simulation_settings[self._TIME_STEP] = TimeDuration(
                 time_step
@@ -629,11 +677,10 @@ class BaseFMUDiscipline(MDODiscipline):
         if not self.__simulation_settings:
             self.__simulation_settings = self.__default_simulation_settings
 
-        if (
-            self.__simulation_settings[self._RESTART]
-            or self.__current_time == self._initial_time
-        ):
+        if self.__simulation_settings[self._RESTART]:
             self.__current_time = self._initial_time
+
+        if self.__current_time == self._initial_time:
             self.__model.reset()
             self.__model.setupExperiment(
                 tolerance=self.__get_field_value(
@@ -669,15 +716,25 @@ class BaseFMUDiscipline(MDODiscipline):
         Args:
             input_data: The values of the FMU model inputs.
         """
+        simulation_time = self.__simulation_settings[self._SIMULATION_TIME]
         time_step = self.__simulation_settings[self._TIME_STEP]
-        final_time = self.__current_time + time_step
-        self.__set_model_inputs(input_data, final_time, True)
-        self.__model.doStep(
-            currentCommunicationPoint=self.__current_time,
-            communicationStepSize=time_step,
-        )
+        if simulation_time == 0:
+            simulation_time = time_step
+
+        final_time = self.__current_time + simulation_time
+        while True:
+            intermediate_time = min(self.__current_time + time_step, final_time)
+            time_step = intermediate_time - self.__current_time
+            self.__set_model_inputs(input_data, intermediate_time, True)
+            self.__model.doStep(
+                currentCommunicationPoint=self.__current_time,
+                communicationStepSize=time_step,
+            )
+            self.__current_time = intermediate_time
+            if intermediate_time == final_time:
+                break
+
         self._time = array([final_time])
-        self._current_time = final_time
         output_data = {}
         for output_name in self.get_output_data_names(with_namespaces=False):
             if output_name == self._TIME:

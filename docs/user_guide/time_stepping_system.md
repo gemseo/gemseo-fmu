@@ -54,16 +54,22 @@ system = TimeSteppingSystem(disciplines, 1, 0.1)
 
 The disciplines can be either an FMU file path,
 a static discipline or a dynamic discipline
-and will be executed according to their order of definition.
+and will be executed in parallel.
 
 ## Restart
 
 By default,
 an execution starts from the initial time.
-Set `restart` to `False` in order to restart from the initial time.
+Set `restart` to `False` if you want to restart from the initial time.
 
 ## Time stepping
 
 By default,
 an execution simulates from the initial time to the final time.
 Set `do_step` to `True` if you want to simulate with only one time step.
+
+## Time step
+
+By default,
+the time-stepping disciplines use the time step passed at instantiation.
+Set `apply_time_step_to_disciplines` to `False`  if you want to use their specific time steps.

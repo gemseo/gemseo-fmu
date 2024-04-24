@@ -30,6 +30,15 @@ and this project adheres to
 
 ## Added
 
+- The method
+  [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution]
+  can be used to redefine some default settings, such as `do_step`, `final_time`, `restart` and `time_step`.
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+  has a new argument `apply_time_step_to_disciplines` (default: `True`);
+  if `True`,
+  the value of its `time_step` argument is passed to the time-stepping disciplines;
+  otherwise,
+  the time-stepping disciplines use their own time steps.
 - Any [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] can use scalar input variables.
 - A time-varying FMU model input can also be defined
   as a time function of type `Callable[[TimeDurationType], float]`,
@@ -68,6 +77,11 @@ and this project adheres to
 
 ## Fixed
 
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+  can simulate up to the final time by adapting the last time step
+  in the case where the difference between the initial and final times is not a multiple of the time step.
+- [FMUDiscipline.set_next_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution]
+  can be called several times before an execution.
 - `BaseFMUDiscipline._pre_instantiate` can now redefine time properties
   relative to initial and final times, e.g. simulation time and current value.
 - The points of a
@@ -100,7 +114,7 @@ and this project adheres to
 - [DoStepFMUDiscipline][gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline]
   is an [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   whose execution is only one time step ahead.
-- [DoStepFMUDiscipline][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
   is a system of static and time-stepping disciplines
   which executes them sequentially at each time step.
 

@@ -16,10 +16,15 @@
 
 from __future__ import annotations
 
+import re
+
 import pytest
 from gemseo.disciplines.linear_combination import LinearCombination
+from numpy import array
 from numpy.testing import assert_allclose
+from numpy.testing import assert_equal
 
+from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_stepping_system import TimeSteppingSystem
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
@@ -28,23 +33,25 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 def test_standard_use():
     """Check that TimeSteppingSystem works correctly."""
     discipline = FMUDiscipline(
-        get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.01
+        get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.1
     )
     discipline.execute()
     x2_ref = discipline.local_data["x2"]
 
+    # TimeSteppingSystem can use a mix of standard MDODisciplines,
+    # BaseFMUDisciplines and FMU file paths.
     system = TimeSteppingSystem(
         (
-            get_fmu_file_path("MassSpringSubSystem1"),
+            DoStepFMUDiscipline(get_fmu_file_path("MassSpringSubSystem1")),
             get_fmu_file_path("MassSpringSubSystem2"),
             LinearCombination(["x2"], "x2_plus_one", offset=1),
         ),
         10,
-        0.01,
+        0.1,
     )
     system.execute()
 
-    assert_allclose(system.local_data["x2"], x2_ref[1:])
+    assert_allclose(system.local_data["x2"][:-1], x2_ref[1:])
     assert_allclose(
         system.local_data["x2_plus_one"][1:], system.local_data["x2"][:-1] + 1
     )
@@ -60,12 +67,16 @@ def test_restart(kwargs, n_calls):
             get_fmu_file_path("MassSpringSubSystem1"),
             get_fmu_file_path("MassSpringSubSystem2"),
         ),
-        10,
-        0.01,
+        5,
+        1,
         **kwargs,
     )
-    system.execute()["x2"]
-    assert system.execute()["x2"].size == 1000
+    system.execute()
+    system.execute()
+    assert_equal(
+        system.local_data["MassSpringSubSystem1:time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
+    )
+    assert system.local_data["x2"].size == 5
     assert system.n_calls == n_calls
 
 
@@ -107,3 +118,45 @@ def test_do_step():
     assert_allclose(first_system_x_2_plus_one, first_ref_x_2 + 1)
     assert_allclose(second_system_x_2, second_ref_x_2)
     assert_allclose(second_system_x_2_plus_one[1:], second_system_x_2[:-1] + 1)
+
+
+def test_do_step_error():
+    """Check that one cannot use do_step after final time."""
+    system = TimeSteppingSystem(
+        (
+            get_fmu_file_path("MassSpringSubSystem1"),
+            get_fmu_file_path("MassSpringSubSystem2"),
+        ),
+        2,
+        1,
+        do_step=True,
+        restart=False,
+    )
+    system.execute()
+    system.execute()
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "The time stepping system cannot be executed "
+            "as its current time is its final time (2)."
+        ),
+    ):
+        system.execute()
+
+
+@pytest.mark.parametrize(
+    ("apply", "step1", "step2"), [(True, 0.01, 0.01), (False, 0.004, 0.008)]
+)
+def test_apply_time_step_to_disciplines(apply, step1, step2):
+    """Check the apply_time_step_to_disciplines argument."""
+    s1 = DoStepFMUDiscipline(get_fmu_file_path("MassSpringSubSystem1"), time_step=0.004)
+    s2 = DoStepFMUDiscipline(get_fmu_file_path("MassSpringSubSystem2"), time_step=0.008)
+    system = TimeSteppingSystem(
+        (s1, s2), 0.03, 0.01, apply_time_step_to_disciplines=apply
+    )
+    system.execute()
+    assert s1._BaseFMUDiscipline__default_simulation_settings[s1._TIME_STEP] == step1
+    assert s2._BaseFMUDiscipline__default_simulation_settings[s2._TIME_STEP] == step2
+    expected_time = array([0.01, 0.02, 0.03])
+    assert_equal(system.local_data["MassSpringSubSystem1:time"], expected_time)
+    assert_equal(system.local_data["MassSpringSubSystem2:time"], expected_time)
