@@ -36,6 +36,8 @@ if TYPE_CHECKING:
     from gemseo.core.discipline_data import DisciplineData
     from gemseo.typing import IntegerArray
 
+    from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+
 
 class TimeSteppingSystem(MDOParallelChain):
     """A system of static and time-stepping disciplines.
@@ -60,6 +62,9 @@ class TimeSteppingSystem(MDOParallelChain):
     __final_time: float
     """The final time."""
 
+    __fmu_discipline: list[FMUDiscipline]
+    """The FMU disciplines."""
+
     __initial_time: float
     """The initial time."""
 
@@ -80,6 +85,7 @@ class TimeSteppingSystem(MDOParallelChain):
         disciplines: Iterable[str | Path | MDODiscipline],
         final_time: float,
         time_step: float,
+        apply_time_step_to_disciplines: bool = True,
         restart: bool = True,
         do_step: bool = False,
         **fmu_options: Any,
@@ -92,7 +98,8 @@ class TimeSteppingSystem(MDOParallelChain):
             final_time: The final time of the simulation
                 (the initial time is 0).
             time_step: The time step of the system.
-                The time-stepping disciplines will use this time step.
+            apply_time_step_to_disciplines: Whether the time-stepping disciplines
+                should use `time_step` as time step. Otherwise, their own time steps.
             restart: Whether the system is restarted at initial time
                 after each  execution.
             do_step: Whether the model is simulated over only one `time_step`
@@ -105,18 +112,31 @@ class TimeSteppingSystem(MDOParallelChain):
         self.__final_time = final_time
         self.__restart = restart
         self.__time_step = time_step
-        disciplines = [
+        discipline_time_step = time_step if apply_time_step_to_disciplines else 0.0
+        _disciplines = []
+        for discipline in disciplines:
+            if isinstance(discipline, BaseFMUDiscipline):
+                discipline.set_default_execution(
+                    final_time=final_time,
+                    restart=False,
+                    do_step=True,
+                    time_step=discipline_time_step or None,
+                )
+            elif not isinstance(discipline, MDODiscipline):
+                discipline = DoStepFMUDiscipline(
+                    discipline,
+                    time_step=discipline_time_step,
+                    final_time=final_time,
+                    **fmu_options,
+                )
+            _disciplines.append(discipline)
+
+        self.__fmu_disciplines = [
             discipline
-            if isinstance(discipline, MDODiscipline)
-            else DoStepFMUDiscipline(
-                discipline,
-                time_step=time_step,
-                final_time=final_time,
-                **fmu_options,
-            )
-            for discipline in disciplines
+            for discipline in _disciplines
+            if isinstance(discipline, BaseFMUDiscipline)
         ]
-        super().__init__(disciplines, grammar_type=MDODiscipline.GrammarType.SIMPLER)
+        super().__init__(_disciplines, grammar_type=MDODiscipline.GrammarType.SIMPLER)
         if self.__do_step:
             # Workaround to be replaced by something related to time step.
             self.__time_step_id = array([0])
@@ -139,9 +159,8 @@ class TimeSteppingSystem(MDOParallelChain):
             self.default_inputs = self.__original_default_inputs.copy()
             self.__current_time = self.__initial_time
             self.__time_step_id = array([0])
-            for discipline in self.disciplines:
-                if isinstance(discipline, BaseFMUDiscipline):
-                    discipline.set_next_execution(restart=True)
+            for discipline in self.__fmu_disciplines:
+                discipline.set_next_execution(restart=True)
 
             if self.cache is not None:
                 self.cache.clear()
@@ -162,13 +181,23 @@ class TimeSteppingSystem(MDOParallelChain):
 
     def __simulate_one_time_step(self) -> None:
         """Simulate the multidisciplinary system with only one time step."""
+        time_step = min(self.__final_time - self.__current_time, self.__time_step)
+        if time_step <= 0:
+            msg = (
+                "The time stepping system cannot be executed as "
+                f"its current time is its final time ({self.__final_time})."
+            )
+            raise ValueError(msg)
+
+        for discipline in self.__fmu_disciplines:
+            discipline.set_next_execution(simulation_time=time_step)
         super()._run()
-        self.__current_time += self.__time_step
+        self.__current_time += time_step
 
     def __simulate_to_final_time(self) -> None:
         """Simulate the multidisciplinary system until final time."""
         local_data_history = []
-        while self.__current_time + self.__time_step < self.__final_time:
+        while self.__current_time < self.__final_time:
             self.__simulate_one_time_step()
             local_data_history.append(self.local_data.copy())
 

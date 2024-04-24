@@ -65,7 +65,7 @@ system = TimeSteppingSystem(
 system.execute()
 
 # %%
-# or with time stepping by setting `do_step` to `False`
+# or with time stepping by setting `do_step` to `False` at instantiation.
 # For this particular example,
 # we also have a FMU model of the complete system:
 reference = FMUDiscipline(
@@ -82,15 +82,22 @@ reference.execute()
 # to that of the complete system.
 
 fig, (ax1, ax2) = plt.subplots(2, 1)
-ax1.plot(system.local_data["x1"], label="x1", color="red")
-ax1.plot(system.local_data["x2"], label="x2", color="blue")
-ax2.plot(system.local_data["v1"], label="v1", color="red")
-ax2.plot(system.local_data["v2"], label="v2", color="blue")
+time_1 = system.local_data["MassSpringSubSystem1:time"]
+time_2 = system.local_data["MassSpringSubSystem2:time"]
+ax1.plot(time_1, system.local_data["x1"], label="x1", color="red")
+ax1.plot(time_2, system.local_data["x2"], label="x2", color="blue")
+ax2.plot(time_1, system.local_data["v1"], label="v1", color="red")
+ax2.plot(time_2, system.local_data["v2"], label="v2", color="blue")
 
-ax1.plot(reference.local_data["x1"], label="x1[ref]", linestyle="--", color="red")
-ax1.plot(reference.local_data["x2"], label="x2[ref]", linestyle="--", color="blue")
-ax2.plot(reference.local_data["v1"], label="v1[ref]", linestyle="--", color="red")
-ax2.plot(reference.local_data["v2"], label="v2[ref]", linestyle="--", color="blue")
+time = reference.local_data["MassSpringSystem:time"]
+ax1.plot(time, reference.local_data["x1"], label="x1[ref]", linestyle="--", color="red")
+ax1.plot(
+    time, reference.local_data["x2"], label="x2[ref]", linestyle="--", color="blue"
+)
+ax2.plot(time, reference.local_data["v1"], label="v1[ref]", linestyle="--", color="red")
+ax2.plot(
+    time, reference.local_data["v2"], label="v2[ref]", linestyle="--", color="blue"
+)
 
 ax1.set_xlabel("Time (s)")
 ax1.set_ylabel("Position (m)")

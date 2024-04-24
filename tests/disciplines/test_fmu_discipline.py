@@ -763,3 +763,41 @@ def test_zero_time_step(caplog):
         30,
         "The time step of the FMUDiscipline 'ramp' is equal to 0.",
     ) not in caplog.record_tuples
+
+
+@pytest.mark.parametrize(
+    (
+        "do_step",
+        "final_time",
+        "restart",
+        "time_step",
+        "e_do_step",
+        "e_final_time",
+        "e_restart",
+        "e_time_step",
+    ),
+    [
+        (None, None, None, None, False, 1.0, True, 0.0),
+        (True, 2.0, False, 0.2, True, 2.0, False, 0.2),
+    ],
+)
+def test_set_default_execution(
+    do_step,
+    final_time,
+    restart,
+    time_step,
+    e_do_step,
+    e_final_time,
+    e_restart,
+    e_time_step,
+):
+    """Check the method set_default_execution."""
+    d = FMUDiscipline(FMU_PATH)
+    d.set_default_execution(
+        do_step=do_step, final_time=final_time, restart=restart, time_step=time_step
+    )
+    default_simulation_settings = d._BaseFMUDiscipline__default_simulation_settings
+    assert d._BaseFMUDiscipline__do_step is e_do_step
+    assert default_simulation_settings[d._RESTART] is e_restart
+    assert d._final_time == e_final_time
+    assert default_simulation_settings[d._TIME_STEP] == e_time_step
