@@ -91,7 +91,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/plot_mass_spring_system/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/plot_basic/</loc>
+         <lastmod>2024-04-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/plot_multiple_time_steps/</loc>
          <lastmod>2024-04-24</lastmod>
          <changefreq>daily</changefreq>
     </url>

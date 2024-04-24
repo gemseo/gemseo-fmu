@@ -505,6 +505,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#time-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time step
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -969,6 +978,8 @@
       
         
       
+        
+      
     
     
       
@@ -1036,11 +1047,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../generated/examples/time_stepping_systems/plot_mass_spring_system/" class="md-nav__link">
+      <a href="../../generated/examples/time_stepping_systems/plot_basic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plot mass spring system
+    Plot basic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generated/examples/time_stepping_systems/plot_multiple_time_steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot multiple time steps
   </span>
   
 
@@ -1678,6 +1710,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#time-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time step
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1744,15 +1785,19 @@ only requires a list of disciplines, final time and a time step:</p>
 </code></pre></div>
 <p>The disciplines can be either an FMU file path,
 a static discipline or a dynamic discipline
-and will be executed according to their order of definition.</p>
+and will be executed in parallel.</p>
 <h2 id="restart">Restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h2>
 <p>By default,
 an execution starts from the initial time.
-Set <code>restart</code> to <code>False</code> in order to restart from the initial time.</p>
+Set <code>restart</code> to <code>False</code> if you want to restart from the initial time.</p>
 <h2 id="time-stepping">Time stepping<a class="headerlink" href="#time-stepping" title="Permanent link">&para;</a></h2>
 <p>By default,
 an execution simulates from the initial time to the final time.
 Set <code>do_step</code> to <code>True</code> if you want to simulate with only one time step.</p>
+<h2 id="time-step">Time step<a class="headerlink" href="#time-step" title="Permanent link">&para;</a></h2>
+<p>By default,
+the time-stepping disciplines use the time step passed at instantiation.
+Set <code>apply_time_step_to_disciplines</code> to <code>False</code>  if you want to use their specific time steps.</p>
 
 
 

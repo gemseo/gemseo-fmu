@@ -897,6 +897,8 @@
       
         
       
+        
+      
     
     
       
@@ -964,11 +966,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../generated/examples/time_stepping_systems/plot_mass_spring_system/" class="md-nav__link">
+      <a href="../generated/examples/time_stepping_systems/plot_basic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plot mass spring system
+    Plot basic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generated/examples/time_stepping_systems/plot_multiple_time_steps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plot multiple time steps
   </span>
   
 
@@ -1637,6 +1660,15 @@ and this project adheres to
 <h1 id="develop">Develop<a class="headerlink" href="#develop" title="Permanent link">&para;</a></h1>
 <h2 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h2>
 <ul>
+<li>The method
+  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a>
+  can be used to redefine some default settings, such as <code>do_step</code>, <code>final_time</code>, <code>restart</code> and <code>time_step</code>.</li>
+<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+  has a new argument <code>apply_time_step_to_disciplines</code> (default: <code>True</code>);
+  if <code>True</code>,
+  the value of its <code>time_step</code> argument is passed to the time-stepping disciplines;
+  otherwise,
+  the time-stepping disciplines use their own time steps.</li>
 <li>Any <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> can use scalar input variables.</li>
 <li>A time-varying FMU model input can also be defined
   as a time function of type <code>Callable[[TimeDurationType], float]</code>,
@@ -1675,6 +1707,11 @@ and this project adheres to
 </ul>
 <h2 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+  can simulate up to the final time by adapting the last time step
+  in the case where the difference between the initial and final times is not a multiple of the time step.</li>
+<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution">FMUDiscipline.set_next_execution</a>
+  can be called several times before an execution.</li>
 <li><code>BaseFMUDiscipline._pre_instantiate</code> can now redefine time properties
   relative to initial and final times, e.g. simulation time and current value.</li>
 <li>The points of a
@@ -1706,7 +1743,7 @@ and this project adheres to
 <li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/#gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline">DoStepFMUDiscipline</a>
   is an <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   whose execution is only one time step ahead.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">DoStepFMUDiscipline</a>
+<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
   is a system of static and time-stepping disciplines
   which executes them sequentially at each time step.</li>
 </ul>
