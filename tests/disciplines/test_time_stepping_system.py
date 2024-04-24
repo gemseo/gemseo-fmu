@@ -60,7 +60,8 @@ def test_standard_use():
 @pytest.mark.parametrize(
     ("kwargs", "n_calls"), [({}, 2), ({"restart": False}, 1), ({"restart": True}, 2)]
 )
-def test_restart(kwargs, n_calls):
+@pytest.mark.parametrize("use_cache", [False, True])
+def test_restart(kwargs, n_calls, use_cache):
     """Check the option restart."""
     system = TimeSteppingSystem(
         (
@@ -71,6 +72,9 @@ def test_restart(kwargs, n_calls):
         1,
         **kwargs,
     )
+    if system._TimeSteppingSystem__restart and not use_cache:
+        system.set_cache_policy(system.CacheType.NONE)
+
     system.execute()
     system.execute()
     assert_equal(
