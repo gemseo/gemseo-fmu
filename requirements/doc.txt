@@ -6,7 +6,7 @@ attrs==23.2.0
     # via fmpy
 babel==2.14.0
     # via mkdocs-material
-black==24.4.0
+black==24.4.1
 bracex==2.4
     # via wcmatch
 certifi==2024.2.2
@@ -38,7 +38,7 @@ fastjsonschema==2.19.1
 fmpy==0.3.19
 fonttools==4.51.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f9487805a4c068dea151f0c5d846fa758532c652
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@02092241213dfd56862e7ae3b896bb1ea8042800
 genson==1.2.2
     # via gemseo
 ghp-import==2.1.0
