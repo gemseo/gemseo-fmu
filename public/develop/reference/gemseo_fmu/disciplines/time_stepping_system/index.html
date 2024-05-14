@@ -1497,6 +1497,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1548,6 +1552,48 @@
   
   <span class="md-ellipsis">
     Time duration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/time_manager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/time_series/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time series
   </span>
   
 
@@ -1943,7 +1989,15 @@ Each discipline may itself run on several CPUs.</p>
 </details>
                 <details class="quote">
                   <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 83</span>
+                  <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
@@ -2003,17 +2057,7 @@ Each discipline may itself run on several CPUs.</p>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -2041,10 +2085,8 @@ Each discipline may itself run on several CPUs.</p>
 <span class="sd">        **fmu_options: The options to instantiate the FMU disciplines.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__do_step</span> <span class="o">=</span> <span class="n">do_step</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__current_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initial_time</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__final_time</span> <span class="o">=</span> <span class="n">final_time</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__time_manager</span> <span class="o">=</span> <span class="n">TimeManager</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span> <span class="o">=</span> <span class="n">restart</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__time_step</span> <span class="o">=</span> <span class="n">time_step</span>
     <span class="n">discipline_time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">apply_time_step_to_disciplines</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="n">_disciplines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">disciplines</span><span class="p">:</span>
@@ -2171,7 +2213,17 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
           <details class="quote">
             <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
@@ -2179,22 +2231,12 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineData</span><span class="p">:</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__original_default_inputs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initial_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_manager</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_id</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fmu_disciplines</span><span class="p">:</span>
             <span class="n">discipline</span><span class="o">.</span><span class="n">set_next_execution</span><span class="p">(</span><span class="n">restart</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
