@@ -141,8 +141,7 @@ def test_do_step_error():
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "The time stepping system cannot be executed "
-            "as its current time is its final time (2)."
+            "The current time cannot be incremented as it is the final time (2)."
         ),
     ):
         system.execute()

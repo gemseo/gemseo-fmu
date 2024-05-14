@@ -27,6 +27,7 @@ from numpy import concatenate
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
+from gemseo_fmu.utils.time_manager import TimeManager
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -50,29 +51,20 @@ class TimeSteppingSystem(MDOParallelChain):
     other.
     """
 
-    __current_time: float
-    """The current time."""
-
     __do_step: bool
     """Whether an execution of the system does a single step.
 
     Otherwise, do time-stepping until final time.
     """
 
-    __final_time: float
-    """The final time."""
-
     __fmu_discipline: list[FMUDiscipline]
     """The FMU disciplines."""
-
-    __initial_time: float
-    """The initial time."""
 
     __restart: bool
     """Whether the system starts from the initial time at each execution."""
 
-    __time_step: float
-    """The time step of the system."""
+    __time_manager: TimeManager
+    """The time manager."""
 
     __time_step_id: IntegerArray
     """The identifier of the time step."""
@@ -108,10 +100,8 @@ class TimeSteppingSystem(MDOParallelChain):
             **fmu_options: The options to instantiate the FMU disciplines.
         """  # noqa: D205 D212 D415
         self.__do_step = do_step
-        self.__current_time = self.__initial_time = 0.0
-        self.__final_time = final_time
+        self.__time_manager = TimeManager(0.0, final_time, time_step)
         self.__restart = restart
-        self.__time_step = time_step
         discipline_time_step = time_step if apply_time_step_to_disciplines else 0.0
         _disciplines = []
         for discipline in disciplines:
@@ -157,7 +147,7 @@ class TimeSteppingSystem(MDOParallelChain):
     ) -> DisciplineData:
         if self.__restart:
             self.default_inputs = self.__original_default_inputs.copy()
-            self.__current_time = self.__initial_time
+            self.__time_manager.reset()
             self.__time_step_id = array([0])
             for discipline in self.__fmu_disciplines:
                 discipline.set_next_execution(restart=True)
@@ -181,23 +171,15 @@ class TimeSteppingSystem(MDOParallelChain):
 
     def __simulate_one_time_step(self) -> None:
         """Simulate the multidisciplinary system with only one time step."""
-        time_step = min(self.__final_time - self.__current_time, self.__time_step)
-        if time_step <= 0:
-            msg = (
-                "The time stepping system cannot be executed as "
-                f"its current time is its final time ({self.__final_time})."
-            )
-            raise ValueError(msg)
-
+        simulation_time = self.__time_manager.update_current_time().step
         for discipline in self.__fmu_disciplines:
-            discipline.set_next_execution(simulation_time=time_step)
+            discipline.set_next_execution(simulation_time=simulation_time)
         super()._run()
-        self.__current_time += time_step
 
     def __simulate_to_final_time(self) -> None:
         """Simulate the multidisciplinary system until final time."""
         local_data_history = []
-        while self.__current_time < self.__final_time:
+        while self.__time_manager.remaining > 0:
             self.__simulate_one_time_step()
             local_data_history.append(self.local_data.copy())
 

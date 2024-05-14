@@ -45,8 +45,9 @@ from numpy import array
 from numpy import ndarray
 from strenum import StrEnum
 
-from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.utils.time_duration import TimeDuration
+from gemseo_fmu.utils.time_manager import TimeManager
+from gemseo_fmu.utils.time_series import TimeSeries
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -106,9 +107,6 @@ class BaseFMUDiscipline(MDODiscipline):
     __causalities_to_variable_names: dict[str, list[str]]
     """The names of the variables sorted by causality."""
 
-    __current_time: float
-    """The current time."""
-
     __default_simulation_settings: dict[str, bool | float]
     """The default values of the simulation settings."""
 
@@ -124,12 +122,6 @@ class BaseFMUDiscipline(MDODiscipline):
 
     __file_path: Path
     """The path to the FMU file, which is a ZIP archive."""
-
-    __final_time: float
-    """The final time."""
-
-    __initial_time: float
-    """The initial time."""
 
     __input_names: list[str]
     """The discipline inputs."""
@@ -167,8 +159,8 @@ class BaseFMUDiscipline(MDODiscipline):
     __time: RealArray | None
     """The time steps of the last execution; `None` when not yet executed."""
 
-    __time_step: float
-    """The execution time step."""
+    __time_manager: TimeManager
+    """The time manager."""
 
     def __init__(
         self,
@@ -301,20 +293,29 @@ class BaseFMUDiscipline(MDODiscipline):
         }
         self.__simulation_settings = {}
         self.__do_step = do_step
-        self._time_step = time_step
+        self.__set_time_manager(initial_time, final_time, time_step)
         self._time = None
-        self._initial_time = initial_time
-        self._final_time = final_time
 
-    @property
-    def _time_step(self) -> float:
-        """The time step."""
-        return self.__time_step
+    def __set_time_manager(
+        self,
+        initial_time: TimeDurationType | None,
+        final_time: TimeDurationType | None,
+        time_step: TimeDurationType,
+    ) -> None:
+        """Set the time_manager.
 
-    @_time_step.setter
-    def _time_step(self, time_step: TimeDurationType) -> None:
+        Args:
+            initial_time: The initial time of the simulation;
+                if `None`, use the start time defined in the FMU model if any;
+                otherwise use 0.
+            final_time: The final time of the simulation;
+                if `None`, use the stop time defined in the FMU model if any;
+                otherwise use the initial time.
+            time_step: The time step of the simulation.
+                If `0.`, it is computed by the wrapped library `fmpy`.
+        """
         if time_step == 0.0:
-            self.__time_step = self.__get_field_value(
+            time_step = self.__get_field_value(
                 self.__model_description.defaultExperiment, "stepSize", 0.0
             )
             if self._WARN_ABOUT_ZERO_TIME_STEP:
@@ -322,46 +323,41 @@ class BaseFMUDiscipline(MDODiscipline):
                     "The time step of the FMUDiscipline %r is equal to 0.", self.name
                 )
         else:
-            self.__time_step = TimeDuration(time_step).seconds
+            time_step = TimeDuration(time_step).seconds
 
-    @property
-    def _initial_time(self) -> float:
-        """The initial time."""
-        return self.__initial_time
-
-    @_initial_time.setter
-    def _initial_time(self, initial_time: TimeDurationType | None) -> None:
         if initial_time is None:
-            self.__initial_time = self.__get_field_value(
+            initial_time = self.__get_field_value(
                 self.__model_description.defaultExperiment, "startTime", 0.0
             )
         else:
-            self.__initial_time = TimeDuration(initial_time).seconds
+            initial_time = TimeDuration(initial_time).seconds
 
-        self._initial_values[self._TIME] = array([self.__initial_time])
-        self.__current_time = self.__initial_time
+        self.__time_manager = TimeManager(initial_time, final_time, time_step)
+        self.__set_final_time(final_time)
+        self._initial_values[self._TIME] = array([initial_time])
 
-    @property
-    def _final_time(self) -> float:
-        """The final time."""
-        return self.__final_time
+    def __set_final_time(self, final_time: TimeDurationType) -> None:
+        """Set the final time.
 
-    @_final_time.setter
-    def _final_time(self, final_time: TimeDurationType | None) -> None:
+        Args:
+            final_time: The final time of the simulation;
+                if `None`, use the stop time defined in the FMU model if any;
+                otherwise use the initial time.
+        """
         if final_time is None:
-            self.__final_time = self.__get_field_value(
+            self.__time_manager.final = self.__get_field_value(
                 self.__model_description.defaultExperiment,
                 "stopTime",
-                self._initial_time,
+                self.__time_manager.initial,
             )
         else:
-            self.__final_time = TimeDuration(final_time).seconds
+            self.__time_manager.final = TimeDuration(final_time).seconds
 
         if self.__do_step:
             self.__default_simulation_settings[self._SIMULATION_TIME] = 0.0
         else:
             self.__default_simulation_settings[self._SIMULATION_TIME] = (
-                self.__final_time - self.__initial_time
+                self.__time_manager.remaining
             )
 
     def __set_fmu_model(
@@ -533,29 +529,6 @@ class BaseFMUDiscipline(MDODiscipline):
             + fmu_info(self.__file_path, [c.value for c in self._Causality])
         )
 
-    @property
-    def _current_time(self) -> float:
-        return self.__current_time
-
-    @_current_time.setter
-    def _current_time(self, current_time: float) -> None:
-        """Set the current time.
-
-        Args:
-            current_time: The current time.
-
-        Raises:
-            ValueError: When the current time is greater than the final time.
-        """
-        if current_time > self._final_time:
-            msg = (
-                f"The current time ({current_time}) of the FMUDiscipline {self.name!r} "
-                f"is greater than its final time ({self._final_time})."
-            )
-            raise ValueError(msg)
-
-        self.__current_time = current_time
-
     def _pre_instantiate(self, **kwargs: Any) -> None:
         """Some actions to be done just before calling `MDODiscipline.__init__`.
 
@@ -587,7 +560,7 @@ class BaseFMUDiscipline(MDODiscipline):
             if isinstance(value, TimeSeries)
         })
         full_input_data.update({
-            name: array([value(self.__current_time)])
+            name: array([value(self.__time_manager.current)])
             for name, value in full_input_data.items()
             if isinstance(value, Callable)
         })
@@ -627,8 +600,7 @@ class BaseFMUDiscipline(MDODiscipline):
             self.__default_simulation_settings[self._RESTART] = restart
 
         if final_time is not None:
-            final_time = TimeDuration(final_time).seconds
-            self._final_time = final_time
+            self.__set_final_time(final_time)
 
         if time_step is not None:
             time_step = TimeDuration(time_step).seconds
@@ -678,23 +650,24 @@ class BaseFMUDiscipline(MDODiscipline):
             self.__simulation_settings = self.__default_simulation_settings
 
         if self.__simulation_settings[self._RESTART]:
-            self.__current_time = self._initial_time
+            self.__time_manager.reset()
 
-        if self.__current_time == self._initial_time:
+        if self.__time_manager.is_initial:
             self.__model.reset()
             self.__model.setupExperiment(
                 tolerance=self.__get_field_value(
                     self.__model_description.defaultExperiment, "tolerance", None
                 ),
-                startTime=self.__current_time,
+                startTime=self.__time_manager.current,
             )
             self.__model.enterInitializationMode()
             self.__model.exitInitializationMode()
 
-        if self._initial_time < self.__current_time == self._final_time:
+        if not self.__time_manager.is_initial and self.__time_manager.is_final:
             msg = (
                 f"The FMUDiscipline {self.name!r} cannot be executed "
-                f"as its current time is its final time ({self.__current_time})."
+                "as its current time is its final time "
+                f"({self.__time_manager.current})."
             )
             raise ValueError(msg)
 
@@ -716,25 +689,34 @@ class BaseFMUDiscipline(MDODiscipline):
         Args:
             input_data: The values of the FMU model inputs.
         """
-        simulation_time = self.__simulation_settings[self._SIMULATION_TIME]
         time_step = self.__simulation_settings[self._TIME_STEP]
-        if simulation_time == 0:
-            simulation_time = time_step
-
-        final_time = self.__current_time + simulation_time
-        while True:
-            intermediate_time = min(self.__current_time + time_step, final_time)
-            time_step = intermediate_time - self.__current_time
-            self.__set_model_inputs(input_data, intermediate_time, True)
+        if time_step == 0.0:
+            # This is a static discipline.
+            time_manager = self.__time_manager
+            current_time = time_manager.current
+            self.__set_model_inputs(input_data, current_time, True)
             self.__model.doStep(
-                currentCommunicationPoint=self.__current_time,
+                currentCommunicationPoint=current_time,
                 communicationStepSize=time_step,
             )
-            self.__current_time = intermediate_time
-            if intermediate_time == final_time:
-                break
+        else:
+            step = self.__simulation_settings[self._SIMULATION_TIME] or time_step
+            time_manager = self.__time_manager.update_current_time(step)
+            time_manager.step = time_step
+            while True:
+                try:
+                    current_time = time_manager.current
+                    time_step = time_manager.update_current_time().step
+                except ValueError:
+                    break
 
-        self._time = array([final_time])
+                self.__set_model_inputs(input_data, time_manager.current, True)
+                self.__model.doStep(
+                    currentCommunicationPoint=current_time,
+                    communicationStepSize=time_step,
+                )
+
+        self._time = array([time_manager.final])
         output_data = {}
         for output_name in self.get_output_data_names(with_namespaces=False):
             if output_name == self._TIME:
@@ -795,29 +777,18 @@ class BaseFMUDiscipline(MDODiscipline):
         Args:
             input_data: The values of the FMU model inputs.
         """
+        simulation_time = self.__simulation_settings[self._SIMULATION_TIME]
+        time_manager = self.__time_manager.update_current_time(simulation_time)
         time_step = self.__simulation_settings[self._TIME_STEP]
-        start_time = self.__current_time
-        stop_time = start_time + self.__simulation_settings[self._SIMULATION_TIME]
-        if stop_time > self._final_time:
-            stop_time = self._final_time
-            LOGGER.warning(
-                (
-                    "The cumulated simulation time (%s) of the FMUDiscipline %r "
-                    "exceeds its final time set at instantiation (%s); "
-                    "stop its simulation at final time."
-                ),
-                stop_time,
-                self.name,
-                self._final_time,
-            )
-
-        self.__set_model_inputs(input_data, self.__current_time, False)
+        self.__set_model_inputs(input_data, time_manager.initial, False)
         result = simulate_fmu(
             self.__model_dir_path,
-            start_time=start_time,
-            stop_time=stop_time,
+            start_time=time_manager.initial,
+            stop_time=time_manager.final,
             solver=self.__solver_name,
-            output_interval=1 if start_time == stop_time else (time_step or None),
+            output_interval=1
+            if self.__time_manager.is_constant
+            else (time_step or None),
             output=self.__output_names,
             fmu_instance=self.__model,
             model_description=self.__model_description,
@@ -831,7 +802,6 @@ class BaseFMUDiscipline(MDODiscipline):
             for output_name in self.get_output_data_names(with_namespaces=False)
         }
         self.store_local_data(**output_data)
-        self._current_time = stop_time
 
     def __setstate__(self, state: Mapping[str, Any]) -> None:
         super().__setstate__(state)

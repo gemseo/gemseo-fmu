@@ -30,6 +30,11 @@ and this project adheres to
 
 ## Added
 
+- The class [TimeManager][gemseo_fmu.utils.time_manager.TimeManager] can be used to create a time manager
+  from an initial time, a final time and a time step;
+  the current time can be updated
+  with the [update_current_time][gemseo_fmu.utils.time_manager.TimeManager.update_current_time] method
+  and reset with the [reset][gemseo_fmu.utils.time_manager.TimeManager.reset] one.
 - The method
   [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution]
   can be used to redefine some default settings, such as `do_step`, `final_time`, `restart` and `time_step`.
@@ -43,13 +48,13 @@ and this project adheres to
 - A time-varying FMU model input can also be defined
   as a time function of type `Callable[[TimeDurationType], float]`,
   and not only a constant value or a
-  [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries];
+  [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries];
   the documentation provides an example of this functionality.
 - The method
   [FMUDiscipline.plot][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot]
   draws the temporal evolution of output variables with lines.
 - The components of
-  [TimeSeries.time][gemseo_fmu.disciplines.time_series.TimeSeries.time]
+  [TimeSeries.time][gemseo_fmu.utils.time_series.TimeSeries.time]
   can be either strings of characters such as `"2h 34m 5s"`,
   or numbers expressed in seconds
 - The arguments `initial_time`, `final_time` and `time_step` of
@@ -63,7 +68,9 @@ and this project adheres to
 
 ## Changed
 
-- [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries] supports the `==` and `!=` operators.
+- [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] is now
+  in the subpackage [gemseo.utils.time_series][gemseo.utils.time_series].
+- [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] supports the `==` and `!=` operators.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   stores the time evolution of its time-varying inputs
   in its [local_data][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.local_data]
@@ -85,7 +92,7 @@ and this project adheres to
 - `BaseFMUDiscipline._pre_instantiate` can now redefine time properties
   relative to initial and final times, e.g. simulation time and current value.
 - The points of a
-  [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries]
+  [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries]
   are interpreted as the starting points of the intervals of a stairs function
   for FMU model inputs of causality `input`,
   which is consistent with the FMU model input of causality `parameter`.
@@ -104,7 +111,7 @@ and this project adheres to
   [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   temporarily, to simulate during a given simulation time, with a
   different time step or from initial time.
-- [TimeSeries][gemseo_fmu.disciplines.time_series.TimeSeries]
+- [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries]
   allows to specify inputs as time series.
 - [gemseo-fmu.problems][gemseo_fmu.problems] contains use cases,
   either defined as [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
