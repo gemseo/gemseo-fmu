@@ -40,8 +40,8 @@ from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import Lines
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
-from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
+from gemseo_fmu.utils.time_series import TimeSeries
 
 INPUT_NAME = "ramp.height"
 OUTPUT_NAME = "out"
@@ -227,21 +227,6 @@ def test_initial_values(ramp_discipline_wo_restart, ramp_discipline_do_step):
     )
 
 
-def test_set_current_time(ramp_discipline):
-    """Check that a current time cannot be greater than the stop time."""
-    ramp_discipline._current_time = 0.5
-    assert ramp_discipline._current_time == 0.5
-
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            "The current time (2.0) of the FMUDiscipline 'ramp' is greater "
-            "than its final time (1.0)."
-        ),
-    ):
-        ramp_discipline._current_time = 2.0
-
-
 def test_execute_without_do_step(ramp_discipline_wo_restart):
     """Check the execution from start to final time, w/o custom values and w/o restart.
 
@@ -287,9 +272,8 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
     _, level, msg = caplog.record_tuples[0]
     assert level == logging.WARNING
     assert msg == (
-        "The cumulated simulation time (0.6) of the FMUDiscipline 'ramp' "
-        "exceeds its final time set at instantiation (0.6); "
-        "stop its simulation at final time."
+        "The time step is greater than the remaining time; "
+        "use the remaining time instead."
     )
 
 
@@ -516,6 +500,7 @@ def test_time_output_grammar(add_time_to_output_grammar, do_step):
     discipline = FMUDiscipline(
         FMU_PATH,
         initial_time=0.0,
+        time_step=0.2,
         final_time=1.0,
         add_time_to_output_grammar=add_time_to_output_grammar,
         do_step=do_step,
@@ -591,6 +576,7 @@ def test_serialize(tmp_wd, do_step, restart):
         FMU_PATH,
         [INPUT_NAME],
         [OUTPUT_NAME],
+        time_step=0.2,
         final_time=1.0,
         do_step=do_step,
         restart=restart,
@@ -611,26 +597,22 @@ def test_serialize(tmp_wd, do_step, restart):
 
 
 def test_initial_and_final_times_setter():
-    """Check that FMUDiscipline._final_time updates the default time settings.
+    """Check that FMUDiscipline.__set_final_time updates the default time settings.
 
     It is also a way to check that FMUDiscipline._pre_instantiate works correctly.
     """
-    initial_time = 1.25
     final_time = 3.0
 
     class NewFMUDiscipline(BaseFMUDiscipline):
         """A new FMU discipline."""
 
         def _pre_instantiate(self, **kwargs: Any) -> None:
-            self._initial_time = initial_time
-            self._final_time = 3.0
+            self._BaseFMUDiscipline__set_final_time(final_time)
 
     discipline = NewFMUDiscipline(FMU_PATH)
     settings = discipline._BaseFMUDiscipline__default_simulation_settings
-    assert discipline._initial_time == initial_time
-    assert discipline._final_time == final_time
-    assert discipline._initial_values[discipline._TIME] == initial_time
-    assert settings[discipline._SIMULATION_TIME] == final_time - initial_time
+    assert discipline._BaseFMUDiscipline__time_manager.final == final_time
+    assert settings[discipline._SIMULATION_TIME] == final_time
 
 
 @pytest.mark.parametrize(
@@ -743,7 +725,7 @@ def test_scalar_input_variables():
 def test_zero_time_step_warning(caplog, cls, warn):
     """Check that a warning message is logged when the time step is zero."""
     discipline = cls(FMU_PATH)
-    assert discipline._time_step == 0.0
+    assert discipline._BaseFMUDiscipline__time_manager.step == 0.0
     assert (
         (
             "gemseo_fmu.disciplines.base_fmu_discipline",
@@ -757,7 +739,7 @@ def test_zero_time_step_warning(caplog, cls, warn):
 def test_zero_time_step(caplog):
     """Check that no warning message is logged when the time step is not zero."""
     discipline = FMUDiscipline(FMU_PATH, time_step=0.2)
-    assert discipline._time_step == 0.2
+    assert discipline._BaseFMUDiscipline__time_manager.step == 0.2
     assert (
         "gemseo_fmu.disciplines.base_fmu_discipline",
         30,
@@ -799,5 +781,5 @@ def test_set_default_execution(
     default_simulation_settings = d._BaseFMUDiscipline__default_simulation_settings
     assert d._BaseFMUDiscipline__do_step is e_do_step
     assert default_simulation_settings[d._RESTART] is e_restart
-    assert d._final_time == e_final_time
+    assert d._BaseFMUDiscipline__time_manager.final == e_final_time
     assert default_simulation_settings[d._TIME_STEP] == e_time_step

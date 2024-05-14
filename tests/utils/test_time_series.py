@@ -21,7 +21,7 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
-from gemseo_fmu.disciplines.time_series import TimeSeries
+from gemseo_fmu.utils.time_series import TimeSeries
 
 
 def test_time_series():

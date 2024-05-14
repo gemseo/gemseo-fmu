@@ -25,8 +25,8 @@ from __future__ import annotations
 from matplotlib import pyplot as plt
 
 from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
-from gemseo_fmu.disciplines.time_series import TimeSeries
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
+from gemseo_fmu.utils.time_series import TimeSeries
 
 # %%
 # Let us create a discipline
