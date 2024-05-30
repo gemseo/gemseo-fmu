@@ -41,7 +41,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.52.4
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@7432997c0e25483b46ab692490c7114f4b7776fe
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@7165a4dac80fb501b06dea7d7c240a8512a19bff
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -129,7 +129,7 @@ mkdocs-gen-files==0.5.0
     # via gemseo-fmu (pyproject.toml)
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-include-markdown-plugin==6.0.6
+mkdocs-include-markdown-plugin==6.0.7
     # via gemseo-fmu (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-fmu (pyproject.toml)
@@ -249,7 +249,7 @@ pyyaml-env-tag==0.1
     #   mkdocs
 regex==2024.5.15
     # via mkdocs-material
-requests==2.32.2
+requests==2.32.3
     # via
     #   gemseo
     #   mkdocs-bibtex
