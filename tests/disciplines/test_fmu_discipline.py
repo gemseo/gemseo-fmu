@@ -235,7 +235,10 @@ def test_execute_without_do_step(ramp_discipline_wo_restart):
     ramp_discipline_wo_restart.execute()
     assert_almost_equal(ramp_discipline_wo_restart.time, array([0.0, 0.2, 0.4, 0.6]))
     assert_almost_equal(
-        ramp_discipline_wo_restart.local_data["time"], array([0.0, 0.2, 0.4, 0.6])
+        ramp_discipline_wo_restart.local_data[
+            f"{ramp_discipline_wo_restart.name}:time"
+        ],
+        array([0.0, 0.2, 0.4, 0.6]),
     )
     assert_almost_equal(
         ramp_discipline_wo_restart.local_data[OUTPUT_NAME],
@@ -408,7 +411,7 @@ def test_time_series():
         "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0]),
     })
     assert_almost_equal(
-        discipline.local_data["time"],
+        discipline.local_data[f"{discipline.name}:time"],
         array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
     )
     assert_almost_equal(discipline.local_data["add.k1"], array([1.0]))
@@ -450,7 +453,7 @@ def test_time_series_do_step():
     k2 = []
     for _ in range(10):
         result = discipline.execute()
-        time.append(result["time"][0])
+        time.append(result[f"{discipline.name}:time"][0])
         y.append(result["y"][0])
         u1.append(result["u1"][0])
         u2.append(result["u2"][0])
