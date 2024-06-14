@@ -8,7 +8,7 @@ backports-tarfile==1.2.0
     # via jaraco-context
 build==1.2.1
     # via -r requirements/dist.in
-certifi==2024.2.2
+certifi==2024.6.2
     # via requests
 cffi==1.16.0
     # via cryptography
@@ -18,7 +18,7 @@ check-wheel-contents==0.6.0
     # via -r requirements/dist.in
 click==8.1.7
     # via check-wheel-contents
-cryptography==42.0.7
+cryptography==42.0.8
     # via secretstorage
 docutils==0.21.2
     # via readme-renderer
@@ -44,23 +44,23 @@ markdown-it-py==3.0.0
     # via rich
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==10.2.0
+more-itertools==10.3.0
     # via
     #   jaraco-classes
     #   jaraco-functools
 nh3==0.2.17
     # via readme-renderer
-packaging==24.0
+packaging==24.1
     # via
     #   build
     #   check-wheel-contents
-pkginfo==1.10.0
+pkginfo==1.11.1
     # via twine
 pycparser==2.22
     # via cffi
-pydantic==2.7.2
+pydantic==2.7.3
     # via check-wheel-contents
-pydantic-core==2.18.3
+pydantic-core==2.18.4
     # via pydantic
 pygments==2.18.0
     # via
@@ -88,7 +88,7 @@ tomli==2.0.1
     #   check-wheel-contents
 twine==5.1.0
     # via -r requirements/dist.in
-typing-extensions==4.12.0
+typing-extensions==4.12.2
     # via
     #   pydantic
     #   pydantic-core
@@ -98,5 +98,5 @@ urllib3==2.2.1
     #   twine
 wheel-filename==1.4.1
     # via check-wheel-contents
-zipp==3.19.0
+zipp==3.19.2
     # via importlib-metadata

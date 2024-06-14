@@ -10,7 +10,7 @@ black==24.4.2
     # via gemseo-fmu (pyproject.toml)
 bracex==2.4
     # via wcmatch
-certifi==2024.2.2
+certifi==2024.6.2
     # via requests
 charset-normalizer==3.3.2
     # via requests
@@ -39,9 +39,9 @@ fastjsonschema==2.19.1
     # via gemseo
 fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
-fonttools==4.52.4
+fonttools==4.53.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@7165a4dac80fb501b06dea7d7c240a8512a19bff
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@bb14004bfbdaa06bdacf4afe7ff667991b3d8277
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -51,7 +51,7 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.20.3
     # via gemseo
-griffe==0.45.2
+griffe==0.45.3
     # via mkdocstrings-python
 h5py==3.10.0
     # via gemseo
@@ -121,7 +121,7 @@ mkdocs==1.6.0
     #   mkdocstrings
 mkdocs-autorefs==1.0.1
     # via mkdocstrings
-mkdocs-bibtex==2.15.0
+mkdocs-bibtex==2.16.0
     # via gemseo-fmu (pyproject.toml)
 mkdocs-gallery==0.10.1
     # via gemseo-fmu (pyproject.toml)
@@ -129,11 +129,11 @@ mkdocs-gen-files==0.5.0
     # via gemseo-fmu (pyproject.toml)
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-include-markdown-plugin==6.0.7
+mkdocs-include-markdown-plugin==6.2.0
     # via gemseo-fmu (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-fmu (pyproject.toml)
-mkdocs-material==9.5.25
+mkdocs-material==9.5.26
     # via
     #   gemseo-fmu (pyproject.toml)
     #   mkdocs-gallery
@@ -281,7 +281,7 @@ tqdm==4.66.2
     # via
     #   gemseo
     #   mkdocs-gallery
-typing-extensions==4.12.0
+typing-extensions==4.12.2
     # via
     #   black
     #   gemseo
@@ -304,7 +304,7 @@ xdsmjs==2.0.0
     # via gemseo
 xxhash==3.4.1
     # via gemseo
-zipp==3.19.0
+zipp==3.19.2
     # via
     #   importlib-metadata
     #   importlib-resources
