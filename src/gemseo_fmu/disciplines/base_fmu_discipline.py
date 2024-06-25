@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import logging
+from copy import copy
 from pathlib import Path
 from shutil import rmtree
 from types import MappingProxyType
@@ -631,7 +632,7 @@ class BaseFMUDiscipline(MDODiscipline):
                 if `None`, use the value passed at the instantiation.
         """  # noqa: D205 D212 D415
         if not self.__simulation_settings:
-            self.__simulation_settings = self.__default_simulation_settings.copy()
+            self.__simulation_settings = copy(self.__default_simulation_settings)
 
         if time_step is not None:
             self.__simulation_settings[self._TIME_STEP] = TimeDuration(

@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+from copy import copy
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Final
@@ -140,13 +141,13 @@ class TimeSteppingSystem(MDOParallelChain):
                 for input_name, input_value in discipline.default_inputs.items()
                 if input_name in self.input_grammar.names
             })
-        self.__original_default_inputs = self.default_inputs.copy()
+        self.__original_default_inputs = copy(self.default_inputs)
 
     def execute(  # noqa: D102
         self, input_data: Mapping[str, Any] | None = None
     ) -> DisciplineData:
         if self.__restart:
-            self.default_inputs = self.__original_default_inputs.copy()
+            self.default_inputs = copy(self.__original_default_inputs)
             self.__time_manager.reset()
             self.__time_step_id = array([0])
             for discipline in self.__fmu_disciplines:
@@ -181,7 +182,7 @@ class TimeSteppingSystem(MDOParallelChain):
         local_data_history = []
         while self.__time_manager.remaining > 0:
             self.__simulate_one_time_step()
-            local_data_history.append(self.local_data.copy())
+            local_data_history.append(copy(self.local_data))
 
         self.store_local_data(**{
             name: concatenate([local_data[name] for local_data in local_data_history])
