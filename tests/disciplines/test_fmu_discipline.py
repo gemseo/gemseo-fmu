@@ -58,7 +58,7 @@ def ramp_discipline(module_tmp_wd) -> FMUDiscipline:
     return discipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def ramp_discipline_wo_restart() -> FMUDiscipline:
     """A ramp model with custom time settings and without restart."""
     discipline = FMUDiscipline(
@@ -106,7 +106,7 @@ def ramp_discipline_do_step(module_tmp_wd) -> FMUDiscipline:
     return discipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def ramp_discipline_do_step_w_restart(tmp_wd) -> FMUDiscipline:
     """A FMU discipline with custom time settings, with restart and with do_step."""
     discipline = FMUDiscipline(

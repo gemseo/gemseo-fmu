@@ -22,7 +22,7 @@ import pytest
 from gemseo_fmu.utils.time_manager import TimeManager
 
 
-@pytest.fixture()
+@pytest.fixture
 def time_manager() -> TimeManager:
     """A time manager."""
     return TimeManager(1.2, 4.5, 2.3)
