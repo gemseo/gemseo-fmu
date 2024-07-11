@@ -69,7 +69,7 @@ and this project adheres to
 ## Changed
 
 - [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] is now
-  in the subpackage [gemseo.utils.time_series][gemseo.utils.time_series].
+  in the subpackage [gemseo_fmu.utils.time_series][gemseo_fmu.utils.time_series].
 - [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] supports the `==` and `!=` operators.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   stores the time evolution of its time-varying inputs

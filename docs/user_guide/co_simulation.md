@@ -7,13 +7,13 @@
  Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-# Time stepping system
+# Co-simulation
 
 A
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
 is an
 [MDODiscipline][gemseo.core.discipline.MDODiscipline]
-defined by system of static and time-stepping disciplines:
+defined by a system of static and time-stepping disciplines:
 
 - a static discipline computes an output $y$ at time $t_k$
   from an input $x$ at time $t_k$, i.e. $y(t_k)=f(x(t_k))$,

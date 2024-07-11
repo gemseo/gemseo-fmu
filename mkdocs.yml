@@ -1,22 +1,34 @@
 site_name: gemseo-fmu
 site_url: https://gemseo.gitlab.io/gemseo-fmu
+repo_url: https://gitlab.com/gemseo/dev/gemseo-fmu
+repo_name: gemseo-fmu
 
 theme:
   name: material
-  custom_dir: docs/overrides
   favicon: images/favicon.ico
-  logo: images/logo.png
   features:
     - navigation.tabs
     - navigation.instant
   palette:
-    primary: custom
+    - scheme: default
+      primary: teal
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/gitlab
 
 plugins:
 - search
+- markdown-exec
 - gen-files:
     scripts:
-    - docs/gen_ref_pages.py
+    - docs/gen_ref_nav.py
 - literate-nav:
     nav_file: SUMMARY.md
 - section-index
@@ -31,13 +43,15 @@ plugins:
         - https://numpy.org/doc/stable/objects.inv
         - https://docs.scipy.org/doc/scipy/objects.inv
         - https://openturns.github.io/openturns/latest/objects.inv
+        - https://scikit-learn.org/stable/objects.inv
         options:
           extensions:
-          - docs/docstring_inheritance.py:DocstringInheritance
+          - griffe_inherited_docstrings
+          - docstring_inheritance.griffe
           filters:
           - "!^_"
           docstring_options:
-          #   ignore_init_summary: true
+#            ignore_init_summary: true
             returns_multiple_items: False
           docstring_section_style: list
           # heading_level: 1
@@ -65,14 +79,19 @@ plugins:
     deploy_prefix: public
 
 nav:
-- Home: index.md
-- User guide: user_guide/
-- Examples: generated/examples/
-- Code: reference/gemseo_fmu/
-- More:
+- Home:
+  - Overview: index.md
   - Changelog: changelog.md
-  - Getting started: getting_started.md
-  - Modules: reference/SUMMARY.md
+  - Credits: credits.md
+  - Licenses: licenses.md
+- User guide:
+  - Installation: user_guide/installation.md
+  - Disciplines: user_guide/fmu_discipline.md
+  - Co-simulation: user_guide/co_simulation.md
+- Examples:
+  - Disciplines: generated/examples/disciplines
+  - Co-simulation:  generated/examples/co_simulation
+- API documentation: reference/gemseo_fmu/
 
 markdown_extensions:
 - admonition
@@ -87,18 +106,19 @@ markdown_extensions:
 - toc:
     permalink: true
 - pymdownx.snippets
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 extra_javascript:
 - javascripts/mathjax.js
 - https://polyfill.io/v3/polyfill.min.js?features=es6
 - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-# extra_css:
-#   - css/extra.css
-
 watch:
-  # mkdoc serve will rebuild the pages when changes in the docstrings.
   - src/gemseo_fmu
+  - README.md
+  - CHANGELOG.md
 
 extra:
   version:
