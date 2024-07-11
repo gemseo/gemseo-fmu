@@ -46,8 +46,7 @@ then the installation failed.
 
 ### Test with examples
 
-The [gallery of examples](../generated/examples/index.md) contains
-many examples to illustrate the main features of GEMSEO-FMU.
+There are many examples to illustrate the main features of GEMSEO-FMU.
 For each example,
 you can download a Python script or a Jupyter Notebook,
 execute it and experiment to test the installation.
