@@ -21,11 +21,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
@@ -182,11 +177,6 @@
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/gemseo_fmu/utils/time_series/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
