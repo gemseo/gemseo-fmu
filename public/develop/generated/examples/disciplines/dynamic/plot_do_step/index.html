@@ -11,10 +11,10 @@
         <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/dynamic/plot_do_step/">
       
       
-        <link rel="prev" href="../mg_execution_times/">
+        <link rel="prev" href="../plot_string_time/">
       
       
-        <link rel="next" href="../plot_evaluation_time/">
+        <link rel="next" href="../plot_plot_time_evolution/">
       
       
       <link rel="icon" href="../../../../../images/favicon.ico">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Plot do step - gemseo-fmu</title>
+        <title>Use time stepping - gemseo-fmu</title>
       
     
     
@@ -48,6 +48,10 @@
       
     
     
+      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_pyodide.css">
+    
+      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_ansi.css">
+    
       <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
     
       <link rel="stylesheet" href="../../../../../sg_gallery-binder.css">
@@ -70,10 +74,12 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -102,7 +108,8 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../../../.." title="gemseo-fmu" class="md-header__button md-logo" aria-label="gemseo-fmu" data-md-component="logo">
       
-  <img src="../../../../../images/logo.png" alt="logo">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -119,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Plot do step
+              Use time stepping
             
           </span>
         </div>
@@ -127,7 +134,33 @@
     </div>
     
       
+        <form class="md-header__option" data-md-component="palette">
+  
     
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -169,6 +202,18 @@
 </div>
     
     
+      <div class="md-header__source">
+        <a href="https://gitlab.com/gemseo/dev/gemseo-fmu" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gemseo-fmu
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -187,16 +232,19 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../../../.." class="md-tabs__link">
-        
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../.." class="md-tabs__link">
+          
   
     
   
   Home
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -204,16 +252,19 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../../../../user_guide/" class="md-tabs__link">
-        
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../user_guide/installation/" class="md-tabs__link">
+          
   
     
   
   User guide
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -223,16 +274,30 @@
     
   
   
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="../../../" class="md-tabs__link">
-        
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
   
     
   
   Examples
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
+  
+
+    
   
 
       
@@ -246,30 +311,10 @@
   
     
   
-  Code
+  API documentation
 
       </a>
     </li>
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../../../../changelog/" class="md-tabs__link">
-          
-  
-    
-  
-  More
-
-        </a>
-      </li>
-    
   
 
       
@@ -297,11 +342,24 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../../../.." title="gemseo-fmu" class="md-nav__button md-logo" aria-label="gemseo-fmu" data-md-component="logo">
       
-  <img src="../../../../../images/logo.png" alt="logo">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     gemseo-fmu
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitlab.com/gemseo/dev/gemseo-fmu" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m503.5 204.6-.7-1.8-69.7-181.78c-1.4-3.57-3.9-6.59-7.2-8.64-2.4-1.55-5.1-2.515-8-2.81-2.9-.295-5.7.083-8.4 1.11-2.7 1.02-5.1 2.66-7.1 4.78-1.9 2.12-3.3 4.67-4.1 7.44l-47 144H160.8l-47.1-144c-.8-2.77-2.2-5.31-4.1-7.43-2-2.12-4.4-3.75-7.1-4.77a18.1 18.1 0 0 0-8.38-1.113 18.4 18.4 0 0 0-8.04 2.793 18.09 18.09 0 0 0-7.16 8.64L9.267 202.8l-.724 1.8a129.57 129.57 0 0 0-3.52 82c7.747 26.9 24.047 50.7 46.447 67.6l.27.2.59.4 105.97 79.5 52.6 39.7 32 24.2c3.7 1.9 8.3 4.3 13 4.3 4.7 0 9.3-2.4 13-4.3l32-24.2 52.6-39.7 106.7-79.9.3-.3c22.4-16.9 38.7-40.6 45.6-67.5 8.6-27 7.4-55.8-2.6-82z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gemseo-fmu
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -311,16 +369,126 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../../../.." class="md-nav__link">
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../.." class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Home
   </span>
   
 
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Home
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../credits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Credits
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../licenses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licenses
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -353,24 +521,16 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../../../user_guide/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     User guide
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -378,27 +538,6 @@
             User guide
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../../user_guide/fmu_discipline/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Fmu discipline
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -428,11 +567,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/time_stepping_system/" class="md-nav__link">
+      <a href="../../../../../user_guide/fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Time stepping system
+    Disciplines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../user_guide/co_simulation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Co-simulation
   </span>
   
 
@@ -461,11 +621,7 @@
     
       
         
-          
-        
       
-        
-          
         
       
     
@@ -484,24 +640,16 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
   
   <span class="md-ellipsis">
     Examples
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -520,6 +668,10 @@
   
     
     
+      
+        
+          
+        
       
         
       
@@ -565,6 +717,8 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
@@ -601,34 +755,47 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" checked>
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../mg_execution_times/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Dynamic
+    Dynamic FMU discipline
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_1_1">
             <span class="md-nav__icon md-icon"></span>
-            Dynamic
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Dynamic FMU discipline
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plot_string_time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Time as a character string.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -650,7 +817,7 @@
         
   
   <span class="md-ellipsis">
-    Plot do step
+    Use time stepping
   </span>
   
 
@@ -668,11 +835,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_evaluation_time/" class="md-nav__link">
+      <a href="../plot_plot_time_evolution/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plot evaluation time
+    Plot a time evolution
   </span>
   
 
@@ -693,28 +860,7 @@
         
   
   <span class="md-ellipsis">
-    Plot from initial time to final time
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../plot_plot_time_evolution/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Plot plot time evolution
+    From initial time to final time
   </span>
   
 
@@ -735,28 +881,7 @@
         
   
   <span class="md-ellipsis">
-    Plot restart false
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../plot_string_time/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Plot string time
+    Do not restart
   </span>
   
 
@@ -777,7 +902,7 @@
         
   
   <span class="md-ellipsis">
-    Plot time function
+    Use time functions
   </span>
   
 
@@ -798,7 +923,28 @@
         
   
   <span class="md-ellipsis">
-    Plot time series
+    Use time series
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plot_evaluation_time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Set evaluation time
   </span>
   
 
@@ -837,32 +983,24 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_3" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../static/mg_execution_times/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_3_1_3" id="__nav_3_1_3_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Static
+    Static FMU discipline
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_1_2">
             <span class="md-nav__icon md-icon"></span>
-            Static
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Static FMU discipline
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -877,7 +1015,7 @@
         
   
   <span class="md-ellipsis">
-    Plot static discipline
+    Static discipline
   </span>
   
 
@@ -912,6 +1050,8 @@
     
     
       
+        
+          
         
       
         
@@ -933,11 +1073,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../time_stepping_systems/" class="md-nav__link ">
+            <a href="../../../co_simulation/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    Time stepping systems
+    Co-simulation
   </span>
   
 
@@ -953,22 +1093,24 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
-            Time stepping systems
+            Co-simulation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../../time_stepping_systems/mg_execution_times/" class="md-nav__link">
+      <a href="../../../co_simulation/plot_basic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Computation times
+    Time stepping system.
   </span>
   
 
@@ -985,32 +1127,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../time_stepping_systems/plot_basic/" class="md-nav__link">
+      <a href="../../../co_simulation/plot_multiple_time_steps/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Plot basic
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../time_stepping_systems/plot_multiple_time_steps/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Plot multiple time steps
+    Time stepping system with multiple time steps.
   </span>
   
 
@@ -1075,7 +1196,7 @@
               
   
   <span class="md-ellipsis">
-    Code
+    API documentation
   </span>
   
 
@@ -1091,7 +1212,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Code
+            API documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1525,122 +1646,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    More
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            More
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../../changelog/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Changelog
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../../getting_started/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting started
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../../reference/SUMMARY/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Modules
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1672,6 +1677,9 @@
               <article class="md-content__inner md-typeset">
                 
                   
+
+  
+  
 
 
 <!--
@@ -1766,7 +1774,7 @@ The<span class="w"> </span><span class="nb">time</span><span class="w"> </span>s
 <a class="autorefs autorefs-internal" href="../../../../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
 by setting <code>do_step</code> to <code>False</code> and <code>restart</code> to <code>False</code>.</p>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.150 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.268 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_do_step.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg></span> Download Python source code: plot_do_step.py</a></p>
@@ -1822,6 +1830,8 @@ by setting <code>do_step</code> to <code>False</code> and <code>restart</code> t
     
     
       <script src="../../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
       
         <script src="../../../../../javascripts/mathjax.js"></script>
       

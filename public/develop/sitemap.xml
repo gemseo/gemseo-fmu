@@ -11,12 +11,37 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/getting_started/</loc>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/credits/</loc>
+         <lastmod>2024-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/licenses/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/</loc>
+         <lastmod>2024-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/</loc>
+         <lastmod>2024-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/mg_execution_times/</loc>
+         <lastmod>2024-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/plot_basic/</loc>
+         <lastmod>2024-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/plot_multiple_time_steps/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -77,26 +102,6 @@
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/static/plot_static_discipline/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/mg_execution_times/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/plot_basic/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/time_stepping_systems/plot_multiple_time_steps/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -186,17 +191,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/co_simulation/</loc>
+         <lastmod>2024-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/fmu_discipline/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/installation/</loc>
-         <lastmod>2024-07-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/time_stepping_system/</loc>
          <lastmod>2024-07-11</lastmod>
          <changefreq>daily</changefreq>
     </url>

@@ -33,7 +33,7 @@ from gemseo_fmu.utils.time_series import TimeSeries
 # to simulate a mass damper defined in a FMU model
 # from 0 to 1 second with a time step of 0.1 millisecond:
 #
-# ![ ](../../../../../images/mass_damper.png)
+# ![ ](../../../../images/mass_damper.png)
 #
 # We only use the mass of the sliding mass [kg]
 # and the spring constant [N/m] as inputs
