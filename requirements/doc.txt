@@ -41,7 +41,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@52a931d0f4c6f8b6c1bdc76fee7da24c7901e5d7
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f6762d716c7c78b1fa2ecf8f22dfc61000c6d2ec
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -292,7 +292,7 @@ tzdata==2024.1
     # via pandas
 urllib3==2.2.2
     # via requests
-validators==0.31.0
+validators==0.32.0
     # via mkdocs-bibtex
 verspec==0.1.0
     # via mike
