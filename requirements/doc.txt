@@ -41,7 +41,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f6762d716c7c78b1fa2ecf8f22dfc61000c6d2ec
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@bff12016a8d6192afe804a897adf4394467d149c
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -52,7 +52,11 @@ ghp-import==2.1.0
 graphviz==0.20.3
     # via gemseo
 griffe==0.47.0
-    # via mkdocstrings-python
+    # via
+    #   griffe-inherited-docstrings
+    #   mkdocstrings-python
+griffe-inherited-docstrings==1.0.0
+    # via gemseo-fmu (pyproject.toml)
 h5py==3.11.0
     # via gemseo
 idna==3.7
@@ -93,6 +97,8 @@ markdown==3.6
     #   mkdocs-material
     #   mkdocstrings
     #   pymdown-extensions
+markdown-exec==1.9.3
+    # via gemseo-fmu (pyproject.toml)
 markupsafe==2.1.5
     # via
     #   jinja2
@@ -213,9 +219,14 @@ pydantic-core==2.20.1
 pydoe3==1.0.3
     # via gemseo
 pygments==2.18.0
-    # via mkdocs-material
+    # via
+    #   mkdocs-material
+    #   pygments-ansi-color
+pygments-ansi-color==0.3.0
+    # via markdown-exec
 pymdown-extensions==10.8.1
     # via
+    #   markdown-exec
     #   mkdocs-material
     #   mkdocstrings
 pypandoc==1.13
@@ -256,7 +267,7 @@ requests==2.32.3
     #   mkdocs-material
 scikit-learn==1.5.1
     # via gemseo
-scipy==1.12.0
+scipy==1.13.1
     # via
     #   gemseo
     #   pydoe3
