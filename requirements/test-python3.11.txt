@@ -12,7 +12,7 @@ contourpy==1.2.1
     # via matplotlib
 covdefaults==2.3.0
     # via gemseo-fmu (pyproject.toml)
-coverage==7.5.4
+coverage==7.6.0
     # via
     #   covdefaults
     #   pytest-cov
@@ -34,7 +34,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f6762d716c7c78b1fa2ecf8f22dfc61000c6d2ec
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@bff12016a8d6192afe804a897adf4394467d149c
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -116,7 +116,7 @@ pydoe3==1.0.3
     # via gemseo
 pyparsing==3.1.2
     # via matplotlib
-pytest==7.4.4
+pytest==8.2.2
     # via
     #   gemseo-fmu (pyproject.toml)
     #   pytest-cov
@@ -139,7 +139,7 @@ requests==2.32.3
     # via gemseo
 scikit-learn==1.5.1
     # via gemseo
-scipy==1.12.0
+scipy==1.14.0
     # via
     #   gemseo
     #   pydoe3
