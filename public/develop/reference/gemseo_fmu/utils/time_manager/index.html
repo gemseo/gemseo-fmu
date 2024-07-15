@@ -2375,7 +2375,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>Update the current time from a time step.</p>
+      <p>Increment the current time by one time step and truncate at the final time.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2403,7 +2403,7 @@ If 0, use the time step passed at instantiation.</p>
             <p>A time manager with
 the current time before the update as initial time,
 the current time after the update as final time
-and the time step.</p>
+and the difference between the initial and final times as time step.</p>
           </div>
         </li>
     </ul>
@@ -2443,7 +2443,7 @@ and the time step.</p>
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the current time from a time step.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Increment the current time by one time step and truncate at the final time.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        step: The time step.</span>
@@ -2453,13 +2453,13 @@ and the time step.</p>
 <span class="sd">        A time manager with</span>
 <span class="sd">        the current time before the update as initial time,</span>
 <span class="sd">        the current time after the update as final time</span>
-<span class="sd">        and the time step.</span>
+<span class="sd">        and the difference between the initial and final times as time step.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">step</span><span class="p">:</span>
         <span class="n">step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
 
     <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">remaining</span><span class="p">:</span>
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;The time step is greater than the remaining time; &quot;</span>
             <span class="s2">&quot;use the remaining time instead.&quot;</span>
         <span class="p">)</span>
