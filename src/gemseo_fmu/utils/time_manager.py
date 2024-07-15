@@ -83,7 +83,7 @@ class TimeManager:
         return self.__initial == self.final
 
     def update_current_time(self, step: float = 0.0) -> Self:
-        """Update the current time from a time step.
+        """Increment the current time by one time step and truncate at the final time.
 
         Args:
             step: The time step.
@@ -93,13 +93,13 @@ class TimeManager:
             A time manager with
             the current time before the update as initial time,
             the current time after the update as final time
-            and the time step.
+            and the difference between the initial and final times as time step.
         """
         if not step:
             step = self.step
 
         if step > self.remaining:
-            LOGGER.warning(
+            LOGGER.debug(
                 "The time step is greater than the remaining time; "
                 "use the remaining time instead."
             )

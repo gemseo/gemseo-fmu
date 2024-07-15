@@ -259,6 +259,7 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
 
     Here we consider a discipline using restart by default.
     """
+    caplog.set_level(logging.DEBUG)
     time_data = array([0.0, 0.2, 0.4, 0.6])
     output_data = array([0.0, 0.4, 0.8, 1.2])
     ramp_discipline_w_restart.execute()
@@ -271,9 +272,8 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
     assert_almost_equal(ramp_discipline_w_restart.local_data[OUTPUT_NAME], output_data)
-    caplog.set_level(logging.WARNING)
     _, level, msg = caplog.record_tuples[0]
-    assert level == logging.WARNING
+    assert level == logging.DEBUG
     assert msg == (
         "The time step is greater than the remaining time; "
         "use the remaining time instead."
