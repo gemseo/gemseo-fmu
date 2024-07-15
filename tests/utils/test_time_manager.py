@@ -38,6 +38,7 @@ def test_properties(time_manager):
 
 def test_time_manager(time_manager, caplog):
     """Check update_current_time()."""
+    caplog.set_level(logging.DEBUG)
     times = time_manager.update_current_time()
     assert times == TimeManager(1.2, 3.5, 2.3)
     assert time_manager.initial == 1.2
@@ -51,7 +52,7 @@ def test_time_manager(time_manager, caplog):
     assert time_manager.final == 4.5
     assert (
         "gemseo_fmu.utils.time_manager",
-        logging.WARNING,
+        logging.DEBUG,
         (
             "The time step is greater than the remaining time; "
             "use the remaining time instead."
