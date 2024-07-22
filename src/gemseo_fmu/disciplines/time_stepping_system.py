@@ -12,18 +12,18 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A system of disciplines based on static and time-stepping disciplines."""
+"""A system of static and time-stepping disciplines."""
 
 from __future__ import annotations
 
 from copy import copy
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Final
 
-from gemseo.core.chain import MDOParallelChain
+from gemseo import READ_ONLY_EMPTY_DICT
 from gemseo.core.discipline import MDODiscipline
-from numpy import array
+from gemseo.disciplines.analytic import AnalyticDiscipline
+from gemseo.mda.mda_chain import MDAChain
 from numpy import concatenate
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
@@ -36,20 +36,18 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from gemseo.core.discipline_data import DisciplineData
-    from gemseo.typing import IntegerArray
 
     from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
 
-class TimeSteppingSystem(MDOParallelChain):
+class TimeSteppingSystem(MDODiscipline):
     """A system of static and time-stepping disciplines.
 
     A static discipline computes an output at time $t_k$ from an input at time $t_k$
     while a time-stepping discipline computes an output at time $t_k$ from an input at
     time $t_k$ and its state at time $t_{k-1}$.
 
-    At each time step, the time-stepping system executes such disciplines one after the
-    other.
+    This system co-simulates the disciplines using an MDA-based master algorithm.
     """
 
     __do_step: bool
@@ -67,11 +65,8 @@ class TimeSteppingSystem(MDOParallelChain):
     __time_manager: TimeManager
     """The time manager."""
 
-    __time_step_id: IntegerArray
-    """The identifier of the time step."""
-
-    __TIME_STEP_ID_LABEL: Final[str] = "time_step_id"
-    """The label for the identifier of the time step."""
+    __mda: MDAChain
+    """An MDA chain defining the master algorithm to co-simulate the discipline."""
 
     def __init__(
         self,
@@ -81,6 +76,8 @@ class TimeSteppingSystem(MDOParallelChain):
         apply_time_step_to_disciplines: bool = True,
         restart: bool = True,
         do_step: bool = False,
+        mda_name: str = "MDAJacobi",
+        mda_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
         **fmu_options: Any,
     ) -> None:
         """
@@ -98,13 +95,15 @@ class TimeSteppingSystem(MDOParallelChain):
             do_step: Whether the model is simulated over only one `time_step`
                 when calling the execution method.
                 Otherwise, simulate the model from initial time to `final_time`.
+            mda_name: The MDA class name.
+            mda_options: The options of the MDA.
             **fmu_options: The options to instantiate the FMU disciplines.
         """  # noqa: D205 D212 D415
         self.__do_step = do_step
         self.__time_manager = TimeManager(0.0, final_time, time_step)
         self.__restart = restart
         discipline_time_step = time_step if apply_time_step_to_disciplines else 0.0
-        _disciplines = []
+        all_disciplines = []
         for discipline in disciplines:
             if isinstance(discipline, BaseFMUDiscipline):
                 discipline.set_default_execution(
@@ -120,22 +119,29 @@ class TimeSteppingSystem(MDOParallelChain):
                     final_time=final_time,
                     **fmu_options,
                 )
-            _disciplines.append(discipline)
+            all_disciplines.append(discipline)
+
+        all_disciplines.append(AnalyticDiscipline({"time_step_id": "time_step_id+1"}))
 
         self.__fmu_disciplines = [
             discipline
-            for discipline in _disciplines
+            for discipline in all_disciplines
             if isinstance(discipline, BaseFMUDiscipline)
         ]
-        super().__init__(_disciplines, grammar_type=MDODiscipline.GrammarType.SIMPLER)
-        if self.__do_step:
-            # Workaround to be replaced by something related to time step.
-            self.__time_step_id = array([0])
-            self.input_grammar.update_from_names([self.__TIME_STEP_ID_LABEL])
+        super().__init__(grammar_type=MDODiscipline.GrammarType.SIMPLER)
+        self.__mda = MDAChain(
+            all_disciplines,
+            inner_mda_name=mda_name,
+            # TODO: add max_mda_iter argument when rollback will be available.
+            max_mda_iter=0,
+            grammar_type=MDODiscipline.GrammarType.SIMPLER,
+            **mda_options,
+        )
+        self.input_grammar.update(self.__mda.input_grammar)
+        self.output_grammar.update(self.__mda.output_grammar)
 
         # Discipline i has priority over discipline i+1 to set the default inputs.
-        self.default_inputs.clear()
-        for discipline in self.disciplines[::-1]:
+        for discipline in all_disciplines[::-1]:
             self.default_inputs.update({
                 input_name: input_value
                 for input_name, input_value in discipline.default_inputs.items()
@@ -148,41 +154,45 @@ class TimeSteppingSystem(MDOParallelChain):
     ) -> DisciplineData:
         if self.__restart:
             self.default_inputs = copy(self.__original_default_inputs)
+            self.__mda.default_inputs.update(self.default_inputs)
             self.__time_manager.reset()
-            self.__time_step_id = array([0])
-            for discipline in self.__fmu_disciplines:
-                discipline.set_next_execution(restart=True)
+            for fmu_discipline in self.__fmu_disciplines:
+                fmu_discipline.set_next_execution(restart=True)
 
             if self.cache is not None:
                 self.cache.clear()
-
-        if self.__do_step:
-            input_data = input_data or {}
-            self.__time_step_id = self.__time_step_id + 1
-            input_data[self.__TIME_STEP_ID_LABEL] = self.__time_step_id
+                self.__mda.cache.clear()
+                for mda in self.__mda.inner_mdas:
+                    mda.cache.clear()
 
         return super().execute(input_data)
 
     def _run(self) -> None:
+        input_data = self.get_input_data()
         if self.__do_step:
-            self.__simulate_one_time_step()
+            self.__simulate_one_time_step(input_data)
+            self.local_data.update(self.__mda.local_data)
             self.default_inputs.update(self.get_input_data())
         else:
-            self.__simulate_to_final_time()
+            self.__simulate_to_final_time(input_data)
 
-    def __simulate_one_time_step(self) -> None:
+    def __simulate_one_time_step(self, input_data: Mapping[str, Any]) -> None:
         """Simulate the multidisciplinary system with only one time step."""
         simulation_time = self.__time_manager.update_current_time().step
-        for discipline in self.__fmu_disciplines:
-            discipline.set_next_execution(simulation_time=simulation_time)
-        super()._run()
+        for fmu_discipline in self.__fmu_disciplines:
+            fmu_discipline.set_next_execution(simulation_time=simulation_time)
 
-    def __simulate_to_final_time(self) -> None:
+        self.__mda.execute(input_data)
+
+    def __simulate_to_final_time(self, input_data: Mapping[str, Any]) -> None:
         """Simulate the multidisciplinary system until final time."""
         local_data_history = []
         while self.__time_manager.remaining > 0:
-            self.__simulate_one_time_step()
-            local_data_history.append(copy(self.local_data))
+            self.__simulate_one_time_step(input_data)
+            local_data_history.append(copy(self.__mda.local_data))
+            input_data = self.__mda.local_data
+            for inner_mda in self.__mda.inner_mdas:
+                inner_mda.cache.clear()
 
         self.store_local_data(**{
             name: concatenate([local_data[name] for local_data in local_data_history])

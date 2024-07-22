@@ -39,6 +39,10 @@ and this project adheres to
   [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution]
   can be used to redefine some default settings, such as `do_step`, `final_time`, `restart` and `time_step`.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+  has new arguments `mda_name` and `mda_options` to define the master algorithm,
+  e.g. a parallel master algorithm inspired by the Jacobi method when `mda_name="MDAJacobi"` (default)
+  and a serial one inspired by the Gauss-Seidel method when `mda_name="MDAGaussSeidel"`.
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
   has a new argument `apply_time_step_to_disciplines` (default: `True`);
   if `True`,
   the value of its `time_step` argument is passed to the time-stepping disciplines;
