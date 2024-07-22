@@ -36,6 +36,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/plot_gauss_seidel/</loc>
+         <lastmod>2024-07-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/plot_multiple_time_steps/</loc>
          <lastmod>2024-07-22</lastmod>
          <changefreq>daily</changefreq>

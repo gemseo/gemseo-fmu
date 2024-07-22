@@ -1037,6 +1037,8 @@
       
         
       
+        
+      
     
     
       
@@ -1089,7 +1091,28 @@
         
   
   <span class="md-ellipsis">
-    Time stepping system.
+    Co-simulation.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../generated/examples/co_simulation/plot_gauss_seidel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Co-simulation with a serial master algorithm.
   </span>
   
 
@@ -1110,7 +1133,7 @@
         
   
   <span class="md-ellipsis">
-    Time stepping system with multiple time steps.
+    Co-simulation with multiple time steps.
   </span>
   
 
@@ -1862,7 +1885,7 @@
 
     <div class="doc doc-contents first">
 
-      <p>A system of disciplines based on static and time-stepping disciplines.</p>
+      <p>A system of static and time-stepping disciplines.</p>
 
 
 
@@ -1891,21 +1914,22 @@
     <span class="n">apply_time_step_to_disciplines</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">do_step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">mda_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;MDAJacobi&quot;</span><span class="p">,</span>
+    <span class="n">mda_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="o">**</span><span class="n">fmu_options</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.chain.MDOParallelChain" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.chain.html#gemseo.core.chain.MDOParallelChain">MDOParallelChain</a></code></p>
+              Bases: <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.MDODiscipline" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline.html#gemseo.core.discipline.MDODiscipline">MDODiscipline</a></code></p>
 
 
       <p>A system of static and time-stepping disciplines.</p>
 <p>A static discipline computes an output at time <span class="arithmatex">\(t_k\)</span> from an input at time <span class="arithmatex">\(t_k\)</span>
 while a time-stepping discipline computes an output at time <span class="arithmatex">\(t_k\)</span> from an input at
 time <span class="arithmatex">\(t_k\)</span> and its state at time <span class="arithmatex">\(t_{k-1}\)</span>.</p>
-<p>At each time step, the time-stepping system executes such disciplines one after the
-other.</p>
+<p>This system co-simulates the disciplines using an MDA-based master algorithm.</p>
 
       <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
@@ -1974,6 +1998,26 @@ Otherwise, simulate the model from initial time to <code>final_time</code>.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
+          <b><code>mda_name</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                  <code>&#39;MDAJacobi&#39;</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The MDA class name.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>mda_options</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>, default:
+                  <code><span title="gemseo.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
+)
+          –
+          <div class="doc-md-description">
+            <p>The options of the MDA.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
           <b><code>**fmu_options</code></b>
               (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                   <code>{}</code>
@@ -1985,17 +2029,14 @@ Otherwise, simulate the model from initial time to <code>final_time</code>.</p>
         </li>
     </ul>
 
-
-<details class="notes" open>
-  <summary>Notes</summary>
-  <p>The actual number of processes could be lower than <code>n_processes</code>
-if there are less than <code>n_processes</code> disciplines.
-<code>n_processes</code> can be lower than the total number of CPUs on the machine.
-Each discipline may itself run on several CPUs.</p>
-</details>
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 76</span>
+                    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
 <span class="normal"> 77</span>
 <span class="normal"> 78</span>
 <span class="normal"> 79</span>
@@ -2063,7 +2104,13 @@ Each discipline may itself run on several CPUs.</p>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">MDODiscipline</span><span class="p">],</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -2071,6 +2118,8 @@ Each discipline may itself run on several CPUs.</p>
     <span class="n">apply_time_step_to_disciplines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">do_step</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">mda_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;MDAJacobi&quot;</span><span class="p">,</span>
+    <span class="n">mda_options</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
     <span class="o">**</span><span class="n">fmu_options</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2088,13 +2137,15 @@ Each discipline may itself run on several CPUs.</p>
 <span class="sd">        do_step: Whether the model is simulated over only one `time_step`</span>
 <span class="sd">            when calling the execution method.</span>
 <span class="sd">            Otherwise, simulate the model from initial time to `final_time`.</span>
+<span class="sd">        mda_name: The MDA class name.</span>
+<span class="sd">        mda_options: The options of the MDA.</span>
 <span class="sd">        **fmu_options: The options to instantiate the FMU disciplines.</span>
 <span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: D205 D212 D415</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__do_step</span> <span class="o">=</span> <span class="n">do_step</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__time_manager</span> <span class="o">=</span> <span class="n">TimeManager</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="n">time_step</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span> <span class="o">=</span> <span class="n">restart</span>
     <span class="n">discipline_time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">apply_time_step_to_disciplines</span> <span class="k">else</span> <span class="mf">0.0</span>
-    <span class="n">_disciplines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_disciplines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">disciplines</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">discipline</span><span class="p">,</span> <span class="n">BaseFMUDiscipline</span><span class="p">):</span>
             <span class="n">discipline</span><span class="o">.</span><span class="n">set_default_execution</span><span class="p">(</span>
@@ -2110,22 +2161,29 @@ Each discipline may itself run on several CPUs.</p>
                 <span class="n">final_time</span><span class="o">=</span><span class="n">final_time</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">fmu_options</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="n">_disciplines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">discipline</span><span class="p">)</span>
+        <span class="n">all_disciplines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">discipline</span><span class="p">)</span>
+
+    <span class="n">all_disciplines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AnalyticDiscipline</span><span class="p">({</span><span class="s2">&quot;time_step_id&quot;</span><span class="p">:</span> <span class="s2">&quot;time_step_id+1&quot;</span><span class="p">}))</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">__fmu_disciplines</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">discipline</span>
-        <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">_disciplines</span>
+        <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">all_disciplines</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">discipline</span><span class="p">,</span> <span class="n">BaseFMUDiscipline</span><span class="p">)</span>
     <span class="p">]</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_disciplines</span><span class="p">,</span> <span class="n">grammar_type</span><span class="o">=</span><span class="n">MDODiscipline</span><span class="o">.</span><span class="n">GrammarType</span><span class="o">.</span><span class="n">SIMPLER</span><span class="p">)</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__do_step</span><span class="p">:</span>
-        <span class="c1"># Workaround to be replaced by something related to time step.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_id</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update_from_names</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__TIME_STEP_ID_LABEL</span><span class="p">])</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">grammar_type</span><span class="o">=</span><span class="n">MDODiscipline</span><span class="o">.</span><span class="n">GrammarType</span><span class="o">.</span><span class="n">SIMPLER</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__mda</span> <span class="o">=</span> <span class="n">MDAChain</span><span class="p">(</span>
+        <span class="n">all_disciplines</span><span class="p">,</span>
+        <span class="n">inner_mda_name</span><span class="o">=</span><span class="n">mda_name</span><span class="p">,</span>
+        <span class="c1"># TODO: add max_mda_iter argument when rollback will be available.</span>
+        <span class="n">max_mda_iter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">grammar_type</span><span class="o">=</span><span class="n">MDODiscipline</span><span class="o">.</span><span class="n">GrammarType</span><span class="o">.</span><span class="n">SIMPLER</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">mda_options</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_grammar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">input_grammar</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output_grammar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">output_grammar</span><span class="p">)</span>
 
     <span class="c1"># Discipline i has priority over discipline i+1 to set the default inputs.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disciplines</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">all_disciplines</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
             <span class="n">input_name</span><span class="p">:</span> <span class="n">input_value</span>
             <span class="k">for</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -2215,13 +2273,7 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
@@ -2233,23 +2285,25 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineData</span><span class="p">:</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__original_default_inputs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">default_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_inputs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__time_manager</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_id</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fmu_disciplines</span><span class="p">:</span>
-            <span class="n">discipline</span><span class="o">.</span><span class="n">set_next_execution</span><span class="p">(</span><span class="n">restart</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">fmu_discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fmu_disciplines</span><span class="p">:</span>
+            <span class="n">fmu_discipline</span><span class="o">.</span><span class="n">set_next_execution</span><span class="p">(</span><span class="n">restart</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__do_step</span><span class="p">:</span>
-        <span class="n">input_data</span> <span class="o">=</span> <span class="n">input_data</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_id</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">input_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__TIME_STEP_ID_LABEL</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">mda</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">inner_mdas</span><span class="p">:</span>
+                <span class="n">mda</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>

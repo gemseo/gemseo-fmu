@@ -1052,6 +1052,8 @@
       
         
       
+        
+      
     
     
       
@@ -1104,7 +1106,28 @@
         
   
   <span class="md-ellipsis">
-    Time stepping system.
+    Co-simulation.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generated/examples/co_simulation/plot_gauss_seidel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Co-simulation with a serial master algorithm.
   </span>
   
 
@@ -1125,7 +1148,7 @@
         
   
   <span class="md-ellipsis">
-    Time stepping system with multiple time steps.
+    Co-simulation with multiple time steps.
   </span>
   
 
@@ -1720,6 +1743,10 @@ and this project adheres to
 <li>The method
   <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a>
   can be used to redefine some default settings, such as <code>do_step</code>, <code>final_time</code>, <code>restart</code> and <code>time_step</code>.</li>
+<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+  has new arguments <code>mda_name</code> and <code>mda_options</code> to define the master algorithm,
+  e.g. a parallel master algorithm inspired by the Jacobi method when <code>mda_name="MDAJacobi"</code> (default)
+  and a serial one inspired by the Gauss-Seidel method when <code>mda_name="MDAGaussSeidel"</code>.</li>
 <li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
   has a new argument <code>apply_time_step_to_disciplines</code> (default: <code>True</code>);
   if <code>True</code>,

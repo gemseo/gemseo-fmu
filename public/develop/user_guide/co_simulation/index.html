@@ -637,6 +637,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#instantiation" class="md-nav__link">
     <span class="md-ellipsis">
       Instantiation
@@ -644,8 +654,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#restart" class="md-nav__link">
     <span class="md-ellipsis">
       Restart
@@ -653,8 +663,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#time-stepping" class="md-nav__link">
     <span class="md-ellipsis">
       Time stepping
@@ -662,11 +672,25 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#time-step" class="md-nav__link">
     <span class="md-ellipsis">
       Time step
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#master-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Master algorithms
     </span>
   </a>
   
@@ -1118,6 +1142,8 @@
       
         
       
+        
+      
     
     
       
@@ -1170,7 +1196,28 @@
         
   
   <span class="md-ellipsis">
-    Time stepping system.
+    Co-simulation.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generated/examples/co_simulation/plot_gauss_seidel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Co-simulation with a serial master algorithm.
   </span>
   
 
@@ -1191,7 +1238,7 @@
         
   
   <span class="md-ellipsis">
-    Time stepping system with multiple time steps.
+    Co-simulation with multiple time steps.
   </span>
   
 
@@ -1733,6 +1780,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#instantiation" class="md-nav__link">
     <span class="md-ellipsis">
       Instantiation
@@ -1740,8 +1797,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#restart" class="md-nav__link">
     <span class="md-ellipsis">
       Restart
@@ -1749,8 +1806,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#time-stepping" class="md-nav__link">
     <span class="md-ellipsis">
       Time stepping
@@ -1758,11 +1815,25 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#time-step" class="md-nav__link">
     <span class="md-ellipsis">
       Time step
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#master-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Master algorithms
     </span>
   </a>
   
@@ -1811,19 +1882,13 @@ defined by a system of static and time-stepping disciplines:</p>
 <p>At each time step <span class="arithmatex">\(t_k\)</span>,
 the
 <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
-executes a collection of such disciplines one after the other.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The order of execution is the user one.
-Future versions of <code>gemseo-fmu</code> should implement advanced strategies
-based on the
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.coupling_structure.html#gemseo.core.coupling_structure.MDOCouplingStructure">MDOCouplingStructure</a>
-of the disciplines.</p>
-</div>
-<h2 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h2>
+executes a collection of such disciplines using a co-simulation master algorithm
+based on a multidisciplinary analysis (MDA).</p>
+<h2 id="basics">Basics<a class="headerlink" href="#basics" title="Permanent link">&para;</a></h2>
+<h3 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h3>
 <p>The instantiation of a
 <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
-only requires a list of disciplines, final time and a time step:</p>
+only requires a list of disciplines, a final time and a time step:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.time_stepping_system</span> <span class="kn">import</span> <span class="n">TimeSteppingSystem</span>
 <span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.dynamic_fmu_discipline</span> <span class="kn">import</span> <span class="n">DynamicFMUDiscipline</span>
 <span class="kn">from</span> <span class="nn">gemseo.disciplines.analytic</span> <span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
@@ -1836,20 +1901,53 @@ only requires a list of disciplines, final time and a time step:</p>
 <span class="n">system</span> <span class="o">=</span> <span class="n">TimeSteppingSystem</span><span class="p">(</span><span class="n">disciplines</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
 </code></pre></div>
 <p>The disciplines can be either an FMU file path,
-a static discipline or a dynamic discipline
-and will be executed in parallel.</p>
-<h2 id="restart">Restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h2>
+a static discipline or a dynamic discipline.</p>
+<h3 id="restart">Restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h3>
 <p>By default,
 an execution starts from the initial time.
 Set <code>restart</code> to <code>False</code> if you want to restart from the initial time.</p>
-<h2 id="time-stepping">Time stepping<a class="headerlink" href="#time-stepping" title="Permanent link">&para;</a></h2>
+<h3 id="time-stepping">Time stepping<a class="headerlink" href="#time-stepping" title="Permanent link">&para;</a></h3>
 <p>By default,
 an execution simulates from the initial time to the final time.
 Set <code>do_step</code> to <code>True</code> if you want to simulate with only one time step.</p>
-<h2 id="time-step">Time step<a class="headerlink" href="#time-step" title="Permanent link">&para;</a></h2>
+<h3 id="time-step">Time step<a class="headerlink" href="#time-step" title="Permanent link">&para;</a></h3>
 <p>By default,
 the time-stepping disciplines use the time step passed at instantiation.
 Set <code>apply_time_step_to_disciplines</code> to <code>False</code>  if you want to use their specific time steps.</p>
+<h2 id="master-algorithms">Master algorithms<a class="headerlink" href="#master-algorithms" title="Permanent link">&para;</a></h2>
+<p>The master algorithm computes a coupling graph from the disciplines,
+in order to identify the strong and weak coupling variables:</p>
+<ul>
+<li>two disciplines are strongly coupled if they are directly or indirectly interdependent,</li>
+<li>two disciplines are weakly if one does not take as input an output from the other.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This identification based on input and output names
+implies a naming convention shared by all disciplines.</p>
+</div>
+<p>Then,
+it executes the disciplines sequentially according to the coupling graph orientation
+and solves the cycles, <em>i.e.</em> groups of strongly coupled disciplines, with an MDA algorithm.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the moment,
+these MDA-based algorithms use a single iteration,
+as the rollback mechanism is not implemented</p>
+</div>
+<p>By default (<code>algo_name="MDAJacobi"</code>),
+this algorithm is the Jacobi method,
+which enables parallel execution.
+One can also use the Gauss-Seidel method,
+which is a serial approach;
+initialize the
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+class with <code>algo_name="MDAGaussSeidel"</code> to use it.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use the dictionary <code>mda_options</code> to customize the MDA algorithm
+and subclass [BaseMDA][gemseo.mdas.base_mda.BaseMDA] to create a new master algorithm.</p>
+</div>
 
 
 
