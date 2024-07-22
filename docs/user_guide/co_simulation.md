@@ -24,20 +24,16 @@ defined by a system of static and time-stepping disciplines:
 At each time step $t_k$,
 the
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
-executes a collection of such disciplines one after the other.
+executes a collection of such disciplines using a co-simulation master algorithm
+based on a multidisciplinary analysis (MDA).
 
-!!! note
-    The order of execution is the user one.
-    Future versions of `gemseo-fmu` should implement advanced strategies
-    based on the
-    [MDOCouplingStructure][gemseo.core.coupling_structure.MDOCouplingStructure]
-    of the disciplines.
+## Basics
 
-## Instantiation
+### Instantiation
 
 The instantiation of a
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
-only requires a list of disciplines, final time and a time step:
+only requires a list of disciplines, a final time and a time step:
 
 ```python
 from gemseo_fmu.disciplines.time_stepping_system import TimeSteppingSystem
@@ -53,23 +49,59 @@ system = TimeSteppingSystem(disciplines, 1, 0.1)
 ```
 
 The disciplines can be either an FMU file path,
-a static discipline or a dynamic discipline
-and will be executed in parallel.
+a static discipline or a dynamic discipline.
 
-## Restart
+### Restart
 
 By default,
 an execution starts from the initial time.
 Set `restart` to `False` if you want to restart from the initial time.
 
-## Time stepping
+### Time stepping
 
 By default,
 an execution simulates from the initial time to the final time.
 Set `do_step` to `True` if you want to simulate with only one time step.
 
-## Time step
+### Time step
 
 By default,
 the time-stepping disciplines use the time step passed at instantiation.
 Set `apply_time_step_to_disciplines` to `False`  if you want to use their specific time steps.
+
+## Master algorithms
+
+The master algorithm computes a coupling graph from the disciplines,
+in order to identify the strong and weak coupling variables:
+
+- two disciplines are strongly coupled if they are directly or indirectly interdependent,
+- two disciplines are weakly if one does not take as input an output from the other.
+
+!!! warning
+
+    This identification based on input and output names
+    implies a naming convention shared by all disciplines.
+
+Then,
+it executes the disciplines sequentially according to the coupling graph orientation
+and solves the cycles, *i.e.* groups of strongly coupled disciplines, with an MDA algorithm.
+
+!!! note
+
+    For the moment,
+    these MDA-based algorithms use a single iteration,
+    as the rollback mechanism is not implemented
+
+By default (`algo_name="MDAJacobi"`),
+this algorithm is the Jacobi method,
+which enables parallel execution.
+One can also use the Gauss-Seidel method,
+which is a serial approach;
+initialize the
+[TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+class with `algo_name="MDAGaussSeidel"` to use it.
+
+!!! tip
+
+    Use the dictionary `mda_options` to customize the MDA algorithm
+    and subclass [BaseMDA][gemseo.mdas.base_mda.BaseMDA] to create a new master algorithm.

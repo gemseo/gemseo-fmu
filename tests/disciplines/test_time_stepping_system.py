@@ -52,9 +52,7 @@ def test_standard_use():
     system.execute()
 
     assert_allclose(system.local_data["x2"][:-1], x2_ref[1:])
-    assert_allclose(
-        system.local_data["x2_plus_one"][1:], system.local_data["x2"][:-1] + 1
-    )
+    assert_allclose(system.local_data["x2_plus_one"], system.local_data["x2"] + 1)
 
 
 @pytest.mark.parametrize(

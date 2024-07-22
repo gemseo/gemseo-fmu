@@ -17,3 +17,4 @@
 from __future__ import annotations
 
 from gemseo_fmu.utils.time_series import TimeSeries  # noqa: F401
+# TODO: API: remove this module in gemseo-fmu 3

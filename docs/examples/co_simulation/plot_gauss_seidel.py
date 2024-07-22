@@ -13,12 +13,16 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Co-simulation.
+"""# Co-simulation with a serial master algorithm.
 
 Sometimes,
 we may want to simulate a system of several FMU models coupled together.
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
-allows to perform this _co-simulation_ task.
+allows to perform this _co-simulation_ task,
+with a parallel master algorithm based on the Jacobi method.
+In this example,
+we will see how to replace this master algorithm by a serial one
+using the Gauss-Seidel method.
 """
 
 from __future__ import annotations
@@ -58,10 +62,16 @@ system = TimeSteppingSystem(
     ),
     50,
     0.01,
+    mda_name="MDAGaussSeidel",
 )
 
 # %%
-# and executing it from initial time to final time:
+# Note that in this case,
+# we do not use the default MDA name `"MDAJacobi"` implementing a Jacobi method
+# but `"MDAJacobi"` implementing a Gauss-Seidel technique.
+# The disciplines are no longer executed in parallel but sequentially.
+#
+# Then wew can execute this system from initial time to final time:
 system.execute()
 
 # %%
