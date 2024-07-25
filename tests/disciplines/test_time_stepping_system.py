@@ -28,6 +28,7 @@ from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.disciplines.time_stepping_system import TimeSteppingSystem
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
+from gemseo_fmu.utils.time_series import TimeSeries
 
 
 def test_standard_use():
@@ -161,3 +162,19 @@ def test_apply_time_step_to_disciplines(apply, step1, step2):
     expected_time = array([0.01, 0.02, 0.03])
     assert_equal(system.local_data["MassSpringSubSystem1:time"], expected_time)
     assert_equal(system.local_data["MassSpringSubSystem2:time"], expected_time)
+
+
+def test_time_series():
+    """Verify that TimeSteppingSystem can use TimeSeries input variables."""
+    system = TimeSteppingSystem(
+        (
+            get_fmu_file_path("MassSpringSubSystem1"),
+            get_fmu_file_path("MassSpringSubSystem2"),
+        ),
+        0.3,
+        0.1,
+    )
+    system.default_inputs.update({"m1": TimeSeries([0.0, 0.5, 0.8], [1.0, 1.5, 1.3])})
+    system.execute()
+    expected_time = array([0.1, 0.2, 0.3])
+    assert_allclose(system.local_data["MassSpringSubSystem1:time"], expected_time)

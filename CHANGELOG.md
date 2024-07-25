@@ -89,6 +89,8 @@ and this project adheres to
 ## Fixed
 
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
+  can use input values of type [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries].
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
   can simulate up to the final time by adapting the last time step
   in the case where the difference between the initial and final times is not a multiple of the time step.
 - [FMUDiscipline.set_next_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution]
