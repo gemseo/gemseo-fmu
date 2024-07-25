@@ -29,6 +29,7 @@ from numpy import concatenate
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.utils.time_manager import TimeManager
+from gemseo_fmu.utils.time_series import TimeSeries
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -147,13 +148,11 @@ class TimeSteppingSystem(MDODiscipline):
                 for input_name, input_value in discipline.default_inputs.items()
                 if input_name in self.input_grammar.names
             })
-        self.__original_default_inputs = copy(self.default_inputs)
 
     def execute(  # noqa: D102
-        self, input_data: Mapping[str, Any] | None = None
+        self, input_data: Mapping[str, Any] = READ_ONLY_EMPTY_DICT
     ) -> DisciplineData:
         if self.__restart:
-            self.default_inputs = copy(self.__original_default_inputs)
             self.__mda.default_inputs.update(self.default_inputs)
             self.__time_manager.reset()
             for fmu_discipline in self.__fmu_disciplines:
@@ -165,6 +164,17 @@ class TimeSteppingSystem(MDODiscipline):
                 for mda in self.__mda.inner_mdas:
                     mda.cache.clear()
 
+        if self.__do_step:
+            # At initial time,
+            # the default input values are the ``default_inputs``.
+            # Afterward,
+            # the default input values are the input values from the previous time,
+            # which can be found in the local data with get_input_data(),
+            # returning an empty dictionary at initial time.
+            original_input_data = input_data
+            input_data = self.get_input_data() or self.default_inputs
+            input_data.update(original_input_data)
+
         return super().execute(input_data)
 
     def _run(self) -> None:
@@ -172,7 +182,6 @@ class TimeSteppingSystem(MDODiscipline):
         if self.__do_step:
             self.__simulate_one_time_step(input_data)
             self.local_data.update(self.__mda.local_data)
-            self.default_inputs.update(self.get_input_data())
         else:
             self.__simulate_to_final_time(input_data)
 
@@ -194,7 +203,12 @@ class TimeSteppingSystem(MDODiscipline):
             for inner_mda in self.__mda.inner_mdas:
                 inner_mda.cache.clear()
 
+        # The different time steps are concatenated when the values are NumPy arrays.
+        # Given a variable,
+        # We suppose that it value type is the same at all time steps.
+        local_data_history_0 = local_data_history[0]
         self.store_local_data(**{
             name: concatenate([local_data[name] for local_data in local_data_history])
-            for name in local_data_history[0]
+            for name in local_data_history_0
+            if not isinstance(local_data_history_0[name], TimeSeries)
         })
