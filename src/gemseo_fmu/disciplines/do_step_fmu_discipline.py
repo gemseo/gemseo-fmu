@@ -19,10 +19,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from collections.abc import Mapping
     from pathlib import Path
 
     from gemseo_fmu.utils.time_duration import TimeType
@@ -45,6 +48,7 @@ class DoStepFMUDiscipline(FMUDiscipline):
         solver_name: FMUDiscipline.Solver = FMUDiscipline.Solver.CVODE,
         fmu_instance_directory: str | Path = "",
         delete_fmu_instance_directory: bool = True,
+        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
         **pre_instantiation_parameters: Any,
     ) -> None:
         do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
@@ -70,5 +74,6 @@ class DoStepFMUDiscipline(FMUDiscipline):
             solver_name=solver_name,
             fmu_instance_directory=fmu_instance_directory,
             delete_fmu_instance_directory=delete_fmu_instance_directory,
+            variable_names=variable_names,
             **pre_instantiation_parameters,
         )

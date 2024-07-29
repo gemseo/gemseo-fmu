@@ -69,6 +69,8 @@ and this project adheres to
   allows to define a time duration
   based on a number expressed in seconds
   or a string of characters such as `"2h 34m 5s"`.
+- The `variable_names` argument of [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
+  allows the discipline to have input and output names different from the input and output names of the FMU model.
 
 ## Changed
 

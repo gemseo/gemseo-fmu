@@ -786,3 +786,39 @@ def test_set_default_execution(
     assert default_simulation_settings[d._RESTART] is e_restart
     assert d._BaseFMUDiscipline__time_manager.final == e_final_time
     assert default_simulation_settings[d._TIME_STEP] == e_time_step
+
+
+@pytest.mark.parametrize(
+    ("variable_names", "offset_name", "output_name"),
+    [
+        ({}, "ramp.offset", "out"),
+        ({"ramp.offset": "offset", "out": "output"}, "offset", "output"),
+    ],
+)
+def test_variable_names(variable_names, offset_name, output_name):
+    """Check the variable_names argument to rename the model variables."""
+    discipline = FMUDiscipline(FMU_PATH, variable_names=variable_names)
+    assert discipline.input_grammar.names == {
+        "ramp.duration",
+        "ramp.height",
+        offset_name,
+        "ramp.startTime",
+    }
+    assert discipline.output_grammar.names == {output_name, "ramp:time"}
+    assert offset_name in discipline.default_inputs
+
+    data = discipline.execute()
+    assert_equal(data[offset_name], array([0.0]))
+    assert_equal(data[output_name][0:3], array([0.0, 0.002, 0.004]))
+
+    data = discipline.execute({offset_name: array([1.0])})
+    assert_equal(data[offset_name], array([1.0]))
+    assert_equal(data[output_name][0:3], array([1.0, 1.002, 1.004]))
+
+
+def test_variable_names_exception():
+    """Check that an exception is raised when variable_names used incorrect names."""
+    with pytest.raises(
+        ValueError, match=re.escape("{'a'} are not FMU variable names.")
+    ):
+        FMUDiscipline(FMU_PATH, variable_names={"a": "x"})
