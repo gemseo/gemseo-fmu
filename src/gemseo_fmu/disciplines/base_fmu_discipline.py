@@ -41,6 +41,7 @@ from fmpy.fmi3 import FMU3Slave
 from fmpy.util import fmu_info
 from gemseo.core.discipline import MDODiscipline
 from gemseo.core.grammars.pydantic_ndarray import NDArrayPydantic
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from numpy import append
 from numpy import array
 from numpy import ndarray
@@ -124,8 +125,11 @@ class BaseFMUDiscipline(MDODiscipline):
     __file_path: Path
     """The path to the FMU file, which is a ZIP archive."""
 
-    __input_names: list[str]
-    """The discipline inputs."""
+    __fmu_output_names: tuple[str]
+    """The names of the FMU model outputs used by the discipline."""
+
+    __from_fmu_names: dict[str, str]
+    """The map from the FMU variable names to the discipline variable names."""
 
     __model: FMUModel
     """The FMU model."""
@@ -148,9 +152,6 @@ class BaseFMUDiscipline(MDODiscipline):
     __names_to_time_functions: dict[str, Callable[[TimeDurationType], float]]
     """The input names bound to the time functions at the last execution."""
 
-    __output_names: list[str]
-    """The discipline outputs."""
-
     __simulation_settings: dict[str, bool | float]
     """The values of the simulation settings."""
 
@@ -162,6 +163,9 @@ class BaseFMUDiscipline(MDODiscipline):
 
     __time_manager: TimeManager
     """The time manager."""
+
+    __to_fmu_names: dict[str, str]
+    """The map from the discipline variable names to the FMU variable names."""
 
     def __init__(
         self,
@@ -179,6 +183,7 @@ class BaseFMUDiscipline(MDODiscipline):
         solver_name: Solver = Solver.CVODE,
         model_instance_directory: str | Path = "",
         delete_model_instance_directory: bool = True,
+        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
         **pre_instantiation_parameters: Any,
     ) -> None:
         """
@@ -219,6 +224,10 @@ class BaseFMUDiscipline(MDODiscipline):
                 if empty, let `fmpy` create a temporary directory.
             delete_model_instance_directory: Whether to delete the directory
                 of the FMU instance when deleting the discipline.
+            variable_names: The names of the discipline inputs and outputs
+                associated with the names of the FMU model inputs and outputs,
+                passed as `{fmu_model_variable_name: discipline_variable_name, ...}`.
+                When missing, use the names of the FMU model inputs and outputs.
             **pre_instantiation_parameters: The parameters to be passed
                 to `_pre_instantiate()`.
         """  # noqa: D205 D212 D415
@@ -229,7 +238,14 @@ class BaseFMUDiscipline(MDODiscipline):
         self.name = self.__set_fmu_model(
             file_path, model_instance_directory, do_step, use_co_simulation, name
         )
-        self.__set_variable_names_references_and_causalities(input_names, output_names)
+        self.__from_fmu_names = dict(variable_names)
+        self.__to_fmu_names = {v: k for k, v in variable_names.items()}
+        self.__from_fmu_names[self._TIME] = self.__to_fmu_names[self._TIME] = self._TIME
+        input_names, output_names = (
+            self.__set_variable_names_references_and_causalities(
+                input_names, output_names
+            )
+        )
         self.__set_initial_values()
         self.__set_time(initial_time, final_time, time_step, do_step, restart)
         self._pre_instantiate(**(pre_instantiation_parameters or {}))
@@ -238,29 +254,20 @@ class BaseFMUDiscipline(MDODiscipline):
             cache_type=self.CacheType.NONE,
             grammar_type=self.GrammarType.PYDANTIC,
         )
-        self.__set_grammars(add_time_to_output_grammar)
-        self.default_inputs = {
-            input_name: self._initial_values[input_name]
-            for input_name in self.__input_names
-        }
 
-    def __set_grammars(self, add_time_to_output_grammar: bool) -> None:
-        """Set the grammars of the inputs and outputs.
-
-        Args:
-            add_time_to_output_grammar: Whether the time is added to the output grammar.
-        """
         self.input_grammar.update_from_types(
-            dict.fromkeys(
-                self.__input_names, Union[int, float, NDArrayPydantic, TimeSeries]
-            )
+            dict.fromkeys(input_names, Union[int, float, NDArrayPydantic, TimeSeries])
         )
-        self.output_grammar.update_from_names(self.__output_names)
+        self.output_grammar.update_from_names(output_names)
         if add_time_to_output_grammar:
             self.output_grammar.update_from_types({
                 self._TIME: Union[float, NDArrayPydantic[float]]
             })
             self.output_grammar.add_namespace(self._TIME, self.name)
+
+        self.default_inputs = {
+            input_name: self._initial_values[input_name] for input_name in input_names
+        }
 
     def __set_time(
         self,
@@ -427,10 +434,10 @@ class BaseFMUDiscipline(MDODiscipline):
     def __set_initial_values(self) -> None:
         """Set the initial values of the inputs and outputs of the disciplines."""
         self._initial_values = {}
-        io_names = set(self.__input_names).union(self.__output_names)
+        from_fmu_names = self.__from_fmu_names
         for variable in self.__model_description.modelVariables:
-            variable_name = variable.name
-            if variable_name in io_names:
+            variable_name = from_fmu_names.get(variable.name)
+            if variable_name is not None:
                 try:
                     initial_value = float(variable.start)
                 except TypeError:
@@ -439,8 +446,10 @@ class BaseFMUDiscipline(MDODiscipline):
                 self._initial_values[variable_name] = array([initial_value])
 
     def __set_variable_names_references_and_causalities(
-        self, input_names: Iterable[str] | None = (), output_names: Iterable[str] = ()
-    ) -> None:
+        self,
+        input_names: Iterable[str] | None,
+        output_names: Iterable[str],
+    ) -> tuple[tuple[str, ...], tuple[str, ...]]:
         """Set the names of the FMU variables and their causalities.
 
         Args:
@@ -449,6 +458,12 @@ class BaseFMUDiscipline(MDODiscipline):
                 if `None`, do not use inputs.
             output_names: The names of the FMU model outputs.
                 if empty, use all the outputs of the FMU model.
+
+        Returns:
+            The names of the discipline inputs and outputs.
+
+        Raises:
+            ValueError: When a variable to rename is not an FMU variable.
         """
         # The names of all the input and output variables.
         all_input_names = []
@@ -469,17 +484,46 @@ class BaseFMUDiscipline(MDODiscipline):
 
             self.__causalities_to_variable_names[causality].append(variable_name)
 
-        # The reference values bound to the variable names.
-        self.__names_to_references = {
-            variable.name: variable.valueReference
-            for variable in self.__model_description.modelVariables
-        }
+        from_fmu_names = self.__from_fmu_names
+        to_fmu_names = self.__to_fmu_names
 
         # The names of the input and output variables of the discipline.
-        self.__input_names = (
+        fmu_input_names = tuple(
             [] if input_names is None else input_names or all_input_names
         )
-        self.__output_names = output_names or all_output_names
+        self.__fmu_output_names = tuple(output_names or all_output_names)
+
+        names = (
+            set(from_fmu_names)
+            - {self._TIME}
+            - set(fmu_input_names)
+            - set(self.__fmu_output_names)
+        )
+        if names:
+            msg = f"{names} are not FMU variable names."
+            raise ValueError(msg)
+
+        for names in [fmu_input_names, self.__fmu_output_names]:
+            for name in names:
+                if name not in from_fmu_names:
+                    to_fmu_names[name] = from_fmu_names[name] = name
+
+        discipline_input_names = tuple(
+            from_fmu_names[input_name] for input_name in fmu_input_names
+        )
+        discipline_output_names = tuple(
+            from_fmu_names[output_name] for output_name in self.__fmu_output_names
+        )
+
+        # The reference values bound to the variable names.
+        self.__names_to_references = {
+            from_fmu_names[variable_name]: variable.valueReference
+            for variable in self.__model_description.modelVariables
+            if (variable_name := variable.name) in fmu_input_names
+            or variable_name in self.__fmu_output_names
+        }
+
+        return discipline_input_names, discipline_output_names
 
     @staticmethod
     def __get_field_value(
@@ -790,7 +834,7 @@ class BaseFMUDiscipline(MDODiscipline):
             output_interval=1
             if self.__time_manager.is_constant
             else (time_step or None),
-            output=self.__output_names,
+            output=self.__fmu_output_names,
             fmu_instance=self.__model,
             model_description=self.__model_description,
             step_finished=self.__do_when_step_finished,
@@ -799,8 +843,8 @@ class BaseFMUDiscipline(MDODiscipline):
         )
         self._time = result[self._TIME]
         output_data = {
-            output_name: array(result[output_name])
-            for output_name in self.get_output_data_names(with_namespaces=False)
+            name: array(result[self.__to_fmu_names[name]])
+            for name in self.get_output_data_names(with_namespaces=False)
         }
         self.store_local_data(**output_data)
 
