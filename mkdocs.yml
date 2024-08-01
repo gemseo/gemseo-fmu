@@ -92,6 +92,7 @@ nav:
   - Disciplines: generated/examples/disciplines
   - Co-simulation:  generated/examples/co_simulation
 - API documentation: reference/gemseo_fmu/
+- Developer guide: developer_guide/class_diagram.md
 
 markdown_extensions:
 - admonition
