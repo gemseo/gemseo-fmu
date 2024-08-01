@@ -152,6 +152,9 @@ class BaseFMUDiscipline(MDODiscipline):
     __names_to_time_functions: dict[str, Callable[[TimeDurationType], float]]
     """The input names bound to the time functions at the last execution."""
 
+    __parameter_setter_name: str
+    """The name of the FMU method to set a parameter."""
+
     __simulation_settings: dict[str, bool | float]
     """The values of the simulation settings."""
 
@@ -166,6 +169,9 @@ class BaseFMUDiscipline(MDODiscipline):
 
     __to_fmu_names: dict[str, str]
     """The map from the discipline variable names to the FMU variable names."""
+
+    __use_fmi_3: bool
+    """Whether the FMU model is based on FMI 3.0."""
 
     def __init__(
         self,
@@ -326,10 +332,11 @@ class BaseFMUDiscipline(MDODiscipline):
             time_step = self.__get_field_value(
                 self.__model_description.defaultExperiment, "stepSize", 0.0
             )
-            if self._WARN_ABOUT_ZERO_TIME_STEP:
+            if time_step == 0.0 and self._WARN_ABOUT_ZERO_TIME_STEP:
                 LOGGER.warning(
                     "The time step of the FMUDiscipline %r is equal to 0.", self.name
                 )
+            self.__default_simulation_settings[self._TIME_STEP] = time_step
         else:
             time_step = TimeDuration(time_step).seconds
 
@@ -405,9 +412,10 @@ class BaseFMUDiscipline(MDODiscipline):
         ).resolve()
 
         # The description of the FMU model, read from the XML file in the archive.
-        self.__model_description = read_model_description(self.__model_dir_path)
+        self.__model_description = read_model_description(str(self.__model_dir_path))
         self.__model_name = self.__model_description.modelName
         self.__model_fmi_version = self.__model_description.fmiVersion
+        self.__use_fmi_3 = self.__model_fmi_version == "3.0"
         self.__model_type = (
             self._CO_SIMULATION if use_co_simulation else self._MODEL_EXCHANGE
         )
@@ -428,7 +436,7 @@ class BaseFMUDiscipline(MDODiscipline):
             self.__model_description,
             fmi_type=self.__model_type,
         )
-
+        self.__parameter_setter_name = "setFloat64" if self.__use_fmi_3 else "setReal"
         return name
 
     def __set_initial_values(self) -> None:
@@ -699,13 +707,22 @@ class BaseFMUDiscipline(MDODiscipline):
 
         if self.__time_manager.is_initial:
             self.__model.reset()
-            self.__model.setupExperiment(
-                tolerance=self.__get_field_value(
-                    self.__model_description.defaultExperiment, "tolerance", None
-                ),
-                startTime=self.__time_manager.current,
-            )
-            self.__model.enterInitializationMode()
+            if self.__use_fmi_3:
+                self.__model.enterInitializationMode(
+                    tolerance=self.__get_field_value(
+                        self.__model_description.defaultExperiment, "tolerance", None
+                    ),
+                    startTime=self.__time_manager.current,
+                )
+            else:
+                self.__model.setupExperiment(
+                    tolerance=self.__get_field_value(
+                        self.__model_description.defaultExperiment, "tolerance", None
+                    ),
+                    startTime=self.__time_manager.current,
+                )
+                self.__model.enterInitializationMode()
+
             self.__model.exitInitializationMode()
 
         if not self.__time_manager.is_initial and self.__time_manager.is_final:
@@ -794,7 +811,10 @@ class BaseFMUDiscipline(MDODiscipline):
                 value = input_value[0]
             else:
                 value = input_value
-            self.__model.setReal([self.__names_to_references[input_name]], [value])
+
+            getattr(self.__model, self.__parameter_setter_name)(
+                [self.__names_to_references[input_name]], [value]
+            )
 
     def __do_when_step_finished(self, time: float, recorder: Recorder) -> bool:
         """Callback to interact with the simulation after each time step.
@@ -811,7 +831,10 @@ class BaseFMUDiscipline(MDODiscipline):
                 value = function(time)
             except ValueError:
                 continue
-            fmu.setReal([self.__names_to_references[name]], [value])
+
+            getattr(fmu, self.__parameter_setter_name)(
+                [self.__names_to_references[name]], [value]
+            )
             self._local_data[name] = append(self._local_data[name], value)
 
         return True
