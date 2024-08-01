@@ -8,28 +8,26 @@
       
       
       
-        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/disciplines/dynamic/plot_string_time/">
+        <link rel="canonical" href="https://gemseo.gitlab.io/gemseo-fmu/latest/developer_guide/class_diagram/">
       
       
-        <link rel="prev" href="../../">
+        <link rel="prev" href="../../reference/gemseo_fmu/utils/time_series/">
       
       
-        <link rel="next" href="../plot_do_step/">
       
-      
-      <link rel="icon" href="../../../../../images/favicon.ico">
+      <link rel="icon" href="../../images/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Time as a character string. - gemseo-fmu</title>
+        <title>Developer guide - gemseo-fmu</title>
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,21 +46,21 @@
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_pyodide.css">
+      <link rel="stylesheet" href="../../assets/_markdown_exec_pyodide.css">
     
-      <link rel="stylesheet" href="../../../../../assets/_markdown_exec_ansi.css">
+      <link rel="stylesheet" href="../../assets/_markdown_exec_ansi.css">
     
-      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery-binder.css">
+      <link rel="stylesheet" href="../../sg_gallery-binder.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery.css">
+      <link rel="stylesheet" href="../../sg_gallery.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery-rendered-html.css">
+      <link rel="stylesheet" href="../../sg_gallery-rendered-html.css">
     
-      <link rel="stylesheet" href="../../../../../sg_gallery-dataframe.css">
+      <link rel="stylesheet" href="../../sg_gallery-dataframe.css">
     
-    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -88,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#time-as-a-character-string" class="md-skip">
+        <a href="#class-diagram" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +104,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../../.." title="gemseo-fmu" class="md-header__button md-logo" aria-label="gemseo-fmu" data-md-component="logo">
+    <a href="../.." title="gemseo-fmu" class="md-header__button md-logo" aria-label="gemseo-fmu" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -126,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Time as a character string.
+              Developer guide
             
           </span>
         </div>
@@ -235,7 +233,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../.." class="md-tabs__link">
+        <a href="../.." class="md-tabs__link">
           
   
     
@@ -255,7 +253,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../../user_guide/installation/" class="md-tabs__link">
+        <a href="../../user_guide/installation/" class="md-tabs__link">
           
   
     
@@ -271,21 +269,17 @@
         
   
   
-    
-  
   
     
     
       
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../generated/examples/disciplines/" class="md-tabs__link">
           
   
     
@@ -306,7 +300,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../../../reference/gemseo_fmu/" class="md-tabs__link">
+      <a href="../../reference/gemseo_fmu/" class="md-tabs__link">
         
   
     
@@ -321,9 +315,11 @@
         
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../../../../../developer_guide/class_diagram/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
     
@@ -357,7 +353,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../.." title="gemseo-fmu" class="md-nav__button md-logo" aria-label="gemseo-fmu" data-md-component="logo">
+    <a href="../.." title="gemseo-fmu" class="md-nav__button md-logo" aria-label="gemseo-fmu" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -414,7 +410,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../.." class="md-nav__link ">
+            <a href="../.." class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -447,7 +443,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -468,7 +464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../credits/" class="md-nav__link">
+      <a href="../../credits/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -489,7 +485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../licenses/" class="md-nav__link">
+      <a href="../../licenses/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -563,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/installation/" class="md-nav__link">
+      <a href="../../user_guide/installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -584,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/fmu_discipline/" class="md-nav__link">
+      <a href="../../user_guide/fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -605,7 +601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../user_guide/co_simulation/" class="md-nav__link">
+      <a href="../../user_guide/co_simulation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -630,10 +626,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -644,20 +638,17 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -668,7 +659,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Examples
@@ -679,8 +670,6 @@
                 
   
   
-    
-  
   
   
     
@@ -700,16 +689,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../generated/examples/disciplines/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -726,7 +715,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
             Disciplines
@@ -739,10 +728,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -768,11 +755,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_2" >
         
           
           <label class="md-nav__link" for="__nav_3_1_2" id="__nav_3_1_2_label" tabindex="0">
@@ -786,7 +773,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_1_2">
             <span class="md-nav__icon md-icon"></span>
             Dynamic FMU discipline
@@ -797,19 +784,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../generated/examples/disciplines/dynamic/plot_string_time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -818,7 +796,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -831,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_do_step/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_do_step/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -852,7 +829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_plot_time_evolution/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_plot_time_evolution/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -873,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_from_initial_time_to_final_time/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_from_initial_time_to_final_time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -894,7 +871,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_restart_false/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_restart_false/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -915,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_time_function/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_time_function/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -936,7 +913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_time_series/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_time_series/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -957,7 +934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plot_evaluation_time/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/dynamic/plot_evaluation_time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1028,7 +1005,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../static/plot_static_discipline/" class="md-nav__link">
+      <a href="../../generated/examples/disciplines/static/plot_static_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1092,7 +1069,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../co_simulation/" class="md-nav__link ">
+            <a href="../../generated/examples/co_simulation/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1125,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../co_simulation/plot_basic/" class="md-nav__link">
+      <a href="../../generated/examples/co_simulation/plot_basic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1146,7 +1123,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../co_simulation/plot_gauss_seidel/" class="md-nav__link">
+      <a href="../../generated/examples/co_simulation/plot_gauss_seidel/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1167,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../co_simulation/plot_multiple_time_steps/" class="md-nav__link">
+      <a href="../../generated/examples/co_simulation/plot_multiple_time_steps/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1232,7 +1209,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../reference/gemseo_fmu/" class="md-nav__link ">
+            <a href="../../reference/gemseo_fmu/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1294,7 +1271,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../reference/gemseo_fmu/disciplines/" class="md-nav__link ">
+            <a href="../../reference/gemseo_fmu/disciplines/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1325,7 +1302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/base_fmu_discipline/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/base_fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1346,7 +1323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1367,7 +1344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/dynamic_fmu_discipline/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/dynamic_fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1388,7 +1365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/fmu_discipline/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1409,7 +1386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/static_fmu_discipline/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1430,7 +1407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/time_series/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/time_series/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1451,7 +1428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/disciplines/time_stepping_system/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/disciplines/time_stepping_system/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1501,7 +1478,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../reference/gemseo_fmu/problems/" class="md-nav__link ">
+            <a href="../../reference/gemseo_fmu/problems/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1532,7 +1509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/problems/fmu_files/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/problems/fmu_files/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1584,7 +1561,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../../reference/gemseo_fmu/utils/" class="md-nav__link ">
+            <a href="../../reference/gemseo_fmu/utils/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1615,7 +1592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/utils/time_duration/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/utils/time_duration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1636,7 +1613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/utils/time_manager/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/utils/time_manager/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1657,7 +1634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../reference/gemseo_fmu/utils/time_series/" class="md-nav__link">
+      <a href="../../reference/gemseo_fmu/utils/time_series/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1690,10 +1667,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../../../developer_guide/class_diagram/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1702,6 +1688,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -1743,77 +1730,100 @@
 
 
 <!--
- DO NOT EDIT.
- THIS FILE WAS AUTOMATICALLY GENERATED BY mkdocs-gallery.
- TO MAKE CHANGES, EDIT THE SOURCE PYTHON FILE:
- "docs/examples/disciplines/dynamic/plot_string_time.py"
- LINE NUMBERS ARE GIVEN BELOW.
+ Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
+
+ This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+ International License. To view a copy of this license, visit
+ http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative
+ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 -->
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Click <a href="#download_links">here</a>
-to download the full example code</p>
-</div>
-<h1 id="time-as-a-character-string">Time as a character string.<a class="headerlink" href="#time-as-a-character-string" title="Permanent link">&para;</a></h1>
-<p>Time information can often be specified either in seconds or as a string written in
-natural language, e.g. <code>"2h 34m 1s"</code> or <code>"2 hours, 34 minutes and 1 second"</code> (units
-include y, m, w, d, h, min, s, ms).</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 22-30 -->
+<h1 id="class-diagram">Class diagram<a class="headerlink" href="#class-diagram" title="Permanent link">&para;</a></h1>
+<p>This section describes the design of the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/#gemseo_fmu">gemseo_fmu</a> package.</p>
+<pre class="mermaid"><code>classDiagram
+    MDODiscipline &lt;|-- BaseFMUDiscipline
+    MDODiscipline &lt;|-- TimeSteppingSystem
 
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+    BaseFMUDiscipline &lt;|-- FMUDiscipline
+    BaseFMUDiscipline &lt;|-- StaticDiscipline
+    FMUDiscipline &lt;|-- DoStepFMUDiscipline
 
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+    TimeSteppingSystem "1" o-- "n" DoStepFMUDiscipline
 
-<span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.dynamic_fmu_discipline</span> <span class="kn">import</span> <span class="n">DynamicFMUDiscipline</span>
-<span class="kn">from</span> <span class="nn">gemseo_fmu.problems.fmu_files</span> <span class="kn">import</span> <span class="n">get_fmu_file_path</span>
-</code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 31-40 -->
+    BaseFMUDiscipline *-- TimeManager
+    TimeSteppingSystem *-- TimeManager
 
-<p>Let us create and use a discipline
-to simulate a mass damper defined in a FMU model
-from 0 to 1 second with a time step of 0.1 millisecond:</p>
-<p><img alt=" " src="../../../../../images/mass_damper.png" /></p>
-<p>Here,
-we express the final time and time step in natural language
-with <code>"1 second"</code> and <code>"0.1ms"</code> instead of <code>1</code> and <code>0.0001</code>.</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 40-50 -->
+    TimeSeries &lt;-- BaseFMUDiscipline
 
-<div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">DynamicFMUDiscipline</span><span class="p">(</span>
-    <span class="n">get_fmu_file_path</span><span class="p">(</span><span class="s2">&quot;Mass_Damper&quot;</span><span class="p">),</span>
-    <span class="p">[</span><span class="s2">&quot;mass.m&quot;</span><span class="p">,</span> <span class="s2">&quot;spring.c&quot;</span><span class="p">],</span>
-    <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
-    <span class="n">initial_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">final_time</span><span class="o">=</span><span class="s2">&quot;1 second&quot;</span><span class="p">,</span>
-    <span class="n">time_step</span><span class="o">=</span><span class="s2">&quot;0.1ms&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
-</code></pre></div>
-<p class="mkd-glr-script-out">Out:</p>
-<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib/python3.9/site-packages/pydantic/main.py:568:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span>cls.__pydantic_validator__.validate_python<span class="o">(</span>
+    TimeDuration &lt;-- BaseFMUDiscipline
+    TimeSeries --&gt; TimeDuration
 
-<span class="o">{</span><span class="s1">&#39;mass.m&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;spring.c&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">10000</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.00000000e+00,<span class="w">  </span><span class="m">0</span>.00000000e+00,<span class="w"> </span>-5.00000000e-05,<span class="w"> </span>...,
-<span class="w">       </span>-4.95678376e-01,<span class="w"> </span>-4.95645675e-01,<span class="w"> </span>-4.95613439e-01<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;Mass_Damper:time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.000e+00,<span class="w"> </span><span class="m">1</span>.000e-04,<span class="w"> </span><span class="m">2</span>.000e-04,<span class="w"> </span>...,<span class="w"> </span><span class="m">9</span>.998e-01,<span class="w"> </span><span class="m">9</span>.999e-01,
-<span class="w">       </span><span class="m">1</span>.000e+00<span class="o">])}</span>
-</code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 51-52 -->
+    namespace FMUDisciplines {
+    class BaseFMUDiscipline {
+        +causalities_to_variable_names
+        +default_inputs
+        +model
+        +model_description
+        +name
+        +execute()
+        +set_default_execution()
+        +set_next_execution()
+    }
 
-<p>We can plot the time-evolution of the position of the mass:</p>
-<!-- GENERATED FROM PYTHON SOURCE LINES 52-56 -->
+    class FMUDiscipline {
+        +initial_values
+        +time
+        +plot()
+    }
 
-<div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">discipline</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude [m]&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
-<p><img alt="plot string time" class="mkd-glr-single-img" src="../images/mkd_glr_plot_string_time_001.png" srcset="../images/mkd_glr_plot_string_time_001.png" /></p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.186 seconds)</p>
-<div id="download_links"></div>
+    class StaticDiscipline
+    class DoStepFMUDiscipline
 
-<p><a class="md-button center" href="../plot_string_time.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg></span> Download Python source code: plot_string_time.py</a></p>
-<p><a class="md-button center" href="../plot_string_time.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg></span> Download Jupyter notebook: plot_string_time.ipynb</a></p>
-<p><a class="mkd-glr-signature" href="https://mkdocs-gallery.github.io">Gallery generated by mkdocs-gallery</a></p>
+    }
+
+    class TimeManager {
+        +initial
+        +current
+        +final
+        +is_constant
+        +is_initial
+        +is_final
+        +step
+        +reset()
+        +update_current_time()
+    }
+
+    class TimeSteppingSystem {
+        +default_inputs
+        +execute()
+    }
+
+    class TimeSeries {
+        +observable
+        +size
+        +time
+        +tolerance
+        +compute()
+    }
+
+    class TimeDuration {
+        days
+        hours
+        microseconds
+        milliseconds
+        minutes
+        months
+        seconds
+        value
+        weeks
+        years
+        to()
+    }
+
+    TimeSteppingSystem *-- BaseMDA
+    &lt;&lt;abstract&gt;&gt; BaseMDA
+    BaseMDA &lt;|-- MDAGaussSeidel
+    BaseMDA &lt;|-- MDAJacobi</code></pre>
 
 
 
@@ -1860,14 +1870,14 @@ with <code>"1 second"</code> and <code>"0.1ms"</code> instead of <code>1</code> 
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
-        <script src="../../../../../assets/_markdown_exec_pyodide.js"></script>
+        <script src="../../assets/_markdown_exec_pyodide.js"></script>
       
-        <script src="../../../../../javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

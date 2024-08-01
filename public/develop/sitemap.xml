@@ -21,6 +21,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/developer_guide/class_diagram/</loc>
+         <lastmod>2024-08-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/co_simulation/</loc>
          <lastmod>2024-08-01</lastmod>
          <changefreq>daily</changefreq>
