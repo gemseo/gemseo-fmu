@@ -8,7 +8,7 @@ babel==2.15.0
     # via mkdocs-material
 backports-strenum==1.3.1
     # via griffe
-black==24.4.2
+black==24.8.0
     # via gemseo-fmu (pyproject.toml)
 bracex==2.4
     # via wcmatch
@@ -43,7 +43,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@cd342d5725144e5a445caf0ca51a36b87b0ffb1a
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@8614efe95cc7008bb33aba52244758647265ad1d
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -141,7 +141,7 @@ mkdocs-include-markdown-plugin==6.2.1
     # via gemseo-fmu (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-fmu (pyproject.toml)
-mkdocs-material==9.5.30
+mkdocs-material==9.5.31
     # via
     #   gemseo-fmu (pyproject.toml)
     #   mkdocs-gallery
