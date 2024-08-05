@@ -2,7 +2,7 @@
 #    uv pip compile --extra doc --constraint requirements/test-constraints.in -o requirements/doc.txt --python-version 3.9 pyproject.toml
 annotated-types==0.7.0
     # via pydantic
-attrs==23.2.0
+attrs==24.1.0
     # via fmpy
 babel==2.15.0
     # via mkdocs-material
@@ -10,7 +10,7 @@ backports-strenum==1.3.1
     # via griffe
 black==24.8.0
     # via gemseo-fmu (pyproject.toml)
-bracex==2.4
+bracex==2.5
     # via wcmatch
 certifi==2024.7.4
     # via requests
@@ -107,7 +107,7 @@ markupsafe==2.1.5
     #   mkdocs
     #   mkdocs-autorefs
     #   mkdocstrings
-matplotlib==3.9.1
+matplotlib==3.9.0
     # via gemseo
 mergedeep==1.3.4
     # via
