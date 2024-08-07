@@ -2,7 +2,7 @@
 #    uv pip compile --extra test --constraint requirements/test-constraints.in -o requirements/test-python3.10.txt --python-version 3.10 pyproject.toml
 annotated-types==0.7.0
     # via pydantic
-attrs==24.1.0
+attrs==24.2.0
     # via fmpy
 certifi==2024.7.4
     # via requests
@@ -36,7 +36,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f44efe97dd9ce21e4a72a8dcb99777bee26ea2c6
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@0fda8fad547029280f4cc3012606a55dc305df68
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -64,7 +64,7 @@ lxml==5.2.2
     # via fmpy
 markupsafe==2.1.5
     # via jinja2
-matplotlib==3.9.0
+matplotlib==3.9.1.post1
     # via gemseo
 mpmath==1.3.0
     # via sympy
@@ -88,7 +88,7 @@ numpy==1.26.4
     #   pyxdsm
     #   scikit-learn
     #   scipy
-openpyxl==3.1.2
+openpyxl==3.1.5
     # via gemseo
 openturns==1.23
     # via gemseo
@@ -104,7 +104,7 @@ pillow==10.4.0
     # via
     #   gemseo
     #   matplotlib
-plotly==5.22.0
+plotly==5.23.0
     # via gemseo
 pluggy==1.5.0
     # via pytest
@@ -150,7 +150,7 @@ six==1.16.0
     # via python-dateutil
 strenum==0.4.15
     # via gemseo
-sympy==1.13.0
+sympy==1.13.1
     # via gemseo
 tenacity==9.0.0
     # via plotly
@@ -160,7 +160,7 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-tqdm==4.66.4
+tqdm==4.66.5
     # via gemseo
 typing-extensions==4.12.2
     # via
