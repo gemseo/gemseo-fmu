@@ -48,7 +48,7 @@ h5py==3.11.0
     # via gemseo
 idna==3.7
     # via requests
-importlib-resources==6.4.0
+importlib-resources==6.4.2
     # via matplotlib
 iniconfig==2.0.0
     # via pytest
