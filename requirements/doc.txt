@@ -41,7 +41,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@7cf92d1d2dcbd686fede5f72bb552d39fbb15914
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@3d0cd272c0052f675c47a419421bdc43e84f509c
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -51,7 +51,7 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.20.3
     # via gemseo
-griffe==1.0.0
+griffe==1.1.0
     # via
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
@@ -68,7 +68,7 @@ importlib-metadata==8.2.0
     #   mkdocs
     #   mkdocs-get-deps
     #   mkdocstrings
-importlib-resources==6.4.2
+importlib-resources==6.4.3
     # via
     #   matplotlib
     #   mike
