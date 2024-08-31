@@ -41,7 +41,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@d21d61a5e86094df597a1aaca23dd4dff24ce910
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@5f855a8c8d0b384594c40cc501575c7d9adb1e30
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -113,7 +113,7 @@ mergedeep==1.3.4
     #   mkdocs-get-deps
 mike==2.1.3
     # via gemseo-fmu (pyproject.toml)
-mkdocs==1.6.0
+mkdocs==1.6.1
     # via
     #   mike
     #   mkdocs-autorefs
@@ -126,7 +126,9 @@ mkdocs==1.6.0
     #   mkdocs-section-index
     #   mkdocstrings
 mkdocs-autorefs==1.1.0
-    # via mkdocstrings
+    # via
+    #   mkdocstrings
+    #   mkdocstrings-python
 mkdocs-bibtex==2.16.1
     # via gemseo-fmu (pyproject.toml)
 mkdocs-gallery==0.10.1
@@ -151,7 +153,7 @@ mkdocstrings==0.25.2
     # via
     #   gemseo-fmu (pyproject.toml)
     #   mkdocstrings-python
-mkdocstrings-python==1.10.8
+mkdocstrings-python==1.10.9
     # via mkdocstrings
 mpmath==1.3.0
     # via sympy
