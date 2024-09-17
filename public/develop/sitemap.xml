@@ -153,15 +153,15 @@
          <lastmod>2024-09-17</lastmod>
     </url>
     <url>
+         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/</loc>
+         <lastmod>2024-09-17</lastmod>
+    </url>
+    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/co_simulation/</loc>
          <lastmod>2024-09-17</lastmod>
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/fmu_discipline/</loc>
-         <lastmod>2024-09-17</lastmod>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/user_guide/installation/</loc>
          <lastmod>2024-09-17</lastmod>
     </url>
 </urlset>
