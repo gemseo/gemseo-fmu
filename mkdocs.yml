@@ -85,7 +85,7 @@ nav:
   - Credits: credits.md
   - Licenses: licenses.md
 - User guide:
-  - Installation: user_guide/installation.md
+  - Introduction: user_guide/index.md
   - Disciplines: user_guide/fmu_discipline.md
   - Co-simulation: user_guide/co_simulation.md
 - Examples:
