@@ -227,7 +227,7 @@ pygments==2.18.0
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.9
+pymdown-extensions==10.10.1
     # via
     #   markdown-exec
     #   mkdocs-material
