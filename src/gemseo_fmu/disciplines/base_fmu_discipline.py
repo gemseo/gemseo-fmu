@@ -40,8 +40,8 @@ from fmpy.fmi3 import FMU3Model
 from fmpy.fmi3 import FMU3Slave
 from fmpy.util import fmu_info
 from gemseo.core.discipline import MDODiscipline
-from gemseo.core.grammars.pydantic_ndarray import NDArrayPydantic
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.utils.pydantic_ndarray import NDArrayPydantic
 from numpy import append
 from numpy import array
 from numpy import ndarray

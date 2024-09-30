@@ -50,48 +50,55 @@ ignore = [
     # Checks for long exception messages that are not defined in the exception class itself.
     "TRY003",
 ]
+
 select = [
     "A",
+#    "ANN",
+    "ASYNC",
     "B",
+    "BLE",
+#    "C",
     "C4",
     "D",
+#    "DOC",
     "E",
+    "EM",
     "F",
+#    "FA",
+#    "FBT",
+    "FLY",
+    "FURB",
     "G",
     "I",
+    "ISC",
+    "INP",
+    "LOG",
     "Q",
     "N",
-    "T",
-    "W",
-    "EM",
-    "UP",
-    "PT",
-#    "ANN",
-    "FLY",
-    "ISC",
-    "LOG",
     "NPY",
+#    "PL",
+#    "PD",
+    "PT",
     "PIE",
+    "PGH",
     "PTH",
+    "PYI",
+    "PERF",
     "RET",
     "RSE",
     "RUF",
+#    "S",
     "SIM",
+#    "SLF",
+    "SLOT",
+    "T",
     "T10",
     "T20",
     "TCH",
     "TRY",
+    "W",
+    "UP",
     "YTT",
-    "SLOT",
-    "FURB",
-    "PERF",
-    "ASYNC1",
-#    "C",
-#    "S",
-#    "PL",
-#    "PD",
-#    "BLE",
-#    "FBT",
 ]
 
 [lint.flake8-type-checking]
@@ -108,9 +115,19 @@ force-single-line = true
 convention = "google"
 
 [lint.per-file-ignores]
-"tests/*.py" = ["D", "PT009","PT011", "PT027", "PTH"]
-"doc_src/*.py" = ["T", "D", "B018", "PTH", "E501", "PERF", "A001", "RET504"]
-"docs/*.py" = ["T", "D", "B018", "PTH", "E501", "PERF", "A001", "RET504"]
+"*.ipynb" = ["RET504"]
+"tests/*.py" = ["D", "PT009", "PT011", "PT027", "PTH"]
+"docs/*.py" = [
+  "T",
+  "D",
+  "B018",
+  "PTH",
+  "E501",
+  "PERF",
+  "A001",
+  "RET504",
+  "INP001",
+]
 
 [format]
 docstring-code-format = true

@@ -9,7 +9,7 @@ Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
 # gemseo-fmu
 
-[![PyPI - License](https://img.shields.io/pypi/l/gemseo)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
+[![PyPI - License](https://img.shields.io/pypi/l/gemseo-fmu)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gemseo-fmu)](https://pypi.org/project/gemseo-fmu/)
 [![PyPI](https://img.shields.io/pypi/v/gemseo-fmu)](https://pypi.org/project/gemseo-fmu/)
 [![Codecov branch](https://img.shields.io/codecov/c/gitlab/gemseo:dev/gemseo-fmu/develop)](https://app.codecov.io/gl/gemseo:dev/gemseo-fmu)

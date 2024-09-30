@@ -18,11 +18,10 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import field
-from typing import Any
 from typing import Callable
 from typing import Union
 
-from gemseo.core.grammars.pydantic_ndarray import NDArrayPydantic
+from gemseo.utils.pydantic_ndarray import NDArrayPydantic
 from numpy import array
 from pydantic.dataclasses import dataclass
 
@@ -100,7 +99,7 @@ class TimeSeries:
 
         return self.observable[-1]
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, TimeSeries):
             return False
 

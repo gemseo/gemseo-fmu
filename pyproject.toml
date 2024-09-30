@@ -16,13 +16,14 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 dynamic = ["version"]
-requires-python = ">=3.9, <3.12"
+requires-python = ">=3.9, <3.13"
 dependencies = [
     "delta == 0.4.2",
     "fmpy >=0.3.13,<=0.3.19",
-    "gemseo[all] >=5",
+    "gemseo[all] >=5,<6",
     "numpy",
 ]
 
