@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING
-from typing import Any
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -120,7 +119,7 @@ class TimeManager:
         """Reset the time manager to initial time."""
         self.__current = self.__initial
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, self.__class__):
             return False
 

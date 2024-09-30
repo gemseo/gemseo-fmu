@@ -18,8 +18,8 @@ from __future__ import annotations
 
 import logging
 import re
-from collections import namedtuple
 from typing import Any
+from typing import NamedTuple
 from unittest import mock
 
 import pytest
@@ -514,9 +514,9 @@ def test_time_output_grammar(add_time_to_output_grammar, do_step):
     assert ("ramp:time" in data) is add_time_to_output_grammar
 
 
-DefaultExperiment = namedtuple(
-    "DefaultExperiment", ["startTime", "stopTime"], defaults=(None, None)
-)
+class DefaultExperiment(NamedTuple):
+    startTime: float | None = None  # noqa: N815
+    stopTime: float | None = None  # noqa: N815
 
 
 @pytest.mark.parametrize(
