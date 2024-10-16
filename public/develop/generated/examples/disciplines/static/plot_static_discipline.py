@@ -33,7 +33,7 @@ discipline = StaticFMUDiscipline(get_fmu_file_path("add"))
 
 # %%
 # We can have a look to the default inputs:
-discipline.default_inputs
+discipline.default_input_data
 
 # %%
 # and see that they are equal to zero.

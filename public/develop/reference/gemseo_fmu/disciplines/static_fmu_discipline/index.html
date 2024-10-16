@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.8c3ca2c6.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.0253249f.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
@@ -805,7 +805,7 @@
         
   
   <span class="md-ellipsis">
-    Use time stepping
+    Use time stepping.
   </span>
   
 
@@ -826,7 +826,7 @@
         
   
   <span class="md-ellipsis">
-    Plot a time evolution
+    Plot a time evolution.
   </span>
   
 
@@ -847,7 +847,7 @@
         
   
   <span class="md-ellipsis">
-    From initial time to final time
+    From initial time to final time.
   </span>
   
 
@@ -868,7 +868,7 @@
         
   
   <span class="md-ellipsis">
-    Do not restart
+    Do not restart.
   </span>
   
 
@@ -889,7 +889,7 @@
         
   
   <span class="md-ellipsis">
-    Use time functions
+    Use time functions.
   </span>
   
 
@@ -910,7 +910,7 @@
         
   
   <span class="md-ellipsis">
-    Use time series
+    Use time series.
   </span>
   
 
@@ -931,7 +931,7 @@
         
   
   <span class="md-ellipsis">
-    Set evaluation time
+    Set evaluation time.
   </span>
   
 
@@ -2085,6 +2085,11 @@
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2113,7 +2118,7 @@
     <span class="n">delete_model_instance_directory</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
         <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span><span class="p">,</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
     <span class="o">**</span><span class="n">pre_instantiation_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
 <span class="p">)</span>
 </code></pre></div>
@@ -2132,7 +2137,7 @@
 <p><span class="doc-section-title">Parameters:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code>file_path</code></b>
+            <b><code>file_path</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
           –
           <div class="doc-md-description">
@@ -2140,7 +2145,7 @@
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>input_names</code></b>
+            <b><code>input_names</code></b>
               (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
                   <code>()</code>
 )
@@ -2152,7 +2157,7 @@ if <code>None</code>, do not use inputs.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>output_names</code></b>
+            <b><code>output_names</code></b>
               (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
                   <code>()</code>
 )
@@ -2163,18 +2168,18 @@ if empty, use all the outputs of the FMU model.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>name</code></b>
+            <b><code>name</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
                   <code>&#39;&#39;</code>
 )
           –
           <div class="doc-md-description">
             <p>The name of the discipline.
-If empty, use the class name.</p>
+If empty, use the name of the class.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>use_co_simulation</code></b>
+            <b><code>use_co_simulation</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                   <code>True</code>
 )
@@ -2186,7 +2191,7 @@ When <code>do_step</code> is <code>True</code>, the co-simulation FMI type is re
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>model_instance_directory</code></b>
+            <b><code>model_instance_directory</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
                   <code>&#39;&#39;</code>
 )
@@ -2198,7 +2203,7 @@ if empty, let <code>fmpy</code> create a temporary directory.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>delete_model_instance_directory</code></b>
+            <b><code>delete_model_instance_directory</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                   <code>True</code>
 )
@@ -2209,7 +2214,7 @@ of the FMU instance when deleting the discipline.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>variable_names</code></b>
+            <b><code>variable_names</code></b>
               (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
                   <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
 )
@@ -2222,7 +2227,7 @@ When missing, use the names of the FMU model inputs and outputs.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>**pre_instantiation_parameters</code></b>
+            <b><code>**pre_instantiation_parameters</code></b>
               (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                   <code>{}</code>
 )
@@ -2233,6 +2238,11 @@ to <code>_pre_instantiate()</code>.</p>
           </div>
         </li>
     </ul>
+
+
+
+
+
 
                   <details class="quote">
                     <summary>Source code in <code>src/gemseo_fmu/disciplines/static_fmu_discipline.py</code></summary>
@@ -2389,6 +2399,11 @@ to <code>_pre_instantiate()</code>.</p>
 
 
 
+
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2422,47 +2437,32 @@ to <code>_pre_instantiate()</code>.</p>
         <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span>
         <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.utils.time_series.TimeSeries" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a></span>
         <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a></span><span class="p">[[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">],</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n">MappingProxyType</span><span class="p">({})</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a></span><span class="p">({})</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline_data.html#gemseo.core.discipline_data.DisciplineData">DisciplineData</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Execute the discipline.</p>
-<p>This method executes the discipline:</p>
-<ul>
-<li>Adds the default inputs to the <code>input_data</code>
-  if some inputs are not defined in input_data
-  but exist in :attr:<code>.MDODiscipline.default_inputs</code>.</li>
-<li>Checks whether the last execution of the discipline was called
-  with identical inputs, i.e. cached in :attr:<code>.MDODiscipline.cache</code>;
-  if so, directly returns <code>self.cache.get_output_cache(inputs)</code>.</li>
-<li>Caches the inputs.</li>
-<li>Checks the input data against :attr:<code>.MDODiscipline.input_grammar</code>.</li>
-<li>If :attr:<code>.MDODiscipline.data_processor</code> is not None, runs the preprocessor.</li>
-<li>Updates the status to :attr:<code>.MDODiscipline.ExecutionStatus.RUNNING</code>.</li>
-<li>Calls the :meth:<code>.MDODiscipline._run</code> method, that shall be defined.</li>
-<li>If :attr:<code>.MDODiscipline.data_processor</code> is not None, runs the postprocessor.</li>
-<li>Checks the output data.</li>
-<li>Caches the outputs.</li>
-<li>Updates the status to :attr:<code>.MDODiscipline.ExecutionStatus.DONE</code>
-  or :attr:<code>.MDODiscipline.ExecutionStatus.FAILED</code>.</li>
-<li>Updates summed execution time.</li>
-</ul>
+        <p>Execute the discipline, i.e. compute output data from input data.</p>
+<p>If :attr:<code>.virtual_execution</code> is <code>True</code>,
+this method returns the :attr:<code>.default_output_data</code>.
+Otherwise,
+it calls the :meth:<code>._run</code> method performing the true execution
+and returns the corresponding output data.
+This :meth:<code>._run</code> method must be implemented in subclasses.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code>input_data</code></b>
+            <b><code>input_data</code></b>
               (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a> | <a class="autorefs autorefs-internal" title="gemseo_fmu.utils.time_series.TimeSeries" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> | <a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>, default:
                   <code><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a>({})</code>
 )
           –
           <div class="doc-md-description">
-            <p>The input data needed to execute the discipline
-according to the discipline input grammar.
-If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.</p>
+            <p>The input data.
+Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
           </div>
         </li>
     </ul>
@@ -2474,14 +2474,15 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
               <code><a class="autorefs autorefs-external" title="gemseo.core.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/_modules/gemseo.core.discipline_data.html#gemseo.core.discipline_data.DisciplineData">DisciplineData</a></code>
           –
           <div class="doc-md-description">
-            <p>The discipline local data after execution.</p>
+            <p>The input and output data.</p>
           </div>
         </li>
     </ul>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">592</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">591</span>
+<span class="normal">592</span>
 <span class="normal">593</span>
 <span class="normal">594</span>
 <span class="normal">595</span>
@@ -2508,15 +2509,14 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <span class="normal">616</span>
 <span class="normal">617</span>
 <span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
+<span class="normal">619</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
         <span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimeSeries</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">TimeDurationType</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="n">MappingProxyType</span><span class="p">({}),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineData</span><span class="p">:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__executed</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">full_input_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter_inputs</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">full_input_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">prepare_input_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__names_to_time_functions</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">compute</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">full_input_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -2568,7 +2568,7 @@ If <code>None</code>, use the :attr:<code>.MDODiscipline.default_inputs</code>.<
 <p><span class="doc-section-title">Parameters:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code>do_step</code></b>
+            <b><code>do_step</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
                   <code>None</code>
 )
@@ -2582,7 +2582,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>final_time</code></b>
+            <b><code>final_time</code></b>
               (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                   <code>None</code>
 )
@@ -2595,7 +2595,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>restart</code></b>
+            <b><code>restart</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
                   <code>None</code>
 )
@@ -2607,7 +2607,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>time_step</code></b>
+            <b><code>time_step</code></b>
               (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                   <code>None</code>
 )
@@ -2623,7 +2623,8 @@ If <code>None</code>, use the value considered at the instantiation.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">622</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">621</span>
+<span class="normal">622</span>
 <span class="normal">623</span>
 <span class="normal">624</span>
 <span class="normal">625</span>
@@ -2660,8 +2661,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
 <span class="normal">656</span>
 <span class="normal">657</span>
 <span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_default_execution</span><span class="p">(</span>
+<span class="normal">659</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_default_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">do_step</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2729,7 +2729,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
 <p><span class="doc-section-title">Parameters:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-          <b><code>restart</code></b>
+            <b><code>restart</code></b>
               (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
                   <code>None</code>
 )
@@ -2741,7 +2741,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>simulation_time</code></b>
+            <b><code>simulation_time</code></b>
               (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                   <code>None</code>
 )
@@ -2757,7 +2757,7 @@ execute during a single time step.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>time_step</code></b>
+            <b><code>time_step</code></b>
               (<code><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | None</code>, default:
                   <code>None</code>
 )
@@ -2773,7 +2773,8 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">662</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">661</span>
+<span class="normal">662</span>
 <span class="normal">663</span>
 <span class="normal">664</span>
 <span class="normal">665</span>
@@ -2809,8 +2810,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 <span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
+<span class="normal">698</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">set_next_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">simulation_time</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2919,7 +2919,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.525ec568.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.83f73b43.min.js"></script>
       
         <script src="../../../../assets/_markdown_exec_pyodide.js"></script>
       
