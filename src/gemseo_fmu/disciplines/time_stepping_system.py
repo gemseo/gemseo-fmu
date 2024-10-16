@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo import READ_ONLY_EMPTY_DICT
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.mda.mda_chain import MDAChain
 from numpy import concatenate
@@ -41,7 +41,7 @@ if TYPE_CHECKING:
     from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
 
-class TimeSteppingSystem(MDODiscipline):
+class TimeSteppingSystem(Discipline):
     """A system of static and time-stepping disciplines.
 
     A static discipline computes an output at time $t_k$ from an input at time $t_k$
@@ -50,6 +50,8 @@ class TimeSteppingSystem(MDODiscipline):
 
     This system co-simulates the disciplines using an MDA-based master algorithm.
     """
+
+    default_grammar_type = Discipline.GrammarType.SIMPLER
 
     __do_step: bool
     """Whether an execution of the system does a single step.
@@ -71,7 +73,7 @@ class TimeSteppingSystem(MDODiscipline):
 
     def __init__(
         self,
-        disciplines: Iterable[str | Path | MDODiscipline],
+        disciplines: Iterable[str | Path | Discipline],
         final_time: float,
         time_step: float,
         apply_time_step_to_disciplines: bool = True,
@@ -113,7 +115,7 @@ class TimeSteppingSystem(MDODiscipline):
                     do_step=True,
                     time_step=discipline_time_step or None,
                 )
-            elif not isinstance(discipline, MDODiscipline):
+            elif not isinstance(discipline, Discipline):
                 discipline = DoStepFMUDiscipline(
                     discipline,
                     time_step=discipline_time_step,
@@ -129,13 +131,12 @@ class TimeSteppingSystem(MDODiscipline):
             for discipline in all_disciplines
             if isinstance(discipline, BaseFMUDiscipline)
         ]
-        super().__init__(grammar_type=MDODiscipline.GrammarType.SIMPLER)
+        super().__init__()
         self.__mda = MDAChain(
             all_disciplines,
             inner_mda_name=mda_name,
             # TODO: add max_mda_iter argument when rollback will be available.
             max_mda_iter=0,
-            grammar_type=MDODiscipline.GrammarType.SIMPLER,
             **mda_options,
         )
         self.input_grammar.update(self.__mda.input_grammar)
@@ -143,9 +144,9 @@ class TimeSteppingSystem(MDODiscipline):
 
         # Discipline i has priority over discipline i+1 to set the default inputs.
         for discipline in all_disciplines[::-1]:
-            self.default_inputs.update({
+            self.default_input_data.update({
                 input_name: input_value
-                for input_name, input_value in discipline.default_inputs.items()
+                for input_name, input_value in discipline.default_input_data.items()
                 if input_name in self.input_grammar.names
             })
 
@@ -153,7 +154,7 @@ class TimeSteppingSystem(MDODiscipline):
         self, input_data: Mapping[str, Any] = READ_ONLY_EMPTY_DICT
     ) -> DisciplineData:
         if self.__restart:
-            self.__mda.default_inputs.update(self.default_inputs)
+            self.__mda.default_input_data.update(self.default_input_data)
             self.__time_manager.reset()
             for fmu_discipline in self.__fmu_disciplines:
                 fmu_discipline.set_next_execution(restart=True)
@@ -172,7 +173,7 @@ class TimeSteppingSystem(MDODiscipline):
             # which can be found in the local data with get_input_data(),
             # returning an empty dictionary at initial time.
             original_input_data = input_data
-            input_data = self.get_input_data() or self.default_inputs
+            input_data = self.get_input_data() or self.default_input_data
             input_data.update(original_input_data)
 
         return super().execute(input_data)
@@ -181,7 +182,7 @@ class TimeSteppingSystem(MDODiscipline):
         input_data = self.get_input_data()
         if self.__do_step:
             self.__simulate_one_time_step(input_data)
-            self.local_data.update(self.__mda.local_data)
+            self.io.data.update(self.__mda.io.data)
         else:
             self.__simulate_to_final_time(input_data)
 
@@ -198,8 +199,8 @@ class TimeSteppingSystem(MDODiscipline):
         local_data_history = []
         while self.__time_manager.remaining > 0:
             self.__simulate_one_time_step(input_data)
-            local_data_history.append(copy(self.__mda.local_data))
-            input_data = self.__mda.local_data
+            local_data_history.append(copy(self.__mda.io.data))
+            input_data = self.__mda.io.data
             for inner_mda in self.__mda.inner_mdas:
                 inner_mda.cache.clear()
 
@@ -207,7 +208,7 @@ class TimeSteppingSystem(MDODiscipline):
         # Given a variable,
         # We suppose that it value type is the same at all time steps.
         local_data_history_0 = local_data_history[0]
-        self.store_local_data(**{
+        self.io.update_output_data({
             name: concatenate([local_data[name] for local_data in local_data_history])
             for name in local_data_history_0
             if not isinstance(local_data_history_0[name], TimeSeries)

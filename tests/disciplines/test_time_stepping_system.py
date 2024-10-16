@@ -37,7 +37,7 @@ def test_standard_use():
         get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.1
     )
     discipline.execute()
-    x2_ref = discipline.local_data["x2"]
+    x2_ref = discipline.io.data["x2"]
 
     # TimeSteppingSystem can use a mix of standard MDODisciplines,
     # BaseFMUDisciplines and FMU file paths.
@@ -52,8 +52,8 @@ def test_standard_use():
     )
     system.execute()
 
-    assert_allclose(system.local_data["x2"][:-1], x2_ref[1:])
-    assert_allclose(system.local_data["x2_plus_one"], system.local_data["x2"] + 1)
+    assert_allclose(system.io.data["x2"][:-1], x2_ref[1:])
+    assert_allclose(system.io.data["x2_plus_one"], system.io.data["x2"] + 1)
 
 
 @pytest.mark.parametrize(
@@ -72,15 +72,15 @@ def test_restart(kwargs, n_calls, use_cache):
         **kwargs,
     )
     if system._TimeSteppingSystem__restart and not use_cache:
-        system.set_cache_policy(system.CacheType.NONE)
+        system.set_cache(system.CacheType.NONE)
 
     system.execute()
     system.execute()
     assert_equal(
-        system.local_data["MassSpringSubSystem1:time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
+        system.io.data["MassSpringSubSystem1:time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
     )
-    assert system.local_data["x2"].size == 5
-    assert system.n_calls == n_calls
+    assert system.io.data["x2"].size == 5
+    assert system.execution_statistics.n_calls == n_calls
 
 
 def test_do_step():
@@ -93,9 +93,9 @@ def test_do_step():
         restart=False,
     )
     discipline.execute()
-    first_ref_x_2 = discipline.local_data["x2"]
+    first_ref_x_2 = discipline.io.data["x2"]
     discipline.execute()
-    second_ref_x_2 = discipline.local_data["x2"]
+    second_ref_x_2 = discipline.io.data["x2"]
     assert first_ref_x_2 != second_ref_x_2
 
     system = TimeSteppingSystem(
@@ -110,11 +110,11 @@ def test_do_step():
         restart=False,
     )
     system.execute()
-    first_system_x_2 = system.local_data["x2"]
-    first_system_x_2_plus_one = system.local_data["x2_plus_one"]
+    first_system_x_2 = system.io.data["x2"]
+    first_system_x_2_plus_one = system.io.data["x2_plus_one"]
     system.execute()
-    second_system_x_2 = system.local_data["x2"]
-    second_system_x_2_plus_one = system.local_data["x2_plus_one"]
+    second_system_x_2 = system.io.data["x2"]
+    second_system_x_2_plus_one = system.io.data["x2_plus_one"]
     assert first_system_x_2 != second_system_x_2
 
     assert_allclose(first_system_x_2, first_ref_x_2)
@@ -160,8 +160,8 @@ def test_apply_time_step_to_disciplines(apply, step1, step2):
     assert s1._BaseFMUDiscipline__default_simulation_settings[s1._TIME_STEP] == step1
     assert s2._BaseFMUDiscipline__default_simulation_settings[s2._TIME_STEP] == step2
     expected_time = array([0.01, 0.02, 0.03])
-    assert_equal(system.local_data["MassSpringSubSystem1:time"], expected_time)
-    assert_equal(system.local_data["MassSpringSubSystem2:time"], expected_time)
+    assert_equal(system.io.data["MassSpringSubSystem1:time"], expected_time)
+    assert_equal(system.io.data["MassSpringSubSystem2:time"], expected_time)
 
 
 def test_time_series():
@@ -174,7 +174,9 @@ def test_time_series():
         0.3,
         0.1,
     )
-    system.default_inputs.update({"m1": TimeSeries([0.0, 0.5, 0.8], [1.0, 1.5, 1.3])})
+    system.default_input_data.update({
+        "m1": TimeSeries([0.0, 0.5, 0.8], [1.0, 1.5, 1.3])
+    })
     system.execute()
     expected_time = array([0.1, 0.2, 0.3])
-    assert_allclose(system.local_data["MassSpringSubSystem1:time"], expected_time)
+    assert_allclose(system.io.data["MassSpringSubSystem1:time"], expected_time)

@@ -39,7 +39,7 @@ from fmpy.fmi2 import FMU2Slave
 from fmpy.fmi3 import FMU3Model
 from fmpy.fmi3 import FMU3Slave
 from fmpy.util import fmu_info
-from gemseo.core.discipline import MDODiscipline
+from gemseo.core.discipline.discipline import Discipline
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.pydantic_ndarray import NDArrayPydantic
 from numpy import append
@@ -69,11 +69,14 @@ FMUModel = Union[FMU1Model, FMU2Model, FMU3Model, FMU1Slave, FMU2Slave, FMU3Slav
 LOGGER = logging.getLogger(__name__)
 
 
-class BaseFMUDiscipline(MDODiscipline):
+class BaseFMUDiscipline(Discipline):
     """A base discipline wrapping a Functional Mockup Unit (FMU) model.
 
     This discipline relies on [FMPy](https://github.com/CATIA-Systems/FMPy).
     """
+
+    default_grammar_type = Discipline.GrammarType.PYDANTIC
+    default_cache_type = Discipline.CacheType.NONE
 
     class Solver(StrEnum):
         """The solver to simulate a model-exchange model."""
@@ -255,11 +258,7 @@ class BaseFMUDiscipline(MDODiscipline):
         self.__set_initial_values()
         self.__set_time(initial_time, final_time, time_step, do_step, restart)
         self._pre_instantiate(**(pre_instantiation_parameters or {}))
-        super().__init__(
-            name=self.name,
-            cache_type=self.CacheType.NONE,
-            grammar_type=self.GrammarType.PYDANTIC,
-        )
+        super().__init__(name=self.name)
 
         self.input_grammar.update_from_types(
             dict.fromkeys(input_names, Union[int, float, NDArrayPydantic, TimeSeries])
@@ -271,7 +270,7 @@ class BaseFMUDiscipline(MDODiscipline):
             })
             self.output_grammar.add_namespace(self._TIME, self.name)
 
-        self.default_inputs = {
+        self.default_input_data = {
             input_name: self._initial_values[input_name] for input_name in input_names
         }
 
@@ -596,7 +595,7 @@ class BaseFMUDiscipline(MDODiscipline):
         ] = MappingProxyType({}),
     ) -> DisciplineData:
         self.__executed = True
-        full_input_data = self._filter_inputs(input_data)
+        full_input_data = self.io.prepare_input_data(input_data)
         self.__names_to_time_functions = {
             name: value.compute
             for name, value in full_input_data.items()
@@ -780,14 +779,14 @@ class BaseFMUDiscipline(MDODiscipline):
 
         self._time = array([time_manager.final])
         output_data = {}
-        for output_name in self.get_output_data_names(with_namespaces=False):
+        for output_name in self.io.output_grammar.names_without_namespace:
             if output_name == self._TIME:
                 output_data[self._TIME] = self._time
             else:
                 output_data[output_name] = array(
                     self.__model.getReal([self.__names_to_references[output_name]])
                 )
-        self.store_local_data(**output_data)
+        self.io.update_output_data(output_data)
 
     def __set_model_inputs(
         self, input_data: Mapping[str, NumberArray], time: float, store: bool
@@ -806,7 +805,7 @@ class BaseFMUDiscipline(MDODiscipline):
                     continue
 
                 if store:
-                    self._local_data[input_name] = array([value])
+                    self.io.data[input_name] = array([value])
             elif isinstance(input_value, ndarray):
                 value = input_value[0]
             else:
@@ -835,7 +834,7 @@ class BaseFMUDiscipline(MDODiscipline):
             getattr(fmu, self.__parameter_setter_name)(
                 [self.__names_to_references[name]], [value]
             )
-            self._local_data[name] = append(self._local_data[name], value)
+            self.io.data[name] = append(self.io.data[name], value)
 
         return True
 
@@ -867,9 +866,9 @@ class BaseFMUDiscipline(MDODiscipline):
         self._time = result[self._TIME]
         output_data = {
             name: array(result[self.__to_fmu_names[name]])
-            for name in self.get_output_data_names(with_namespaces=False)
+            for name in self.io.output_grammar.names_without_namespace
         }
-        self.store_local_data(**output_data)
+        self.io.update_output_data(output_data)
 
     def __setstate__(self, state: Mapping[str, Any]) -> None:
         super().__setstate__(state)
@@ -879,6 +878,6 @@ class BaseFMUDiscipline(MDODiscipline):
             fmi_type=self.__model_type,
         )
 
-    _ATTR_NOT_TO_SERIALIZE = MDODiscipline._ATTR_NOT_TO_SERIALIZE.union([
+    _ATTR_NOT_TO_SERIALIZE = Discipline._ATTR_NOT_TO_SERIALIZE.union([
         "_BaseFMUDiscipline__model"
     ])

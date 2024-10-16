@@ -108,7 +108,7 @@ class FMUDiscipline(BaseFMUDiscipline):
         time_duration = TimeDuration(self.time[time_window, newaxis])
         dataset.add_variable(time_name, time_duration.to(time_unit))
         for name in set(output_names).union({abscissa_name}) - {time_name}:
-            dataset.add_variable(name, self.local_data[name][time_window, newaxis])
+            dataset.add_variable(name, self.io.data[name][time_window, newaxis])
 
         figure = Lines(dataset, output_names, abscissa_variable=abscissa_name)
         figure.execute(save=save, show=show, file_path=file_path)
