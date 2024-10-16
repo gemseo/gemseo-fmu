@@ -28,5 +28,5 @@ def test_fmu3():
     discipline.execute()
     assert_almost_equal(discipline.time, array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0]))
     assert_almost_equal(
-        discipline.local_data["output"], array([3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
+        discipline.io.data["output"], array([3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
     )

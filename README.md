@@ -38,10 +38,7 @@ FMPy, and so by GEMSEO-FMU.
 
 ## Installation
 
-Install the latest stable version with `pip install gemseo-fmu`.
-
-Install the development version with
-`pip install gemseo-fmu@git+https://gitlab.com/gemseo/dev/gemseo-fmu.git@develop`.
+Install the latest version with `pip install gemseo-fmu`.
 
 See [pip](https://pip.pypa.io/en/stable/getting-started/) for more information.
 
