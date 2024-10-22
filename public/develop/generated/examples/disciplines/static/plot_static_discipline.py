@@ -41,7 +41,7 @@ discipline.default_input_data
 # in the same way as $u_1$ and $u_2$.
 # However,
 # their causality is _parameter_
-# while the causality of $u_1$ and $u_2$ is _parameter_:
+# while the causality of $u_1$ and $u_2$ is _input_:
 discipline.causalities_to_variable_names
 
 # %%
