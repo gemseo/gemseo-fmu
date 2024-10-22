@@ -68,7 +68,7 @@ system = TimeSteppingSystem(
 # %%
 # Note that in this case,
 # we do not use the default MDA name `"MDAJacobi"` implementing a Jacobi method
-# but `"MDAJacobi"` implementing a Gauss-Seidel technique.
+# but `"MDAGaussSeidel"` implementing a Gauss-Seidel technique.
 # The disciplines are no longer executed in parallel but sequentially.
 #
 # Then wew can execute this system from initial time to final time:
