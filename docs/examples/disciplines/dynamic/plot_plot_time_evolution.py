@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Plot a time evolution.
+"""# Plot a time evolution
 
 The time evolution of a discipline output can easily be plotted,
 using the

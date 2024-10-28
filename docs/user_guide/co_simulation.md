@@ -104,4 +104,4 @@ class with `algo_name="MDAGaussSeidel"` to use it.
 !!! tip
 
     Use the dictionary `mda_options` to customize the MDA algorithm
-    and subclass [BaseMDA][gemseo.mdas.base_mda.BaseMDA] to create a new master algorithm.
+    and subclass [BaseMDA][gemseo.mda.base_mda.BaseMDA] to create a new master algorithm.

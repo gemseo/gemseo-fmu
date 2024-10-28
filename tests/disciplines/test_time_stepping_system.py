@@ -20,6 +20,8 @@ import re
 
 import pytest
 from gemseo.disciplines.linear_combination import LinearCombination
+from gemseo.mda.jacobi import MDAJacobi
+from gemseo.mda.mda_chain import MDAChain
 from numpy import array
 from numpy.testing import assert_allclose
 from numpy.testing import assert_equal
@@ -51,6 +53,11 @@ def test_standard_use():
         0.1,
     )
     system.execute()
+
+    assert isinstance(system.mda, MDAChain)
+    inner_mdas = system.mda.inner_mdas
+    assert len(inner_mdas) == 1
+    assert isinstance(inner_mdas[0], MDAJacobi)
 
     assert_allclose(system.io.data["x2"][:-1], x2_ref[1:])
     assert_allclose(system.io.data["x2_plus_one"], system.io.data["x2"] + 1)
@@ -180,3 +187,26 @@ def test_time_series():
     system.execute()
     expected_time = array([0.1, 0.2, 0.3])
     assert_allclose(system.io.data["MassSpringSubSystem1:time"], expected_time)
+
+
+def test_process_flow():
+    """Check the process flow of the TimeSteppingSystem."""
+    system = TimeSteppingSystem(
+        (
+            get_fmu_file_path("MassSpringSubSystem1"),
+            get_fmu_file_path("MassSpringSubSystem2"),
+        ),
+        0.3,
+        0.1,
+    )
+    process_flow = system.get_process_flow()
+    assert process_flow.get_disciplines_in_data_flow() == [system]
+
+    mda_process_flow = system.mda.get_process_flow()
+    assert process_flow.get_data_flow() == mda_process_flow.get_data_flow()
+
+    execution_flow = process_flow.get_execution_flow()
+    mda_execution_flow = mda_process_flow.get_execution_flow()
+    assert execution_flow.disciplines == mda_execution_flow.disciplines
+    assert len(execution_flow.sequences) == len(mda_execution_flow.sequences) == 1
+    assert type(execution_flow.sequences[0]) is type(mda_execution_flow.sequences[0])

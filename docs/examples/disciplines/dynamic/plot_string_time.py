@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Time as a character string.
+"""# Time as a character string
 
 Time information can often be specified either in seconds or as a string written in
 natural language, e.g. `"2h 34m 1s"` or `"2 hours, 34 minutes and 1 second"` (units

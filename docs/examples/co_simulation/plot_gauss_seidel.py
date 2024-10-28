@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Co-simulation with a serial master algorithm.
+"""# Co-simulation with a serial master algorithm
 
 Sometimes,
 we may want to simulate a system of several FMU models coupled together.
@@ -27,6 +27,7 @@ using the Gauss-Seidel method.
 
 from __future__ import annotations
 
+from gemseo import generate_xdsm
 from matplotlib import pyplot as plt
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
@@ -69,9 +70,11 @@ system = TimeSteppingSystem(
 # Note that in this case,
 # we do not use the default MDA name `"MDAJacobi"` implementing a Jacobi method
 # but `"MDAGaussSeidel"` implementing a Gauss-Seidel technique.
-# The disciplines are no longer executed in parallel but sequentially.
-#
-# Then wew can execute this system from initial time to final time:
+# The disciplines are no longer executed in parallel but sequentially:
+generate_xdsm(system, save_html=False)
+
+# %%
+# Then we can execute this system from initial time to final time:
 system.execute()
 
 # %%
