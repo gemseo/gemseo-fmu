@@ -21,8 +21,8 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo import READ_ONLY_EMPTY_DICT
+from gemseo.core._process_flow.base_process_flow import BaseProcessFlow
 from gemseo.core.discipline.discipline import Discipline
-from gemseo.disciplines.analytic import AnalyticDiscipline
 from gemseo.mda.mda_chain import MDAChain
 from numpy import concatenate
 
@@ -36,9 +36,26 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
-    from gemseo.core.discipline_data import DisciplineData
+    from gemseo.core._base_monitored_process import BaseMonitoredProcess
+    from gemseo.core._process_flow.execution_sequences.loop import LoopExecSequence
+    from gemseo.core.discipline.discipline import DisciplineData
 
     from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
+
+
+class _TimeSteppingSystemProcessFlow(BaseProcessFlow):
+    """The process flow of a time stepping system."""
+
+    def get_data_flow(
+        self,
+    ) -> list[tuple[Discipline, Discipline, list[str]]]:
+        return self._node.mda.get_process_flow().get_data_flow()
+
+    def get_execution_flow(self) -> LoopExecSequence:
+        return self._node.mda.get_process_flow().get_execution_flow()
+
+    def get_disciplines_in_data_flow(self) -> list[BaseMonitoredProcess]:
+        return [self._node]
 
 
 class TimeSteppingSystem(Discipline):
@@ -69,7 +86,9 @@ class TimeSteppingSystem(Discipline):
     """The time manager."""
 
     __mda: MDAChain
-    """An MDA chain defining the master algorithm to co-simulate the discipline."""
+    """The MDA defining the master algorithm to co-simulate the discipline."""
+
+    _process_flow_class = _TimeSteppingSystemProcessFlow
 
     def __init__(
         self,
@@ -124,8 +143,6 @@ class TimeSteppingSystem(Discipline):
                 )
             all_disciplines.append(discipline)
 
-        all_disciplines.append(AnalyticDiscipline({"time_step_id": "time_step_id+1"}))
-
         self.__fmu_disciplines = [
             discipline
             for discipline in all_disciplines
@@ -149,6 +166,11 @@ class TimeSteppingSystem(Discipline):
                 for input_name, input_value in discipline.default_input_data.items()
                 if input_name in self.input_grammar.names
             })
+
+    @property
+    def mda(self) -> MDAChain:
+        """The MDA defining the master algorithm to co-simulate the discipline."""
+        return self.__mda
 
     def execute(  # noqa: D102
         self, input_data: Mapping[str, Any] = READ_ONLY_EMPTY_DICT

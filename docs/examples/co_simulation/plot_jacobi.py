@@ -13,7 +13,7 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-"""# Co-simulation.
+"""# Co-simulation with a parallel master algorithm
 
 Sometimes,
 we may want to simulate a system of several FMU models coupled together.
@@ -23,6 +23,7 @@ allows to perform this _co-simulation_ task.
 
 from __future__ import annotations
 
+from gemseo import generate_xdsm
 from matplotlib import pyplot as plt
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
@@ -61,7 +62,12 @@ system = TimeSteppingSystem(
 )
 
 # %%
-# and executing it from initial time to final time:
+# We can have a quick look at the Jacobi-based co-simulation process
+# (the strongly coupled FMU models are evaluated in parallel):
+generate_xdsm(system, save_html=False)
+
+# %%
+# before executing it from initial time to final time:
 system.execute()
 
 # %%
