@@ -20,10 +20,10 @@ from copy import copy
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo import READ_ONLY_EMPTY_DICT
 from gemseo.core._process_flow.base_process_flow import BaseProcessFlow
 from gemseo.core.discipline.discipline import Discipline
 from gemseo.mda.mda_chain import MDAChain
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from numpy import concatenate
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
