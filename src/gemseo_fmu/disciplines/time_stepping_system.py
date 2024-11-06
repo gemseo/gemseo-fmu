@@ -39,6 +39,7 @@ if TYPE_CHECKING:
     from gemseo.core._base_monitored_process import BaseMonitoredProcess
     from gemseo.core._process_flow.execution_sequences.loop import LoopExecSequence
     from gemseo.core.discipline.discipline import DisciplineData
+    from gemseo.typing import StrKeyMapping
 
     from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
@@ -200,8 +201,7 @@ class TimeSteppingSystem(Discipline):
 
         return super().execute(input_data)
 
-    def _run(self) -> None:
-        input_data = self.get_input_data()
+    def _run(self, input_data: StrKeyMapping) -> StrKeyMapping | None:
         if self.__do_step:
             self.__simulate_one_time_step(input_data)
             self.io.data.update(self.__mda.io.data)

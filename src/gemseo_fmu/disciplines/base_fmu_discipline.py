@@ -61,6 +61,7 @@ if TYPE_CHECKING:
     from gemseo.core.discipline_data import DisciplineData
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
+    from gemseo.typing import StrKeyMapping
 
     from gemseo_fmu.utils.time_duration import TimeDurationType
 
@@ -697,7 +698,7 @@ class BaseFMUDiscipline(Discipline):
             simulation_time = TimeDuration(simulation_time).seconds
             self.__simulation_settings[self._SIMULATION_TIME] = simulation_time
 
-    def _run(self) -> None:
+    def _run(self, input_data: StrKeyMapping) -> StrKeyMapping | None:
         if not self.__simulation_settings:
             self.__simulation_settings = self.__default_simulation_settings
 
