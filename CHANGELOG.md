@@ -144,7 +144,7 @@ and this project adheres to
 
 ### Removed
 
-- Support for Python 3.8.
+Support for Python 3.8.
 
 ## Version 1.0.1 (June 2023)
 
