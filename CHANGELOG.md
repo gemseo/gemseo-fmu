@@ -26,10 +26,12 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# Develop
+## Version 3.0.0 (November 2024)
 
-## Added
+### Added
 
+- Support GEMSEO v6.
+- Support for Python 3.12.
 - The class [TimeManager][gemseo_fmu.utils.time_manager.TimeManager] can be used to create a time manager
   from an initial time, a final time and a time step;
   the current time can be updated
@@ -72,7 +74,7 @@ and this project adheres to
 - The `variable_names` argument of [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   allows the discipline to have input and output names different from the input and output names of the FMU model.
 
-## Changed
+### Changed
 
 - [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] is now
   in the subpackage [gemseo_fmu.utils.time_series][gemseo_fmu.utils.time_series].
@@ -88,7 +90,7 @@ and this project adheres to
   of using gemseo-fmu with Python 3.8.
 - The readme file of the project now includes links to the documentation.
 
-## Fixed
+### Fixed
 
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
   can use input values of type [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries].
@@ -105,9 +107,9 @@ and this project adheres to
   for FMU model inputs of causality `input`,
   which is consistent with the FMU model input of causality `parameter`.
 
-# Version 2.0.0 (December 2023)
+## Version 2.0.0 (December 2023)
 
-## Added
+### Added
 
 - Support for Python 3.11.
 - The default behavior of
@@ -133,21 +135,21 @@ and this project adheres to
   is a system of static and time-stepping disciplines
   which executes them sequentially at each time step.
 
-## Changed
+### Changed
 
 - The [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   relies on the library [FMPy](https://github.com/CATIA-Systems/FMPy).
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   is in [gemseo-fmu.disciplines][gemseo_fmu.disciplines].
 
-## Removed
+### Removed
 
 - Support for Python 3.8.
 
-# Version 1.0.1 (June 2023)
+## Version 1.0.1 (June 2023)
 
 Update to GEMSEO 5.
 
-# Version 1.0.0 (January 2023)
+## Version 1.0.0 (January 2023)
 
 First release.
