@@ -23,7 +23,7 @@ requires-python = ">=3.9, <3.13"
 dependencies = [
     "delta == 0.4.2",
     "fmpy >=0.3.13,<=0.3.19",
-    "gemseo[all] >=5,<6",
+    "gemseo[all] >=6,<7",
     "numpy",
 ]
 
@@ -50,8 +50,7 @@ doc = [
 ]
 
 [project.urls]
-Homepage = "https://gemseo.gitlab.io/dev/gemseo-fmu/latest/"
-Documentation = "https://gemseo.gitlab.io/dev/gemseo-fmu/latest/"
+Homepage = "https://gitlab.com/gemseo"
 Source = "https://gitlab.com/gemseo/dev/gemseo-fmu"
 Tracker = "https://gitlab.com/gemseo/dev/gemseo-fmu/-/issues"
 
