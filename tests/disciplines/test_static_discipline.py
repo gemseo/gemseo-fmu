@@ -70,6 +70,6 @@ def test_static_fmu_discipline_do_step():
 def test_execution_add(add, input_data, set_default_inputs, result):
     """Check the execution of the static discipline f(u) = k1*u1 + k2*u2."""
     if set_default_inputs:
-        add.default_inputs.update({"add.k1": array([1.0]), "u1": array([1.0])})
+        add.default_input_data.update({"add.k1": array([1.0]), "u1": array([1.0])})
 
     assert add.execute(input_data)["y"] == result

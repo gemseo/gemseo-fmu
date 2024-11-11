@@ -31,7 +31,10 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 # %%
 # Let us create a discipline
 # to simulate a mass damper defined in an FMU model
-# from 0 to 1 second with a time step of 0.1 millisecond.
+# from 0 to 1 second with a time step of 0.1 millisecond:
+#
+# ![ ](../../../../images/mass_damper.png)
+#
 # We only use the mass of the sliding mass [kg]
 # and the spring constant [N/m] as inputs.
 # The position of the mass [m] is used as output.
@@ -65,4 +68,4 @@ plt.show()
 # !!! note
 #     We can also do time stepping with
 #     [DynamicFMUDiscipline][gemseo_fmu.disciplines.dynamic_fmu_discipline.DynamicFMUDiscipline]
-#     by setting ``do_step`` to ``False`` and ``restart`` to ``False``.
+#     by setting `do_step` to `False` and `restart` to `False`.

@@ -18,22 +18,32 @@ from __future__ import annotations
 
 import logging
 import re
-from collections import namedtuple
+from typing import Any
+from typing import NamedTuple
 from unittest import mock
 
 import pytest
 from fmpy.fmi2 import FMU2Slave
 from fmpy.model_description import ModelDescription
+from gemseo import from_pickle
+from gemseo import to_pickle
 from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.utils.testing.helpers import image_comparison
 from numpy import array
+from numpy import ones
+from numpy import zeros
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_fmu.disciplines import base_fmu_discipline
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
+from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
+from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
-from gemseo_fmu.disciplines.time_series import TimeSeries
+from gemseo_fmu.disciplines.fmu_discipline import Lines
+from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
+from gemseo_fmu.utils.time_series import TimeSeries
 
 INPUT_NAME = "ramp.height"
 OUTPUT_NAME = "out"
@@ -46,11 +56,11 @@ FMU_PATH = get_fmu_file_path("ramp")
 def ramp_discipline(module_tmp_wd) -> FMUDiscipline:
     """A ramp model y=f(x) with y=0 if x < 0, y=x if 0<=x<=1 and y=1 if > 1."""
     discipline = FMUDiscipline(FMU_PATH, [INPUT_NAME], [OUTPUT_NAME], final_time=1.0)
-    discipline.default_inputs[INPUT_NAME] = array([2.0])
+    discipline.default_input_data[INPUT_NAME] = array([2.0])
     return discipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def ramp_discipline_wo_restart() -> FMUDiscipline:
     """A ramp model with custom time settings and without restart."""
     discipline = FMUDiscipline(
@@ -62,7 +72,7 @@ def ramp_discipline_wo_restart() -> FMUDiscipline:
         time_step=0.2,
         restart=False,
     )
-    discipline.default_inputs[INPUT_NAME] = array([2.0])
+    discipline.default_input_data[INPUT_NAME] = array([2.0])
     return discipline
 
 
@@ -77,7 +87,7 @@ def ramp_discipline_w_restart(module_tmp_wd) -> FMUDiscipline:
         final_time=0.6,
         time_step=0.2,
     )
-    discipline.default_inputs[INPUT_NAME] = array([2.0])
+    discipline.default_input_data[INPUT_NAME] = array([2.0])
     return discipline
 
 
@@ -94,11 +104,11 @@ def ramp_discipline_do_step(module_tmp_wd) -> FMUDiscipline:
         do_step=True,
         restart=False,
     )
-    discipline.default_inputs[INPUT_NAME] = array([2.0])
+    discipline.default_input_data[INPUT_NAME] = array([2.0])
     return discipline
 
 
-@pytest.fixture()
+@pytest.fixture
 def ramp_discipline_do_step_w_restart(tmp_wd) -> FMUDiscipline:
     """A FMU discipline with custom time settings, with restart and with do_step."""
     discipline = FMUDiscipline(
@@ -110,7 +120,7 @@ def ramp_discipline_do_step_w_restart(tmp_wd) -> FMUDiscipline:
         time_step=0.2,
         do_step=True,
     )
-    discipline.default_inputs[INPUT_NAME] = array([2.0])
+    discipline.default_input_data[INPUT_NAME] = array([2.0])
     return discipline
 
 
@@ -125,28 +135,28 @@ def test_do_step_and_me(caplog):
         FMU_PATH, [INPUT_NAME], [OUTPUT_NAME], do_step=True, use_co_simulation=False
     )
     assert discipline._BaseFMUDiscipline__model_type == discipline._CO_SIMULATION
-    caplog.set_level(logging.WARNING)
     assert (
-        "The FMUDiscipline requires a co-simulation model when do_step is True."
-        in caplog.text
-    )
+        "gemseo_fmu.disciplines.base_fmu_discipline",
+        logging.WARNING,
+        "The FMUDiscipline 'ramp' requires a co-simulation model when do_step is True.",
+    ) in caplog.record_tuples
 
 
 def test_discipline_input_names(ramp_discipline):
     """Check the names of the discipline inputs."""
-    assert set(ramp_discipline.get_input_data_names()) == {INPUT_NAME}
+    assert set(ramp_discipline.io.input_grammar.names) == {INPUT_NAME}
 
 
 def test_discipline_input_names_if_none(module_tmp_wd):
     """Check the names of the discipline inputs when input_names is None."""
     discipline = FMUDiscipline(FMU_PATH, None)
-    assert not discipline.get_input_data_names()
+    assert not discipline.io.input_grammar.names
 
 
 def test_discipline_input_names_if_empty(module_tmp_wd):
     """Check the names of the discipline inputs when input_names is empty."""
     discipline = FMUDiscipline(FMU_PATH, ())
-    assert set(discipline.get_input_data_names()) == {
+    assert set(discipline.io.input_grammar.names) == {
         "ramp.duration",
         "ramp.height",
         "ramp.offset",
@@ -156,7 +166,7 @@ def test_discipline_input_names_if_empty(module_tmp_wd):
 
 def test_discipline_output_names(ramp_discipline):
     """Check the names of the discipline outputs."""
-    assert set(ramp_discipline.get_output_data_names()) == {
+    assert set(ramp_discipline.io.output_grammar.names) == {
         OUTPUT_NAME,
         "ramp:time",
     }
@@ -184,7 +194,7 @@ def test_namespace(
         ramp_discipline_do_step_w_restart.add_namespace_to_output(OUTPUT_NAME, "ns")
     ramp_discipline_do_step_w_restart.execute({input_name: array([1.0])})
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[output_name], array([0.2])
+        ramp_discipline_do_step_w_restart.io.data[output_name], array([0.2])
     )
 
 
@@ -202,7 +212,7 @@ def test_repr(ramp_discipline):
 
 def test_default_inputs(ramp_discipline):
     """Check the default inputs of the discipline."""
-    default_inputs = ramp_discipline.default_inputs
+    default_inputs = ramp_discipline.default_input_data
     assert set(default_inputs) == {INPUT_NAME}
     assert_equal(default_inputs[INPUT_NAME], array([2.0]))
 
@@ -219,15 +229,6 @@ def test_initial_values(ramp_discipline_wo_restart, ramp_discipline_do_step):
     )
 
 
-def test_set_current_time(ramp_discipline):
-    """Check that a current time cannot be greater than the stop time."""
-    with pytest.raises(
-        ValueError,
-        match=re.escape("The current time (2.0) is greater than the final time (1.0)."),
-    ):
-        ramp_discipline._current_time = 2.0
-
-
 def test_execute_without_do_step(ramp_discipline_wo_restart):
     """Check the execution from start to final time, w/o custom values and w/o restart.
 
@@ -236,17 +237,18 @@ def test_execute_without_do_step(ramp_discipline_wo_restart):
     ramp_discipline_wo_restart.execute()
     assert_almost_equal(ramp_discipline_wo_restart.time, array([0.0, 0.2, 0.4, 0.6]))
     assert_almost_equal(
-        ramp_discipline_wo_restart.local_data["time"], array([0.0, 0.2, 0.4, 0.6])
+        ramp_discipline_wo_restart.io.data[f"{ramp_discipline_wo_restart.name}:time"],
+        array([0.0, 0.2, 0.4, 0.6]),
     )
     assert_almost_equal(
-        ramp_discipline_wo_restart.local_data[OUTPUT_NAME],
+        ramp_discipline_wo_restart.io.data[OUTPUT_NAME],
         array([0.0, 0.4, 0.8, 1.2]),
     )
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "The discipline cannot be executed "
-            "as the current time is the final time (0.6)."
+            "The FMUDiscipline 'ramp' cannot be executed "
+            "as its current time is its final time (0.6)."
         ),
     ):
         ramp_discipline_wo_restart.execute()
@@ -257,20 +259,25 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
 
     Here we consider a discipline using restart by default.
     """
+    caplog.set_level(logging.DEBUG)
     time_data = array([0.0, 0.2, 0.4, 0.6])
     output_data = array([0.0, 0.4, 0.8, 1.2])
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
-    assert_almost_equal(ramp_discipline_w_restart.local_data[OUTPUT_NAME], output_data)
+    assert_almost_equal(ramp_discipline_w_restart.io.data[OUTPUT_NAME], output_data)
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
-    assert_almost_equal(ramp_discipline_w_restart.local_data[OUTPUT_NAME], output_data)
+    assert_almost_equal(ramp_discipline_w_restart.io.data[OUTPUT_NAME], output_data)
     ramp_discipline_w_restart.set_next_execution(simulation_time=0.8)
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
-    assert_almost_equal(ramp_discipline_w_restart.local_data[OUTPUT_NAME], output_data)
-    caplog.set_level(logging.WARNING)
-    assert "Stop the simulation at 0.6." in caplog.text
+    assert_almost_equal(ramp_discipline_w_restart.io.data[OUTPUT_NAME], output_data)
+    _, level, msg = caplog.record_tuples[0]
+    assert level == logging.DEBUG
+    assert msg == (
+        "The time step is greater than the remaining time; "
+        "use the remaining time instead."
+    )
 
 
 def test_execute_with_do_step(ramp_discipline_do_step):
@@ -281,33 +288,33 @@ def test_execute_with_do_step(ramp_discipline_do_step):
     # One step forward with the standard ramp.
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.2]))
-    assert_almost_equal(ramp_discipline_do_step.local_data[OUTPUT_NAME], array([0.4]))
+    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.4]))
 
     # One step forward with the standard ramp.
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.4]))
-    assert_almost_equal(ramp_discipline_do_step.local_data[OUTPUT_NAME], array([0.8]))
+    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.8]))
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step.time, array([0.6]))
-    assert_almost_equal(ramp_discipline_do_step.local_data[OUTPUT_NAME], array([0.6]))
+    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.6]))
 
     # One step forward with the standard ramp.
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.8]))
-    assert_almost_equal(ramp_discipline_do_step.local_data[OUTPUT_NAME], array([1.6]))
+    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([1.6]))
 
     # One step forward with the standard ramp after restart.
     ramp_discipline_do_step.set_next_execution(restart=True)
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.2]))
-    assert_almost_equal(ramp_discipline_do_step.local_data[OUTPUT_NAME], array([0.4]))
+    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.4]))
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step.time, array([0.4]))
-    assert_almost_equal(ramp_discipline_do_step.local_data[OUTPUT_NAME], array([0.4]))
+    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.4]))
 
 
 def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
@@ -319,21 +326,21 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[OUTPUT_NAME], array([0.4])
+        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.4])
     )
 
     # One step forward with the standard ramp.
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[OUTPUT_NAME], array([0.4])
+        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.4])
     )
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step_w_restart.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[OUTPUT_NAME], array([0.2])
+        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.2])
     )
 
     # One step forward with the standard ramp and a custom time step.
@@ -341,7 +348,7 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.1]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[OUTPUT_NAME], array([0.2])
+        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.2])
     )
 
     # One step forward with the standard ramp without restart.
@@ -349,14 +356,14 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.3]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[OUTPUT_NAME], array([0.6])
+        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.6])
     )
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step_w_restart.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.local_data[OUTPUT_NAME], array([0.2])
+        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.2])
     )
 
 
@@ -381,34 +388,92 @@ def test_time_series():
 
     Here is a test with the model y(t+1) = k1(t)u1(t) + k2(t)u2(t).
 
-    t      k1(t)    u1(t)    k2(t)    u2(t)    t+1    y(t+1)
-    0      1        1        1        0        0.1    1
-    0.1    1        1        1        0.2      0.2    1.2
-    0.2    1        1        1        0.4      0.3    1.4
-    0.3    1        1        1        0.6      0.4    1.6
-    0.4    1        1        1        0.8      0.5    1.8
-    0.5    1        1        1.5      1        0.6    2.5
-    0.6    1        1        1.5      0.8      0.7    2.2
-    0.7    1        1        1.5      0.6      0.8    1.9
-    0.8    1        1        1.5      0.4      0.9    1.6
-    0.9    1        1        1.5      0.2      1      1.3
+    t      k1(t)    u1(t)    k2(t)    u2(t)    y(t+1)
+    0      1        1        1        0        1
+    0.1    1        1        1        0        1
+    0.2    1        1        1        0        1
+    0.3    1        1        1        0        1
+    0.4    1        1        1        0        1
+    0.5    1        1        1        1        2
+    0.6    1        1        1        1        2
+    0.7    1        1        1        0        1
+    0.8    1        1        1        0        1
+    0.9    1        1        2        0        1
+    1      1        1        2        0        1
     """
     discipline = FMUDiscipline(get_fmu_file_path("add"), final_time=1.0, time_step=0.1)
     discipline.execute()
-    assert_almost_equal(discipline.local_data["y"], array([0.0] * 11))
+    assert_almost_equal(discipline.io.data["y"], zeros([11]))
     discipline.execute({
-        "u1": TimeSeries([0.0], [1.0]),
-        "u2": TimeSeries([0.0, 0.5, 1.0], [0.0, 1.0, 0.0]),
+        "u1": array([1.0]),
+        "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0]),
         "add.k1": array([1.0]),
-        "add.k2": TimeSeries([0.0, 1.0], [1.0, 2.0]),
+        "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0]),
     })
-    assert_almost_equal(discipline.local_data["add.k1"], array([1.0]))
-    assert_almost_equal(discipline.local_data["add.k2"], array([1.0, 1.5, 2.0]))
-    assert_almost_equal(discipline.local_data["u1"], array([1.0, 1.0, 1.0]))
-    assert_almost_equal(discipline.local_data["u2"], array([0.0, 1.0, 0.0]))
     assert_almost_equal(
-        discipline.local_data["y"],
-        array([0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.5, 2.2, 1.9, 1.6, 1.3]),
+        discipline.io.data[f"{discipline.name}:time"],
+        array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
+    )
+    assert_almost_equal(discipline.io.data["add.k1"], array([1.0]))
+    assert_almost_equal(
+        discipline.io.data["add.k2"],
+        array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0]),
+    )
+    assert_almost_equal(discipline.io.data["u1"], array([1.0]))
+    assert_almost_equal(
+        discipline.io.data["u2"],
+        array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+    )
+    assert_almost_equal(
+        discipline.io.data["y"],
+        array([1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0]),
+    )
+
+
+def test_time_series_do_step():
+    """Check the use of time series with do_step=True."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("add"),
+        final_time=1.0,
+        time_step=0.1,
+        do_step=True,
+        restart=False,
+    )
+    discipline.default_input_data.update({
+        "u1": array([1.0]),
+        "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0], 1e-3),
+        "add.k1": array([1.0]),
+        "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0], 1e-3),
+    })
+    time = []
+    y = []
+    u1 = []
+    u2 = []
+    k1 = []
+    k2 = []
+    for _ in range(10):
+        result = discipline.execute()
+        time.append(result[f"{discipline.name}:time"][0])
+        y.append(result["y"][0])
+        u1.append(result["u1"][0])
+        u2.append(result["u2"][0])
+        k1.append(result["add.k1"][0])
+        k2.append(result["add.k2"][0])
+
+    assert_almost_equal(
+        time,
+        array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
+    )
+    assert_almost_equal(k1, ones(10))
+    assert_almost_equal(k2, array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0]))
+    assert_almost_equal(u1, ones(10))
+    assert_almost_equal(
+        u2,
+        array([0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+    )
+    assert_almost_equal(
+        y,
+        array([1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0]),
     )
 
 
@@ -438,6 +503,7 @@ def test_time_output_grammar(add_time_to_output_grammar, do_step):
     discipline = FMUDiscipline(
         FMU_PATH,
         initial_time=0.0,
+        time_step=0.2,
         final_time=1.0,
         add_time_to_output_grammar=add_time_to_output_grammar,
         do_step=do_step,
@@ -448,9 +514,9 @@ def test_time_output_grammar(add_time_to_output_grammar, do_step):
     assert ("ramp:time" in data) is add_time_to_output_grammar
 
 
-DefaultExperiment = namedtuple(
-    "DefaultExperiment", ["startTime", "stopTime"], defaults=(None, None)
-)
+class DefaultExperiment(NamedTuple):
+    startTime: float | None = None  # noqa: N815
+    stopTime: float | None = None  # noqa: N815
 
 
 @pytest.mark.parametrize(
@@ -479,7 +545,10 @@ def test_get_default_time_value(
 
 
 @pytest.mark.parametrize("as_default_input", [False, True])
-def test_time_series_default_inputs_or_input_data(as_default_input):
+@pytest.mark.parametrize(
+    ("t0", "expected"), [(0, -4995.949237827578), (0.1, -4984.17842896)]
+)
+def test_time_series_default_inputs_or_input_data(as_default_input, t0, expected):
     """Test that FMUDiscipline can use TimeSeries in default_inputs and input_data."""
     discipline = FMUDiscipline(
         get_fmu_file_path("Mass_Damper"),
@@ -489,15 +558,15 @@ def test_time_series_default_inputs_or_input_data(as_default_input):
         final_time=1.0,
         time_step=0.0001,
     )
-    custom_input_data = {"mass.m": TimeSeries(array([0.0]), array([1.5]))}
+    custom_input_data = {"mass.m": TimeSeries(array([t0]), array([1.5]))}
     if as_default_input:
-        discipline.default_inputs.update(custom_input_data)
+        discipline.default_input_data.update(custom_input_data)
         input_data = {}
     else:
         input_data = custom_input_data
 
     discipline.execute(input_data)
-    assert discipline.local_data["y"].sum() == pytest.approx(-4995.949237827578)
+    assert discipline.io.data["y"].sum() == pytest.approx(expected)
 
 
 @pytest.mark.parametrize("do_step", [False, True])
@@ -510,14 +579,15 @@ def test_serialize(tmp_wd, do_step, restart):
         FMU_PATH,
         [INPUT_NAME],
         [OUTPUT_NAME],
+        time_step=0.2,
         final_time=1.0,
         do_step=do_step,
         restart=restart,
     )
-    original_discipline.to_pickle(file_path)
+    to_pickle(original_discipline, file_path)
     original_discipline.execute()
 
-    discipline = FMUDiscipline.from_pickle(file_path)
+    discipline = from_pickle(file_path)
     discipline.execute()
 
     assert discipline._BaseFMUDiscipline__do_step == do_step
@@ -525,5 +595,230 @@ def test_serialize(tmp_wd, do_step, restart):
         discipline._BaseFMUDiscipline__default_simulation_settings["restart"] == restart
     )
     assert_almost_equal(
-        discipline.local_data[OUTPUT_NAME], original_discipline.local_data[OUTPUT_NAME]
+        discipline.io.data[OUTPUT_NAME], original_discipline.io.data[OUTPUT_NAME]
     )
+
+
+def test_initial_and_final_times_setter():
+    """Check that FMUDiscipline.__set_final_time updates the default time settings.
+
+    It is also a way to check that FMUDiscipline._pre_instantiate works correctly.
+    """
+    final_time = 3.0
+
+    class NewFMUDiscipline(BaseFMUDiscipline):
+        """A new FMU discipline."""
+
+        def _pre_instantiate(self, **kwargs: Any) -> None:
+            self._BaseFMUDiscipline__set_final_time(final_time)
+
+    discipline = NewFMUDiscipline(FMU_PATH)
+    settings = discipline._BaseFMUDiscipline__default_simulation_settings
+    assert discipline._BaseFMUDiscipline__time_manager.final == final_time
+    assert settings[discipline._SIMULATION_TIME] == final_time
+
+
+@pytest.mark.parametrize(
+    ("initial", "final", "step"), [(0.0, 1.0, 0.25), ("0s", "1s", "0.25s")]
+)
+def test_string_time(initial, final, step):
+    """Verify that the times can be set from string values."""
+    discipline = FMUDiscipline(
+        FMU_PATH,
+        [INPUT_NAME],
+        [OUTPUT_NAME],
+        initial_time=initial,
+        final_time=final,
+        time_step=step,
+    )
+    discipline.execute()
+    assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
+    discipline.set_next_execution(simulation_time=final, time_step=step)
+    discipline.execute()
+    assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
+
+
+@pytest.fixture(scope="module")
+def discipline() -> FMUDiscipline:
+    """The MassSpringSystem discipline after execution."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.01
+    )
+    discipline.execute()
+    return discipline
+
+
+@pytest.mark.parametrize(
+    ("baseline_images", "output_names"),
+    [(["one_output"], "x1"), (["two_outputs"], ["x1", "x2"])],
+)
+@image_comparison(None)
+def test_plot(discipline, baseline_images, output_names):
+    """Verify that the discipline can plot the last execution."""
+    discipline.plot(output_names, save=False)
+
+
+@image_comparison(["time_unit"])
+def test_plot_time_unit(discipline):
+    """Verify that the discipline can plot the last execution with a given time unit."""
+    discipline.plot("x1", save=False, time_unit=discipline.TimeUnit.MINUTES)
+
+
+@image_comparison(["abscissa_name"])
+def test_plot_abscissa_name(discipline):
+    """Verify that the discipline can plot the last execution wrt a variable."""
+    discipline.plot("x1", save=False, abscissa_name="x2")
+
+
+@image_comparison(["time_window_as_integer"])
+def test_plot_time_window_as_integer(discipline):
+    """Verify that the discipline can plot the last execution from a time index."""
+    discipline.plot("x1", save=False, time_window=500)
+
+
+@image_comparison(["time_window_as_tuple"])
+def test_plot_time_window_as_tuple(discipline):
+    """Verify that the discipline can plot the last execution from time indices."""
+    discipline.plot("x1", save=False, time_window=(500, 700))
+
+
+def test_plot_options(discipline):
+    """Verify that FMUDiscipline.plot correctly uses save, show and file_path."""
+    with mock.patch.object(Lines, "execute") as execute:
+        figure = discipline.plot("x1", show=True, file_path="foo.png")
+
+    assert isinstance(figure, Lines)
+    assert execute.call_args.kwargs == {
+        "save": True,
+        "show": True,
+        "file_path": "foo.png",
+    }
+
+
+def test_scalar_input_variables():
+    """Check that an FMUDiscipline can use scalar input variables."""
+    discipline = FMUDiscipline(
+        FMU_PATH,
+        [INPUT_NAME],
+        [OUTPUT_NAME],
+        initial_time=0.0,
+        final_time=2.0,
+        time_step=0.2,
+    )
+    discipline.default_input_data[INPUT_NAME] = array([2.0])
+    discipline.execute()
+    discipline.execute({INPUT_NAME: array([2.1])})
+    output_data_with_array_input = discipline.io.data[OUTPUT_NAME]
+
+    discipline.default_input_data[INPUT_NAME] = 2.0
+    discipline.execute()
+    discipline.execute({INPUT_NAME: 2.1})
+    assert_equal(discipline.io.data[OUTPUT_NAME], output_data_with_array_input)
+
+
+@pytest.mark.parametrize(
+    ("cls", "warn"),
+    [
+        (FMUDiscipline, True),
+        (DoStepFMUDiscipline, True),
+        (DynamicFMUDiscipline, True),
+        (StaticFMUDiscipline, False),
+    ],
+)
+def test_zero_time_step_warning(caplog, cls, warn):
+    """Check that a warning message is logged when the time step is zero."""
+    discipline = cls(FMU_PATH)
+    assert discipline._BaseFMUDiscipline__time_manager.step == 0.0
+    assert (
+        (
+            "gemseo_fmu.disciplines.base_fmu_discipline",
+            30,
+            "The time step of the FMUDiscipline 'ramp' is equal to 0.",
+        )
+        in caplog.record_tuples
+    ) is warn
+
+
+def test_zero_time_step(caplog):
+    """Check that no warning message is logged when the time step is not zero."""
+    discipline = FMUDiscipline(FMU_PATH, time_step=0.2)
+    assert discipline._BaseFMUDiscipline__time_manager.step == 0.2
+    assert (
+        "gemseo_fmu.disciplines.base_fmu_discipline",
+        30,
+        "The time step of the FMUDiscipline 'ramp' is equal to 0.",
+    ) not in caplog.record_tuples
+
+
+@pytest.mark.parametrize(
+    (
+        "do_step",
+        "final_time",
+        "restart",
+        "time_step",
+        "e_do_step",
+        "e_final_time",
+        "e_restart",
+        "e_time_step",
+    ),
+    [
+        (None, None, None, None, False, 1.0, True, 0.0),
+        (True, 2.0, False, 0.2, True, 2.0, False, 0.2),
+    ],
+)
+def test_set_default_execution(
+    do_step,
+    final_time,
+    restart,
+    time_step,
+    e_do_step,
+    e_final_time,
+    e_restart,
+    e_time_step,
+):
+    """Check the method set_default_execution."""
+    d = FMUDiscipline(FMU_PATH)
+    d.set_default_execution(
+        do_step=do_step, final_time=final_time, restart=restart, time_step=time_step
+    )
+    default_simulation_settings = d._BaseFMUDiscipline__default_simulation_settings
+    assert d._BaseFMUDiscipline__do_step is e_do_step
+    assert default_simulation_settings[d._RESTART] is e_restart
+    assert d._BaseFMUDiscipline__time_manager.final == e_final_time
+    assert default_simulation_settings[d._TIME_STEP] == e_time_step
+
+
+@pytest.mark.parametrize(
+    ("variable_names", "offset_name", "output_name"),
+    [
+        ({}, "ramp.offset", "out"),
+        ({"ramp.offset": "offset", "out": "output"}, "offset", "output"),
+    ],
+)
+def test_variable_names(variable_names, offset_name, output_name):
+    """Check the variable_names argument to rename the model variables."""
+    discipline = FMUDiscipline(FMU_PATH, variable_names=variable_names)
+    assert discipline.input_grammar.names == {
+        "ramp.duration",
+        "ramp.height",
+        offset_name,
+        "ramp.startTime",
+    }
+    assert discipline.output_grammar.names == {output_name, "ramp:time"}
+    assert offset_name in discipline.default_input_data
+
+    data = discipline.execute()
+    assert_equal(data[offset_name], array([0.0]))
+    assert_equal(data[output_name][0:3], array([0.0, 0.002, 0.004]))
+
+    data = discipline.execute({offset_name: array([1.0])})
+    assert_equal(data[offset_name], array([1.0]))
+    assert_equal(data[output_name][0:3], array([1.0, 1.002, 1.004]))
+
+
+def test_variable_names_exception():
+    """Check that an exception is raised when variable_names used incorrect names."""
+    with pytest.raises(
+        ValueError, match=re.escape("{'a'} are not FMU variable names.")
+    ):
+        FMUDiscipline(FMU_PATH, variable_names={"a": "x"})

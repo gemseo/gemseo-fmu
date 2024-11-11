@@ -26,7 +26,7 @@ def get_fmu_file_path(model_name: str, directory_name: str = ".") -> Path:
 
     Args:
         model_name: The name of the FMU model;
-            the corresponding file name is ``f"{model_name}.fmu"``.
+            the corresponding file name is `f"{model_name}.fmu"`.
         directory_name: The name of the directory containing the file.
 
     Returns:

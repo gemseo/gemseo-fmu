@@ -18,11 +18,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
+
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from collections.abc import Mapping
     from pathlib import Path
 
 
@@ -31,6 +35,8 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
 
     This discipline relies on [FMPy](https://github.com/CATIA-Systems/FMPy).
     """
+
+    _WARN_ABOUT_ZERO_TIME_STEP: ClassVar[bool] = False
 
     def __init__(  # noqa: D107
         self,
@@ -41,6 +47,7 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
         use_co_simulation: bool = True,
         model_instance_directory: str | Path = "",
         delete_model_instance_directory: bool = True,
+        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
         **pre_instantiation_parameters: Any,
     ) -> None:
         super().__init__(
@@ -53,5 +60,6 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
             delete_model_instance_directory=delete_model_instance_directory,
             do_step=True,
             add_time_to_output_grammar=False,
+            variable_names=variable_names,
             **pre_instantiation_parameters,
         )

@@ -13,30 +13,21 @@
 # FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 # NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-# Copyright 2021 IRT Saint Exupéry, https://www.irt-saintexupery.com
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License version 3 as published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""# Time stepping system.
+"""# Co-simulation with a serial master algorithm
 
 Sometimes,
 we may want to simulate a system of several FMU models coupled together.
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
-allows to perform this _co-simulation_ task.
+allows to perform this _co-simulation_ task,
+with a parallel master algorithm based on the Jacobi method.
+In this example,
+we will see how to replace this master algorithm by a serial one
+using the Gauss-Seidel method.
 """
 
 from __future__ import annotations
 
+from gemseo import generate_xdsm
 from matplotlib import pyplot as plt
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
@@ -45,7 +36,24 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 # %%
 # Let us consider a set of two mass-spring pairs connected to each other
-# and modelled by two FMU models.
+# and modelled by two FMU models:
+#
+# $$
+# \begin{cases}
+# x_1' = v_1\\
+# v_1' = -\frac{k_1+k_2}{m_1}x_1+\frac{k_2}{m_1}x_2
+# \end{cases}
+# $$
+#
+# and
+#
+# $$
+# \begin{cases}
+# x_2' = v_2\\
+# v_2' = -\frac{k_2+k_3}{m_2}x_2+\frac{k_2}{m_2}x_1
+# \end{cases}
+# $$
+#
 # These models can be co-simulated by instantiating a
 # [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]:
 system = TimeSteppingSystem(
@@ -55,14 +63,22 @@ system = TimeSteppingSystem(
     ),
     50,
     0.01,
+    mda_name="MDAGaussSeidel",
 )
 
 # %%
-# and executing it from initial time to final time:
+# Note that in this case,
+# we do not use the default MDA name `"MDAJacobi"` implementing a Jacobi method
+# but `"MDAGaussSeidel"` implementing a Gauss-Seidel technique.
+# The disciplines are no longer executed in parallel but sequentially:
+generate_xdsm(system, save_html=False)
+
+# %%
+# Then we can execute this system from initial time to final time:
 system.execute()
 
 # %%
-# or with time stepping by setting ``do_step`` to ``False``
+# or with time stepping by setting `do_step` to `False` at instantiation.
 # For this particular example,
 # we also have a FMU model of the complete system:
 reference = FMUDiscipline(
@@ -79,15 +95,22 @@ reference.execute()
 # to that of the complete system.
 
 fig, (ax1, ax2) = plt.subplots(2, 1)
-ax1.plot(system.local_data["x1"], label="x1", color="red")
-ax1.plot(system.local_data["x2"], label="x2", color="blue")
-ax2.plot(system.local_data["v1"], label="v1", color="red")
-ax2.plot(system.local_data["v2"], label="v2", color="blue")
+time_1 = system.local_data["MassSpringSubSystem1:time"]
+time_2 = system.local_data["MassSpringSubSystem2:time"]
+ax1.plot(time_1, system.local_data["x1"], label="x1", color="red")
+ax1.plot(time_2, system.local_data["x2"], label="x2", color="blue")
+ax2.plot(time_1, system.local_data["v1"], label="v1", color="red")
+ax2.plot(time_2, system.local_data["v2"], label="v2", color="blue")
 
-ax1.plot(reference.local_data["x1"], label="x1[ref]", linestyle="--", color="red")
-ax1.plot(reference.local_data["x2"], label="x2[ref]", linestyle="--", color="blue")
-ax2.plot(reference.local_data["v1"], label="v1[ref]", linestyle="--", color="red")
-ax2.plot(reference.local_data["v2"], label="v2[ref]", linestyle="--", color="blue")
+time = reference.local_data["MassSpringSystem:time"]
+ax1.plot(time, reference.local_data["x1"], label="x1[ref]", linestyle="--", color="red")
+ax1.plot(
+    time, reference.local_data["x2"], label="x2[ref]", linestyle="--", color="blue"
+)
+ax2.plot(time, reference.local_data["v1"], label="v1[ref]", linestyle="--", color="red")
+ax2.plot(
+    time, reference.local_data["v2"], label="v2[ref]", linestyle="--", color="blue"
+)
 
 ax1.set_xlabel("Time (s)")
 ax1.set_ylabel("Position (m)")

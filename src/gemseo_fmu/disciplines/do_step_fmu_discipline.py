@@ -19,11 +19,16 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
+from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from collections.abc import Mapping
     from pathlib import Path
+
+    from gemseo_fmu.utils.time_duration import TimeType
 
 
 class DoStepFMUDiscipline(FMUDiscipline):
@@ -34,20 +39,22 @@ class DoStepFMUDiscipline(FMUDiscipline):
         file_path: str | Path,
         input_names: Iterable[str] | None = (),
         output_names: Iterable[str] = (),
-        initial_time: float | None = None,
-        final_time: float | None = None,
-        time_step: float = 0.0,
+        initial_time: TimeType | None = None,
+        final_time: TimeType | None = None,
+        time_step: TimeType = 0.0,
         add_time_to_output_grammar: bool = True,
         restart: bool = False,
         name: str = "",
         solver_name: FMUDiscipline.Solver = FMUDiscipline.Solver.CVODE,
         fmu_instance_directory: str | Path = "",
         delete_fmu_instance_directory: bool = True,
+        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
         **pre_instantiation_parameters: Any,
     ) -> None:
         do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
         if do_step is False:
-            raise ValueError("DoStepFMUDiscipline has no do_step parameter.")
+            msg = "DoStepFMUDiscipline has no do_step parameter."
+            raise ValueError(msg)
 
         if do_step is True:
             del pre_instantiation_parameters[self._DO_STEP]
@@ -67,5 +74,6 @@ class DoStepFMUDiscipline(FMUDiscipline):
             solver_name=solver_name,
             fmu_instance_directory=fmu_instance_directory,
             delete_fmu_instance_directory=delete_fmu_instance_directory,
+            variable_names=variable_names,
             **pre_instantiation_parameters,
         )
