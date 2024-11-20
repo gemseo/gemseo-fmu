@@ -64,10 +64,11 @@ def test_standard_use():
 
 
 @pytest.mark.parametrize(
-    ("kwargs", "n_calls"), [({}, 2), ({"restart": False}, 1), ({"restart": True}, 2)]
+    ("kwargs", "n_executions"),
+    [({}, 2), ({"restart": False}, 1), ({"restart": True}, 2)],
 )
 @pytest.mark.parametrize("use_cache", [False, True])
-def test_restart(kwargs, n_calls, use_cache):
+def test_restart(kwargs, n_executions, use_cache):
     """Check the option restart."""
     system = TimeSteppingSystem(
         (
@@ -87,7 +88,7 @@ def test_restart(kwargs, n_calls, use_cache):
         system.io.data["MassSpringSubSystem1:time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
     )
     assert system.io.data["x2"].size == 5
-    assert system.execution_statistics.n_calls == n_calls
+    assert system.execution_statistics.n_executions == n_executions
 
 
 def test_do_step():
