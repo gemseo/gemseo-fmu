@@ -49,11 +49,11 @@ packaging==24.2
     #   build
     #   check-wheel-contents
     #   twine
-pkginfo==1.11.2
+pkginfo==1.12.0
     # via twine
 pycparser==2.22
     # via cffi
-pydantic==2.10.2
+pydantic==2.10.3
     # via check-wheel-contents
 pydantic-core==2.27.1
     # via pydantic
