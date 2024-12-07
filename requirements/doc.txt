@@ -43,7 +43,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.55.2
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@aecd311bbcf0f192406a0f6998aa23ce623c4c8d
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@60eba84abdfeec876482bd868eadeaf36035fa80
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -100,7 +100,7 @@ markdown==3.7
     #   mkdocs-material
     #   mkdocstrings
     #   pymdown-extensions
-markdown-exec==1.9.3
+markdown-exec==1.10.0
     # via gemseo-fmu (pyproject.toml)
 markupsafe==3.0.2
     # via
