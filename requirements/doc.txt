@@ -2,7 +2,7 @@
 #    uv pip compile --extra doc --constraint requirements/test-constraints.in -o requirements/doc.txt --python-version 3.9 pyproject.toml
 annotated-types==0.7.0
     # via pydantic
-attrs==24.2.0
+attrs==24.3.0
     # via fmpy
 babel==2.16.0
     # via mkdocs-material
@@ -43,7 +43,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.55.3
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@836b700bcf570a854e6ae1690f89e461b8a4bbc7
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@6a86a494ffb0696422adfa15d920d6dba4f02391
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -144,7 +144,7 @@ mkdocs-include-markdown-plugin==7.1.2
     # via gemseo-fmu (pyproject.toml)
 mkdocs-literate-nav==0.6.1
     # via gemseo-fmu (pyproject.toml)
-mkdocs-material==9.5.48
+mkdocs-material==9.5.49
     # via
     #   gemseo-fmu (pyproject.toml)
     #   mkdocs-gallery
