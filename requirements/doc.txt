@@ -12,7 +12,7 @@ bracex==2.5.post1
     # via wcmatch
 certifi==2024.12.14
     # via requests
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via requests
 click==8.1.8
     # via
@@ -231,7 +231,7 @@ pygments==2.18.0
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.12
+pymdown-extensions==10.13
     # via
     #   markdown-exec
     #   mkdocs-material
