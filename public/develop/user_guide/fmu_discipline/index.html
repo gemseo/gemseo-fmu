@@ -2041,7 +2041,7 @@ and how to execute it.
 Advanced features will be presented later.</p>
 <h3 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h3>
 <p>The only mandatory argument is the path to the FMU file:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.fmu_discipline</span> <span class="kn">import</span> <span class="n">FMUDiscipline</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_fmu.disciplines.fmu_discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">FMUDiscipline</span>
 
 <span class="n">discipline</span> <span class="o">=</span> <span class="n">FMUDiscipline</span><span class="p">(</span><span class="s2">&quot;my_model.fmu&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -2111,7 +2111,7 @@ or a <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/util
 <p>For instance,
 a discipline can take as input a signal <span class="arithmatex">\(x(t)\)</span>
 known at time steps <span class="arithmatex">\(t_1,t2,\ldots,t_N\)</span>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo.disciplines.time_series</span> <span class="kn">import</span> <span class="n">TimeSeries</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.time_series</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSeries</span>
 
 <span class="n">my_time_series</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">tN</span><span class="p">],</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">xN</span><span class="p">])</span>
 </code></pre></div>
@@ -2150,7 +2150,7 @@ each time a different behavior from the instantiation settings is required.</p>
 less than or equal to the time remaining before the final time.</p>
 </div>
 <p>Here is an example of how to use this method:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.fmu_discipline</span> <span class="kn">import</span> <span class="n">FMUDiscipline</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_fmu.disciplines.fmu_discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">FMUDiscipline</span>
 
 <span class="c1"># Create a discipline from an FMU model:</span>
 <span class="c1"># - set the final time at 12 seconds,</span>
@@ -2171,8 +2171,8 @@ less than or equal to the time remaining before the final time.</p>
 <h3 id="restart">Restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h3>
 <p>The argument <code>restart</code> has already been introduced in this page.</p>
 <p>It can also be used to compare trajectories:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">gemseo_fmu.disciplines.fmu_discipline</span> <span class="kn">import</span> <span class="n">FMUDiscipline</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_fmu.disciplines.fmu_discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">FMUDiscipline</span>
 
 <span class="n">discipline</span> <span class="o">=</span> <span class="n">FMUDiscipline</span><span class="p">(</span><span class="s2">&quot;my_model.fmu&quot;</span><span class="p">)</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
