@@ -13,8 +13,8 @@ This section describes the design of the [gemseo_fmu][gemseo_fmu] package.
 
 ``` mermaid
 classDiagram
-    MDODiscipline <|-- BaseFMUDiscipline
-    MDODiscipline <|-- TimeSteppingSystem
+    Discipline <|-- BaseFMUDiscipline
+    Discipline <|-- TimeSteppingSystem
 
     BaseFMUDiscipline <|-- FMUDiscipline
     BaseFMUDiscipline <|-- StaticDiscipline

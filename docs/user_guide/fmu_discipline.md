@@ -14,7 +14,7 @@ is a popular free standard to exchange dynamic simulation models.
 This standard defines the notion of functional mock-up unit (FMU)
 through a ZIP file containg a mix of XML files, binaries and C code.
 GEMSEO-FMU proposes
-new types of [MDODiscipline][gemseo.core.discipline.MDODiscipline]
+new types of [Discipline][gemseo.core.discipline.discipline.Discipline]
 to simulate an FMU model:
 
 - the [StaticFMUDiscipline][gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline]
@@ -65,7 +65,7 @@ in the galleries of examples.
 
 ## Basics
 
-As any [MDODiscipline][gemseo.core.discipline.MDODiscipline],
+As any [Discipline][gemseo.core.discipline.discipline.Discipline],
 you mainly need to know
 how to instantiate an
 [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline],
