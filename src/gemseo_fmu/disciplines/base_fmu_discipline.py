@@ -583,7 +583,7 @@ class BaseFMUDiscipline(Discipline):
         )
 
     def _pre_instantiate(self, **kwargs: Any) -> None:
-        """Some actions to be done just before calling `MDODiscipline.__init__`.
+        """Some actions to be done just before calling `BaseFMUDiscipline.__init__`.
 
         Args:
             **kwargs: The parameters of the method.

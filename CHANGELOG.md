@@ -81,7 +81,7 @@ and this project adheres to
 - [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] supports the `==` and `!=` operators.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   stores the time evolution of its time-varying inputs
-  in its [local_data][gemseo.core.discipline.discipline.Discipline.local_data]
+  in its [local_data][gemseo.core.discipline.base_discipline.BaseDiscipline.local_data]
   when `do_step` is `False`
   and their values at current time otherwise.
 - The installation page of the documentation no longer mentions the possibility
