@@ -59,7 +59,7 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.entry-points]
-gemseo_plugins = { gemseo-fmu = "gemseo_fmu"}
+gemseo_plugins = { gemseo-fmu = "gemseo_fmu" }
 
 [build-system]
 requires = [
