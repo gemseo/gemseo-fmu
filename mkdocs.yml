@@ -91,6 +91,7 @@ nav:
 - Examples:
   - Disciplines: generated/examples/disciplines
   - Co-simulation:  generated/examples/co_simulation
+  - Variable renaming:  generated/examples/variable_renaming
 - API documentation: reference/gemseo_fmu/
 - Developer guide: developer_guide/class_diagram.md
 
