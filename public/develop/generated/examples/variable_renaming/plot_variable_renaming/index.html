@@ -2043,7 +2043,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a href="#download_links">here</a>
+<p>Click (#download_links)
 to download the full example code</p>
 </div>
 <h1 id="renaming-variables">Renaming variables<a class="headerlink" href="#renaming-variables" title="Permanent link">&para;</a></h1>
@@ -2064,14 +2064,13 @@ model suppliers sometimes use different conventions.
 For example,
 the output of one model and the input of another model
 represent the same parameter in the study.</p>
-<p>The <a class="autorefs autorefs-internal" href="../../../../reference/gemseo_fmu/utils/variable_renaming/#gemseo_fmu.utils.variable_renaming">gemseo_fmu.utils.variable_renaming</a> module
+<p>The  module
 enables these models to be connected automatically using a set of translations.</p>
 <h2 id="the-main-objects">The main objects<a class="headerlink" href="#the-main-objects" title="Permanent link">&para;</a></h2>
 <h3 id="variable-translation">Variable translation<a class="headerlink" href="#variable-translation" title="Permanent link">&para;</a></h3>
 <p>First,
-we need to introduce the notion of
-<a class="autorefs autorefs-internal" href="../../../../reference/gemseo_fmu/utils/variable_renaming/#gemseo_fmu.utils.variable_renaming.VariableTranslation">VariableTranslation</a>
-to translate a discipline variable name according to a global taxonomy:</p>
+we need to introduce the notion of</p>
+<p>to translate a discipline variable name according to a global taxonomy:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 43-48 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">variable_translation</span> <span class="o">=</span> <span class="n">VariableTranslation</span><span class="p">(</span>
@@ -2086,9 +2085,8 @@ to translate a discipline variable name according to a global taxonomy:</p>
 
 <h3 id="variable-renamer">Variable renamer<a class="headerlink" href="#variable-renamer" title="Permanent link">&para;</a></h3>
 <p>Then,
-we can create a
-<a class="autorefs autorefs-internal" href="../../../../reference/gemseo_fmu/utils/variable_renaming/#gemseo_fmu.utils.variable_renaming.VariableRenamer">VariableRenamer</a>
-from a set of translations:</p>
+we can create a</p>
+<p>from a set of translations:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 54-60 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">renamer</span> <span class="o">=</span> <span class="n">VariableRenamer</span><span class="o">.</span><span class="n">from_translations</span><span class="p">(</span>
@@ -2099,9 +2097,8 @@ from a set of translations:</p>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 61-66 -->
 
-<p>This object offers a
-<a class="autorefs autorefs-internal" href="../../../../reference/gemseo_fmu/utils/variable_renaming/#gemseo_fmu.utils.variable_renaming.VariableRenamer.translators">translators</a>
-property
+<p>This object offers a</p>
+<p>property
 mapping from discipline names to dictionaries,
 themselves mapping from the discipline variable names to the global variable names:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 66-68 -->
@@ -2124,7 +2121,7 @@ themselves mapping from the discipline variable names to the global variable nam
 <!-- GENERATED FROM PYTHON SOURCE LINES 73-77 -->
 
 <h2 id="define-the-translation-from-tuples-or-dictionaries">Define the translation from tuples or dictionaries<a class="headerlink" href="#define-the-translation-from-tuples-or-dictionaries" title="Permanent link">&para;</a></h2>
-<p>The [VariableRenamer][gemseo_fmu.variable_renaming.VariableRenamer]
+<p>The 
 can also be created from tuples
 of the form <code>(discipline_name, variable_name, new_variable_name)</code>:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 77-79 -->
@@ -2151,7 +2148,7 @@ of the form <code>{discipline_name: {variable_name: new_variable_name}}</code>:<
 
 <h2 id="define-the-translation-from-a-file">Define the translation from a file<a class="headerlink" href="#define-the-translation-from-a-file" title="Permanent link">&para;</a></h2>
 <p>Lastly,
-the <a class="autorefs autorefs-internal" href="../../../../reference/gemseo_fmu/utils/variable_renaming/#gemseo_fmu.utils.variable_renaming.VariableRenamer">VariableRenamer</a>
+the 
 can easily be created from a file,
 which may be more convenient from a user point of view.</p>
 <h3 id="from-a-csv-file">From a CSV file<a class="headerlink" href="#from-a-csv-file" title="Permanent link">&para;</a></h3>
@@ -2181,7 +2178,7 @@ and columns denote
 the name of the discipline,
 the name of the variable,
 and the new name of the discipline:</p>
-<p><img alt=" " src="../../../../images/renaming_spreadsheet.png" /></p>
+<p>!(../../../images/renaming_spreadsheet.png)</p>
 <p>we can create this object with the following lines:
 <div class="highlight"><pre><span></span><code><span class="n">renamer</span> <span class="o">=</span> <span class="n">VariableRenamer</span><span class="o">.</span><span class="n">from_spread_sheet</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 <span class="n">translators</span> <span class="o">=</span> <span class="n">renamer</span><span class="o">.</span><span class="n">translators</span>
@@ -2189,9 +2186,9 @@ and the new name of the discipline:</p>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.002 seconds)</p>
 <div id="download_links"></div>
 
-<p><a class="md-button center" href="../plot_variable_renaming.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_variable_renaming.py</a></p>
-<p><a class="md-button center" href="../plot_variable_renaming.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Jupyter notebook: plot_variable_renaming.ipynb</a></p>
-<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
+<p>(./plot_variable_renaming.py){ .md-button .center}</p>
+<p>(./plot_variable_renaming.ipynb){ .md-button .center}</p>
+<p>(https://smarie.github.io/mkdocs-gallery){: .mkd-glr-signature }</p>
 
 
 

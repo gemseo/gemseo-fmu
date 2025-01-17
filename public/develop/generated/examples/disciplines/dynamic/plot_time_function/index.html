@@ -1857,7 +1857,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a href="#download_links">here</a>
+<p>Click (#download_links)
 to download the full example code</p>
 </div>
 <h1 id="use-time-functions">Use time functions<a class="headerlink" href="#use-time-functions" title="Permanent link">&para;</a></h1>
@@ -1878,16 +1878,16 @@ can be set with time functions.</p>
 <p>Let us create a discipline
 to simulate a mass damper defined in a FMU model
 from 0 to 1 second with a time step of 0.1 millisecond:</p>
-<p><img alt=" " src="../../../../../images/mass_damper.png" /></p>
-<p>We only use the mass of the sliding mass [kg]
-and the spring constant [N/m] as inputs
-and the position of the mass [m] as output.</p>
+<p>!(../../../../images/mass_damper.png)</p>
+<p>We only use the mass of the sliding mass 
+and the spring constant  as inputs
+and the position of the mass  as output.</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 40-49 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span> <span class="o">=</span> <span class="n">DynamicFMUDiscipline</span><span class="p">(</span>
     <span class="n">get_fmu_file_path</span><span class="p">(</span><span class="s2">&quot;Mass_Damper&quot;</span><span class="p">),</span>
-    <span class="p">[</span><span class="s2">&quot;mass.m&quot;</span><span class="p">,</span> <span class="s2">&quot;spring.c&quot;</span><span class="p">],</span>
-    <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+    <span class="p">,</span>
+    <span class="p">,</span>
     <span class="n">initial_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">final_time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">time_step</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
@@ -1906,7 +1906,7 @@ and in particular a constant value for the mass:</p>
 <div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib64/python3.9/site-packages/pydantic/main.py:593:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span>cls.__pydantic_validator__.validate_python<span class="o">(</span>
 
-<span class="o">{</span><span class="s1">&#39;mass.m&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;spring.c&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">10000</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.00000000e+00,<span class="w">  </span><span class="m">0</span>.00000000e+00,<span class="w"> </span>-5.00000000e-05,<span class="w"> </span>...,
+<span class="o">{</span><span class="s1">&#39;mass.m&#39;</span>:<span class="w"> </span>array<span class="o">()</span>,<span class="w"> </span><span class="s1">&#39;spring.c&#39;</span>:<span class="w"> </span>array<span class="o">()</span>,<span class="w"> </span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.00000000e+00,<span class="w">  </span><span class="m">0</span>.00000000e+00,<span class="w"> </span>-5.00000000e-05,<span class="w"> </span>...,
 <span class="w">       </span>-4.95678376e-01,<span class="w"> </span>-4.95645675e-01,<span class="w"> </span>-4.95613439e-01<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;Mass_Damper:time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.000e+00,<span class="w"> </span><span class="m">1</span>.000e-04,<span class="w"> </span><span class="m">2</span>.000e-04,<span class="w"> </span>...,<span class="w"> </span><span class="m">9</span>.998e-01,<span class="w"> </span><span class="m">9</span>.999e-01,
 <span class="w">       </span><span class="m">1</span>.000e+00<span class="o">])}</span>
 </code></pre></div>
@@ -1915,8 +1915,8 @@ and in particular a constant value for the mass:</p>
 <p>and store the time evolution of its position:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 57-60 -->
 
-<div class="highlight"><pre><span></span><code><span class="n">default_y_evolution</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
-<span class="n">default_mass</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;mass.m&quot;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">default_y_evolution</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span>
+<span class="n">default_mass</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 61-63 -->
 
@@ -1930,7 +1930,7 @@ we repeat the experiment with a time linear function for the mass:</p>
 <div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib64/python3.9/site-packages/pydantic/main.py:593:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span>cls.__pydantic_validator__.validate_python<span class="o">(</span>
 
-<span class="o">{</span><span class="s1">&#39;mass.m&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="w">    </span>,<span class="w"> </span><span class="m">3</span>.9997,<span class="w"> </span><span class="m">3</span>.9994,<span class="w"> </span>...,<span class="w"> </span><span class="m">1</span>.0006,<span class="w"> </span><span class="m">1</span>.0003,<span class="w"> </span><span class="m">1</span>.<span class="w">    </span><span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;spring.c&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">10000</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.00000000e+00,<span class="w">  </span><span class="m">0</span>.00000000e+00,<span class="w"> </span>-1.25000000e-05,<span class="w"> </span>...,
+<span class="o">{</span><span class="s1">&#39;mass.m&#39;</span>:<span class="w"> </span>array<span class="o">()</span>,<span class="w"> </span><span class="s1">&#39;spring.c&#39;</span>:<span class="w"> </span>array<span class="o">()</span>,<span class="w"> </span><span class="s1">&#39;y&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.00000000e+00,<span class="w">  </span><span class="m">0</span>.00000000e+00,<span class="w"> </span>-1.25000000e-05,<span class="w"> </span>...,
 <span class="w">       </span>-5.36841710e-01,<span class="w"> </span>-5.36575518e-01,<span class="w"> </span>-5.36305911e-01<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;Mass_Damper:time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.000e+00,<span class="w"> </span><span class="m">1</span>.000e-04,<span class="w"> </span><span class="m">2</span>.000e-04,<span class="w"> </span>...,<span class="w"> </span><span class="m">9</span>.998e-01,<span class="w"> </span><span class="m">9</span>.999e-01,
 <span class="w">       </span><span class="m">1</span>.000e+00<span class="o">])}</span>
 </code></pre></div>
@@ -1942,32 +1942,32 @@ we use a chart to compare the positions of the mass:</p>
 
 <div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">discipline</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">default_y_evolution</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span><span class="p">)</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">discipline</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Custom&quot;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude [m]&quot;</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">discipline</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Custom&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude &quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">default_mass</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">discipline</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
-    <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;mass.m&quot;</span><span class="p">],</span>
+    <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">,</span>
     <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Custom&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">(),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">get_color</span><span class="p">(),</span>
 <span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mass [kg]&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Mass &quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time &quot;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
-<p><img alt="plot time function" class="mkd-glr-single-img" src="../images/mkd_glr_plot_time_function_001.png" srcset="../images/mkd_glr_plot_time_function_001.png" /></p>
+<p>!(./images/mkd_glr_plot_time_function_001.png){: .mkd-glr-single-img srcset="../images/mkd_glr_plot_time_function_001.png"}</p>
 <p class="mkd-glr-script-out">Out:</p>
 <div class="mkd-glr-script-out-disp highlight"><pre><span></span><code>/builds/gemseo/dev/gemseo-fmu/.tox/doc/lib64/python3.9/site-packages/matplotlib/cbook.py:1762:<span class="w"> </span>DeprecationWarning:<span class="w"> </span>Conversion<span class="w"> </span>of<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>with<span class="w"> </span>ndim<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>scalar<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>and<span class="w"> </span>will<span class="w"> </span>error<span class="w"> </span><span class="k">in</span><span class="w"> </span>future.<span class="w"> </span>Ensure<span class="w"> </span>you<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>element<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>array<span class="w"> </span>before<span class="w"> </span>performing<span class="w"> </span>this<span class="w"> </span>operation.<span class="w"> </span><span class="o">(</span>Deprecated<span class="w"> </span>NumPy<span class="w"> </span><span class="m">1</span>.25.<span class="o">)</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span>math.isfinite<span class="o">(</span>val<span class="o">)</span>
 </code></pre></div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.390 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.393 seconds)</p>
 <div id="download_links"></div>
 
-<p><a class="md-button center" href="../plot_time_function.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_time_function.py</a></p>
-<p><a class="md-button center" href="../plot_time_function.ipynb"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Jupyter notebook: plot_time_function.ipynb</a></p>
-<p><a class="mkd-glr-signature" href="https://smarie.github.io/mkdocs-gallery">Gallery generated by mkdocs-gallery</a></p>
+<p>(./plot_time_function.py){ .md-button .center}</p>
+<p>(./plot_time_function.ipynb){ .md-button .center}</p>
+<p>(https://smarie.github.io/mkdocs-gallery){: .mkd-glr-signature }</p>
 
 
 
