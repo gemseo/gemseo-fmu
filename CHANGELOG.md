@@ -26,19 +26,6 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Develop
-
-### Added
-
-- The [VariableRenamer][gemseo_fmu.utils.variable_renaming.VariableRenamer] class
-  can be used to create translators,
-  which are translation dictionaries
-  of the form `{discipline_name: {variable_name: new_variable_name}}`
-  from tuples, dictionaries, CSV files and spreadsheets.
-  These dictionaries can then be used
-  to create a [RemappingDiscipline][gemseo.disciplines.remapping.RemappingDiscipline]
-  or [NameMapping][gemseo.core.discipline.data_processor.NameMapping] data convertor.
-
 ## Version 3.0.0 (November 2024)
 
 ### Added
