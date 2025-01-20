@@ -89,18 +89,6 @@
          <lastmod>2025-01-20</lastmod>
     </url>
     <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/variable_renaming/</loc>
-         <lastmod>2025-01-20</lastmod>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/variable_renaming/mg_execution_times/</loc>
-         <lastmod>2025-01-20</lastmod>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/generated/examples/variable_renaming/plot_variable_renaming/</loc>
-         <lastmod>2025-01-20</lastmod>
-    </url>
-    <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/SUMMARY/</loc>
          <lastmod>2025-01-20</lastmod>
     </url>
@@ -162,10 +150,6 @@
     </url>
     <url>
          <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/gemseo_fmu/utils/time_series/</loc>
-         <lastmod>2025-01-20</lastmod>
-    </url>
-    <url>
-         <loc>https://gemseo.gitlab.io/gemseo-fmu/latest/reference/gemseo_fmu/utils/variable_renaming/</loc>
          <lastmod>2025-01-20</lastmod>
     </url>
     <url>
