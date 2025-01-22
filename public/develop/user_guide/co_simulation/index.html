@@ -1947,9 +1947,11 @@
 -->
 
 <h1 id="co-simulation">Co-simulation<a class="headerlink" href="#co-simulation" title="Permanent link">&para;</a></h1>
-<p>A</p>
-<p>is a</p>
-<p>defined by a system of static and time-stepping disciplines:</p>
+<p>A
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+is a
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
+defined by a system of static and time-stepping disciplines:</p>
 <ul>
 <li>a static discipline computes an output <span class="arithmatex">\(y\)</span> at time <span class="arithmatex">\(t_k\)</span>
   from an input <span class="arithmatex">\(x\)</span> at time <span class="arithmatex">\(t_k\)</span>, i.e. <span class="arithmatex">\(y(t_k)=f(x(t_k))\)</span>,</li>
@@ -1958,13 +1960,15 @@
   i.e. <span class="arithmatex">\(y(t_k)=f(x(t_k),s(t_k),t_k)\)</span>.</li>
 </ul>
 <p>At each time step <span class="arithmatex">\(t_k\)</span>,
-the</p>
-<p>executes a collection of such disciplines using a co-simulation master algorithm
+the
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+executes a collection of such disciplines using a co-simulation master algorithm
 based on a multidisciplinary analysis (MDA).</p>
 <h2 id="basics">Basics<a class="headerlink" href="#basics" title="Permanent link">&para;</a></h2>
 <h3 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h3>
-<p>The instantiation of a</p>
-<p>only requires a list of disciplines, a final time and a time step:</p>
+<p>The instantiation of a
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+only requires a list of disciplines, a final time and a time step:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_fmu.disciplines.time_stepping_system</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSteppingSystem</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo_fmu.disciplines.dynamic_fmu_discipline</span><span class="w"> </span><span class="kn">import</span> <span class="n">DynamicFMUDiscipline</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.analytic</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticDiscipline</span>
@@ -2017,12 +2021,13 @@ this algorithm is the Jacobi method,
 which enables parallel execution.
 One can also use the Gauss-Seidel method,
 which is a serial approach;
-initialize the</p>
-<p>class with <code>algo_name="MDAGaussSeidel"</code> to use it.</p>
+initialize the
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+class with <code>algo_name="MDAGaussSeidel"</code> to use it.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Use the dictionary <code>mda_options</code> to customize the MDA algorithm
-and subclass  to create a new master algorithm.</p>
+and subclass <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.mda.base_mda.html#gemseo.mda.base_mda.BaseMDA">BaseMDA</a> to create a new master algorithm.</p>
 </div>
 <p>In the following,
 we explain the mechanics of the Jacobi and Gauss-Seidel algorithms.</p>
@@ -2039,7 +2044,7 @@ until convergence or budget exhaustion.
 Lastly,
 we repeat this process from time <span class="arithmatex">\(t^1\)</span> to time <span class="arithmatex">\(t^2\)</span>, from time <span class="arithmatex">\(t^2\)</span> to time <span class="arithmatex">\(t^3\)</span> and so on until final time.</p>
 <p>This master algorithm is called <em>Jacobi algorithm</em>
-because of its structural similarity with the (https://en.wikipedia.org/wiki/Jacobi_method)
+because of its structural similarity with the <a href="https://en.wikipedia.org/wiki/Jacobi_method">Jacobi method</a>
 used in numerical linear algebra.
 As the disciplines are executed separately,
 these executions can be parallelized
@@ -2048,7 +2053,7 @@ and the algorithm is then qualified as parallel.</p>
 in the case of two strongly coupled disciplines
 with a budget of two iterations:</p>
 <figure>
-  !(https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Jacobi_iteration_sequence_for_two_subsystems.pdf/page1-708px-Jacobi_iteration_sequence_for_two_subsystems.pdf.jpg)
+  <img alt="Jacobi algorithm" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Jacobi_iteration_sequence_for_two_subsystems.pdf/page1-708px-Jacobi_iteration_sequence_for_two_subsystems.pdf.jpg" />
   <figcaption>Jacobi iteration sequence for two disciplines, by <a href="https://en.wikipedia.org/wiki/File:Jacobi_iteration_sequence_for_two_subsystems.pdf">Ssicklinger / wikipedia</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en">CC BY-SA 3.0</a>.</figcaption>
 </figure>
 <h3 id="gauss-seidel-algorithm">Gauss-Seidel algorithm<a class="headerlink" href="#gauss-seidel-algorithm" title="Permanent link">&para;</a></h3>
@@ -2070,7 +2075,7 @@ which are executed sequentially,
 especially when they are poorly converged.</p>
 </div>
 <p>This master algorithm is called <em>Gauss-Seidel algorithm</em>
-because of its structural similarity with the (https://en.wikipedia.org/wiki/Gauss-Seidel_method)
+because of its structural similarity with the <a href="https://en.wikipedia.org/wiki/Gauss-Seidel_method">Gauss-Seidel method</a>
 used in numerical linear algebra.
 As the disciplines are executed sequentially,
 these executions cannot be parallelized
@@ -2079,7 +2084,7 @@ and the algorithm is then qualified as serial.</p>
 in the case of two strongly coupled disciplines
 with a budget of two iterations:</p>
 <figure>
-  !(https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gauss-Seidel_iteration_sequence_for_two_subsystems.pdf/page1-708px-Gauss-Seidel_iteration_sequence_for_two_subsystems.pdf.jpg)
+  <img alt="Gauss-Seidel algorithm" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gauss-Seidel_iteration_sequence_for_two_subsystems.pdf/page1-708px-Gauss-Seidel_iteration_sequence_for_two_subsystems.pdf.jpg" />
   <figcaption>Gauss-Seidel iteration sequence for two disciplines, by <a href="https://en.wikipedia.org/wiki/File:Gauss-Seidel_iteration_sequence_for_two_subsystems.pdf">Ssicklinger / wikipedia</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en">CC BY-SA 3.0</a>.</figcaption>
 </figure>
 

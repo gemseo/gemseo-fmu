@@ -1977,31 +1977,32 @@
 -->
 
 <h1 id="fmu-discipline">FMU discipline<a class="headerlink" href="#fmu-discipline" title="Permanent link">&para;</a></h1>
-<p>The (https://fmi-standard.org/)
+<p>The <a href="https://fmi-standard.org/">functional mock-up interface (FMI)</a>
 is a popular free standard to exchange dynamic simulation models.
 This standard defines the notion of functional mock-up unit (FMU)
 through a ZIP file containg a mix of XML files, binaries and C code.
 GEMSEO-FMU proposes
-new types of 
+new types of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
 to simulate an FMU model:</p>
 <ul>
-<li>the 
+<li>the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
   to simulate a time-independent FMU model <span class="arithmatex">\(f\)</span>
   like <span class="arithmatex">\(y=f(x)\)</span>
   where <span class="arithmatex">\(x\)</span> is the input and <span class="arithmatex">\(y\)</span> is the output,</li>
-<li>the 
+<li>the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
   to simulate a time-dependent FMU model <span class="arithmatex">\(f\)</span>
   like <span class="arithmatex">\(y(t_k)=f(y(t_{k-1}),x(t_{k-1}),\Delta t_k)\)</span>
   where <span class="arithmatex">\(t_{k-1}\)</span> is the previous time,
   <span class="arithmatex">\(t_k\)</span> is the current time
   and <span class="arithmatex">\(\Delta t_k=t_k-t_{k-1}\)</span> is the time step,</li>
-<li>the 
+<li>the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   to simulate a time-independent or time-dependent FMU model <span class="arithmatex">\(f\)</span>
   like <span class="arithmatex">\(y=f(x)\)</span> or <span class="arithmatex">\(y(t_k)=f(y(t_{k-1}),x(t_{k-1}),\Delta t_k)\)</span>.</li>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>is an alias of 
+<p><a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+is an alias of <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
 and can be used to simulate both time-dependent and time-independent FMU models.
 Most of the time,
 the FMU model are dynamic and so this naming shortcut can be useful.</p>
@@ -2020,20 +2021,22 @@ it will then produce the same result <span class="arithmatex">\(c=a+b\)</span> a
 </div>
 <p>In the following,
 we will talk about the
-.
-The content would be the same for</p>
-<p>except for the parts related to the notion of time,
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>.
+The content would be the same for
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
+except for the parts related to the notion of time,
 which are specific to the
-.
-You will find examples of both</p>
-<p>and
-.
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
+You will find examples of both
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
+and
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
 in the galleries of examples.</p>
 <h2 id="basics">Basics<a class="headerlink" href="#basics" title="Permanent link">&para;</a></h2>
-<p>As any ,
+<p>As any <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>,
 you mainly need to know
 how to instantiate an
-,
+<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>,
 and how to execute it.
 Advanced features will be presented later.</p>
 <h3 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h3>
@@ -2080,11 +2083,11 @@ When using both <code>do_step=True</code> and <code>restart=False</code>,
 an execution advances a single time step from the previous one.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The 
-is an 
+<p>The <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/#gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline">DoStepFMUDiscipline</a>
+is an <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 whose execution advances a single time step from the previous time.
 It can be useful if you want
-an 
+an <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 doing time stepping throughout its life cycle.</p>
 </div>
 <p>Lastly,
@@ -2094,7 +2097,7 @@ the final time can be changed with the float argument <code>final_time</code>.</
 <p>The discipline cannot be executed after the final time.</p>
 </div>
 <h3 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
-<p>An 
+<p>An <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 can be easily executed with the default values of its inputs:</p>
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 </code></pre></div>
@@ -2104,13 +2107,13 @@ can be easily executed with the default values of its inputs:</p>
 <h2 id="advanced">Advanced<a class="headerlink" href="#advanced" title="Permanent link">&para;</a></h2>
 <h3 id="time-series">Time series<a class="headerlink" href="#time-series" title="Permanent link">&para;</a></h3>
 <p>An input value can be either a scalar
-or a .</p>
+or a <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>.</p>
 <p>For instance,
 a discipline can take as input a signal <span class="arithmatex">\(x(t)\)</span>
 known at time steps <span class="arithmatex">\(t_1,t2,\ldots,t_N\)</span>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">gemseo.disciplines.time_series</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeSeries</span>
 
-<span class="n">my_time_series</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="p">(,</span> <span class="p">)</span>
+<span class="n">my_time_series</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">tN</span><span class="p">],</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">xN</span><span class="p">])</span>
 </code></pre></div>
 <p>The values of the time <span class="arithmatex">\(t\)</span> and observable <span class="arithmatex">\(x\)</span>
 can be easily accessed:</p>
@@ -2120,7 +2123,7 @@ can be easily accessed:</p>
 <p>In practice,
 you can use it
 either to set the default inputs:</p>
-<div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span> <span class="o">=</span> <span class="n">my_time_series</span>
+<div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">default_inputs</span><span class="p">[</span><span class="s2">&quot;my_input&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_time_series</span>
 </code></pre></div>
 <p>or to execute the discipline:</p>
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;my_input&quot;</span><span class="p">:</span> <span class="n">my_time_series</span><span class="p">})</span>
@@ -2129,7 +2132,8 @@ either to set the default inputs:</p>
 <p>The time settings of the next execution of the discipline
 depends on the time settings defined at instantiation
 but can be changed temporarily.</p>
-<p>allows to
+<p><a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution">set_next_execution()</a>
+allows to
 change the duration of the simulation associated to the next execution,
 change the time step used during the next execution
 and restart the discipline instantiated with <code>restart=False</code>
@@ -2159,10 +2163,10 @@ less than or equal to the time remaining before the final time.</p>
 
 <span class="c1"># Simulate with custom values of the inputs during 2 seconds</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">set_next_execution</span><span class="p">(</span><span class="n">simulation_time</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">()})</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">12.3</span><span class="p">])})</span>
 
 <span class="c1"># Simulate with custome values until final time (i.e. during 7 seconds)</span>
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">()})</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">16.8</span><span class="p">])})</span>
 </code></pre></div>
 <h3 id="restart">Restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h3>
 <p>The argument <code>restart</code> has already been introduced in this page.</p>
@@ -2172,15 +2176,15 @@ less than or equal to the time remaining before the final time.</p>
 
 <span class="n">discipline</span> <span class="o">=</span> <span class="n">FMUDiscipline</span><span class="p">(</span><span class="s2">&quot;my_model.fmu&quot;</span><span class="p">)</span>
 <span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
-<span class="n">default_trajectory</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span>
+<span class="n">default_trajectory</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
 
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">()})</span>
-<span class="n">first_custom_trajectory</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">12.3</span><span class="p">])})</span>
+<span class="n">first_custom_trajectory</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
 
-<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">()})</span>
-<span class="n">second_custom_trajectory</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span>
+<span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mf">16.8</span><span class="p">])})</span>
+<span class="n">second_custom_trajectory</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
 
-<span class="n">time</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">discipline</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">default_trajectory</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">first_custom_trajectory</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Option 1&quot;</span><span class="p">)</span>
