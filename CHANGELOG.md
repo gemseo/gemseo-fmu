@@ -26,6 +26,13 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Fixed
+
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] support FMI3 when ``do_step`` is ``True``.
+
+
 ## Version 3.0.0 (November 2024)
 
 ### Added

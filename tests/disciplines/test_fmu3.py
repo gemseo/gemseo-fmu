@@ -13,6 +13,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import pytest
 from numpy import array
 from numpy.testing import assert_almost_equal
 
@@ -20,13 +21,18 @@ from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 
-def test_fmu3():
+@pytest.mark.parametrize(
+    ("do_step", "time", "output"),
+    [
+        (False, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], [3.0, 4.0, 5.0, 6.0, 7.0, 8.0]),
+        (True, [0.2], [4.0]),
+    ],
+)
+def test_fmu3(do_step, time, output):
     """Check that gemseo-fmu can handle FMU3 models."""
     discipline = FMUDiscipline(
-        get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2
+        get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2, do_step=do_step
     )
     discipline.execute()
-    assert_almost_equal(discipline.time, array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0]))
-    assert_almost_equal(
-        discipline.io.data["output"], array([3.0, 4.0, 5.0, 6.0, 7.0, 8.0])
-    )
+    assert_almost_equal(discipline.time, array(time))
+    assert_almost_equal(discipline.io.data["output"], array(output))
