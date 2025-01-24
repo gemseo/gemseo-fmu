@@ -25,6 +25,7 @@ from gemseo.core.discipline.discipline import Discipline
 from gemseo.mda.mda_chain import MDAChain
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from numpy import concatenate
+from numpy.ma.extras import atleast_1d
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
@@ -231,7 +232,9 @@ class TimeSteppingSystem(Discipline):
         # We suppose that it value type is the same at all time steps.
         local_data_history_0 = local_data_history[0]
         self.io.update_output_data({
-            name: concatenate([local_data[name] for local_data in local_data_history])
+            name: concatenate([
+                atleast_1d(local_data[name]) for local_data in local_data_history
+            ])
             for name in local_data_history_0
             if not isinstance(local_data_history_0[name], TimeSeries)
         })
