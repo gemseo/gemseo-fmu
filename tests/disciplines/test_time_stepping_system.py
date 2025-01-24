@@ -43,9 +43,11 @@ def test_standard_use():
 
     # TimeSteppingSystem can use a mix of standard MDODisciplines,
     # BaseFMUDisciplines and FMU file paths.
+    discipline = DoStepFMUDiscipline(get_fmu_file_path("MassSpringSubSystem1"))
+    discipline.default_input_data["m1"] = discipline.default_input_data["m1"][0]
     system = TimeSteppingSystem(
         (
-            DoStepFMUDiscipline(get_fmu_file_path("MassSpringSubSystem1")),
+            discipline,
             get_fmu_file_path("MassSpringSubSystem2"),
             LinearCombination(["x2"], "x2_plus_one", offset=1),
         ),
