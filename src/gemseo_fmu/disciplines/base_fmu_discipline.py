@@ -135,6 +135,9 @@ class BaseFMUDiscipline(Discipline):
     __from_fmu_names: dict[str, str]
     """The map from the FMU variable names to the discipline variable names."""
 
+    __parameter_getter_name: str
+    """The name of the FMU method to get a parameter."""
+
     __model: FMUModel
     """The FMU model."""
 
@@ -437,6 +440,7 @@ class BaseFMUDiscipline(Discipline):
             fmi_type=self.__model_type,
         )
         self.__parameter_setter_name = "setFloat64" if self.__use_fmi_3 else "setReal"
+        self.__parameter_getter_name = "getFloat64" if self.__use_fmi_3 else "getReal"
         return name
 
     def __set_initial_values(self) -> None:
@@ -780,12 +784,13 @@ class BaseFMUDiscipline(Discipline):
 
         self._time = array([time_manager.final])
         output_data = {}
+        getter = getattr(self.__model, self.__parameter_getter_name)
         for output_name in self.io.output_grammar.names_without_namespace:
             if output_name == self._TIME:
                 output_data[self._TIME] = self._time
             else:
                 output_data[output_name] = array(
-                    self.__model.getReal([self.__names_to_references[output_name]])
+                    getter([self.__names_to_references[output_name]])
                 )
         self.io.update_output_data(output_data)
 
