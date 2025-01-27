@@ -31,8 +31,8 @@ and this project adheres to
 ### Fixed
 
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when ``do_step`` is ``True``
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when using the default input data.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports input data passed as numbers.
-
 
 ## Version 3.0.0 (November 2024)
 

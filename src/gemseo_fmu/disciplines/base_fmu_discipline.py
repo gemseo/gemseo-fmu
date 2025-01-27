@@ -710,6 +710,7 @@ class BaseFMUDiscipline(Discipline):
             self.__time_manager.reset()
 
         if self.__time_manager.is_initial:
+            self.__set_model_inputs(input_data, self.__time_manager.current, True)
             self.__model.reset()
             if self.__use_fmi_3:
                 self.__model.enterInitializationMode(

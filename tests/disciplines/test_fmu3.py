@@ -24,8 +24,8 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 @pytest.mark.parametrize(
     ("do_step", "time", "output"),
     [
-        (False, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], [3.0, 4.0, 5.0, 6.0, 7.0, 8.0]),
-        (True, [0.2], [4.0]),
+        (False, [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], [3.0, 5.0, 7.0, 9.0, 11.0, 13.0]),
+        (True, [0.2], [5.0]),
     ],
 )
 def test_fmu3(do_step, time, output):
@@ -33,6 +33,7 @@ def test_fmu3(do_step, time, output):
     discipline = FMUDiscipline(
         get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2, do_step=do_step
     )
+    discipline.default_input_data["parameter"] = 2.0
     discipline.execute()
     assert_almost_equal(discipline.time, array(time))
     assert_almost_equal(discipline.io.data["output"], array(output))
