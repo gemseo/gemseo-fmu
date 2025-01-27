@@ -24,12 +24,14 @@ class FMU3Model(Fmi3Slave):
         super().__init__(**kwargs)
 
         self.independent = 0.0
+        self.parameter = 1.0
         self.output = 3.0
         self.register_variable(
             Float64("independent", causality=Fmi3Causality.independent)
         )
+        self.register_variable(Float64("parameter", causality=Fmi3Causality.parameter))
         self.register_variable(Float64("output", causality=Fmi3Causality.output))
 
     def do_step(self, current_time, step_size):
-        self.output += 1.0
+        self.output += self.parameter
         return True
