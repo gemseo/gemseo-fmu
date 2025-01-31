@@ -4,7 +4,7 @@ annotated-types==0.7.0
     # via pydantic
 attrs==25.1.0
     # via fmpy
-certifi==2024.12.14
+certifi==2025.1.31
     # via requests
 charset-normalizer==3.4.1
     # via requests
@@ -34,7 +34,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.55.8
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@233ad69ae7a73dbc1fe722ba96649297458f0770
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@95ad319c847d7ca1f78033995b57d8839be8894d
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -131,7 +131,7 @@ python-dateutil==2.9.0.post0
     # via
     #   matplotlib
     #   pandas
-pytz==2024.2
+pytz==2025.1
     # via
     #   fmpy
     #   pandas
