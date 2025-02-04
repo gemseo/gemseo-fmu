@@ -2484,7 +2484,7 @@ to <code>_pre_instantiate()</code>.</p>
         <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.utils.time_series.TimeSeries" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a></span>
         <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a></span><span class="p">[[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">],</span>
     <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a></span><span class="p">({}),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.core.discipline_data.DisciplineData">DisciplineData</span></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline_data.html#gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2517,7 +2517,7 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><span title="gemseo.core.discipline_data.DisciplineData">DisciplineData</span></code>
+              <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline_data.html#gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</a></code>
           –
           <div class="doc-md-description">
             <p>The input and output data.</p>
@@ -2527,8 +2527,7 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">596</span>
-<span class="normal">597</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">597</span>
 <span class="normal">598</span>
 <span class="normal">599</span>
 <span class="normal">600</span>
@@ -2555,7 +2554,8 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
 <span class="normal">621</span>
 <span class="normal">622</span>
 <span class="normal">623</span>
-<span class="normal">624</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
+<span class="normal">624</span>
+<span class="normal">625</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
         <span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimeSeries</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">TimeDurationType</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
@@ -2603,6 +2603,7 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
     <span class="n">final_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_step</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">initialize_only</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2665,12 +2666,22 @@ either a number in seconds or a string of characters
 If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
         </li>
+        <li class="doc-section-item field-body">
+            <b><code>initialize_only</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Whether the model simply needs to be initialized
+(no time integration).</p>
+          </div>
+        </li>
     </ul>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">626</span>
-<span class="normal">627</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">627</span>
 <span class="normal">628</span>
 <span class="normal">629</span>
 <span class="normal">630</span>
@@ -2707,12 +2718,19 @@ If <code>None</code>, use the value considered at the instantiation.</p>
 <span class="normal">661</span>
 <span class="normal">662</span>
 <span class="normal">663</span>
-<span class="normal">664</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_default_execution</span><span class="p">(</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_default_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">do_step</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_step</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">initialize_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Change the default simulation settings.</span>
 
@@ -2733,6 +2751,8 @@ If <code>None</code>, use the value considered at the instantiation.</p>
 <span class="sd">            either a number in seconds or a string of characters</span>
 <span class="sd">            (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);</span>
 <span class="sd">            If `None`, use the value considered at the instantiation.</span>
+<span class="sd">        initialize_only: Whether the model simply needs to be initialized</span>
+<span class="sd">            (no time integration).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">do_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__do_step</span> <span class="o">=</span> <span class="n">do_step</span>
@@ -2746,6 +2766,8 @@ If <code>None</code>, use the value considered at the instantiation.</p>
     <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">time_step</span> <span class="o">=</span> <span class="n">TimeDuration</span><span class="p">(</span><span class="n">time_step</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__default_simulation_settings</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_TIME_STEP</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_step</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">__default_simulation_settings</span><span class="p">[</span><span class="s2">&quot;initialize_only&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialize_only</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2819,13 +2841,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">672</span>
 <span class="normal">673</span>
 <span class="normal">674</span>
 <span class="normal">675</span>
@@ -2856,7 +2872,13 @@ if <code>None</code>, use the value passed at the instantiation.</p>
 <span class="normal">700</span>
 <span class="normal">701</span>
 <span class="normal">702</span>
-<span class="normal">703</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_next_execution</span><span class="p">(</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_next_execution</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">restart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">simulation_time</span><span class="p">:</span> <span class="n">TimeDurationType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

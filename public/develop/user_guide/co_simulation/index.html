@@ -2055,8 +2055,13 @@ and solves the cycles, <em>i.e.</em> groups of strongly coupled disciplines, wit
 <p class="admonition-title">Warning</p>
 <p>For the moment,
 the rollback mechanism for re-simulating from previous time to current time is not implemented,
-which prevents these algorithms from iterating
-(see the sections Jacobi and Gauss-Seidel algorithms below for more information).</p>
+which prevents these algorithms from iterating at any time
+(see the sections Jacobi and Gauss-Seidel algorithms below for more information).
+However,
+at initial time, and at this time only,
+the MDA algorithm can iterate
+if the user sets the <code>max_mda_iter_at_t0</code> argument to the maximum number of iterations of the MDA algorithm
+(default: no iteration at initial time).</p>
 </div>
 <p>By default (<code>algo_name="MDAJacobi"</code>),
 this algorithm is the Jacobi method,
