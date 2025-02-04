@@ -28,11 +28,16 @@ and this project adheres to
 
 ## Develop
 
+### Added
+
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] has a new option ``mda_max_iter_at_t0`` to perform an MDA at initial time with at most ``mda_max_iter_at_t0`` iterations.
+
 ### Fixed
 
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when ``do_step`` is ``True``
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when using the default input data.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports input data passed as numbers.
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports Gauss-Seidel as co-simulation algorithm.
 
 ## Version 3.0.0 (November 2024)
 

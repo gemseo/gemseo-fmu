@@ -66,6 +66,54 @@ def test_standard_use():
 
 
 @pytest.mark.parametrize(
+    ("mda_max_iter_at_t0", "n_mda_exec", "n_disc_exec", "norm", "out1", "out2"),
+    [(0, 1, 1, 1.0, 4.0, 5.0), (10, 2, 5, 0.527046, -5.0, -7.0)],
+)
+def test_mda_max_iter_at_t0(
+    mda_max_iter_at_t0, n_mda_exec, n_disc_exec, norm, out1, out2
+):
+    """Check the use of an initial MDA to start from a multidisciplinary solution.
+
+    We co-simulate two instances of FMU3Model:
+    - the output of the first one is the input of the second one,
+    - the input of the first one is the output of the second one,
+    - the first one initializes its output to ``3 + input`` (increment = 1),
+    - the second one initializes its output to ``3 + 2 * input`` (increment = 2).
+
+    In the case mda_max_iter_at_t0=10,
+    an MDA is performed at instantiation with a maximum of 10 iterations.
+    The analytical solution is out1 =-6 and out2=-9.
+    Then,
+    after a time integration,
+    these outputs are increased by 1 and 2 respectively.
+    """
+    discipline_1 = DoStepFMUDiscipline(
+        get_fmu_file_path("FMU3Model"),
+        variable_names={"input": "out2", "output": "out1", "increment": "inc1"},
+    )
+    discipline_2 = DoStepFMUDiscipline(
+        get_fmu_file_path("FMU3Model"),
+        variable_names={"input": "out1", "output": "out2", "increment": "inc2"},
+    )
+    discipline_2.default_input_data["inc2"] = 2.0
+    tss = TimeSteppingSystem(
+        (discipline_1, discipline_2),
+        1,
+        1,
+        do_step=True,
+        mda_max_iter_at_t0=mda_max_iter_at_t0,
+    )
+    tss.execute()
+    assert tss._TimeSteppingSystem__mda.execution_statistics.n_executions == n_mda_exec
+    assert discipline_1.execution_statistics.n_executions == n_disc_exec
+    assert discipline_2.execution_statistics.n_executions == n_disc_exec
+    data = tss.io.data
+    assert_allclose(data["MDA residuals norm"], array([norm]), atol=1e-6)
+    assert data["out1"] == array([out1])
+    assert data["out2"] == array([out2])
+
+
+@pytest.mark.parametrize(
     ("kwargs", "n_executions"),
     [({}, 2), ({"restart": False}, 1), ({"restart": True}, 2)],
 )
@@ -213,3 +261,25 @@ def test_process_flow():
     assert execution_flow.disciplines == mda_execution_flow.disciplines
     assert len(execution_flow.sequences) == len(mda_execution_flow.sequences) == 1
     assert type(execution_flow.sequences[0]) is type(mda_execution_flow.sequences[0])
+
+
+@pytest.mark.parametrize(
+    ("mda_name", "expected"),
+    [
+        ("MDAJacobi", array([1.0, 0.98, 0.941])),
+        ("MDAGaussSeidel", array([1.0, 0.981, 0.9441])),
+    ],
+)
+def test_mda_name(mda_name, expected):
+    """Check a custom MDA."""
+    system = TimeSteppingSystem(
+        (
+            get_fmu_file_path("MassSpringSubSystem1"),
+            get_fmu_file_path("MassSpringSubSystem2"),
+        ),
+        0.3,
+        0.1,
+        mda_name=mda_name,
+    )
+    system.execute()
+    assert_allclose(system.io.data["x2"], expected, atol=1e-5)
