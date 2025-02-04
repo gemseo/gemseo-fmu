@@ -90,8 +90,13 @@ and solves the cycles, *i.e.* groups of strongly coupled disciplines, with an MD
 
     For the moment,
     the rollback mechanism for re-simulating from previous time to current time is not implemented,
-    which prevents these algorithms from iterating
+    which prevents these algorithms from iterating at any time
     (see the sections Jacobi and Gauss-Seidel algorithms below for more information).
+    However,
+    at initial time, and at this time only,
+    the MDA algorithm can iterate
+    if the user sets the ``max_mda_iter_at_t0`` argument to the maximum number of iterations of the MDA algorithm
+    (default: no iteration at initial time).
 
 By default (`algo_name="MDAJacobi"`),
 this algorithm is the Jacobi method,

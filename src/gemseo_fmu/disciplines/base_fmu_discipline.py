@@ -58,7 +58,7 @@ if TYPE_CHECKING:
     from fmpy.model_description import DefaultExperiment
     from fmpy.model_description import ModelDescription
     from fmpy.simulation import Recorder
-    from gemseo.core.discipline_data import DisciplineData
+    from gemseo.core.discipline.discipline_data import DisciplineData
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
     from gemseo.typing import StrKeyMapping
@@ -307,6 +307,7 @@ class BaseFMUDiscipline(Discipline):
         self.__default_simulation_settings = {
             self._RESTART: restart,
             self._TIME_STEP: time_step,
+            "initialize_only": False,
         }
         self.__simulation_settings = {}
         self.__do_step = do_step
@@ -629,6 +630,7 @@ class BaseFMUDiscipline(Discipline):
         final_time: TimeDurationType | None = None,
         restart: bool | None = None,
         time_step: TimeDurationType | None = None,
+        initialize_only: bool = False,
     ) -> None:
         """Change the default simulation settings.
 
@@ -649,6 +651,8 @@ class BaseFMUDiscipline(Discipline):
                 either a number in seconds or a string of characters
                 (see [TimeDuration][gemseo_fmu.utils.time_duration.TimeDuration]);
                 If `None`, use the value considered at the instantiation.
+            initialize_only: Whether the model simply needs to be initialized
+                (no time integration).
         """
         if do_step is not None:
             self.__do_step = do_step
@@ -662,6 +666,8 @@ class BaseFMUDiscipline(Discipline):
         if time_step is not None:
             time_step = TimeDuration(time_step).seconds
             self.__default_simulation_settings[self._TIME_STEP] = time_step
+
+        self.__default_simulation_settings["initialize_only"] = initialize_only
 
     def set_next_execution(
         self,
@@ -702,7 +708,7 @@ class BaseFMUDiscipline(Discipline):
             simulation_time = TimeDuration(simulation_time).seconds
             self.__simulation_settings[self._SIMULATION_TIME] = simulation_time
 
-    def _run(self, input_data: StrKeyMapping) -> StrKeyMapping | None:
+    def _run(self, input_data: StrKeyMapping) -> StrKeyMapping:
         if not self.__simulation_settings:
             self.__simulation_settings = self.__default_simulation_settings
 
@@ -710,8 +716,8 @@ class BaseFMUDiscipline(Discipline):
             self.__time_manager.reset()
 
         if self.__time_manager.is_initial:
-            self.__set_model_inputs(input_data, self.__time_manager.current, True)
             self.__model.reset()
+            self.__set_model_inputs(input_data, self.__time_manager.current, True)
             if self.__use_fmi_3:
                 self.__model.enterInitializationMode(
                     tolerance=self.__get_field_value(
@@ -729,6 +735,16 @@ class BaseFMUDiscipline(Discipline):
                 self.__model.enterInitializationMode()
 
             self.__model.exitInitializationMode()
+            if self.__default_simulation_settings["initialize_only"]:
+                getter = getattr(self.__model, self.__parameter_getter_name)
+                return {
+                    output_name: (
+                        array([0.0])
+                        if output_name == self._TIME
+                        else array(getter([self.__names_to_references[output_name]]))
+                    )
+                    for output_name in self.io.output_grammar.names_without_namespace
+                }
 
         if not self.__time_manager.is_initial and self.__time_manager.is_final:
             msg = (
@@ -738,10 +754,10 @@ class BaseFMUDiscipline(Discipline):
             )
             raise ValueError(msg)
 
-        input_data = self.get_input_data(with_namespaces=False)
         simulate = self.__run_one_step if self.__do_step else self.__run_to_final_time
-        simulate(input_data)
+        output_data = simulate(input_data)
         self.__simulation_settings = {}
+        return output_data
 
     def __del__(self) -> None:
         if self.__executed:
@@ -750,11 +766,16 @@ class BaseFMUDiscipline(Discipline):
         if self.__delete_model_instance_directory:
             rmtree(self.__model_dir_path, ignore_errors=True)
 
-    def __run_one_step(self, input_data: Mapping[str, NumberArray]) -> None:
+    def __run_one_step(
+        self, input_data: Mapping[str, NumberArray]
+    ) -> dict[str, NumberArray]:
         """Simulate the FMU model during a single time step.
 
         Args:
             input_data: The values of the FMU model inputs.
+
+        Returns:
+            The output data.
         """
         time_step = self.__simulation_settings[self._TIME_STEP]
         if time_step == 0.0:
@@ -793,7 +814,8 @@ class BaseFMUDiscipline(Discipline):
                 output_data[output_name] = array(
                     getter([self.__names_to_references[output_name]])
                 )
-        self.io.update_output_data(output_data)
+
+        return output_data
 
     def __set_model_inputs(
         self, input_data: Mapping[str, NumberArray], time: float, store: bool
@@ -845,11 +867,16 @@ class BaseFMUDiscipline(Discipline):
 
         return True
 
-    def __run_to_final_time(self, input_data: Mapping[str, NumberArray]) -> None:
+    def __run_to_final_time(
+        self, input_data: Mapping[str, NumberArray]
+    ) -> dict[str, NumberArray]:
         """Simulate the FMU model from the current time to the final time.
 
         Args:
             input_data: The values of the FMU model inputs.
+
+        Returns:
+            The output data.
         """
         simulation_time = self.__simulation_settings[self._SIMULATION_TIME]
         time_manager = self.__time_manager.update_current_time(simulation_time)
@@ -871,11 +898,10 @@ class BaseFMUDiscipline(Discipline):
             terminate=False,
         )
         self._time = result[self._TIME]
-        output_data = {
+        return {
             name: array(result[self.__to_fmu_names[name]])
             for name in self.io.output_grammar.names_without_namespace
         }
-        self.io.update_output_data(output_data)
 
     def __setstate__(self, state: Mapping[str, Any]) -> None:
         super().__setstate__(state)

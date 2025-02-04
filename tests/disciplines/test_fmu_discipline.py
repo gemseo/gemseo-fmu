@@ -822,3 +822,14 @@ def test_variable_names_exception():
         ValueError, match=re.escape("{'a'} are not FMU variable names.")
     ):
         FMUDiscipline(FMU_PATH, variable_names={"a": "x"})
+
+
+@pytest.mark.parametrize(
+    ("input_value", "initialize_only", "expected"),
+    [(0.0, False, 4.0), (0.0, True, 3.0), (1.0, False, 5.0), (1.0, True, 4.0)],
+)
+def test_initialize_only(input_value, initialize_only, expected):
+    fmu_discipline = FMUDiscipline(get_fmu_file_path("FMU3Model"), do_step=True)
+    fmu_discipline.set_default_execution(initialize_only=initialize_only)
+    fmu_discipline.execute({"input": input_value})
+    assert_equal(fmu_discipline.io.data["output"], array([expected]))

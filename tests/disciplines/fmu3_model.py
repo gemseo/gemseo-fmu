@@ -20,18 +20,34 @@ from pythonfmu3 import Fmi3Slave
 
 
 class FMU3Model(Fmi3Slave):
+    """An FMU model using the FMI3 standard.
+
+    At each integration step,
+    ``output`` (causality: output) is increased
+    by one ``increment`` (default: 1.0, causality: parameter).
+
+    When exiting the initialization mode,
+    ``output`` is set to ``3 + increment * input``
+    where the default value of ``input`` (causality: input) is 0.
+    """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.independent = 0.0
-        self.parameter = 1.0
+        self.input = 0.0
         self.output = 3.0
+        self.increment = 1.0
         self.register_variable(
             Float64("independent", causality=Fmi3Causality.independent)
         )
-        self.register_variable(Float64("parameter", causality=Fmi3Causality.parameter))
+        self.register_variable(Float64("input", causality=Fmi3Causality.input))
+        self.register_variable(Float64("increment", causality=Fmi3Causality.parameter))
         self.register_variable(Float64("output", causality=Fmi3Causality.output))
 
+    def exit_initialization_mode(self):
+        self.output = 3.0 + self.increment * self.input
+
     def do_step(self, current_time, step_size):
-        self.output += self.parameter
+        self.output += self.increment
         return True

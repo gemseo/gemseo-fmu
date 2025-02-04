@@ -33,7 +33,7 @@ def test_fmu3(do_step, time, output):
     discipline = FMUDiscipline(
         get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2, do_step=do_step
     )
-    discipline.default_input_data["parameter"] = 2.0
+    discipline.default_input_data["increment"] = 2.0
     discipline.execute()
     assert_almost_equal(discipline.time, array(time))
     assert_almost_equal(discipline.io.data["output"], array(output))
