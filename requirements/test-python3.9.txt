@@ -38,7 +38,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.56.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@e0db8eda9ac30d68fe84647cd3d50f7a5b8af76d
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@38f02e74b61d4af7e6085fa88cb9ac2877d5c513
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -66,7 +66,7 @@ kiwisolver==1.4.7
     # via matplotlib
 lark==1.2.2
     # via fmpy
-lxml==5.3.0
+lxml==5.3.1
     # via fmpy
 markupsafe==3.0.2
     # via jinja2
