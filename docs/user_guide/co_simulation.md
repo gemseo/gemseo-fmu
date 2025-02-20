@@ -82,6 +82,13 @@ in order to identify the strong and weak coupling variables:
     This identification based on input and output names
     implies a naming convention shared by all disciplines.
 
+    GEMSEO provides facilities for renaming the input and output variables of a set of disciplines,
+    which are illustrated
+    [in this example](https://gemseo.readthedocs.io/en/develop/examples/disciplines/variables/plot_variable_renaming.html).
+    In the specific case of FMU disciplines,
+    the instantiation argument `variable_names` can be set to a
+    [VariableRenamer.translators][gemseo.utils.variable_renaming.VariableRenamer.translators].
+
 Then,
 it executes the disciplines sequentially according to the coupling graph orientation
 and solves the cycles, *i.e.* groups of strongly coupled disciplines, with an MDA algorithm.
@@ -92,11 +99,14 @@ and solves the cycles, *i.e.* groups of strongly coupled disciplines, with an MD
     the rollback mechanism for re-simulating from previous time to current time is not implemented,
     which prevents these algorithms from iterating at any time
     (see the sections Jacobi and Gauss-Seidel algorithms below for more information).
+
     However,
     at initial time, and at this time only,
     the MDA algorithm can iterate
     if the user sets the ``max_mda_iter_at_t0`` argument to the maximum number of iterations of the MDA algorithm
     (default: no iteration at initial time).
+    This can be used to obtain multidisciplinary feasible initial conditions,
+    in the case where the disciplines have inconsistent initial conditions.
 
 By default (`algo_name="MDAJacobi"`),
 this algorithm is the Jacobi method,

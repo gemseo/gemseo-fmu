@@ -25,8 +25,8 @@ from gemseo.core.coupling_structure import CouplingStructure
 from gemseo.core.discipline.discipline import Discipline
 from gemseo.mda.mda_chain import MDAChain
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from numpy import atleast_1d
 from numpy import concatenate
-from numpy.ma.extras import atleast_1d
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
