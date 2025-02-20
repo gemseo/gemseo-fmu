@@ -655,9 +655,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#input-and-outputs" class="md-nav__link">
+  <a href="#inputs" class="md-nav__link">
     <span class="md-ellipsis">
-      Input and outputs
+      Inputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renaming-inputs-and-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renaming inputs and outputs
     </span>
   </a>
   
@@ -1216,6 +1234,8 @@
       
         
       
+        
+      
     
     
       
@@ -1256,6 +1276,28 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generated/examples/co_simulation/plot_initial_conditions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Co-simulation from multidisciplinary feasible initial conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1912,9 +1954,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#input-and-outputs" class="md-nav__link">
+  <a href="#inputs" class="md-nav__link">
     <span class="md-ellipsis">
-      Input and outputs
+      Inputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renaming-inputs-and-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renaming inputs and outputs
     </span>
   </a>
   
@@ -2087,23 +2147,34 @@ Advanced features will be presented later.</p>
 
 <span class="n">discipline</span> <span class="o">=</span> <span class="n">FMUDiscipline</span><span class="p">(</span><span class="s2">&quot;my_model.fmu&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h4 id="input-and-outputs">Input and outputs<a class="headerlink" href="#input-and-outputs" title="Permanent link">&para;</a></h4>
-<p>In that case,
+<h4 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h4>
+<p>When <code>input_names</code> is <code>()</code> (default),
 the input variables of the discipline are
-all the variables of the FMU model with type <em>input</em> or <em>parameter</em>
-while its output variables are
+all the variables of the FMU model with type <em>input</em> or <em>parameter</em>.</p>
+<p>When <code>input_names=None</code>,
+the discipline has no input variables.</p>
+<p>The input variables can be a subset
+of the inputs and parameters of the FMU model
+by using <code>input_names=some_input_names</code>.</p>
+<h4 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h4>
+<p>When <code>ouput_names</code> is <code>()</code> (default),
+the output variables of the discipline are
 all the outputs of the FMU model
 plus the time.</p>
 <p>The time can be excluded from the outputs
 with <code>add_time_to_output_grammar=False</code>.</p>
-<p>The discipline has no input variables
-with <code>input_names=None</code>.</p>
-<p>The input variables can be a subset
-of the inputs and parameters of the FMU model
-by using <code>input_names=some_input_names</code>.
-The output variables can also be a subset
+<p>The output variables can be a subset
 of the outputs of the FMU model
 by using <code>output_names=some_output_names</code>.</p>
+<h4 id="renaming-inputs-and-outputs">Renaming inputs and outputs<a class="headerlink" href="#renaming-inputs-and-outputs" title="Permanent link">&para;</a></h4>
+<p>Sometimes the names of variables in the FMU model are not meaningful,
+or are used by other FMU models in the same study to represent another quantity.
+In both cases,
+we might want to use discipline variable names that are different from those in the FMU model.
+That's what argument <code>variable_names</code> is for.
+This dictionary of the form <code>{fmu_model_variable_name: discipline_variable_name, ...}</code>
+defines the mapping between the variable names in the FMU model that do not suit us
+and the variable names that we want to use in the discipline.</p>
 <h4 id="time-settings">Time settings<a class="headerlink" href="#time-settings" title="Permanent link">&para;</a></h4>
 <p>Regarding the time settings,
 this minimal instantiation implies that

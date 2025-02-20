@@ -1201,6 +1201,8 @@
       
         
       
+        
+      
     
     
       
@@ -1241,6 +1243,28 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generated/examples/co_simulation/plot_initial_conditions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Co-simulation from multidisciplinary feasible initial conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2047,6 +2071,12 @@ in order to identify the strong and weak coupling variables:</p>
 <p class="admonition-title">Warning</p>
 <p>This identification based on input and output names
 implies a naming convention shared by all disciplines.</p>
+<p>GEMSEO provides facilities for renaming the input and output variables of a set of disciplines,
+which are illustrated
+<a href="https://gemseo.readthedocs.io/en/develop/examples/disciplines/variables/plot_variable_renaming.html">in this example</a>.
+In the specific case of FMU disciplines,
+the instantiation argument <code>variable_names</code> can be set to a
+[VariableRenamer.translators][gemseo.utils.variable_renaming.VariableRenamer.translators].</p>
 </div>
 <p>Then,
 it executes the disciplines sequentially according to the coupling graph orientation
@@ -2056,12 +2086,14 @@ and solves the cycles, <em>i.e.</em> groups of strongly coupled disciplines, wit
 <p>For the moment,
 the rollback mechanism for re-simulating from previous time to current time is not implemented,
 which prevents these algorithms from iterating at any time
-(see the sections Jacobi and Gauss-Seidel algorithms below for more information).
-However,
+(see the sections Jacobi and Gauss-Seidel algorithms below for more information).</p>
+<p>However,
 at initial time, and at this time only,
 the MDA algorithm can iterate
 if the user sets the <code>max_mda_iter_at_t0</code> argument to the maximum number of iterations of the MDA algorithm
-(default: no iteration at initial time).</p>
+(default: no iteration at initial time).
+This can be used to obtain multidisciplinary feasible initial conditions,
+in the case where the disciplines have inconsistent initial conditions.</p>
 </div>
 <p>By default (<code>algo_name="MDAJacobi"</code>),
 this algorithm is the Jacobi method,
