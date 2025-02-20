@@ -84,7 +84,7 @@ in order to identify the strong and weak coupling variables:
 
     GEMSEO provides facilities for renaming the input and output variables of a set of disciplines,
     which are illustrated
-    [in this example](https://gemseo.readthedocs.io/en/develop/examples/disciplines/variables/plot_variable_renaming.html).
+    [in this example](https://gemseo.readthedocs.io/en/stable/examples/disciplines/variables/plot_variable_renaming.html).
     In the specific case of FMU disciplines,
     the instantiation argument `variable_names` can be set to a
     [VariableRenamer.translators][gemseo.utils.variable_renaming.VariableRenamer.translators].
