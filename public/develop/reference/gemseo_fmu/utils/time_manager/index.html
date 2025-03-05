@@ -2482,9 +2482,9 @@
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/utils/time_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset the time manager to initial time.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initial</span>
 </code></pre></div></td></tr></table></div>
@@ -2501,7 +2501,9 @@
 
 
 <a href="#gemseo_fmu.utils.time_manager.TimeManager.update_current_time" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">update_current_time</span><span class="p">(</span><span class="n">step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing_extensions.Self">Self</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">update_current_time</span><span class="p">(</span>
+    <span class="n">step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">return_time_manager</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing_extensions.Self">Self</span></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2522,17 +2524,27 @@
 If 0, use the time step passed at instantiation.</p>
           </div>
         </li>
+        <li class="doc-section-item field-body">
+            <b><code>return_time_manager</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>True</code>
+)
+          –
+          <div class="doc-md-description">
+            <p>Whether to return the time evolution
+as a time manager.</p>
+          </div>
+        </li>
     </ul>
 
 
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><span title="typing_extensions.Self">Self</span></code>
+              <code><span title="typing_extensions.Self">Self</span> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]</code>
           –
           <div class="doc-md-description">
-            <p>A time manager with
-the current time before the update as initial time,
+            <p>The current time before the update as initial time,
 the current time after the update as final time
 and the difference between the initial and final times as time step.</p>
           </div>
@@ -2573,16 +2585,26 @@ and the difference between the initial and final times as time step.</p>
 <span class="normal">113</span>
 <span class="normal">114</span>
 <span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_current_time</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">return_time_manager</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Increment the current time by one time step and truncate at the final time.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        step: The time step.</span>
 <span class="sd">            If 0, use the time step passed at instantiation.</span>
+<span class="sd">        return_time_manager: Whether to return the time evolution</span>
+<span class="sd">            as a time manager.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A time manager with</span>
-<span class="sd">        the current time before the update as initial time,</span>
+<span class="sd">        The current time before the update as initial time,</span>
 <span class="sd">        the current time after the update as final time</span>
 <span class="sd">        and the difference between the initial and final times as time step.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2605,7 +2627,11 @@ and the difference between the initial and final times as time step.</p>
 
     <span class="n">current_before_update</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__current</span> <span class="o">+=</span> <span class="n">step</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">current_before_update</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_before_update</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_time_manager</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">*</span><span class="n">times</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">times</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

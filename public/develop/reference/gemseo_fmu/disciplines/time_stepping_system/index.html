@@ -2304,7 +2304,13 @@ at initial time, to find a multidisciplinary feasible configuration.</p>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
-<span class="normal">204</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">disciplines</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="n">Discipline</span><span class="p">],</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -2345,7 +2351,13 @@ at initial time, to find a multidisciplinary feasible configuration.</p>
     <span class="n">discipline_time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">apply_time_step_to_disciplines</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="n">all_disciplines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">discipline</span> <span class="ow">in</span> <span class="n">disciplines</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">discipline</span><span class="p">,</span> <span class="n">BaseFMUDiscipline</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">discipline</span><span class="p">,</span> <span class="n">DoStepFMUDiscipline</span><span class="p">):</span>
+            <span class="n">discipline</span><span class="o">.</span><span class="n">set_default_execution</span><span class="p">(</span>
+                <span class="n">final_time</span><span class="o">=</span><span class="n">final_time</span><span class="p">,</span>
+                <span class="n">restart</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">time_step</span><span class="o">=</span><span class="n">discipline_time_step</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">discipline</span><span class="p">,</span> <span class="n">BaseFMUDiscipline</span><span class="p">):</span>
             <span class="n">discipline</span><span class="o">.</span><span class="n">set_default_execution</span><span class="p">(</span>
                 <span class="n">final_time</span><span class="o">=</span><span class="n">final_time</span><span class="p">,</span>
                 <span class="n">restart</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -2382,7 +2394,7 @@ at initial time, to find a multidisciplinary feasible configuration.</p>
         <span class="n">inner_mda_name</span><span class="o">=</span><span class="n">mda_name</span><span class="p">,</span>
         <span class="c1"># TODO: add max_mda_iter argument when rollback will be available.</span>
         <span class="n">max_mda_iter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">mda_options</span><span class="p">,</span>
+        <span class="n">inner_mda_settings</span><span class="o">=</span><span class="n">mda_options</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">mda</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">inner_mdas</span><span class="p">:</span>
         <span class="n">mda</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">max_mda_iter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2501,13 +2513,7 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
@@ -2524,7 +2530,13 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
-<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineData</span><span class="p">:</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span><span class="p">:</span>

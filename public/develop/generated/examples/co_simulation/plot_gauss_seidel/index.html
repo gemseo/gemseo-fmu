@@ -1915,7 +1915,7 @@ The disciplines are no longer executed in parallel but sequentially:</p>
           {
             "from": "Dis1",
             "to": "Opt",
-            "name": "MassSpringSubSystem1:time, MassSpringSubSystem2:time, v1, v2, x1, x2"
+            "name": "MassSpringSubSystem1_time, MassSpringSubSystem2_time, v1, v2, x1, x2"
           },
           {
             "from": "Opt",
@@ -1925,7 +1925,7 @@ The disciplines are no longer executed in parallel but sequentially:</p>
           {
             "from": "Dis2",
             "to": "Opt",
-            "name": "MassSpringSubSystem1:time, v1, x1"
+            "name": "MassSpringSubSystem1_time, v1, x1"
           },
           {
             "from": "Opt",
@@ -1935,17 +1935,17 @@ The disciplines are no longer executed in parallel but sequentially:</p>
           {
             "from": "Dis3",
             "to": "Opt",
-            "name": "MassSpringSubSystem2:time, v2, x2"
+            "name": "MassSpringSubSystem2_time, v2, x2"
           },
           {
             "from": "Dis2",
             "to": "Opt",
-            "name": "v1, x1, MassSpringSubSystem1:time"
+            "name": "v1, x1, MassSpringSubSystem1_time"
           },
           {
             "from": "Dis3",
             "to": "Opt",
-            "name": "v2, x2, MassSpringSubSystem2:time"
+            "name": "v2, x2, MassSpringSubSystem2_time"
           },
           {
             "from": "Dis1",
@@ -2013,9 +2013,9 @@ The disciplines are no longer executed in parallel but sequentially:</p>
 <span class="o">{</span><span class="s1">&#39;k1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;k2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;m1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="w">        </span>,<span class="w"> </span><span class="m">0</span>.999801<span class="w">  </span>,<span class="w"> </span><span class="m">0</span>.99940401,<span class="w"> </span>...,<span class="w"> </span><span class="m">1</span>.20466672,<span class="w"> </span><span class="m">1</span>.22777893,
 <span class="w">       </span><span class="m">1</span>.22777893<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;k3&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;m2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;v1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">1</span>.01<span class="w">      </span>,<span class="w">  </span><span class="m">1</span>.0198<span class="w">    </span>,<span class="w">  </span><span class="m">1</span>.02939601,<span class="w"> </span>...,<span class="w"> </span>-0.51206915,
 <span class="w">       </span>-0.49606332,<span class="w"> </span>-0.49606332<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.01<span class="w">      </span>,<span class="w">  </span><span class="m">0</span>.0201<span class="w">    </span>,<span class="w">  </span><span class="m">0</span>.030298<span class="w">  </span>,<span class="w"> </span>...,<span class="w"> </span>-0.19795826,
-<span class="w">       </span>-0.20307895,<span class="w"> </span>-0.20307895<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;MassSpringSubSystem1:time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.000e-02,<span class="w"> </span><span class="m">2</span>.000e-02,<span class="w"> </span><span class="m">3</span>.000e-02,<span class="w"> </span>...,<span class="w"> </span><span class="m">4</span>.999e+01,<span class="w"> </span><span class="m">5</span>.000e+01,
+<span class="w">       </span>-0.20307895,<span class="w"> </span>-0.20307895<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;MassSpringSubSystem1_time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.000e-02,<span class="w"> </span><span class="m">2</span>.000e-02,<span class="w"> </span><span class="m">3</span>.000e-02,<span class="w"> </span>...,<span class="w"> </span><span class="m">4</span>.999e+01,<span class="w"> </span><span class="m">5</span>.000e+01,
 <span class="w">       </span><span class="m">5</span>.000e+01<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;v2&#39;</span>:<span class="w"> </span>array<span class="o">([</span>-0.0199<span class="w">    </span>,<span class="w"> </span>-0.039699<span class="w">  </span>,<span class="w"> </span>-0.05939204,<span class="w"> </span>...,<span class="w">  </span><span class="m">2</span>.31122156,
-<span class="w">        </span><span class="m">2</span>.28509744,<span class="w">  </span><span class="m">2</span>.28509744<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;MassSpringSubSystem2:time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.000e-02,<span class="w"> </span><span class="m">2</span>.000e-02,<span class="w"> </span><span class="m">3</span>.000e-02,<span class="w"> </span>...,<span class="w"> </span><span class="m">4</span>.999e+01,<span class="w"> </span><span class="m">5</span>.000e+01,
+<span class="w">        </span><span class="m">2</span>.28509744,<span class="w">  </span><span class="m">2</span>.28509744<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;MassSpringSubSystem2_time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.000e-02,<span class="w"> </span><span class="m">2</span>.000e-02,<span class="w"> </span><span class="m">3</span>.000e-02,<span class="w"> </span>...,<span class="w"> </span><span class="m">4</span>.999e+01,<span class="w"> </span><span class="m">5</span>.000e+01,
 <span class="w">       </span><span class="m">5</span>.000e+01<span class="o">])}</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 81-84 -->
@@ -2038,7 +2038,7 @@ we also have a FMU model of the complete system:</p>
 <span class="w">       </span>-0.81690925,<span class="w"> </span>-0.79753386<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;v2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.<span class="w">        </span>,<span class="w"> </span>-0.02<span class="w">      </span>,<span class="w"> </span>-0.0399<span class="w">    </span>,<span class="w"> </span>...,<span class="w">  </span><span class="m">2</span>.43080622,
 <span class="w">        </span><span class="m">2</span>.40316415,<span class="w">  </span><span class="m">2</span>.37495232<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x1&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="w"> </span><span class="m">0</span>.<span class="w">        </span>,<span class="w">  </span><span class="m">0</span>.01<span class="w">      </span>,<span class="w">  </span><span class="m">0</span>.0201<span class="w">    </span>,<span class="w"> </span>...,<span class="w"> </span>-0.34293973,
 <span class="w">       </span>-0.35129848,<span class="w"> </span>-0.35946757<span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;x2&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">1</span>.<span class="w">        </span>,<span class="w"> </span><span class="m">1</span>.<span class="w">        </span>,<span class="w"> </span><span class="m">0</span>.9998<span class="w">    </span>,<span class="w"> </span>...,<span class="w"> </span><span class="m">1</span>.21063389,<span class="w"> </span><span class="m">1</span>.23494196,
-<span class="w">       </span><span class="m">1</span>.2589736<span class="w"> </span><span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;MassSpringSystem:time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.000e+00,<span class="w"> </span><span class="m">1</span>.000e-02,<span class="w"> </span><span class="m">2</span>.000e-02,<span class="w"> </span>...,<span class="w"> </span><span class="m">4</span>.998e+01,<span class="w"> </span><span class="m">4</span>.999e+01,
+<span class="w">       </span><span class="m">1</span>.2589736<span class="w"> </span><span class="o">])</span>,<span class="w"> </span><span class="s1">&#39;MassSpringSystem_time&#39;</span>:<span class="w"> </span>array<span class="o">([</span><span class="m">0</span>.000e+00,<span class="w"> </span><span class="m">1</span>.000e-02,<span class="w"> </span><span class="m">2</span>.000e-02,<span class="w"> </span>...,<span class="w"> </span><span class="m">4</span>.998e+01,<span class="w"> </span><span class="m">4</span>.999e+01,
 <span class="w">       </span><span class="m">5</span>.000e+01<span class="o">])}</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 90-96 -->
@@ -2052,14 +2052,14 @@ to that of the complete system.</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 96-124 -->
 
 <div class="highlight"><pre><span></span><code><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">time_1</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;MassSpringSubSystem1:time&quot;</span><span class="p">]</span>
-<span class="n">time_2</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;MassSpringSubSystem2:time&quot;</span><span class="p">]</span>
+<span class="n">time_1</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;MassSpringSubSystem1_time&quot;</span><span class="p">]</span>
+<span class="n">time_2</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;MassSpringSubSystem2_time&quot;</span><span class="p">]</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_1</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_2</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_1</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;v1&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_2</span><span class="p">,</span> <span class="n">system</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;v2&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;v2&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 
-<span class="n">time</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;MassSpringSystem:time&quot;</span><span class="p">]</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;MassSpringSystem_time&quot;</span><span class="p">]</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">reference</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;x1[ref]&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">time</span><span class="p">,</span> <span class="n">reference</span><span class="o">.</span><span class="n">local_data</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;x2[ref]&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span>
@@ -2080,7 +2080,7 @@ to that of the complete system.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <p><img alt="plot gauss seidel" class="mkd-glr-single-img" src="../images/mkd_glr_plot_gauss_seidel_001.png" srcset="../images/mkd_glr_plot_gauss_seidel_001.png" /></p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.015 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  2.002 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_gauss_seidel.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48"/></svg></span> Download Python source code: plot_gauss_seidel.py</a></p>
