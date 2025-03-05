@@ -69,8 +69,10 @@ def test_time_manager(time_manager, caplog):
 
 
 def test_time_manager_custom(time_manager):
-    """Check update_current_time() with custom value."""
-    assert time_manager.update_current_time(0.5) == TimeManager(1.2, 1.7, 0.5)
+    """Check update_current_time() with custom values."""
+    update_current_time = time_manager.update_current_time
+    assert update_current_time(0.5) == TimeManager(1.2, 1.7, 0.5)
+    assert update_current_time(return_time_manager=False) == (1.7, 4.0, 2.3)
 
 
 @pytest.mark.parametrize(

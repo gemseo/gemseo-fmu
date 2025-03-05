@@ -33,7 +33,8 @@ from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from gemseo_fmu.utils.time_series import TimeSeries
 
 
-def test_standard_use():
+@pytest.mark.parametrize("cls", [DoStepFMUDiscipline, FMUDiscipline])
+def test_standard_use(cls):
     """Check that TimeSteppingSystem works correctly."""
     discipline = FMUDiscipline(
         get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.1
@@ -43,7 +44,7 @@ def test_standard_use():
 
     # TimeSteppingSystem can use a mix of standard MDODisciplines,
     # BaseFMUDisciplines and FMU file paths.
-    discipline = DoStepFMUDiscipline(get_fmu_file_path("MassSpringSubSystem1"))
+    discipline = cls(get_fmu_file_path("MassSpringSubSystem1"))
     discipline.default_input_data["m1"] = discipline.default_input_data["m1"][0]
     system = TimeSteppingSystem(
         (
@@ -135,7 +136,7 @@ def test_restart(kwargs, n_executions, use_cache):
     system.execute()
     system.execute()
     assert_equal(
-        system.io.data["MassSpringSubSystem1:time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
+        system.io.data["MassSpringSubSystem1_time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
     )
     assert system.io.data["x2"].size == 5
     assert system.execution_statistics.n_executions == n_executions
@@ -215,11 +216,11 @@ def test_apply_time_step_to_disciplines(apply, step1, step2):
         (s1, s2), 0.03, 0.01, apply_time_step_to_disciplines=apply
     )
     system.execute()
-    assert s1._BaseFMUDiscipline__default_simulation_settings[s1._TIME_STEP] == step1
-    assert s2._BaseFMUDiscipline__default_simulation_settings[s2._TIME_STEP] == step2
+    assert s1._BaseFMUDiscipline__default_simulation_settings.time_step == step1
+    assert s2._BaseFMUDiscipline__default_simulation_settings.time_step == step2
     expected_time = array([0.01, 0.02, 0.03])
-    assert_equal(system.io.data["MassSpringSubSystem1:time"], expected_time)
-    assert_equal(system.io.data["MassSpringSubSystem2:time"], expected_time)
+    assert_equal(system.io.data["MassSpringSubSystem1_time"], expected_time)
+    assert_equal(system.io.data["MassSpringSubSystem2_time"], expected_time)
 
 
 def test_time_series():
@@ -237,7 +238,7 @@ def test_time_series():
     })
     system.execute()
     expected_time = array([0.1, 0.2, 0.3])
-    assert_allclose(system.io.data["MassSpringSubSystem1:time"], expected_time)
+    assert_allclose(system.io.data["MassSpringSubSystem1_time"], expected_time)
 
 
 def test_process_flow():
