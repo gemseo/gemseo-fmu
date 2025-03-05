@@ -31,6 +31,9 @@ and this project adheres to
 ### Added
 
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] has a new option ``mda_max_iter_at_t0`` to perform an MDA at initial time with at most ``mda_max_iter_at_t0`` iterations.
+- [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new option ``initialize_only`` to simply initialize the FMU model at execution.
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] has a new argument, named ``time_name``, to set the name of the time variable (default: ``"time"``).
+- [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new argument, named ``use_arrays_only``, to pass only NumPy arrays at execution (default: ``False``).
 
 ### Fixed
 
@@ -38,6 +41,10 @@ and this project adheres to
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when using the default input data.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports input data passed as numbers.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports Gauss-Seidel as co-simulation algorithm.
+
+### Changed
+
+- The time variable of [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] is no longer namespaced *but* still prefixed by the discipline name: ``f"{discipline_name}_{time_name}"``.
 
 ## Version 3.0.0 (November 2024)
 

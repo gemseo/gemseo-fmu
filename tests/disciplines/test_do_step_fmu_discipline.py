@@ -58,9 +58,9 @@ def test_do_step_cannot_be_set(discipline, fmu_file_path):
 
 def test_co_simulation(discipline):
     """Check that a DoStepFMUDiscipline is an FMUDiscipline with CS type."""
-    assert discipline._BaseFMUDiscipline__model_type == discipline._CO_SIMULATION
+    assert discipline._BaseFMUDiscipline__model_type == "CoSimulation"
 
 
 def test_restart(discipline):
     """Check that the default value of restart is False."""
-    assert not discipline._BaseFMUDiscipline__default_simulation_settings["restart"]
+    assert not discipline._BaseFMUDiscipline__default_simulation_settings.restart

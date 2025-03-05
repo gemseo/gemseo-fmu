@@ -137,7 +137,13 @@ class TimeSteppingSystem(Discipline):
         discipline_time_step = time_step if apply_time_step_to_disciplines else 0.0
         all_disciplines = []
         for discipline in disciplines:
-            if isinstance(discipline, BaseFMUDiscipline):
+            if isinstance(discipline, DoStepFMUDiscipline):
+                discipline.set_default_execution(
+                    final_time=final_time,
+                    restart=False,
+                    time_step=discipline_time_step or None,
+                )
+            elif isinstance(discipline, BaseFMUDiscipline):
                 discipline.set_default_execution(
                     final_time=final_time,
                     restart=False,
@@ -174,7 +180,7 @@ class TimeSteppingSystem(Discipline):
             inner_mda_name=mda_name,
             # TODO: add max_mda_iter argument when rollback will be available.
             max_mda_iter=0,
-            **mda_options,
+            inner_mda_settings=mda_options,
         )
         for mda in self.__mda.inner_mdas:
             mda.settings.max_mda_iter = 0
@@ -247,7 +253,9 @@ class TimeSteppingSystem(Discipline):
                 mda.settings.max_mda_iter = max_mda_iter
 
             for fmu_discipline in self.__fmu_disciplines:
-                fmu_discipline.set_default_execution(initialize_only=False)
+                fmu_discipline.set_default_execution(
+                    initialize_only=False, use_arrays_only=True
+                )
 
         input_data = dict(input_data)
         input_data.update(self.__mda.io.data)
@@ -259,7 +267,9 @@ class TimeSteppingSystem(Discipline):
 
     def __simulate_one_time_step(self, input_data: Mapping[str, Any]) -> None:
         """Simulate the multidisciplinary system with only one time step."""
-        simulation_time = self.__time_manager.update_current_time().step
+        _, _, simulation_time = self.__time_manager.update_current_time(
+            return_time_manager=False
+        )
         for fmu_discipline in self.__fmu_disciplines:
             fmu_discipline.set_next_execution(simulation_time=simulation_time)
 
@@ -275,12 +285,11 @@ class TimeSteppingSystem(Discipline):
 
         # The different time steps are concatenated when the values are NumPy arrays.
         # Given a variable,
-        # We suppose that it value type is the same at all time steps.
-        local_data_history_0 = local_data_history[0]
+        # We suppose that its value type is the same at all time steps.
         self.io.update_output_data({
             name: concatenate([
                 atleast_1d(local_data[name]) for local_data in local_data_history
             ])
-            for name in local_data_history_0
-            if not isinstance(local_data_history_0[name], TimeSeries)
+            for name, initial_value in local_data_history[0].items()
+            if not isinstance(initial_value, TimeSeries)
         })
