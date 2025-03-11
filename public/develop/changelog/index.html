@@ -2159,75 +2159,80 @@ and this project adheres to
 <h2 id="develop">Develop<a class="headerlink" href="#develop" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a> has a new option <code>mda_max_iter_at_t0</code> to perform an MDA at initial time with at most <code>mda_max_iter_at_t0</code> iterations.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a> has a new option <code>initialize_only</code> to simply initialize the FMU model at execution.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> has a new argument, named <code>time_name</code>, to set the name of the time variable (default: <code>"time"</code>).</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a> has a new argument, named <code>use_arrays_only</code>, to pass only NumPy arrays at execution (default: <code>False</code>).</li>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a> has a new option <code>mda_max_iter_at_t0</code> to perform an MDA at initial time with at most <code>mda_max_iter_at_t0</code> iterations.</li>
+<li><a class="autorefs autorefs-internal" title="            set_default_execution" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a> has a new option <code>initialize_only</code> to simply initialize the FMU model at execution.</li>
+<li><a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> has a new argument, named <code>time_name</code>, to set the name of the time variable (default: <code>"time"</code>).</li>
+<li><a class="autorefs autorefs-internal" title="            set_default_execution" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a> has a new argument, named <code>use_arrays_only</code>, to pass only NumPy arrays at execution (default: <code>False</code>).</li>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> supports FMI3 when <code>do_step</code> is <code>True</code></li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> supports FMI3 when using the default input data.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a> supports input data passed as numbers.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a> supports Gauss-Seidel as co-simulation algorithm.</li>
+<li><a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> supports FMI3 when <code>do_step</code> is <code>True</code></li>
+<li><a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> supports FMI3 when using the default input data.</li>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a> supports input data passed as numbers.</li>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a> supports Gauss-Seidel as co-simulation algorithm.</li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The time variable of <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> is no longer namespaced <em>but</em> still prefixed by the discipline name: <code>f"{discipline_name}_{time_name}"</code>.</li>
+<li>The time variable of <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> is no longer namespaced <em>but</em> still prefixed by the discipline name: <code>f"{discipline_name}_{time_name}"</code>.</li>
 </ul>
 <h2 id="version-300-november-2024">Version 3.0.0 (November 2024)<a class="headerlink" href="#version-300-november-2024" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Support GEMSEO v6.</li>
 <li>Support for Python 3.12.</li>
-<li>The class <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_manager/#gemseo_fmu.utils.time_manager.TimeManager">TimeManager</a> can be used to create a time manager
+<li>The class <a class="autorefs autorefs-internal" title="            TimeManager" href="../reference/gemseo_fmu/utils/time_manager/#gemseo_fmu.utils.time_manager.TimeManager">TimeManager</a> can be used to create a time manager
   from an initial time, a final time and a time step;
   the current time can be updated
-  with the <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_manager/#gemseo_fmu.utils.time_manager.TimeManager.update_current_time">update_current_time</a> method
-  and reset with the <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_manager/#gemseo_fmu.utils.time_manager.TimeManager.reset">reset</a> one.</li>
+  with the <a class="autorefs autorefs-internal" title="            update_current_time" href="../reference/gemseo_fmu/utils/time_manager/#gemseo_fmu.utils.time_manager.TimeManager.update_current_time">update_current_time</a> method
+  and reset with the <a class="autorefs autorefs-internal" title="            reset" href="../reference/gemseo_fmu/utils/time_manager/#gemseo_fmu.utils.time_manager.TimeManager.reset">reset</a> one.</li>
 <li>The method
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a>
+  <a class="autorefs autorefs-internal" title="            set_default_execution" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution">FMUDiscipline.set_default_execution</a>
   can be used to redefine some default settings, such as <code>do_step</code>, <code>final_time</code>, <code>restart</code> and <code>time_step</code>.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
   has new arguments <code>mda_name</code> and <code>mda_options</code> to define the master algorithm,
   e.g. a parallel master algorithm inspired by the Jacobi method when <code>mda_name="MDAJacobi"</code> (default)
   and a serial one inspired by the Gauss-Seidel method when <code>mda_name="MDAGaussSeidel"</code>.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
   has a new argument <code>apply_time_step_to_disciplines</code> (default: <code>True</code>);
   if <code>True</code>,
   the value of its <code>time_step</code> argument is passed to the time-stepping disciplines;
   otherwise,
   the time-stepping disciplines use their own time steps.</li>
-<li>Any <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> can use scalar input variables.</li>
+<li>Any <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a> can use scalar input variables.</li>
 <li>A time-varying FMU model input can also be defined
   as a time function of type <code>Callable[[TimeDurationType], float]</code>,
   and not only a constant value or a
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>;
+  <a class="autorefs autorefs-internal" title="            TimeSeries" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>;
   the documentation provides an example of this functionality.</li>
 <li>The method
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot">FMUDiscipline.plot</a>
+  <a class="autorefs autorefs-internal" title="            plot" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot">FMUDiscipline.plot</a>
   draws the temporal evolution of output variables with lines.</li>
 <li>The components of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries.time">TimeSeries.time</a>
+  <a class="autorefs autorefs-internal" title="            time
+
+
+  
+      instance-attribute
+  " href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries.time">TimeSeries.time</a>
   can be either strings of characters such as <code>"2h 34m 5s"</code>,
   or numbers expressed in seconds</li>
 <li>The arguments <code>initial_time</code>, <code>final_time</code> and <code>time_step</code> of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+  <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   can be strings of characters such as <code>"2h 34m 5s"</code>,
   in addition to numbers expressed in seconds.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>
+<li><a class="autorefs autorefs-internal" title="            TimeDuration" href="../reference/gemseo_fmu/utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>
   allows to define a time duration
   based on a number expressed in seconds
   or a string of characters such as <code>"2h 34m 5s"</code>.</li>
-<li>The <code>variable_names</code> argument of <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<li>The <code>variable_names</code> argument of <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   allows the discipline to have input and output names different from the input and output names of the FMU model.</li>
 </ul>
 <h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> is now
-  in the subpackage <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series">gemseo_fmu.utils.time_series</a>.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> supports the <code>==</code> and <code>!=</code> operators.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<li><a class="autorefs autorefs-internal" title="            TimeSeries" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> is now
+  in the subpackage <a class="autorefs autorefs-internal" title="            time_series" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series">gemseo_fmu.utils.time_series</a>.</li>
+<li><a class="autorefs autorefs-internal" title="            TimeSeries" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> supports the <code>==</code> and <code>!=</code> operators.</li>
+<li><a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   stores the time evolution of its time-varying inputs
   in its <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.local_data">local_data</a>
   when <code>do_step</code> is <code>False</code>
@@ -2240,17 +2245,17 @@ and this project adheres to
 </ul>
 <h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
-  can use input values of type <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+  can use input values of type <a class="autorefs autorefs-internal" title="            TimeSeries" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>.</li>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
   can simulate up to the final time by adapting the last time step
   in the case where the difference between the initial and final times is not a multiple of the time step.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution">FMUDiscipline.set_next_execution</a>
+<li><a class="autorefs autorefs-internal" title="            set_next_execution" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution">FMUDiscipline.set_next_execution</a>
   can be called several times before an execution.</li>
 <li><code>BaseFMUDiscipline._pre_instantiate</code> can now redefine time properties
   relative to initial and final times, e.g. simulation time and current value.</li>
 <li>The points of a
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>
+  <a class="autorefs autorefs-internal" title="            TimeSeries" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>
   are interpreted as the starting points of the intervals of a stairs function
   for FMU model inputs of causality <code>input</code>,
   which is consistent with the FMU model input of causality <code>parameter</code>.</li>
@@ -2260,34 +2265,34 @@ and this project adheres to
 <ul>
 <li>Support for Python 3.11.</li>
 <li>The default behavior of
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+  <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   is either simulating until the final time or during a time step;
   it can also restart from initial time after each execution.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">FMUDiscipline.execute</a>
+<li><a class="autorefs autorefs-internal" title="            execute" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">FMUDiscipline.execute</a>
   can change the behavior of the
-  <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+  <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   temporarily, to simulate during a given simulation time, with a
   different time step or from initial time.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>
+<li><a class="autorefs autorefs-internal" title="            TimeSeries" href="../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>
   allows to specify inputs as time series.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/problems/#gemseo_fmu.problems">gemseo-fmu.problems</a> contains use cases,
-  either defined as <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<li><a class="autorefs autorefs-internal" title="            problems" href="../reference/gemseo_fmu/problems/#gemseo_fmu.problems">gemseo-fmu.problems</a> contains use cases,
+  either defined as <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   or simply as FMU files;
-  use <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/problems/fmu_files/#gemseo_fmu.problems.fmu_files.get_fmu_file_path">get_fmu_file_path</a>
+  use <a class="autorefs autorefs-internal" title="            get_fmu_file_path" href="../reference/gemseo_fmu/problems/fmu_files/#gemseo_fmu.problems.fmu_files.get_fmu_file_path">get_fmu_file_path</a>
   to get a FMU file path easily.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/#gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline">DoStepFMUDiscipline</a>
-  is an <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<li><a class="autorefs autorefs-internal" title="            DoStepFMUDiscipline" href="../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/#gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline">DoStepFMUDiscipline</a>
+  is an <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   whose execution is only one time step ahead.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
+<li><a class="autorefs autorefs-internal" title="            TimeSteppingSystem" href="../reference/gemseo_fmu/disciplines/time_stepping_system/#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem">TimeSteppingSystem</a>
   is a system of static and time-stepping disciplines
   which executes them sequentially at each time step.</li>
 </ul>
 <h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li>The <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<li>The <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   relies on the library <a href="https://github.com/CATIA-Systems/FMPy">FMPy</a>.</li>
-<li><a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
-  is in <a class="autorefs autorefs-internal" href="../reference/gemseo_fmu/disciplines/#gemseo_fmu.disciplines">gemseo-fmu.disciplines</a>.</li>
+<li><a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+  is in <a class="autorefs autorefs-internal" title="            disciplines" href="../reference/gemseo_fmu/disciplines/#gemseo_fmu.disciplines">gemseo-fmu.disciplines</a>.</li>
 </ul>
 <h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
 <p>Support for Python 3.8.</p>

@@ -2160,6 +2160,7 @@
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -2191,7 +2192,7 @@
     <span class="n">do_step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">use_co_simulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">solver_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver" href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver">Solver</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver.CVODE">CVODE</span></span><span class="p">,</span>
+    <span class="n">solver_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            Solver (gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver)" href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver">Solver</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver.CVODE">CVODE</span></span><span class="p">,</span>
     <span class="n">model_instance_directory</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">delete_model_instance_directory</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
@@ -2254,7 +2255,7 @@ if empty, use all the outputs of the FMU model.</p>
           <div class="doc-md-description">
             <p>The initial time of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>None</code>, use the start time defined in the FMU model if any;
 otherwise use 0.</p>
           </div>
@@ -2268,7 +2269,7 @@ otherwise use 0.</p>
           <div class="doc-md-description">
             <p>The final time of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>None</code>, use the stop time defined in the FMU model if any;
 otherwise use the initial time.</p>
           </div>
@@ -2282,7 +2283,7 @@ otherwise use the initial time.</p>
           <div class="doc-md-description">
             <p>The time step of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>0.</code>, use the stop time defined in the FMU model if any;
 otherwise use <code>0.</code>.</p>
           </div>
@@ -2326,7 +2327,7 @@ otherwise use <code>0.</code>.</p>
           <div class="doc-md-description">
             <p>Whether the model is simulated over only one <code>time_step</code>
 when calling
-<a class="autorefs autorefs-internal" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">execute()</a>.
+<a class="autorefs autorefs-internal" title="            execute" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">execute()</a>.
 Otherwise, simulate the model from current time to final time in one go.</p>
           </div>
         </li>
@@ -2355,7 +2356,7 @@ When <code>do_step</code> is <code>True</code>, the co-simulation FMI type is re
         </li>
         <li class="doc-section-item field-body">
             <b><code>solver_name</code></b>
-              (<code><a class="autorefs autorefs-internal" title="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver" href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver">Solver</a></code>, default:
+              (<code><a class="autorefs autorefs-internal" title="            Solver (gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver)" href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver">Solver</a></code>, default:
                   <code><span title="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.Solver.CVODE">CVODE</span></code>
 )
           –
@@ -2411,6 +2412,7 @@ to <code>_pre_instantiate()</code>.</p>
           </div>
         </li>
     </ul>
+
 
 
 
@@ -2652,6 +2654,7 @@ to <code>_pre_instantiate()</code>.</p>
     <div class="doc doc-contents ">
 
         <p>The names of the variables sorted by causality.</p>
+
     </div>
 
 </div>
@@ -2675,6 +2678,7 @@ to <code>_pre_instantiate()</code>.</p>
     <div class="doc doc-contents ">
 
         <p>The FMU model.</p>
+
     </div>
 
 </div>
@@ -2698,6 +2702,7 @@ to <code>_pre_instantiate()</code>.</p>
     <div class="doc doc-contents ">
 
         <p>The description of the FMU model.</p>
+
     </div>
 
 </div>
@@ -2720,6 +2725,7 @@ to <code>_pre_instantiate()</code>.</p>
 
 
         <p>The solver to simulate a model-exchange model.</p>
+
 
 
 
@@ -2760,7 +2766,7 @@ to <code>_pre_instantiate()</code>.</p>
     <span class="n">input_data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
         <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
         <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span>
-        <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="gemseo_fmu.utils.time_series.TimeSeries" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a></span>
+        <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a></span>
         <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a></span><span class="p">[[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">],</span>
     <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a></span><span class="p">({}),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline_data.html#gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</a></span>
@@ -2781,7 +2787,7 @@ This :meth:<code>._run</code> method must be implemented in subclasses.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>input_data</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a> | <a class="autorefs autorefs-internal" title="gemseo_fmu.utils.time_series.TimeSeries" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> | <a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>, default:
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a> | <a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> | <a class="autorefs autorefs-external" title="typing.Callable" href="https://docs.python.org/3/library/typing.html#typing.Callable">Callable</a>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>, default:
                   <code><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a>({})</code>
 )
           –
@@ -2803,6 +2809,7 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
@@ -2891,7 +2898,7 @@ Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
           <div class="doc-md-description">
             <p>Whether the model is simulated over only one <code>time_step</code>
 when calling
-<a class="autorefs autorefs-internal" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">execute()</a>.
+<a class="autorefs autorefs-internal" title="            execute" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">execute()</a>.
 Otherwise, simulate the model from current time to final time in one go.
 If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
@@ -2905,7 +2912,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
           <div class="doc-md-description">
             <p>The final time of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
         </li>
@@ -2930,7 +2937,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
           <div class="doc-md-description">
             <p>The time step of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
         </li>
@@ -2956,6 +2963,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
@@ -3101,7 +3109,7 @@ if <code>None</code>, use the value passed at the instantiation.</p>
           <div class="doc-md-description">
             <p>The duration of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>None</code> and the <code>do_step</code> passed at instantiation is <code>False</code>,
 execute until the final time;
 if <code>None</code> and the <code>do_step</code> passed at instantiation is <code>True</code>,
@@ -3117,11 +3125,12 @@ execute during a single time step.</p>
           <div class="doc-md-description">
             <p>The time step of the simulation;
 either a number in seconds or a string of characters
-(see <a class="autorefs autorefs-internal" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
+(see <a class="autorefs autorefs-internal" title="            TimeDuration" href="../../utils/time_duration/#gemseo_fmu.utils.time_duration.TimeDuration">TimeDuration</a>);
 if <code>None</code>, use the value passed at the instantiation.</p>
           </div>
         </li>
     </ul>
+
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>

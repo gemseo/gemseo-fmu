@@ -2087,24 +2087,24 @@ GEMSEO-FMU proposes
 new types of <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>
 to simulate an FMU model:</p>
 <ul>
-<li>the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
+<li>the <a class="autorefs autorefs-internal" title="            StaticFMUDiscipline" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
   to simulate a time-independent FMU model <span class="arithmatex">\(f\)</span>
   like <span class="arithmatex">\(y=f(x)\)</span>
   where <span class="arithmatex">\(x\)</span> is the input and <span class="arithmatex">\(y\)</span> is the output,</li>
-<li>the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
+<li>the <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
   to simulate a time-dependent FMU model <span class="arithmatex">\(f\)</span>
   like <span class="arithmatex">\(y(t_k)=f(y(t_{k-1}),x(t_{k-1}),\Delta t_k)\)</span>
   where <span class="arithmatex">\(t_{k-1}\)</span> is the previous time,
   <span class="arithmatex">\(t_k\)</span> is the current time
   and <span class="arithmatex">\(\Delta t_k=t_k-t_{k-1}\)</span> is the time step,</li>
-<li>the <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<li>the <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
   to simulate a time-independent or time-dependent FMU model <span class="arithmatex">\(f\)</span>
   like <span class="arithmatex">\(y=f(x)\)</span> or <span class="arithmatex">\(y(t_k)=f(y(t_{k-1}),x(t_{k-1}),\Delta t_k)\)</span>.</li>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p><a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
-is an alias of <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
+<p><a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+is an alias of <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>
 and can be used to simulate both time-dependent and time-independent FMU models.
 Most of the time,
 the FMU model are dynamic and so this naming shortcut can be useful.</p>
@@ -2123,22 +2123,22 @@ it will then produce the same result <span class="arithmatex">\(c=a+b\)</span> a
 </div>
 <p>In the following,
 we will talk about the
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>.
+<a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>.
 The content would be the same for
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
+<a class="autorefs autorefs-internal" title="            StaticFMUDiscipline" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
 except for the parts related to the notion of time,
 which are specific to the
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
+<a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
 You will find examples of both
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
+<a class="autorefs autorefs-internal" title="            StaticFMUDiscipline" href="../../reference/gemseo_fmu/disciplines/static_fmu_discipline/#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline">StaticFMUDiscipline</a>
 and
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
+<a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">DynamicFMUDiscipline</a>.
 in the galleries of examples.</p>
 <h2 id="basics">Basics<a class="headerlink" href="#basics" title="Permanent link">&para;</a></h2>
 <p>As any <a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline.html#gemseo.core.discipline.discipline.Discipline">Discipline</a>,
 you mainly need to know
 how to instantiate an
-<a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>,
+<a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>,
 and how to execute it.
 Advanced features will be presented later.</p>
 <h3 id="instantiation">Instantiation<a class="headerlink" href="#instantiation" title="Permanent link">&para;</a></h3>
@@ -2196,11 +2196,11 @@ When using both <code>do_step=True</code> and <code>restart=False</code>,
 an execution advances a single time step from the previous one.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/#gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline">DoStepFMUDiscipline</a>
-is an <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<p>The <a class="autorefs autorefs-internal" title="            DoStepFMUDiscipline" href="../../reference/gemseo_fmu/disciplines/do_step_fmu_discipline/#gemseo_fmu.disciplines.do_step_fmu_discipline.DoStepFMUDiscipline">DoStepFMUDiscipline</a>
+is an <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 whose execution advances a single time step from the previous time.
 It can be useful if you want
-an <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+an <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 doing time stepping throughout its life cycle.</p>
 </div>
 <p>Lastly,
@@ -2210,7 +2210,7 @@ the final time can be changed with the float argument <code>final_time</code>.</
 <p>The discipline cannot be executed after the final time.</p>
 </div>
 <h3 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
-<p>An <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
+<p>An <a class="autorefs autorefs-internal" title="            FMUDiscipline" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline">FMUDiscipline</a>
 can be easily executed with the default values of its inputs:</p>
 <div class="highlight"><pre><span></span><code><span class="n">discipline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 </code></pre></div>
@@ -2220,7 +2220,7 @@ can be easily executed with the default values of its inputs:</p>
 <h2 id="advanced">Advanced<a class="headerlink" href="#advanced" title="Permanent link">&para;</a></h2>
 <h3 id="time-series">Time series<a class="headerlink" href="#time-series" title="Permanent link">&para;</a></h3>
 <p>An input value can be either a scalar
-or a <a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>.</p>
+or a <a class="autorefs autorefs-internal" title="            TimeSeries" href="../../reference/gemseo_fmu/utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a>.</p>
 <p>For instance,
 a discipline can take as input a signal <span class="arithmatex">\(x(t)\)</span>
 known at time steps <span class="arithmatex">\(t_1,t2,\ldots,t_N\)</span>:</p>
@@ -2245,7 +2245,7 @@ either to set the default inputs:</p>
 <p>The time settings of the next execution of the discipline
 depends on the time settings defined at instantiation
 but can be changed temporarily.</p>
-<p><a class="autorefs autorefs-internal" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution">set_next_execution()</a>
+<p><a class="autorefs autorefs-internal" title="            set_next_execution" href="../../reference/gemseo_fmu/disciplines/fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_next_execution">set_next_execution()</a>
 allows to
 change the duration of the simulation associated to the next execution,
 change the time step used during the next execution
