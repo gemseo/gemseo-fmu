@@ -12,7 +12,29 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-"""A set of platform-dependent FMU files."""
+"""A set of platform-dependent FMU models.
+
+These CS FMU models available in linux and win32 versions are used for
+
+- testing the functionalities of `gemseo-fmu` through [unit and functional tests](https://gitlab.com/gemseo/dev/gemseo-fmu/-/tree/develop/tests),
+- illustrating these functionalities through [examples in the documentation](https://gemseo.gitlab.io/dev/gemseo-fmu/latest/generated/examples/disciplines/).
+
+Note that `gemseo-fmu` was also used to
+simulate proprietary FMU models generated from Simulink,
+in isolation or in combination.
+
+Here is the list of the FMU models available in this sub-package:
+
+| Model                    | FMI | Description                          | Generated from        |
+|--------------------------|-----|--------------------------------------|-----------------------|
+| add.fmu                  |  2  | A linear combination                 | OpenModelica          |
+| FMU3Model.fmu            |  3  | A model incrementing the output      | PythonFMU3            |
+| Mass_Damper.fmu          |  2  | A mass-damper model                  | OpenModelica          |
+| MassSpringSystem.fmu     |  2  | A model with springs and two masses  | OpenModelica          |
+| MassSpringSubSystem1.fmu |  2  | A part of MassSpringSystem.fmu       | OpenModelica          |
+| MassSpringSubSystem2.fmu |  2  | Another part of MassSpringSystem.fmu | OpenModelica          |
+| ramp.fmu                 |  2  | A ramp model                         | OpenModelica          |
+"""  # noqa: E501
 
 from __future__ import annotations
 
