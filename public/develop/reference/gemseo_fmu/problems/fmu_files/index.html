@@ -1923,7 +1923,70 @@
 
     <div class="doc doc-contents first">
 
-        <p>A set of platform-dependent FMU files.</p>
+        <p>A set of platform-dependent FMU models.</p>
+<p>These CS FMU models available in linux and win32 versions are used for</p>
+<ul>
+<li>testing the functionalities of <code>gemseo-fmu</code> through <a href="https://gitlab.com/gemseo/dev/gemseo-fmu/-/tree/develop/tests">unit and functional tests</a>,</li>
+<li>illustrating these functionalities through <a href="https://gemseo.gitlab.io/dev/gemseo-fmu/latest/generated/examples/disciplines/">examples in the documentation</a>.</li>
+</ul>
+<p>Note that <code>gemseo-fmu</code> was also used to
+simulate proprietary FMU models generated from Simulink,
+in isolation or in combination.</p>
+<p>Here is the list of the FMU models available in this sub-package:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>FMI</th>
+<th>Description</th>
+<th>Generated from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add.fmu</td>
+<td>2</td>
+<td>A linear combination</td>
+<td>OpenModelica</td>
+</tr>
+<tr>
+<td>FMU3Model.fmu</td>
+<td>3</td>
+<td>A model incrementing the output</td>
+<td>PythonFMU3</td>
+</tr>
+<tr>
+<td>Mass_Damper.fmu</td>
+<td>2</td>
+<td>A mass-damper model</td>
+<td>OpenModelica</td>
+</tr>
+<tr>
+<td>MassSpringSystem.fmu</td>
+<td>2</td>
+<td>A model with springs and two masses</td>
+<td>OpenModelica</td>
+</tr>
+<tr>
+<td>MassSpringSubSystem1.fmu</td>
+<td>2</td>
+<td>A part of MassSpringSystem.fmu</td>
+<td>OpenModelica</td>
+</tr>
+<tr>
+<td>MassSpringSubSystem2.fmu</td>
+<td>2</td>
+<td>Another part of MassSpringSystem.fmu</td>
+<td>OpenModelica</td>
+</tr>
+<tr>
+<td>ramp.fmu</td>
+<td>2</td>
+<td>A ramp model</td>
+<td>OpenModelica</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -1999,19 +2062,19 @@ the corresponding file name is <code>f"{model_name}.fmu"</code>.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/gemseo_fmu/problems/fmu_files/__init__.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fmu_file_path</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fmu_file_path</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file path of an FMU model depending on the platform.</span>
 
 <span class="sd">    Args:</span>
