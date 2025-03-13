@@ -48,6 +48,7 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
         model_instance_directory: str | Path = "",
         delete_model_instance_directory: bool = True,
         variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
         super().__init__(
@@ -61,5 +62,6 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
             do_step=True,
             add_time_to_output_grammar=False,
             variable_names=variable_names,
+            validate=validate,
             **pre_instantiation_parameters,
         )

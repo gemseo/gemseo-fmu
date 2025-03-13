@@ -50,6 +50,7 @@ class DoStepFMUDiscipline(FMUDiscipline):
         fmu_instance_directory: str | Path = "",
         delete_fmu_instance_directory: bool = True,
         variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
         do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
@@ -76,6 +77,7 @@ class DoStepFMUDiscipline(FMUDiscipline):
             fmu_instance_directory=fmu_instance_directory,
             delete_fmu_instance_directory=delete_fmu_instance_directory,
             variable_names=variable_names,
+            validate=validate,
             **pre_instantiation_parameters,
         )
 

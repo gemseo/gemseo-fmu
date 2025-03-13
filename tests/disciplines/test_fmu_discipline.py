@@ -21,6 +21,7 @@ import re
 from typing import Any
 from typing import NamedTuple
 from unittest import mock
+from unittest.mock import patch
 
 import pytest
 from fmpy.fmi2 import FMU2Slave
@@ -835,3 +836,30 @@ def test_callable(is_default_value):
     else:
         data = fmu_discipline.execute(input_data)
     assert_equal(data["y"], array([0.0, 1.0, 4.0, 9.0]))
+
+
+@pytest.mark.parametrize("validate", [None, True, False])
+def test_fmu_validation_default(validate):
+    """Check that the validate option is correctly passed."""
+    with (
+        patch(
+            "gemseo_fmu.disciplines.base_fmu_discipline.instantiate_fmu"
+        ) as mocked_instantiate_fmu,
+        patch(
+            "gemseo_fmu.disciplines.base_fmu_discipline.simulate_fmu"
+        ) as mocked_simulate_fmu,
+    ):
+        fmu_file_path = get_fmu_file_path("add")
+        if validate is None:
+            discipline = FMUDiscipline(fmu_file_path)
+            expected_validation_status = True
+        else:
+            discipline = FMUDiscipline(fmu_file_path, validate=validate)
+            expected_validation_status = validate
+
+        instantiate_kwargs = mocked_instantiate_fmu.call_args.kwargs
+        assert instantiate_kwargs["require_functions"] is expected_validation_status
+
+        discipline.execute()
+        simulate_kwargs = mocked_simulate_fmu.call_args.kwargs
+        assert simulate_kwargs["validate"] is expected_validation_status
