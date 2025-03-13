@@ -197,6 +197,9 @@ class BaseFMUDiscipline(Discipline):
     __use_fmi_3: bool
     """Whether the FMU model is based on FMI 3.0."""
 
+    __validate: bool
+    """Whether the FMU model must be checked."""
+
     def __init__(
         self,
         file_path: str | Path,
@@ -215,6 +218,7 @@ class BaseFMUDiscipline(Discipline):
         model_instance_directory: str | Path = "",
         delete_model_instance_directory: bool = True,
         variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
         """
@@ -260,6 +264,7 @@ class BaseFMUDiscipline(Discipline):
                 associated with the names of the FMU model inputs and outputs,
                 passed as `{fmu_model_variable_name: discipline_variable_name, ...}`.
                 When missing, use the names of the FMU model inputs and outputs.
+            validate: Whether the FMU file must be checked.
             **pre_instantiation_parameters: The parameters to be passed
                 to `_pre_instantiate()`.
         """  # noqa: D205 D212 D415
@@ -268,7 +273,12 @@ class BaseFMUDiscipline(Discipline):
         self.__names_to_time_functions = {}
         self.__solver_name = str(solver_name)
         self.name = self.__set_fmu_model(
-            file_path, model_instance_directory, do_step, use_co_simulation, name
+            file_path,
+            validate,
+            model_instance_directory,
+            do_step,
+            use_co_simulation,
+            name,
         )
         self.__from_fmu_names = dict(variable_names)
         self.__to_fmu_names = {v: k for k, v in variable_names.items()}
@@ -405,6 +415,7 @@ class BaseFMUDiscipline(Discipline):
     def __set_fmu_model(
         self,
         file_path: str | Path,
+        validate: bool,
         model_instance_directory: str | Path,
         do_step: bool,
         use_co_simulation: bool,
@@ -414,6 +425,7 @@ class BaseFMUDiscipline(Discipline):
 
         Args:
             file_path: The path to the FMU model file.
+            validate: Whether the FMU model file must be checked.
             model_instance_directory: The directory of the FMU instance,
                 containing the files extracted from the FMU model file;
                 if empty, let `fmpy` create a temporary directory.
@@ -433,13 +445,17 @@ class BaseFMUDiscipline(Discipline):
         # The path to the FMU file, which is a ZIP archive.
         self.__file_path = Path(file_path)
 
+        self.__validate = validate
+
         # The path to unzipped archive.
         self.__model_dir_path = Path(
             extract(str(file_path), unzipdir=model_instance_directory or None)
         ).resolve()
 
         # The description of the FMU model, read from the XML file in the archive.
-        self.__model_description = read_model_description(str(self.__model_dir_path))
+        self.__model_description = read_model_description(
+            str(self.__model_dir_path), validate=validate
+        )
         self.__model_name = self.__model_description.modelName
         self.__model_fmi_version = self.__model_description.fmiVersion
         self.__use_fmi_3 = self.__model_fmi_version == "3.0"
@@ -465,6 +481,7 @@ class BaseFMUDiscipline(Discipline):
             self.__model_dir_path,
             self.__model_description,
             fmi_type=self.__model_type,
+            require_functions=self.__validate,
         )
         self.__set_fmu_variable = getattr(
             self.__model, "setFloat64" if self.__use_fmi_3 else "setReal"
@@ -920,6 +937,7 @@ class BaseFMUDiscipline(Discipline):
         self.__set_model_inputs(input_data, start_time, False)
         result = simulate_fmu(
             self.__model_dir_path,
+            validate=self.__validate,
             start_time=start_time,
             stop_time=stop_time,
             solver=self.__solver_name,
