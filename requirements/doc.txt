@@ -44,7 +44,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.56.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@83e256f01cbf0bc5bc9b94d11c065953da2c5825
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@1a7496b8d3a2020cdd9dd25855ca885b09a26578
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -207,7 +207,7 @@ pillow==11.1.0
     # via
     #   gemseo
     #   matplotlib
-platformdirs==4.3.6
+platformdirs==4.3.7
     # via
     #   black
     #   mkdocs-get-deps
@@ -281,7 +281,7 @@ scipy==1.13.1
     #   gemseo
     #   pydoe3
     #   scikit-learn
-setuptools==76.1.0
+setuptools==77.0.1
     # via mkdocs-bibtex
 six==1.17.0
     # via
