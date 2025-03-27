@@ -160,7 +160,7 @@ tomli==2.2.1
     # via coverage
 tqdm==4.67.1
     # via gemseo
-typing-extensions==4.12.2
+typing-extensions==4.13.0
     # via
     #   gemseo
     #   pydantic

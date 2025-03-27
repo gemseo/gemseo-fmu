@@ -54,7 +54,7 @@ ghp-import==2.1.0
     # via mkdocs
 graphviz==0.20.3
     # via gemseo
-griffe==1.6.2
+griffe==1.6.3
     # via
     #   griffe-inherited-docstrings
     #   mkdocstrings-python
@@ -301,7 +301,7 @@ tqdm==4.67.1
     # via
     #   gemseo
     #   mkdocs-gallery
-typing-extensions==4.12.2
+typing-extensions==4.13.0
     # via
     #   black
     #   gemseo
