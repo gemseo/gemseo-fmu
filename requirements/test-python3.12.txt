@@ -34,7 +34,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.56.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@232fd4e477299b2cc8c64600d866b08bafdf0348
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@e9c1a58a335875b2acc5383bbd8b19dea822fbf0
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
