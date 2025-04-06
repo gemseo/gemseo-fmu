@@ -58,7 +58,7 @@ kiwisolver==1.4.8
     # via matplotlib
 lark==1.2.2
     # via fmpy
-lxml==5.3.1
+lxml==5.3.2
     # via fmpy
 markupsafe==3.0.2
     # via jinja2
@@ -123,7 +123,7 @@ pytest==8.3.5
     #   gemseo-fmu (pyproject.toml)
     #   pytest-cov
     #   pytest-xdist
-pytest-cov==6.1.0
+pytest-cov==6.1.1
     # via gemseo-fmu (pyproject.toml)
 pytest-xdist==3.6.1
     # via gemseo-fmu (pyproject.toml)
