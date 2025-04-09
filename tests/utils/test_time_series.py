@@ -18,10 +18,19 @@ from __future__ import annotations
 
 import re
 from dataclasses import FrozenInstanceError
+from pathlib import Path
 
 import pytest
+from numpy import array
+from numpy.testing import assert_equal
 
 from gemseo_fmu.utils.time_series import TimeSeries
+
+
+@pytest.fixture(scope="module")
+def linear_time_series() -> TimeSeries:
+    """A time series with observations interpolated linearly."""
+    return TimeSeries(array([0.0, 1.0]), array([2.0, 4.0]), interpolate=True)
 
 
 def test_time_series():
@@ -93,3 +102,54 @@ def test_compute_error():
 def test_eq(other_time_series, are_equal):
     """Verify that the __eq__ method works correctly."""
     assert (TimeSeries([1, 2], [3, 4]) == other_time_series) == are_equal
+
+
+@pytest.mark.parametrize(
+    ("file_path", "kwargs", "time", "observable"),
+    [
+        (
+            Path(__file__).parent / "time_series.csv",
+            {},
+            array([0.0, 0.25, 0.9]),
+            array([1.0, 2.0, -3.0]),
+        ),
+        (
+            Path(__file__).parent / "time_series_sep.csv",
+            {"sep": ","},
+            array([0.0, 0.25, 0.9]),
+            array([1.0, 2.0, -3.0]),
+        ),
+        (
+            Path(__file__).parent / "time_series.csv",
+            {"header": "infer"},
+            array([0.25, 0.9]),
+            array([2.0, -3.0]),
+        ),
+    ],
+)
+def test_from_csv(tmp_wd, file_path, kwargs, time, observable):
+    """Verify that a TimeSeries can be created from a CSV file."""
+    tolerance = 0.5
+    time_series = TimeSeries.from_csv(file_path, tolerance=tolerance, **kwargs)
+    assert_equal(time_series.time, time)
+    assert_equal(time_series.observable, observable)
+    assert time_series.tolerance == tolerance
+
+
+def test_piecewise_linear_function_error(linear_time_series):
+    """Verify that setting "interpolate" to True create a piecewise linear function.
+
+    Case when the prediction time is less than the start time.
+    """
+    with pytest.raises(
+        ValueError, match=re.escape("The time series starts at 0.0; got -2.0.")
+    ):
+        linear_time_series.compute(-2.0)
+
+
+@pytest.mark.parametrize(
+    ("time", "observable"), [(0.0, 2.0), (0.5, 3.0), (1.0, 4.0), (2.0, 4.0)]
+)
+def test_piecewise_linear_function(linear_time_series, time, observable):
+    """Verify that setting "interpolate" to True creates a piecewise linear function."""
+    assert linear_time_series.compute(time) == observable
