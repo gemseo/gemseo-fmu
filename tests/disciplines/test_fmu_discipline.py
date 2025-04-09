@@ -442,9 +442,9 @@ def test_time_series_do_step():
     )
     discipline.default_input_data.update({
         "u1": array([1.0]),
-        "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0], 1e-3),
+        "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0], tolerance=1e-3),
         "add.k1": array([1.0]),
-        "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0], 1e-3),
+        "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0], tolerance=1e-3),
     })
     time = []
     y = []

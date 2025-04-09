@@ -30,6 +30,8 @@ and this project adheres to
 
 ### Added
 
+- [TimeSeries.compute][gemseo_fmu.utils.time_series.TimeSeries.compute] is a piecewise linear function when its field ``interpolate`` is ``True``.
+- [TimeSeries.from_csv][gemseo_fmu.utils.time_series.TimeSeries.from_csv] is used to create a [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] from a CSV file.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] has a new option ``mda_max_iter_at_t0`` to perform an MDA at initial time with at most ``mda_max_iter_at_t0`` iterations.
 - [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new option ``initialize_only`` to simply initialize the FMU model at execution.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] has a new argument, named ``time_name``, to set the name of the time variable (default: ``"time"``).
