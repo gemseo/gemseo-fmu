@@ -94,7 +94,7 @@ latexcodec==3.0.0
     # via pybtex
 lxml==5.3.2
     # via fmpy
-markdown==3.7
+markdown==3.8
     # via
     #   mkdocs
     #   mkdocs-autorefs
