@@ -20,7 +20,7 @@ cycler==0.12.1
     # via matplotlib
 delta==0.4.2
     # via gemseo-fmu (pyproject.toml)
-dill==0.3.9
+dill==0.4.0
     # via openturns
 docstring-inheritance==2.2.2
     # via gemseo
