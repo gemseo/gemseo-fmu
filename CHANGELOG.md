@@ -39,6 +39,7 @@ and this project adheres to
 
 ### Fixed
 
+- [BaseFMUDiscipline][gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline] supports array outputs (FMI3 only).
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when ``do_step`` is ``True``
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when using the default input data.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports input data passed as numbers.
