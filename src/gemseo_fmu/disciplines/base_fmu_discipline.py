@@ -167,6 +167,9 @@ class BaseFMUDiscipline(Discipline):
     __names_to_references: dict[str, int]
     """The value references bound to the variables names."""
 
+    __names_to_sizes: dict[str, int]
+    """The mapping from the variable names to sizes (FMI 3.0 only)."""
+
     __names_to_time_functions: dict[str, Callable[[TimeDurationType], float]]
     """The input names bound to the time functions at the last execution."""
 
@@ -272,6 +275,7 @@ class BaseFMUDiscipline(Discipline):
         self.__executed = False
         self.__names_to_time_functions = {}
         self.__solver_name = str(solver_name)
+        self.__names_to_sizes = {}
         self.name = self.__set_fmu_model(
             file_path,
             validate,
@@ -498,6 +502,9 @@ class BaseFMUDiscipline(Discipline):
             variable_name = from_fmu_names.get(variable.name)
             if variable_name is not None:
                 try:
+                    self.__names_to_sizes[variable_name] = (
+                        variable.dimensions[0].start if variable.dimensions else 1
+                    )
                     initial_value = float(variable.start)
                 except TypeError:
                     initial_value = None
@@ -785,6 +792,13 @@ class BaseFMUDiscipline(Discipline):
                     output_name: (
                         array([0.0])
                         if output_name == time_name
+                        else array(
+                            getter(
+                                [names_to_references[output_name]],
+                                nValues=self.__names_to_sizes[output_name],
+                            )
+                        )
+                        if self.__use_fmi_3
                         else array(getter([names_to_references[output_name]]))
                     )
                     for output_name in self.io.output_grammar.names_without_namespace
@@ -863,7 +877,16 @@ class BaseFMUDiscipline(Discipline):
             if output_name == time_name:
                 output_value = time
             else:
-                output_value = array(getter([names_to_references[output_name]]))
+                output_value = (
+                    array(
+                        getter(
+                            [names_to_references[output_name]],
+                            nValues=self.__names_to_sizes[output_name],
+                        )
+                    )
+                    if self.__use_fmi_3
+                    else array(getter([names_to_references[output_name]]))
+                )
 
             output_data[output_name] = output_value
 

@@ -16,6 +16,7 @@
 import pytest
 from numpy import array
 from numpy.testing import assert_almost_equal
+from numpy.testing import assert_equal
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
@@ -37,3 +38,29 @@ def test_fmu3(do_step, time, output):
     discipline.execute()
     assert_almost_equal(discipline.time, array(time))
     assert_almost_equal(discipline.io.data["output"], array(output))
+
+
+@pytest.mark.parametrize(
+    ("do_step", "output_vector"),
+    [
+        (
+            False,
+            array([
+                [0.0, 1.0, 2.0, 3.0, 4.0],
+                [4.0, 0.0, 1.0, 2.0, 3.0],
+                [3.0, 4.0, 0.0, 1.0, 2.0],
+                [2.0, 3.0, 4.0, 0.0, 1.0],
+                [1.0, 2.0, 3.0, 4.0, 0.0],
+                [0.0, 1.0, 2.0, 3.0, 4.0],
+            ]),
+        ),
+        (True, array([4.0, 0.0, 1.0, 2.0, 3.0])),
+    ],
+)
+def test_array(do_step, output_vector):
+    """Checks that gemseo-fmu can handle array outputs (FMU3 models)."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2, do_step=do_step
+    )
+    discipline.execute()
+    assert_equal(discipline.io.data["vector"], output_vector)
