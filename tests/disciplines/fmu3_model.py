@@ -14,11 +14,26 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """This module is used to generate an FMU3 model using pythonfmu3."""
 
-import numpy as np
+from enum import Enum
+
+from numpy import array
+from numpy import roll
+from pythonfmu3 import Boolean
 from pythonfmu3 import Dimension
+from pythonfmu3 import Enumeration
+from pythonfmu3 import EnumerationType
 from pythonfmu3 import Float64
 from pythonfmu3 import Fmi3Causality
 from pythonfmu3 import Fmi3Slave
+from pythonfmu3 import Int32
+from pythonfmu3 import Int64
+from pythonfmu3 import String
+
+
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
 
 
 class FMU3Model(Fmi3Slave):
@@ -40,7 +55,7 @@ class FMU3Model(Fmi3Slave):
         self.input = 0.0
         self.output = 3.0
         self.increment = 1.0
-        self.vector = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+        self.vector = array([0.0, 1.0, 2.0, 3.0, 4.0])
         self.register_variable(
             Float64("independent", causality=Fmi3Causality.independent)
         )
@@ -55,10 +70,33 @@ class FMU3Model(Fmi3Slave):
             )
         )
 
+        # The remaining variables are used by tests to check variable type management.
+        self.int32 = 6
+        self.int64 = 7
+        self.float64 = 7.23
+        self.boolean = True
+        self.string = "foo"
+        self.enumeration = Color.RED
+        self.register_variable(Int32("int32", causality=Fmi3Causality.input))
+        self.register_variable(Int64("int64", causality=Fmi3Causality.input))
+        self.register_variable(Float64("float64", causality=Fmi3Causality.input))
+        self.register_variable(Boolean("boolean", causality=Fmi3Causality.input))
+        self.register_variable(String("string", causality=Fmi3Causality.input))
+        self.register_variable(
+            Enumeration(
+                "enumeration",
+                declared_type="Color",
+                causality=Fmi3Causality.input,
+                getter=lambda: self.enumeration.value,
+                setter=lambda v: setattr(self, "enumeration", Color(v)),
+            ),
+            var_type=EnumerationType("Color", values=Color),
+        )
+
     def exit_initialization_mode(self):
         self.output = 3.0 + self.increment * self.input
 
     def do_step(self, current_time, step_size):
         self.output += self.increment
-        self.vector = np.roll(self.vector, 1)
+        self.vector = roll(self.vector, 1)
         return True

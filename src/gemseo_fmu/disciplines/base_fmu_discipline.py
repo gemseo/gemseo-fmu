@@ -146,8 +146,8 @@ class BaseFMUDiscipline(Discipline):
     __from_fmu_names: dict[str, str]
     """The map from the FMU variable names to the discipline variable names."""
 
-    __get_fmu_variable: Callable[[Iterable[int], int | None], list[Any]]
-    """The function to get the value of a variable from the FMU model."""
+    __input_names_to_setters: dict[str, Callable[[Iterable[int], Iterable[Any]], None]]
+    """The mapping between input names and FMU setters."""
 
     __model: FMUModel
     """The FMU model."""
@@ -173,8 +173,10 @@ class BaseFMUDiscipline(Discipline):
     __names_to_time_functions: dict[str, Callable[[TimeDurationType], float]]
     """The input names bound to the time functions at the last execution."""
 
-    __set_fmu_variable: Callable[[Iterable[int], Iterable[Any]], None]
-    """The function to set the value of a variable in the FMU model."""
+    __variable_names_to_getters: dict[
+        str, Callable[[Iterable[int], int | None], list[Any]]
+    ]
+    """The mapping between variable names and FMU getters."""
 
     __simulation_settings: _SimulationSettings | None
     """The simulation settings for the next execution, if defined."""
@@ -202,6 +204,9 @@ class BaseFMUDiscipline(Discipline):
 
     __validate: bool
     """Whether the FMU model must be checked."""
+
+    __BOOLEAN_WORDS_TO_VALUES: Final[dict[str, bool]] = {"false": False, "true": True}
+    """The mapping between words for boolean values and boolean values."""
 
     def __init__(
         self,
@@ -301,9 +306,12 @@ class BaseFMUDiscipline(Discipline):
         super().__init__(name=self.name)
 
         self.io.input_grammar.update_from_types(
-            dict.fromkeys(input_names, Union[int, float, NDArrayPydantic, TimeSeries])
+            dict.fromkeys(
+                input_names, Union[bool, int, float, str, NDArrayPydantic, TimeSeries]
+            )
         )
         self.io.output_grammar.update_from_names(output_names)
+        self.__define_getters_and_setters()
         if add_time_to_output_grammar:
             self.io.output_grammar.update_from_types({
                 self.__time_name: Union[float, NDArrayPydantic[float]]
@@ -487,29 +495,75 @@ class BaseFMUDiscipline(Discipline):
             fmi_type=self.__model_type,
             require_functions=self.__validate,
         )
-        self.__set_fmu_variable = getattr(
-            self.__model, "setFloat64" if self.__use_fmi_3 else "setReal"
-        )
-        self.__get_fmu_variable = getattr(
-            self.__model, "getFloat64" if self.__use_fmi_3 else "getReal"
-        )
+
+    def __define_getters_and_setters(self) -> None:
+        """Define the mapping between variables names and FMU getters and setters."""
+        if self.__use_fmi_3:
+            names_to_types = {
+                self.__from_fmu_names[variable.name]: (
+                    variable.type if variable.type != "Enumeration" else "Int64"
+                )
+                for variable in self.__model_description.modelVariables
+                if variable.name in self.__from_fmu_names
+            }
+            self.__input_names_to_setters = {
+                name: getattr(self.__model, f"set{names_to_types[name]}")
+                for name in self.io.input_grammar
+            }
+            self.__variable_names_to_getters = {
+                name: getattr(self.__model, f"get{names_to_types[name]}")
+                for grammar in (self.io.input_grammar, self.io.output_grammar)
+                for name in grammar
+            }
+        else:
+            self.__input_names_to_setters = dict.fromkeys(
+                self.io.input_grammar, self.__model.setReal
+            )
+            self.__variable_names_to_getters = {
+                name: self.__model.getReal
+                for grammar in (self.io.input_grammar, self.io.output_grammar)
+                for name in grammar
+            }
 
     def __set_initial_values(self) -> None:
         """Set the initial values of the inputs and outputs of the disciplines."""
         initial_values = self._initial_values = {}
         from_fmu_names = self.__from_fmu_names
+        func = self.__cast_string_value if self.__use_fmi_3 else float
         for variable in self.__model_description.modelVariables:
             variable_name = from_fmu_names.get(variable.name)
             if variable_name is not None:
-                try:
-                    self.__names_to_sizes[variable_name] = (
-                        variable.dimensions[0].start if variable.dimensions else 1
-                    )
-                    initial_value = float(variable.start)
-                except TypeError:
-                    initial_value = None
+                initial_value = variable.start
+                self.__names_to_sizes[variable_name] = (
+                    variable.dimensions[0].start if variable.dimensions else 1
+                )
+                if initial_value is not None:
+                    initial_value = func(initial_value)
 
                 initial_values[variable_name] = array([initial_value])
+
+    @classmethod
+    def __cast_string_value(cls, value: str) -> bool | int | float | str:
+        """Cast a string value.
+
+        Args:
+            value: The string value.
+
+        Returns:
+            The final value.
+        """
+        if (boolean := cls.__BOOLEAN_WORDS_TO_VALUES.get(value)) is not None:
+            return boolean
+
+        try:
+            return int(value)
+        except ValueError:
+            pass
+
+        try:
+            return float(value)
+        except ValueError:
+            return value
 
     def __set_variable_names_references_and_causalities(
         self,
@@ -785,7 +839,6 @@ class BaseFMUDiscipline(Discipline):
 
             self.__model.exitInitializationMode()
             if self.__default_simulation_settings.initialize_only:
-                getter = self.__get_fmu_variable
                 names_to_references = self.__names_to_references
                 time_name = self.__time_name
                 return {
@@ -793,13 +846,17 @@ class BaseFMUDiscipline(Discipline):
                         array([0.0])
                         if output_name == time_name
                         else array(
-                            getter(
+                            self.__variable_names_to_getters[output_name](
                                 [names_to_references[output_name]],
                                 nValues=self.__names_to_sizes[output_name],
                             )
                         )
                         if self.__use_fmi_3
-                        else array(getter([names_to_references[output_name]]))
+                        else array(
+                            self.__output_names_to_getters[output_name]([
+                                names_to_references[output_name]
+                            ])
+                        )
                     )
                     for output_name in self.io.output_grammar.names_without_namespace
                 }
@@ -869,7 +926,6 @@ class BaseFMUDiscipline(Discipline):
                 start_time = intermediate_time
 
         time = self._time = array([final_time])
-        getter = self.__get_fmu_variable
         time_name = self.__time_name
         names_to_references = self.__names_to_references
         output_data = {}
@@ -879,13 +935,17 @@ class BaseFMUDiscipline(Discipline):
             else:
                 output_value = (
                     array(
-                        getter(
+                        self.__variable_names_to_getters[output_name](
                             [names_to_references[output_name]],
                             nValues=self.__names_to_sizes[output_name],
                         )
                     )
                     if self.__use_fmi_3
-                    else array(getter([names_to_references[output_name]]))
+                    else array(
+                        self.__variable_names_to_getters[output_name](
+                            [names_to_references[output_name]],
+                        )
+                    )
                 )
 
             output_data[output_name] = output_value
@@ -904,7 +964,6 @@ class BaseFMUDiscipline(Discipline):
         names_to_time_functions = self.__names_to_time_functions
         names_to_references = self.__names_to_references
         data = self.io.data
-        set_fmu_variable = self.__set_fmu_variable
         for input_name, input_value in input_data.items():
             if input_name in names_to_time_functions:
                 try:
@@ -915,7 +974,9 @@ class BaseFMUDiscipline(Discipline):
                 if store:
                     data[input_name] = input_value
 
-            set_fmu_variable([names_to_references[input_name]], atleast_1d(input_value))
+            self.__input_names_to_setters[input_name](
+                [names_to_references[input_name]], atleast_1d(input_value)
+            )
 
     def __do_when_step_finished(self, time: float, recorder: Recorder) -> bool:
         """Callback to interact with the simulation after each time step.
@@ -928,14 +989,13 @@ class BaseFMUDiscipline(Discipline):
         """
         data = self.io.data
         names_to_references = self.__names_to_references
-        set_fmu_variable = self.__set_fmu_variable
         for name, function in self.__names_to_time_functions.items():
             try:
                 value = function(time)
             except ValueError:
                 continue
 
-            set_fmu_variable([names_to_references[name]], [value])
+            self.__input_names_to_setters[name]([names_to_references[name]], [value])
             data[name] = append(data[name], value)
 
         return True
@@ -982,9 +1042,10 @@ class BaseFMUDiscipline(Discipline):
     def __setstate__(self, state: Mapping[str, Any]) -> None:
         super().__setstate__(state)
         self.__instantiate_fmu_model()
+        self.__define_getters_and_setters()
 
     _ATTR_NOT_TO_SERIALIZE = Discipline._ATTR_NOT_TO_SERIALIZE.union([
         "_BaseFMUDiscipline__model",
-        "_BaseFMUDiscipline__get_fmu_variable",
-        "_BaseFMUDiscipline__set_fmu_variable",
+        "_BaseFMUDiscipline__input_names_to_setters",
+        "_BaseFMUDiscipline__variable_names_to_getters",
     ])
