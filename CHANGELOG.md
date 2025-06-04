@@ -30,6 +30,7 @@ and this project adheres to
 
 ### Added
 
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports the variable types `Int32`, `Int64`, `Float64`, `Boolean`, `String` and `Enumeration` introduced by FMI3.
 - [TimeSeries.compute][gemseo_fmu.utils.time_series.TimeSeries.compute] is a piecewise linear function when its field ``interpolate`` is ``True``.
 - [TimeSeries.from_csv][gemseo_fmu.utils.time_series.TimeSeries.from_csv] is used to create a [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] from a CSV file.
 - [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] has a new option ``mda_max_iter_at_t0`` to perform an MDA at initial time with at most ``mda_max_iter_at_t0`` iterations.

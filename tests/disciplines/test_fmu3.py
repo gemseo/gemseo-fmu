@@ -34,10 +34,40 @@ def test_fmu3(do_step, time, output):
     discipline = FMUDiscipline(
         get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2, do_step=do_step
     )
-    discipline.default_input_data["increment"] = 2.0
+    discipline.io.input_grammar.defaults["increment"] = 2.0
     discipline.execute()
     assert_almost_equal(discipline.time, array(time))
     assert_almost_equal(discipline.io.data["output"], array(output))
+
+
+def test_data_types():
+    """Check that gemseo-fmu can handle FMU3 with different kinds of data."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2
+    )
+    defaults = discipline.io.input_grammar.defaults
+    assert_equal(defaults["int32"], array([6]))
+    assert_equal(defaults["int64"], array([7]))
+    assert_equal(defaults["float64"], array([7.23]))
+    assert_equal(defaults["boolean"], array([True]))
+    assert_equal(defaults["string"], array(["foo"]))
+    assert_equal(defaults["enumeration"], array([1]))
+    discipline.execute({
+        "int32": 11,
+        "int64": 12,
+        "float64": 13.14,
+        "boolean": False,
+        "string": "bar",
+        "enumeration": 3,
+    })
+    model = discipline._BaseFMUDiscipline__model
+    names_to_references = discipline._BaseFMUDiscipline__names_to_references
+    assert model.getInt32([names_to_references["int32"]]) == [11]
+    assert model.getInt64([names_to_references["int64"]]) == [12]
+    assert model.getFloat64([names_to_references["float64"]]) == [13.14]
+    assert model.getBoolean([names_to_references["boolean"]]) == [False]
+    assert model.getString([names_to_references["string"]]) == ["bar"]
+    assert model.getInt64([names_to_references["enumeration"]]) == [3]
 
 
 @pytest.mark.parametrize(
