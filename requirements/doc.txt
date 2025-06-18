@@ -90,7 +90,7 @@ kiwisolver==1.4.7
     # via matplotlib
 lark==1.2.2
     # via fmpy
-latexcodec==3.0.0
+latexcodec==3.0.1
     # via pybtex
 lxml==5.4.0
     # via fmpy
