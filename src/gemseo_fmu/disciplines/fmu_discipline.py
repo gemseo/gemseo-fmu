@@ -55,7 +55,9 @@ class FMUDiscipline(BaseFMUDiscipline):
     @property
     def initial_values(self) -> dict[str, NumberArray]:
         """The initial input, output and time values."""
-        return self._initial_values
+        return {
+            name: variable.initial for name, variable in self._to_fmu_variables.items()
+        }
 
     @property
     def time(self) -> RealArray | None:
