@@ -61,13 +61,13 @@ def test_data_types():
         "enumeration": 3,
     })
     model = discipline._BaseFMUDiscipline__model
-    names_to_references = discipline._BaseFMUDiscipline__names_to_references
-    assert model.getInt32([names_to_references["int32"]]) == [11]
-    assert model.getInt64([names_to_references["int64"]]) == [12]
-    assert model.getFloat64([names_to_references["float64"]]) == [13.14]
-    assert model.getBoolean([names_to_references["boolean"]]) == [False]
-    assert model.getString([names_to_references["string"]]) == ["bar"]
-    assert model.getInt64([names_to_references["enumeration"]]) == [3]
+    to_fmu_variables = discipline._to_fmu_variables
+    assert model.getInt32([to_fmu_variables["int32"].reference]) == [11]
+    assert model.getInt64([to_fmu_variables["int64"].reference]) == [12]
+    assert model.getFloat64([to_fmu_variables["float64"].reference]) == [13.14]
+    assert model.getBoolean([to_fmu_variables["boolean"].reference]) == [False]
+    assert model.getString([to_fmu_variables["string"].reference]) == ["bar"]
+    assert model.getInt64([to_fmu_variables["enumeration"].reference]) == [3]
 
 
 @pytest.mark.parametrize(

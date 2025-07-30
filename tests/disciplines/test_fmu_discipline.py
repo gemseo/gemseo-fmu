@@ -222,11 +222,11 @@ def test_initial_values(ramp_discipline_wo_restart, ramp_discipline_do_step):
     """Check the initial values."""
     assert compare_dict_of_arrays(
         ramp_discipline_wo_restart.initial_values,
-        {"out": array([None]), "time": array([0.0]), "ramp.height": array([1.0])},
+        {"out": array([None]), "ramp_time": array([0.0]), "ramp.height": array([1.0])},
     )
     assert compare_dict_of_arrays(
         ramp_discipline_do_step.initial_values,
-        {"out": array([None]), "time": array([0.0]), "ramp.height": array([1.0])},
+        {"out": array([None]), "ramp_time": array([0.0]), "ramp.height": array([1.0])},
     )
 
 
