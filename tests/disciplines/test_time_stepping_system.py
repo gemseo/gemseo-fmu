@@ -71,7 +71,13 @@ def test_standard_use(cls):
     [(0, 1, 1, 1.0, 4.0, 5.0), (10, 2, 5, 0.527046, -5.0, -7.0)],
 )
 def test_mda_max_iter_at_t0(
-    mda_max_iter_at_t0, n_mda_exec, n_disc_exec, norm, out1, out2
+    mda_max_iter_at_t0,
+    n_mda_exec,
+    n_disc_exec,
+    norm,
+    out1,
+    out2,
+    enable_discipline_statistics,
 ):
     """Check the use of an initial MDA to start from a multidisciplinary solution.
 
@@ -119,7 +125,7 @@ def test_mda_max_iter_at_t0(
     [({}, 2), ({"restart": False}, 1), ({"restart": True}, 2)],
 )
 @pytest.mark.parametrize("use_cache", [False, True])
-def test_restart(kwargs, n_executions, use_cache):
+def test_restart(kwargs, n_executions, use_cache, enable_discipline_statistics):
     """Check the option restart."""
     system = TimeSteppingSystem(
         (
