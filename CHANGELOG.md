@@ -37,6 +37,7 @@ and this project adheres to
 - [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new option ``initialize_only`` to simply initialize the FMU model at execution.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] has a new argument, named ``time_name``, to set the name of the time variable (default: ``"time"``).
 - [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new argument, named ``use_arrays_only``, to pass only NumPy arrays at execution (default: ``False``).
+- The function [plot_time_evolution][gemseo_fmu.utils.plotting.plot_time_evolution] draws the time evolution of a collection of variables.
 
 ### Fixed
 

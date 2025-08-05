@@ -29,19 +29,19 @@ from fmpy.model_description import ModelDescription
 from gemseo import from_pickle
 from gemseo import to_pickle
 from gemseo.utils.comparisons import compare_dict_of_arrays
-from gemseo.utils.testing.helpers import image_comparison
 from numpy import array
+from numpy import ndarray
 from numpy import ones
 from numpy import zeros
 from numpy.testing import assert_almost_equal
 from numpy.testing import assert_equal
 
 from gemseo_fmu.disciplines import base_fmu_discipline
+from gemseo_fmu.disciplines import fmu_discipline
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.disciplines.dynamic_fmu_discipline import DynamicFMUDiscipline
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
-from gemseo_fmu.disciplines.fmu_discipline import Lines
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 from gemseo_fmu.utils.time_series import TimeSeries
@@ -122,6 +122,16 @@ def ramp_discipline_do_step_w_restart(tmp_wd) -> FMUDiscipline:
         do_step=True,
     )
     discipline.default_input_data[INPUT_NAME] = array([2.0])
+    return discipline
+
+
+@pytest.fixture(scope="module")
+def discipline() -> FMUDiscipline:
+    """The MassSpringSystem discipline after execution."""
+    discipline = FMUDiscipline(
+        get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.01
+    )
+    discipline.execute()
     return discipline
 
 
@@ -637,63 +647,6 @@ def test_string_time(initial, final, step):
     assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
 
 
-@pytest.fixture(scope="module")
-def discipline() -> FMUDiscipline:
-    """The MassSpringSystem discipline after execution."""
-    discipline = FMUDiscipline(
-        get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.01
-    )
-    discipline.execute()
-    return discipline
-
-
-@pytest.mark.parametrize(
-    ("baseline_images", "output_names"),
-    [(["one_output"], "x1"), (["two_outputs"], ["x1", "x2"])],
-)
-@image_comparison(None)
-def test_plot(discipline, baseline_images, output_names):
-    """Verify that the discipline can plot the last execution."""
-    discipline.plot(output_names, save=False)
-
-
-@image_comparison(["time_unit"])
-def test_plot_time_unit(discipline):
-    """Verify that the discipline can plot the last execution with a given time unit."""
-    discipline.plot("x1", save=False, time_unit=discipline.TimeUnit.MINUTES)
-
-
-@image_comparison(["abscissa_name"])
-def test_plot_abscissa_name(discipline):
-    """Verify that the discipline can plot the last execution wrt a variable."""
-    discipline.plot("x1", save=False, abscissa_name="x2")
-
-
-@image_comparison(["time_window_as_integer"])
-def test_plot_time_window_as_integer(discipline):
-    """Verify that the discipline can plot the last execution from a time index."""
-    discipline.plot("x1", save=False, time_window=500)
-
-
-@image_comparison(["time_window_as_tuple"])
-def test_plot_time_window_as_tuple(discipline):
-    """Verify that the discipline can plot the last execution from time indices."""
-    discipline.plot("x1", save=False, time_window=(500, 700))
-
-
-def test_plot_options(discipline):
-    """Verify that FMUDiscipline.plot correctly uses save, show and file_path."""
-    with mock.patch.object(Lines, "execute") as execute:
-        figure = discipline.plot("x1", show=True, file_path="foo.png")
-
-    assert isinstance(figure, Lines)
-    assert execute.call_args.kwargs == {
-        "save": True,
-        "show": True,
-        "file_path": "foo.png",
-    }
-
-
 def test_scalar_input_variables():
     """Check that an FMUDiscipline can use scalar input variables."""
     discipline = FMUDiscipline(
@@ -863,3 +816,47 @@ def test_fmu_validation_default(validate):
         discipline.execute()
         simulate_kwargs = mocked_simulate_fmu.call_args.kwargs
         assert simulate_kwargs["validate"] is expected_validation_status
+
+
+def test_plot(discipline):
+    """Check the function plot using mocks."""
+    with mock.patch.object(
+        fmu_discipline, "plot_time_evolution"
+    ) as plot_time_evolution:
+        discipline.plot(["x1"])
+
+    plot_time_evolution.assert_called_once()
+    assert isinstance(plot_time_evolution.call_args.args[0], ndarray)
+    assert isinstance(plot_time_evolution.call_args.args[1]["x1"], ndarray)
+    assert len(plot_time_evolution.call_args.args[1]) == 1
+    assert plot_time_evolution.call_args.kwargs == {
+        "abscissa_name": "",
+        "file_path": "",
+        "save": True,
+        "show": False,
+        "time_unit": "seconds",
+        "time_window": 0,
+    }
+
+
+def test_plot_options(discipline):
+    """Check the function plot using mocks and options."""
+    with mock.patch.object(
+        fmu_discipline, "plot_time_evolution"
+    ) as plot_time_evolution:
+        discipline.plot(
+            ["x1"], "x2", time_unit=1, time_window=2, save=3, show=4, file_path=5
+        )
+
+    plot_time_evolution.assert_called_once()
+    assert isinstance(plot_time_evolution.call_args.args[0], ndarray)
+    assert isinstance(plot_time_evolution.call_args.args[1]["x1"], ndarray)
+    assert len(plot_time_evolution.call_args.args[1]) == 2
+    assert plot_time_evolution.call_args.kwargs == {
+        "abscissa_name": "x2",
+        "file_path": 5,
+        "save": 3,
+        "show": 4,
+        "time_unit": 1,
+        "time_window": 2,
+    }

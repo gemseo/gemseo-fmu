@@ -18,11 +18,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.datasets.dataset import Dataset
-from gemseo.post.dataset.lines import Lines
-from numpy import newaxis
-
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
+from gemseo_fmu.utils.plotting import plot_time_evolution
 from gemseo_fmu.utils.time_duration import TimeDuration
 
 if TYPE_CHECKING:
@@ -30,6 +27,7 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
     from pathlib import Path
 
+    from gemseo.post.dataset.lines import Lines
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 
@@ -95,23 +93,17 @@ class FMUDiscipline(BaseFMUDiscipline):
         Returns:
             The figure.
         """
-        if isinstance(output_names, str):
-            output_names = [output_names]
-
-        time_name = f"Time ({time_unit})"
-        if not abscissa_name:
-            abscissa_name = time_name
-
-        if isinstance(time_window, int):
-            time_window = (time_window, self.time.size)
-
-        dataset = Dataset()
-        time_window = slice(*time_window)
-        time_duration = TimeDuration(self.time[time_window, newaxis])
-        dataset.add_variable(time_name, time_duration.to(time_unit))
-        for name in set(output_names).union({abscissa_name}) - {time_name}:
-            dataset.add_variable(name, self.io.data[name][time_window, newaxis])
-
-        figure = Lines(dataset, output_names, abscissa_variable=abscissa_name)
-        figure.execute(save=save, show=show, file_path=file_path)
-        return figure
+        return plot_time_evolution(
+            self._time,
+            {
+                k: v
+                for k, v in self.io.data.items()
+                if k in output_names or k == abscissa_name
+            },
+            abscissa_name=abscissa_name,
+            time_unit=time_unit,
+            time_window=time_window,
+            save=save,
+            show=show,
+            file_path=file_path,
+        )
