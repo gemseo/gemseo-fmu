@@ -37,6 +37,7 @@ dev = [
 ]
 doc = [
     "black",
+    "griffe-fieldz",
     "griffe-inherited-docstrings",
     "markdown-exec[ansi]",
     "mike",
