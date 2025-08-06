@@ -75,10 +75,9 @@ def plot_time_evolution(
     time_window = slice(*time_window)
     time_duration = TimeDuration(time[time_window, newaxis])
     dataset.add_variable(time_name, time_duration.to(time_unit))
-    variable_names = set(data)
-    for name in variable_names.union({abscissa_name}) - {time_name}:
+    for name in set(data).union({abscissa_name}) - {time_name}:
         dataset.add_variable(name, data[name][time_window, newaxis])
 
-    figure = Lines(dataset, variable_names, abscissa_variable=abscissa_name)
+    figure = Lines(dataset, list(data), abscissa_variable=abscissa_name)
     figure.execute(save=save, show=show, file_path=file_path)
     return figure
