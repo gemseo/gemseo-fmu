@@ -21,10 +21,10 @@ from typing import TYPE_CHECKING
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.utils.plotting import plot_time_evolution
 from gemseo_fmu.utils.time_duration import TimeDuration
+from gemseo_fmu.utils.time_duration import TimeDurationType
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from collections.abc import Sequence
     from pathlib import Path
 
     from gemseo.post.dataset.lines import Lines
@@ -67,7 +67,10 @@ class FMUDiscipline(BaseFMUDiscipline):
         output_names: str | Iterable[str],
         abscissa_name: str = "",
         time_unit: TimeUnit = TimeUnit.SECONDS,
-        time_window: int | Sequence[int] = 0,
+        time_window: int
+        | tuple[int, int]
+        | TimeDurationType
+        | tuple[TimeDurationType, TimeDurationType] = 0,
         save: bool = True,
         show: bool = False,
         file_path: str | Path = "",
@@ -79,9 +82,11 @@ class FMUDiscipline(BaseFMUDiscipline):
             abscissa_name: The name of the variable to be plotted on the x-axis.
                 If empty, use the time variable.
             time_unit: The unit to express the time.
-            time_window: The time windows over which to draw the time evolution.
-                Either the start time index (the end one will be the final time one)
-                or both the start and end time indices.
+            time_window: The time window over which to draw the time evolution.
+                Either the index of the initial time,
+                the indices of the initial and final times,
+                the initial time,
+                or the initial and final times.
             save: Whether to save the figure.
             show: Whether to show the figure.
             file_path: The path of the file to save the figure.

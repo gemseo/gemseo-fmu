@@ -87,10 +87,24 @@ def test_plot_time_window_as_integer(time, data):
     plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=500)
 
 
-@image_comparison(["time_window_as_tuple"])
-def test_plot_time_window_as_tuple(time, data):
+@image_comparison(["time_window_as_integer_tuple"])
+def test_plot_time_window_as_integer_tuple(time, data):
     """Verify that the discipline can plot the last execution from time indices."""
     plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=(500, 700))
+
+
+@pytest.mark.parametrize("time_window", [3.0, "3 seconds"])
+@image_comparison(["time_window_as_float"])
+def test_plot_time_window_as_float(time, data, time_window):
+    """Verify that the discipline can plot the last execution from a time value."""
+    plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=time_window)
+
+
+@pytest.mark.parametrize("time_window", [(3.0, 7.0), ("3 seconds", "7 seconds")])
+@image_comparison(["time_window_as_float_tuple"])
+def test_plot_time_window_as_float_tuple(time, data, time_window):
+    """Verify that the discipline can plot the last execution from time values."""
+    plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=time_window)
 
 
 def test_plot_options(time, data):
