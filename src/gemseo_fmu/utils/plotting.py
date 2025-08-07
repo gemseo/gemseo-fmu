@@ -21,12 +21,13 @@ from typing import TYPE_CHECKING
 from gemseo.datasets.dataset import Dataset
 from gemseo.post.dataset.lines import Lines
 from numpy import newaxis
+from numpy import searchsorted
 
 from gemseo_fmu.utils.time_duration import TimeDuration
+from gemseo_fmu.utils.time_duration import TimeDurationType
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
-    from collections.abc import Sequence
     from pathlib import Path
 
     from gemseo.typing import RealArray
@@ -37,7 +38,10 @@ def plot_time_evolution(
     data: Mapping[str, RealArray],
     abscissa_name: str = "",
     time_unit: TimeDuration.TimeUnit = TimeDuration.TimeUnit.SECONDS,
-    time_window: int | Sequence[int] = 0,
+    time_window: int
+    | tuple[int, int]
+    | TimeDurationType
+    | tuple[TimeDurationType, TimeDurationType] = 0,
     save: bool = True,
     show: bool = False,
     file_path: str | Path = "",
@@ -50,9 +54,11 @@ def plot_time_evolution(
         abscissa_name: The name of the variable to be plotted on the x-axis.
             If empty, use the time variable.
         time_unit: The unit to express the time.
-        time_window: The time windows over which to draw the time evolution.
-            Either the start time index (the end one will be the final time one)
-            or both the start and end time indices.
+        time_window: The time window over which to draw the time evolution.
+            Either the index of the initial time,
+            the indices of the initial and final times,
+            the initial time,
+            or the initial and final times.
         save: Whether to save the figure.
         show: Whether to show the figure.
         file_path: The path of the file to save the figure.
@@ -70,6 +76,18 @@ def plot_time_evolution(
 
     if isinstance(time_window, int):
         time_window = (time_window, time.size)
+
+    if isinstance(time_window, (float, str)):
+        time_window = (
+            searchsorted(time, TimeDuration(time_window).seconds) - 1,
+            time.size,
+        )
+
+    if isinstance(time_window[0], (float, str)):
+        time_window = (
+            searchsorted(time, TimeDuration(time_window[0]).seconds) - 1,
+            searchsorted(time, TimeDuration(time_window[1]).seconds),
+        )
 
     dataset = Dataset()
     time_window = slice(*time_window)
