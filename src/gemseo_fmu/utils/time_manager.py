@@ -81,16 +81,19 @@ class TimeManager:
         """Whether the initial time is the final time."""
         return self.__initial == self.final
 
-    def update_current_time(self, step: float = 0.0) -> Self:
+    def update_current_time(
+        self, step: float = 0.0, return_time_manager: bool = True
+    ) -> Self | tuple[float, float, float]:
         """Increment the current time by one time step and truncate at the final time.
 
         Args:
             step: The time step.
                 If 0, use the time step passed at instantiation.
+            return_time_manager: Whether to return the time evolution
+                as a time manager.
 
         Returns:
-            A time manager with
-            the current time before the update as initial time,
+            The current time before the update as initial time,
             the current time after the update as final time
             and the difference between the initial and final times as time step.
         """
@@ -113,7 +116,11 @@ class TimeManager:
 
         current_before_update = self.__current
         self.__current += step
-        return self.__class__(current_before_update, self.__current, step)
+        times = (current_before_update, self.__current, step)
+        if return_time_manager:
+            return self.__class__(*times)
+
+        return times
 
     def reset(self) -> None:
         """Reset the time manager to initial time."""

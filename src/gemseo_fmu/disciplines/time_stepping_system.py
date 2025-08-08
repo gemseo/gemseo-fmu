@@ -21,9 +21,11 @@ from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo.core._process_flow.base_process_flow import BaseProcessFlow
+from gemseo.core.coupling_structure import CouplingStructure
 from gemseo.core.discipline.discipline import Discipline
 from gemseo.mda.mda_chain import MDAChain
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from numpy import atleast_1d
 from numpy import concatenate
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
@@ -80,14 +82,17 @@ class TimeSteppingSystem(Discipline):
     __fmu_discipline: list[FMUDiscipline]
     """The FMU disciplines."""
 
+    __mda: MDAChain
+    """The MDA defining the master algorithm to co-simulate the discipline."""
+
+    __mda_max_iter_at_t0: int
+    """ The maximum number of iterations of the MDA algorithm at initial time."""
+
     __restart: bool
     """Whether the system starts from the initial time at each execution."""
 
     __time_manager: TimeManager
     """The time manager."""
-
-    __mda: MDAChain
-    """The MDA defining the master algorithm to co-simulate the discipline."""
 
     _process_flow_class = _TimeSteppingSystemProcessFlow
 
@@ -101,6 +106,7 @@ class TimeSteppingSystem(Discipline):
         do_step: bool = False,
         mda_name: str = "MDAJacobi",
         mda_options: Mapping[str, Any] = READ_ONLY_EMPTY_DICT,
+        mda_max_iter_at_t0: int = 0,
         **fmu_options: Any,
     ) -> None:
         """
@@ -120,15 +126,24 @@ class TimeSteppingSystem(Discipline):
                 Otherwise, simulate the model from initial time to `final_time`.
             mda_name: The MDA class name.
             mda_options: The options of the MDA.
+            mda_max_iter_at_t0: The maximum number of iterations of the MDA algorithm
+                at initial time, to find a multidisciplinary feasible configuration.
             **fmu_options: The options to instantiate the FMU disciplines.
         """  # noqa: D205 D212 D415
         self.__do_step = do_step
         self.__time_manager = TimeManager(0.0, final_time, time_step)
         self.__restart = restart
+        self.__mda_max_iter_at_t0 = mda_max_iter_at_t0
         discipline_time_step = time_step if apply_time_step_to_disciplines else 0.0
         all_disciplines = []
         for discipline in disciplines:
-            if isinstance(discipline, BaseFMUDiscipline):
+            if isinstance(discipline, DoStepFMUDiscipline):
+                discipline.set_default_execution(
+                    final_time=final_time,
+                    restart=False,
+                    time_step=discipline_time_step or None,
+                )
+            elif isinstance(discipline, BaseFMUDiscipline):
                 discipline.set_default_execution(
                     final_time=final_time,
                     restart=False,
@@ -150,13 +165,39 @@ class TimeSteppingSystem(Discipline):
             if isinstance(discipline, BaseFMUDiscipline)
         ]
         super().__init__()
+        strong_couplings = CouplingStructure(all_disciplines).strong_couplings
+        for fmu_discipline in self.__fmu_disciplines:
+            input_grammar = fmu_discipline.input_grammar
+            array_strong_couplings = set()
+            for strong_coupling in strong_couplings:
+                if strong_coupling in input_grammar:
+                    array_strong_couplings.add(strong_coupling)
+
+            input_grammar.update_from_names(array_strong_couplings)
+
         self.__mda = MDAChain(
             all_disciplines,
             inner_mda_name=mda_name,
             # TODO: add max_mda_iter argument when rollback will be available.
             max_mda_iter=0,
-            **mda_options,
+            inner_mda_settings=mda_options,
         )
+        for mda in self.__mda.inner_mdas:
+            mda.settings.max_mda_iter = 0
+
+        # TimeSteppingSystem uses an MDA
+        # to co-simulate from t(k) to t(k+1) and
+        # to iterate at t(0) to find a multidisciplinary starting state.
+        # If the coupled system is an n-order ODE, with n > 1,
+        # the coupling vector can remain constant during one iteration
+        # before changing at the next iteration.
+        # For this reason, we need to disable the caches.
+        cache_type = self.__mda.CacheType.NONE
+        self.__mda.set_cache(cache_type)
+        self.__mda.mdo_chain.set_cache(cache_type)
+        for mda in self.__mda.inner_mdas:
+            mda.set_cache(cache_type)
+
         self.input_grammar.update(self.__mda.input_grammar)
         self.output_grammar.update(self.__mda.output_grammar)
 
@@ -184,9 +225,6 @@ class TimeSteppingSystem(Discipline):
 
             if self.cache is not None:
                 self.cache.clear()
-                self.__mda.cache.clear()
-                for mda in self.__mda.inner_mdas:
-                    mda.cache.clear()
 
         if self.__do_step:
             # At initial time,
@@ -202,6 +240,25 @@ class TimeSteppingSystem(Discipline):
         return super().execute(input_data)
 
     def _run(self, input_data: StrKeyMapping) -> StrKeyMapping | None:
+        if self.__time_manager.is_initial and self.__mda_max_iter_at_t0 > 0:
+            max_mda_iter = self.__mda.settings.max_mda_iter
+            for mda in self.__mda.inner_mdas:
+                mda.settings.max_mda_iter = self.__mda_max_iter_at_t0
+
+            for fmu_discipline in self.__fmu_disciplines:
+                fmu_discipline.set_default_execution(initialize_only=True)
+
+            self.__mda.execute()
+            for mda in self.__mda.inner_mdas:
+                mda.settings.max_mda_iter = max_mda_iter
+
+            for fmu_discipline in self.__fmu_disciplines:
+                fmu_discipline.set_default_execution(
+                    initialize_only=False, use_arrays_only=True
+                )
+
+        input_data = dict(input_data)
+        input_data.update(self.__mda.io.data)
         if self.__do_step:
             self.__simulate_one_time_step(input_data)
             self.io.data.update(self.__mda.io.data)
@@ -210,7 +267,9 @@ class TimeSteppingSystem(Discipline):
 
     def __simulate_one_time_step(self, input_data: Mapping[str, Any]) -> None:
         """Simulate the multidisciplinary system with only one time step."""
-        simulation_time = self.__time_manager.update_current_time().step
+        _, _, simulation_time = self.__time_manager.update_current_time(
+            return_time_manager=False
+        )
         for fmu_discipline in self.__fmu_disciplines:
             fmu_discipline.set_next_execution(simulation_time=simulation_time)
 
@@ -223,15 +282,14 @@ class TimeSteppingSystem(Discipline):
             self.__simulate_one_time_step(input_data)
             local_data_history.append(copy(self.__mda.io.data))
             input_data = self.__mda.io.data
-            for inner_mda in self.__mda.inner_mdas:
-                inner_mda.cache.clear()
 
         # The different time steps are concatenated when the values are NumPy arrays.
         # Given a variable,
-        # We suppose that it value type is the same at all time steps.
-        local_data_history_0 = local_data_history[0]
+        # We suppose that its value type is the same at all time steps.
         self.io.update_output_data({
-            name: concatenate([local_data[name] for local_data in local_data_history])
-            for name in local_data_history_0
-            if not isinstance(local_data_history_0[name], TimeSeries)
+            name: concatenate([
+                atleast_1d(local_data[name]) for local_data in local_data_history
+            ])
+            for name, initial_value in local_data_history[0].items()
+            if not isinstance(initial_value, TimeSeries)
         })

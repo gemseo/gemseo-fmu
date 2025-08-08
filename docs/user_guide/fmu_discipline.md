@@ -14,7 +14,7 @@ is a popular free standard to exchange dynamic simulation models.
 This standard defines the notion of functional mock-up unit (FMU)
 through a ZIP file containg a mix of XML files, binaries and C code.
 GEMSEO-FMU proposes
-new types of [MDODiscipline][gemseo.core.discipline.MDODiscipline]
+new types of [Discipline][gemseo.core.discipline.discipline.Discipline]
 to simulate an FMU model:
 
 - the [StaticFMUDiscipline][gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline]
@@ -65,7 +65,7 @@ in the galleries of examples.
 
 ## Basics
 
-As any [MDODiscipline][gemseo.core.discipline.MDODiscipline],
+As any [Discipline][gemseo.core.discipline.discipline.Discipline],
 you mainly need to know
 how to instantiate an
 [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline],
@@ -82,27 +82,43 @@ from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 discipline = FMUDiscipline("my_model.fmu")
 ```
 
-#### Input and outputs
+#### Inputs
 
-In that case,
+When `input_names` is `()` (default),
 the input variables of the discipline are
-all the variables of the FMU model with type _input_ or _parameter_
-while its output variables are
+all the variables of the FMU model with type _input_ or _parameter_.
+
+When `input_names=None`,
+the discipline has no input variables.
+
+The input variables can be a subset
+of the inputs and parameters of the FMU model
+by using `input_names=some_input_names`.
+
+#### Outputs
+
+When `ouput_names` is `()` (default),
+the output variables of the discipline are
 all the outputs of the FMU model
 plus the time.
 
 The time can be excluded from the outputs
 with `add_time_to_output_grammar=False`.
 
-The discipline has no input variables
-with `input_names=None`.
-
-The input variables can be a subset
-of the inputs and parameters of the FMU model
-by using `input_names=some_input_names`.
-The output variables can also be a subset
+The output variables can be a subset
 of the outputs of the FMU model
 by using `output_names=some_output_names`.
+
+#### Renaming inputs and outputs
+
+Sometimes the names of variables in the FMU model are not meaningful,
+or are used by other FMU models in the same study to represent another quantity.
+In both cases,
+we might want to use discipline variable names that are different from those in the FMU model.
+That's what argument `variable_names` is for.
+This dictionary of the form `{fmu_model_variable_name: discipline_variable_name, ...}`
+defines the mapping between the variable names in the FMU model that do not suit us
+and the variable names that we want to use in the discipline.
 
 #### Time settings
 

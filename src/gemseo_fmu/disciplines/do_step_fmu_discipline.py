@@ -28,6 +28,7 @@ if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
+    from gemseo_fmu.utils.time_duration import TimeDurationType
     from gemseo_fmu.utils.time_duration import TimeType
 
 
@@ -49,6 +50,7 @@ class DoStepFMUDiscipline(FMUDiscipline):
         fmu_instance_directory: str | Path = "",
         delete_fmu_instance_directory: bool = True,
         variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
         do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
@@ -75,5 +77,23 @@ class DoStepFMUDiscipline(FMUDiscipline):
             fmu_instance_directory=fmu_instance_directory,
             delete_fmu_instance_directory=delete_fmu_instance_directory,
             variable_names=variable_names,
+            validate=validate,
             **pre_instantiation_parameters,
+        )
+
+    def set_default_execution(  # noqa: D102
+        self,
+        final_time: TimeDurationType | None = None,
+        restart: bool | None = None,
+        time_step: TimeDurationType | None = None,
+        initialize_only: bool = False,
+        use_arrays_only: bool = False,
+    ) -> None:
+        super().set_default_execution(
+            do_step=True,
+            final_time=final_time,
+            restart=restart,
+            time_step=time_step,
+            initialize_only=initialize_only,
+            use_arrays_only=use_arrays_only,
         )

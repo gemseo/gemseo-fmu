@@ -96,6 +96,7 @@ nav:
 
 markdown_extensions:
 - admonition
+- md_in_html
 - pymdownx.details
 - pymdownx.arithmatex:
     generic: true

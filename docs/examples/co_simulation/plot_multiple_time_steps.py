@@ -102,14 +102,14 @@ reference.execute()
 # to that of the complete system.
 
 fig, (ax1, ax2) = plt.subplots(2, 1)
-time_1 = system.local_data["MassSpringSubSystem1:time"]
-time_2 = system.local_data["MassSpringSubSystem2:time"]
+time_1 = system.local_data["MassSpringSubSystem1_time"]
+time_2 = system.local_data["MassSpringSubSystem2_time"]
 ax1.plot(time_1, system.local_data["x1"], label="x1", color="red")
 ax1.plot(time_2, system.local_data["x2"], label="x2", color="blue")
 ax2.plot(time_1, system.local_data["v1"], label="v1", color="red")
 ax2.plot(time_2, system.local_data["v2"], label="v2", color="blue")
 
-time = reference.local_data["MassSpringSystem:time"]
+time = reference.local_data["MassSpringSystem_time"]
 ax1.plot(time, reference.local_data["x1"], label="x1[ref]", linestyle="--", color="red")
 ax1.plot(
     time, reference.local_data["x2"], label="x2[ref]", linestyle="--", color="blue"

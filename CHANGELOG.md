@@ -26,6 +26,33 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Version 3.1.0 (August 2025)
+
+### Added
+
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports the variable types `Int32`, `Int64`, `Float64`, `Boolean`, `String` and `Enumeration` introduced by FMI3.
+- [TimeSeries.compute][gemseo_fmu.utils.time_series.TimeSeries.compute] is a piecewise linear function when its field ``interpolate`` is ``True``.
+- [TimeSeries.from_csv][gemseo_fmu.utils.time_series.TimeSeries.from_csv] is used to create a [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] from a CSV file.
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] has a new option ``mda_max_iter_at_t0`` to perform an MDA at initial time with at most ``mda_max_iter_at_t0`` iterations.
+- [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new option ``initialize_only`` to simply initialize the FMU model at execution.
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] has a new argument, named ``time_name``, to set the name of the time variable (default: ``"time"``).
+- [FMUDiscipline.set_default_execution][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.set_default_execution] has a new argument, named ``use_arrays_only``, to pass only NumPy arrays at execution (default: ``False``).
+- The function [plot_time_evolution][gemseo_fmu.utils.plotting.plot_time_evolution] draws the time evolution of a collection of variables.
+- The `time_window` argument of the method [FMUDiscipline.plot][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.plot]
+  can also be a float number defining the initial time or a tuple of float numbers defining the initial and final times.
+
+### Fixed
+
+- [BaseFMUDiscipline][gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline] supports array outputs (FMI3 only).
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when ``do_step`` is ``True``
+- [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] supports FMI3 when using the default input data.
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports input data passed as numbers.
+- [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem] supports Gauss-Seidel as co-simulation algorithm.
+
+### Changed
+
+- The time variable of [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] is no longer namespaced *but* still prefixed by the discipline name: ``f"{discipline_name}_{time_name}"``.
+
 ## Version 3.0.0 (November 2024)
 
 ### Added
@@ -81,7 +108,7 @@ and this project adheres to
 - [TimeSeries][gemseo_fmu.utils.time_series.TimeSeries] supports the `==` and `!=` operators.
 - [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline]
   stores the time evolution of its time-varying inputs
-  in its [local_data][gemseo.core.discipline.discipline.Discipline.local_data]
+  in its [local_data][gemseo.core.discipline.base_discipline.BaseDiscipline.local_data]
   when `do_step` is `False`
   and their values at current time otherwise.
 - The installation page of the documentation no longer mentions the possibility

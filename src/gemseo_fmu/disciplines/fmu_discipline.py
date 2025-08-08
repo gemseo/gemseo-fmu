@@ -18,18 +18,16 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from gemseo.datasets.dataset import Dataset
-from gemseo.post.dataset.lines import Lines
-from numpy import newaxis
-
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
+from gemseo_fmu.utils.plotting import plot_time_evolution
 from gemseo_fmu.utils.time_duration import TimeDuration
+from gemseo_fmu.utils.time_duration import TimeDurationType
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from collections.abc import Sequence
     from pathlib import Path
 
+    from gemseo.post.dataset.lines import Lines
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
 
@@ -55,7 +53,9 @@ class FMUDiscipline(BaseFMUDiscipline):
     @property
     def initial_values(self) -> dict[str, NumberArray]:
         """The initial input, output and time values."""
-        return self._initial_values
+        return {
+            name: variable.initial for name, variable in self._to_fmu_variables.items()
+        }
 
     @property
     def time(self) -> RealArray | None:
@@ -67,7 +67,10 @@ class FMUDiscipline(BaseFMUDiscipline):
         output_names: str | Iterable[str],
         abscissa_name: str = "",
         time_unit: TimeUnit = TimeUnit.SECONDS,
-        time_window: int | Sequence[int] = 0,
+        time_window: int
+        | tuple[int, int]
+        | TimeDurationType
+        | tuple[TimeDurationType, TimeDurationType] = 0,
         save: bool = True,
         show: bool = False,
         file_path: str | Path = "",
@@ -79,9 +82,11 @@ class FMUDiscipline(BaseFMUDiscipline):
             abscissa_name: The name of the variable to be plotted on the x-axis.
                 If empty, use the time variable.
             time_unit: The unit to express the time.
-            time_window: The time windows over which to draw the time evolution.
-                Either the start time index (the end one will be the final time one)
-                or both the start and end time indices.
+            time_window: The time window over which to draw the time evolution.
+                Either the index of the initial time,
+                the indices of the initial and final times,
+                the initial time,
+                or the initial and final times.
             save: Whether to save the figure.
             show: Whether to show the figure.
             file_path: The path of the file to save the figure.
@@ -93,23 +98,17 @@ class FMUDiscipline(BaseFMUDiscipline):
         Returns:
             The figure.
         """
-        if isinstance(output_names, str):
-            output_names = [output_names]
-
-        time_name = f"Time ({time_unit})"
-        if not abscissa_name:
-            abscissa_name = time_name
-
-        if isinstance(time_window, int):
-            time_window = (time_window, self.time.size)
-
-        dataset = Dataset()
-        time_window = slice(*time_window)
-        time_duration = TimeDuration(self.time[time_window, newaxis])
-        dataset.add_variable(time_name, time_duration.to(time_unit))
-        for name in set(output_names).union({abscissa_name}) - {time_name}:
-            dataset.add_variable(name, self.io.data[name][time_window, newaxis])
-
-        figure = Lines(dataset, output_names, abscissa_variable=abscissa_name)
-        figure.execute(save=save, show=show, file_path=file_path)
-        return figure
+        return plot_time_evolution(
+            self._time,
+            {
+                k: v
+                for k, v in self.io.data.items()
+                if k in output_names or k == abscissa_name
+            },
+            abscissa_name=abscissa_name,
+            time_unit=time_unit,
+            time_window=time_window,
+            save=save,
+            show=show,
+            file_path=file_path,
+        )
