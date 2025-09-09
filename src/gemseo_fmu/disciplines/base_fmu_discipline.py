@@ -547,7 +547,14 @@ class BaseFMUDiscipline(Discipline):
         to_fmu_variables = self._to_fmu_variables
         func = self.__cast_string_value if self.__use_fmi_3 else float
         for variable in self.__model_description.modelVariables:
-            variable_name = from_fmu_names.get(variable.name)
+            fmu_variable_name = variable.name
+            if (
+                fmu_variable_name not in self.__fmu_input_names
+                and fmu_variable_name not in self.__fmu_output_names
+            ):
+                continue
+
+            variable_name = from_fmu_names.get(fmu_variable_name)
             if variable_name is not None:
                 initial_value = variable.start
                 if initial_value is not None:
