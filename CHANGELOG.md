@@ -26,6 +26,12 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Develop
+
+### Fixed
+
+- [BaseFMUDiscipline][gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline] no longer raises an exception when the time variable is defined in `modelVariables` of the _modelDescription.xml_ file.
+
 ## Version 3.1.0 (August 2025)
 
 ### Added

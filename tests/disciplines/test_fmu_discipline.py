@@ -860,3 +860,13 @@ def test_plot_options(discipline):
         "time_unit": 1,
         "time_window": 2,
     }
+
+
+@pytest.mark.parametrize("add_time_to_output_grammar", [False, True])
+def test_set_time_variable(add_time_to_output_grammar):
+    """Check that the time variable is set correctly."""
+
+    fmu_disc = FMUDiscipline(
+        FMU_PATH, add_time_to_output_grammar=add_time_to_output_grammar
+    )
+    assert ("ramp_time" in fmu_disc._to_fmu_variables) is add_time_to_output_grammar
