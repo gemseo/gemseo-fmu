@@ -20,9 +20,7 @@ from collections.abc import Sequence
 from dataclasses import field
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 from typing import Literal
-from typing import Union
 
 from gemseo.utils.pydantic_ndarray import NDArrayPydantic
 from numpy import array
@@ -33,12 +31,13 @@ from gemseo_fmu.utils.time_duration import TimeDuration
 from gemseo_fmu.utils.time_duration import TimeDurationType
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pathlib import Path
 
-ObservableType = Union[Sequence[float], NDArrayPydantic[float]]
+ObservableType = Sequence[float] | NDArrayPydantic[float]
 """The type for a sequence of observable values."""
 
-TimeType = Union[Sequence[TimeDurationType], NDArrayPydantic]
+TimeType = Sequence[TimeDurationType] | NDArrayPydantic
 """The type for a sequence of time values."""
 
 
@@ -106,7 +105,9 @@ class TimeSeries:
             The output value.
         """
         time = self.__check_time(time)
-        for time_i, observable_i in zip(self.time[1:], self.observable[:-1]):
+        for time_i, observable_i in zip(
+            self.time[1:], self.observable[:-1], strict=False
+        ):
             if time + self.tolerance < time_i:
                 return observable_i
 
@@ -123,7 +124,11 @@ class TimeSeries:
         """
         time = self.__check_time(time)
         for t_start, t_stop, o_start, o_stop in zip(
-            self.time[:-1], self.time[1:], self.observable[:-1], self.observable[1:]
+            self.time[:-1],
+            self.time[1:],
+            self.observable[:-1],
+            self.observable[1:],
+            strict=False,
         ):
             if time < t_stop:
                 return o_start + (o_stop - o_start) / (t_stop - t_start) * (
