@@ -270,7 +270,7 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
 
     Here we consider a discipline using restart by default.
     """
-    caplog.set_level(logging.DEBUG)
+    caplog.set_level(logging.DEBUG, "gemseo_fmu.utils.time_manager")
     time_data = array([0.0, 0.2, 0.4, 0.6])
     output_data = array([0.0, 0.4, 0.8, 1.2])
     ramp_discipline_w_restart.execute()

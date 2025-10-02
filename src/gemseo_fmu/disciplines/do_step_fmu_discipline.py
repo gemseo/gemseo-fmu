@@ -53,7 +53,7 @@ class DoStepFMUDiscipline(FMUDiscipline):
         validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
-        do_step = pre_instantiation_parameters.get(self._DO_STEP, None)
+        do_step = pre_instantiation_parameters.get(self._DO_STEP)
         if do_step is False:
             msg = "DoStepFMUDiscipline has no do_step parameter."
             raise ValueError(msg)

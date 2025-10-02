@@ -24,13 +24,14 @@ from numpy import newaxis
 from numpy import searchsorted
 
 from gemseo_fmu.utils.time_duration import TimeDuration
-from gemseo_fmu.utils.time_duration import TimeDurationType
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
     from pathlib import Path
 
     from gemseo.typing import RealArray
+
+    from gemseo_fmu.utils.time_duration import TimeDurationType
 
 
 def plot_time_evolution(

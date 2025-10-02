@@ -17,22 +17,19 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from collections.abc import Callable
 from collections.abc import Iterable
 from typing import Any
-from typing import Callable
 from typing import Generic
 from typing import TypeVar
-from typing import Union
 
 from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
 from numpy import atleast_1d
 
 T = TypeVar(
     "T",
-    bound=Union[
-        Callable[[Iterable[int]], list[float]],
-        Callable[[Iterable[int], int], list[float]],
-    ],
+    bound=Callable[[Iterable[int]], list[float]]
+    | Callable[[Iterable[int], int], list[float]],
 )
 
 

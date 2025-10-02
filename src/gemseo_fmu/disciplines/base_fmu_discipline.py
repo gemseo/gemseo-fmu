@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from copy import copy
 from dataclasses import dataclass
 from pathlib import Path
@@ -24,10 +25,8 @@ from shutil import rmtree
 from types import MappingProxyType
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import Callable
 from typing import ClassVar
 from typing import Final
-from typing import Union
 
 from fmpy import extract
 from fmpy import instantiate_fmu
@@ -45,10 +44,8 @@ from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from gemseo.utils.pydantic_ndarray import NDArrayPydantic
 from numpy import append
 from numpy import array
-from numpy import ndarray
 from strenum import StrEnum
 
-from gemseo_fmu.disciplines._variables import BaseFMUVariable
 from gemseo_fmu.disciplines._variables import FMU3Variable
 from gemseo_fmu.disciplines._variables import FMUTimeVariable
 from gemseo_fmu.disciplines._variables import RealVariable
@@ -67,10 +64,12 @@ if TYPE_CHECKING:
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
     from gemseo.typing import StrKeyMapping
+    from numpy import ndarray
 
+    from gemseo_fmu.disciplines._variables import BaseFMUVariable
     from gemseo_fmu.utils.time_duration import TimeDurationType
 
-FMUModel = Union[FMU1Model, FMU2Model, FMU3Model, FMU1Slave, FMU2Slave, FMU3Slave]
+FMUModel = FMU1Model | FMU2Model | FMU3Model | FMU1Slave | FMU2Slave | FMU3Slave
 
 LOGGER = logging.getLogger(__name__)
 
@@ -291,7 +290,7 @@ class BaseFMUDiscipline(Discipline):
 
         self.io.input_grammar.update_from_types(
             dict.fromkeys(
-                input_names, Union[bool, int, float, str, NDArrayPydantic, TimeSeries]
+                input_names, bool | int | float | str | NDArrayPydantic | TimeSeries
             )
         )
         self.io.output_grammar.update_from_names(output_names)
@@ -300,7 +299,7 @@ class BaseFMUDiscipline(Discipline):
         self.__time_variable.initial = array([initial_time])
         if add_time_to_output_grammar:
             self.io.output_grammar.update_from_types({
-                disciplinary_time_name: Union[float, NDArrayPydantic[float]]
+                disciplinary_time_name: float | NDArrayPydantic[float]
             })
             self._to_fmu_variables[disciplinary_time_name] = self.__time_variable
 
