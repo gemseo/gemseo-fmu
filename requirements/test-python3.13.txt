@@ -4,7 +4,7 @@ annotated-types==0.7.0
     # via pydantic
 attrs==25.3.0
     # via fmpy
-certifi==2025.8.3
+certifi==2025.10.5
     # via requests
 charset-normalizer==3.4.3
     # via requests
@@ -34,7 +34,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.60.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@f2c1299b9473b890c42b2d1995f4f152a81ad877
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@fd8c6380829aa18a600d16c43619629b3e9bdd3a
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
