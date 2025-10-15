@@ -24,7 +24,7 @@ requires-python = ">=3.10, <3.14"
 dependencies = [
     "delta == 0.4.2",
     "fmpy >=0.3.13,<=0.3.19",
-    "gemseo[all] >=6,<7",
+    "gemseo[all] >=6.3,<7",
     "numpy",
 ]
 
