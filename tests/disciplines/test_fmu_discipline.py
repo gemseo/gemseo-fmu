@@ -270,7 +270,7 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
 
     Here we consider a discipline using restart by default.
     """
-    caplog.set_level(logging.DEBUG)
+    caplog.set_level(logging.DEBUG, "gemseo_fmu.utils.time_manager")
     time_data = array([0.0, 0.2, 0.4, 0.6])
     output_data = array([0.0, 0.4, 0.8, 1.2])
     ramp_discipline_w_restart.execute()
@@ -860,3 +860,13 @@ def test_plot_options(discipline):
         "time_unit": 1,
         "time_window": 2,
     }
+
+
+@pytest.mark.parametrize("add_time_to_output_grammar", [False, True])
+def test_set_time_variable(add_time_to_output_grammar):
+    """Check that the time variable is set correctly."""
+
+    fmu_disc = FMUDiscipline(
+        FMU_PATH, add_time_to_output_grammar=add_time_to_output_grammar
+    )
+    assert ("ramp_time" in fmu_disc._to_fmu_variables) is add_time_to_output_grammar

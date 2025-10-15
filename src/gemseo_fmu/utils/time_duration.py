@@ -16,11 +16,9 @@
 
 from __future__ import annotations
 
-from typing import Union
-
 import delta
 
-TimeDurationType = Union[float, str]
+TimeDurationType = float | str
 
 
 class TimeDuration:

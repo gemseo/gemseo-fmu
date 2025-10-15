@@ -38,7 +38,7 @@ def test_properties(time_manager):
 
 def test_time_manager(time_manager, caplog):
     """Check update_current_time()."""
-    caplog.set_level(logging.DEBUG)
+    caplog.set_level(logging.DEBUG, "gemseo_fmu.utils.time_manager")
     times = time_manager.update_current_time()
     assert times == TimeManager(1.2, 3.5, 2.3)
     assert time_manager.initial == 1.2

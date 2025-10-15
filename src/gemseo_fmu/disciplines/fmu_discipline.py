@@ -21,7 +21,6 @@ from typing import TYPE_CHECKING
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.utils.plotting import plot_time_evolution
 from gemseo_fmu.utils.time_duration import TimeDuration
-from gemseo_fmu.utils.time_duration import TimeDurationType
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -30,6 +29,8 @@ if TYPE_CHECKING:
     from gemseo.post.dataset.lines import Lines
     from gemseo.typing import NumberArray
     from gemseo.typing import RealArray
+
+    from gemseo_fmu.utils.time_duration import TimeDurationType
 
 
 class FMUDiscipline(BaseFMUDiscipline):

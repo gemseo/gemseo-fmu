@@ -26,6 +26,20 @@ The format is based on
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Version 3.1.1 (October 2025)
+
+### Fixed
+
+- [BaseFMUDiscipline][gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline] no longer raises an exception when the time variable is defined in `modelVariables` of the _modelDescription.xml_ file.
+
+### Added
+
+- Support for Python 3.13.
+
+### Removed
+
+- Support for Python 3.9.
+
 ## Version 3.1.0 (August 2025)
 
 ### Added
@@ -51,7 +65,7 @@ and this project adheres to
 
 ### Changed
 
-- The time variable of [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] is no longer namespaced *but* still prefixed by the discipline name: ``f"{discipline_name}_{time_name}"``.
+- The time variable of [FMUDiscipline][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline] is no longer namespaced _but_ still prefixed by the discipline name: ``f"{discipline_name}_{time_name}"``.
 
 ## Version 3.0.0 (November 2024)
 
