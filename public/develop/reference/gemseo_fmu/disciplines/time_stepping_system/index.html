@@ -2850,12 +2850,15 @@ at initial time, to find a multidisciplinary feasible configuration.</p>
     <div class="doc doc-contents ">
 
         <p>Execute the discipline, i.e. compute output data from input data.</p>
-<p>If :attr:<code>.virtual_execution</code> is <code>True</code>,
-this method returns the :attr:<code>.default_output_data</code>.
+<p>If
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.virtual_execution">virtual_execution</a>
+is <code>True</code>,
+this method returns the
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.default_output_data">default_output_data</a>.
 Otherwise,
-it calls the :meth:<code>._run</code> method performing the true execution
+it calls the <code>_run()</code> method performing the true execution
 and returns the corresponding output data.
-This :meth:<code>._run</code> method must be implemented in subclasses.</p>
+This <code>_run()</code> method must be implemented in subclasses.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2868,7 +2871,8 @@ This :meth:<code>._run</code> method must be implemented in subclasses.</p>
           –
           <div class="doc-md-description">
             <p>The input data.
-Complete this dictionary with the :attr:<code>.default_input_data</code>.</p>
+Complete this dictionary with the
+<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.default_input_data">default_input_data</a>.</p>
           </div>
         </li>
     </ul>
