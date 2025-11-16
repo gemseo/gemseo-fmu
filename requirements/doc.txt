@@ -6,7 +6,7 @@ attrs==25.4.0
     # via fmpy
 babel==2.17.0
     # via mkdocs-material
-backrefs==6.0.1
+backrefs==6.1
     # via mkdocs-material
 black==25.11.0
     # via gemseo-fmu (pyproject.toml:doc)
@@ -16,7 +16,7 @@ certifi==2025.11.12
     # via requests
 charset-normalizer==3.4.4
     # via requests
-click==8.3.0
+click==8.3.1
     # via
     #   black
     #   mkdocs
@@ -44,7 +44,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.60.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@e09ccf0cd2e7280e4d1514f5d40b4cedfdcb4f57
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@a562d8302326646282d65c4030554e7ea522c30a
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
