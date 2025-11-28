@@ -2326,20 +2326,20 @@
 
 <a href="#gemseo_fmu.utils.plotting.plot_time_evolution" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">plot_time_evolution</span><span class="p">(</span>
-    <span class="n">time</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">,</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></span><span class="p">],</span>
-    <span class="n">abscissa_name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="gemseo.typing.RealArray">RealArray</span></span><span class="p">],</span>
+    <span class="n">abscissa_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">time_unit</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            TimeUnit (gemseo_fmu.utils.time_duration.TimeDuration.TimeUnit)" href="../time_duration/#gemseo_fmu.utils.time_duration.TimeDuration.TimeUnit">TimeUnit</a></span> <span class="o">=</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDuration.TimeUnit.SECONDS">SECONDS</span></span><span class="p">,</span>
     <span class="n">time_window</span><span class="p">:</span> <span class="p">(</span>
-        <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span>
-        <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></span><span class="p">]</span>
+        <span class="n"><span title="int">int</span></span>
+        <span class="o">|</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="int">int</span></span><span class="p">,</span> <span class="n"><span title="int">int</span></span><span class="p">]</span>
         <span class="o">|</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span>
-        <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a></span><span class="p">[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">,</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">]</span>
+        <span class="o">|</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">,</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">]</span>
     <span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">save</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">show</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.post.dataset.lines.Lines" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.post.dataset.lines.html#gemseo.post.dataset.lines.Lines">Lines</a></span>
+    <span class="n">save</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.post.dataset.lines.Lines">Lines</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2351,7 +2351,7 @@
     <ul>
         <li class="doc-section-item field-body">
             <b><code>time</code></b>
-              (<code><a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a></code>)
+              (<code><span title="gemseo.typing.RealArray">RealArray</span></code>)
           –
           <div class="doc-md-description">
             <p>The time steps.</p>
@@ -2359,7 +2359,7 @@
         </li>
         <li class="doc-section-item field-body">
             <b><code>data</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="gemseo.typing.RealArray" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.typing.html#gemseo.typing.RealArray">RealArray</a>]</code>)
+              (<code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="gemseo.typing.RealArray">RealArray</span>]</code>)
           –
           <div class="doc-md-description">
             <p>The values of the variables at time steps.</p>
@@ -2367,7 +2367,7 @@
         </li>
         <li class="doc-section-item field-body">
             <b><code>abscissa_name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+              (<code><span title="str">str</span></code>, default:
                   <code>&#39;&#39;</code>
 )
           –
@@ -2388,7 +2388,7 @@ If empty, use the time variable.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>time_window</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>] | <span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>, <span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>]</code>, default:
+              (<code><span title="int">int</span> | <span title="tuple">tuple</span>[<span title="int">int</span>, <span title="int">int</span>] | <span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span> | <span title="tuple">tuple</span>[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>, <span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>]</code>, default:
                   <code>0</code>
 )
           –
@@ -2402,7 +2402,7 @@ or the initial and final times.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>save</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>True</code>
 )
           –
@@ -2412,7 +2412,7 @@ or the initial and final times.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>show</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>False</code>
 )
           –
@@ -2422,7 +2422,7 @@ or the initial and final times.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>file_path</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+              (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>, default:
                   <code>&#39;&#39;</code>
 )
           –
@@ -2440,7 +2440,7 @@ with the output name as file name and PNG format.</p>
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-external" title="gemseo.post.dataset.lines.Lines" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.post.dataset.lines.html#gemseo.post.dataset.lines.Lines">Lines</a></code>
+              <code><span title="gemseo.post.dataset.lines.Lines">Lines</span></code>
           –
           <div class="doc-md-description">
             <p>The figure.</p>

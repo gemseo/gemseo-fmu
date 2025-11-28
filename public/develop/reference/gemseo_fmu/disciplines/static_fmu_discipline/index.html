@@ -2572,18 +2572,18 @@
 
 <a href="#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline" class="headerlink" title="Permanent link">&para;</a></h4>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">StaticFMUDiscipline</span><span class="p">(</span>
-    <span class="n">file_path</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span><span class="p">,</span>
-    <span class="n">input_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(),</span>
-    <span class="n">output_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">use_co_simulation</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">model_instance_directory</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="n">delete_model_instance_directory</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
-        <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></span><span class="p">,</span>
-    <span class="n">validate</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">pre_instantiation_parameters</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span>
+    <span class="n">input_names</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">output_names</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">use_co_simulation</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">model_instance_directory</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">delete_model_instance_directory</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">variable_names</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span>
+        <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="str">str</span></span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n"><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></span><span class="p">,</span>
+    <span class="n">validate</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">pre_instantiation_parameters</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -2603,7 +2603,7 @@
     <ul>
         <li class="doc-section-item field-body">
             <b><code>file_path</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
+              (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>)
           –
           <div class="doc-md-description">
             <p>The path to the FMU model file.</p>
@@ -2611,7 +2611,7 @@
         </li>
         <li class="doc-section-item field-body">
             <b><code>input_names</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
+              (<code><span title="collections.abc.Iterable">Iterable</span>[<span title="str">str</span>] | None</code>, default:
                   <code>()</code>
 )
           –
@@ -2623,7 +2623,7 @@ if <code>None</code>, do not use inputs.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>output_names</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
+              (<code><span title="collections.abc.Iterable">Iterable</span>[<span title="str">str</span>]</code>, default:
                   <code>()</code>
 )
           –
@@ -2634,7 +2634,7 @@ if empty, use all the outputs of the FMU model.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>name</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+              (<code><span title="str">str</span></code>, default:
                   <code>&#39;&#39;</code>
 )
           –
@@ -2645,7 +2645,7 @@ If empty, use the name of the class.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>use_co_simulation</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>True</code>
 )
           –
@@ -2657,7 +2657,7 @@ When <code>do_step</code> is <code>True</code>, the co-simulation FMI type is re
         </li>
         <li class="doc-section-item field-body">
             <b><code>model_instance_directory</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>, default:
+              (<code><span title="str">str</span> | <span title="pathlib.Path">Path</span></code>, default:
                   <code>&#39;&#39;</code>
 )
           –
@@ -2669,7 +2669,7 @@ if empty, let <code>fmpy</code> create a temporary directory.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>delete_model_instance_directory</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>True</code>
 )
           –
@@ -2680,8 +2680,8 @@ of the FMU instance when deleting the discipline.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>variable_names</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
-                  <code><a class="autorefs autorefs-external" title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.utils.constants.html#gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</a></code>
+              (<code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="str">str</span>]</code>, default:
+                  <code><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
 )
           –
           <div class="doc-md-description">
@@ -2693,7 +2693,7 @@ When missing, use the names of the FMU model inputs and outputs.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>validate</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>True</code>
 )
           –
@@ -2703,7 +2703,7 @@ When missing, use the names of the FMU model inputs and outputs.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>**pre_instantiation_parameters</code></b>
-              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+              (<code><span title="typing.Any">Any</span></code>, default:
                   <code>{}</code>
 )
           –
@@ -2802,7 +2802,7 @@ to <code>_pre_instantiate()</code>.</p>
   </span>
 
 <a href="#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline.causalities_to_variable_names" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">causalities_to_variable_names</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">]]</span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">causalities_to_variable_names</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2921,23 +2921,23 @@ to <code>_pre_instantiate()</code>.</p>
 
 <a href="#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline.execute" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">execute</span><span class="p">(</span>
-    <span class="n">input_data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a></span><span class="p">[</span>
-        <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></span><span class="p">,</span>
-        <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span>
+    <span class="n">input_data</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span>
+        <span class="n"><span title="str">str</span></span><span class="p">,</span>
+        <span class="n"><span title="numpy.ndarray">ndarray</span></span>
         <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a></span>
-        <span class="o">|</span> <span class="n"><a class="autorefs autorefs-external" title="collections.abc.Callable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable">Callable</a></span><span class="p">[[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></span><span class="p">],</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a></span><span class="p">({}),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline_data.html#gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</a></span>
+        <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">],</span> <span class="n"><span title="float">float</span></span><span class="p">],</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n"><span title="types.MappingProxyType">MappingProxyType</span></span><span class="p">({}),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Execute the discipline, i.e. compute output data from input data.</p>
 <p>If
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.virtual_execution">virtual_execution</a>
+[virtual_execution][gemseo.core.discipline.base_discipline.BaseDiscipline.virtual_execution]
 is <code>True</code>,
 this method returns the
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.default_output_data">default_output_data</a>.
+[default_output_data][gemseo.core.discipline.base_discipline.BaseDiscipline.default_output_data].
 Otherwise,
 it calls the <code>_run()</code> method performing the true execution
 and returns the corresponding output data.
@@ -2948,14 +2948,14 @@ This <code>_run()</code> method must be implemented in subclasses.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>input_data</code></b>
-              (<code><a class="autorefs autorefs-external" title="collections.abc.Mapping" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping">Mapping</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a> | <a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> | <a class="autorefs autorefs-external" title="collections.abc.Callable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable">Callable</a>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a>]]</code>, default:
-                  <code><a class="autorefs autorefs-external" title="types.MappingProxyType" href="https://docs.python.org/3/library/types.html#types.MappingProxyType">MappingProxyType</a>({})</code>
+              (<code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="numpy.ndarray">ndarray</span> | <a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> | <span title="collections.abc.Callable">Callable</span>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <span title="float">float</span>]]</code>, default:
+                  <code><span title="types.MappingProxyType">MappingProxyType</span>({})</code>
 )
           –
           <div class="doc-md-description">
             <p>The input data.
 Complete this dictionary with the
-<a class="autorefs autorefs-external" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.base_discipline.html#gemseo.core.discipline.base_discipline.BaseDiscipline.default_input_data">default_input_data</a>.</p>
+[default_input_data][gemseo.core.discipline.base_discipline.BaseDiscipline.default_input_data].</p>
           </div>
         </li>
     </ul>
@@ -2964,7 +2964,7 @@ Complete this dictionary with the
 <p><span class="doc-section-title">Returns:</span></p>
     <ul>
         <li class="doc-section-item field-body">
-              <code><a class="autorefs autorefs-external" title="gemseo.core.discipline.discipline_data.DisciplineData" href="https://gemseo.readthedocs.io/en/stable/modules/gemseo.core.discipline.discipline_data.html#gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</a></code>
+              <code><span title="gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</span></code>
           –
           <div class="doc-md-description">
             <p>The input and output data.</p>
@@ -3039,12 +3039,12 @@ Complete this dictionary with the
 
 <a href="#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline.set_default_execution" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">set_default_execution</span><span class="p">(</span>
-    <span class="n">do_step</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">do_step</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">restart</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">restart</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_step</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">initialize_only</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">use_arrays_only</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">initialize_only</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">use_arrays_only</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -3057,7 +3057,7 @@ Complete this dictionary with the
     <ul>
         <li class="doc-section-item field-body">
             <b><code>do_step</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
+              (<code><span title="bool">bool</span> | None</code>, default:
                   <code>None</code>
 )
           –
@@ -3084,7 +3084,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>restart</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
+              (<code><span title="bool">bool</span> | None</code>, default:
                   <code>None</code>
 )
           –
@@ -3109,7 +3109,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>initialize_only</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>False</code>
 )
           –
@@ -3120,7 +3120,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
         </li>
         <li class="doc-section-item field-body">
             <b><code>use_arrays_only</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+              (<code><span title="bool">bool</span></code>, default:
                   <code>False</code>
 )
           –
@@ -3241,7 +3241,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
 
 <a href="#gemseo_fmu.disciplines.static_fmu_discipline.StaticFMUDiscipline.set_next_execution" class="headerlink" title="Permanent link">&para;</a></h6>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">set_next_execution</span><span class="p">(</span>
-    <span class="n">restart</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">restart</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">simulation_time</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_step</span><span class="p">:</span> <span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -3256,7 +3256,7 @@ If <code>None</code>, use the value considered at the instantiation.</p>
     <ul>
         <li class="doc-section-item field-body">
             <b><code>restart</code></b>
-              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a> | None</code>, default:
+              (<code><span title="bool">bool</span> | None</code>, default:
                   <code>None</code>
 )
           –
