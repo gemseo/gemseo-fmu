@@ -32,7 +32,7 @@ delta==0.4.2
     # via gemseo-fmu (pyproject.toml)
 dill==0.4.0
     # via openturns
-docstring-inheritance==2.2.2
+docstring-inheritance==3.0.0
     # via gemseo
 et-xmlfile==2.0.0
     # via openpyxl
@@ -44,7 +44,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.61.0
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@71d21bbfa0923aad98d39d01a2f08bccc55d9227
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@075af788f3c164105a18637625bea6d8f104ccf2
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -235,7 +235,7 @@ pygments==2.19.2
     #   pygments-ansi-color
 pygments-ansi-color==0.3.0
     # via markdown-exec
-pymdown-extensions==10.18
+pymdown-extensions==10.19
     # via
     #   markdown-exec
     #   mkdocs-material
@@ -308,6 +308,7 @@ tqdm==4.67.1
     #   mkdocs-gallery
 typing-extensions==4.15.0
     # via
+    #   docstring-inheritance
     #   fieldz
     #   gemseo
     #   pydantic
@@ -319,7 +320,7 @@ typing-inspection==0.4.2
     #   pydantic-settings
 tzdata==2025.2
     # via pandas
-urllib3==2.6.1
+urllib3==2.6.2
     # via
     #   requests
     #   responses
