@@ -1854,34 +1854,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem.execute" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;execute
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2320,34 +2292,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem.execute" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;execute
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2453,7 +2397,6 @@ while a time-stepping discipline computes an output at time <span class="arithma
 time <span class="arithmatex">\(t_k\)</span> and its state at time <span class="arithmatex">\(t_{k-1}\)</span>.</p>
 <p>This system co-simulates the disciplines using an MDA-based master algorithm.</p>
 
-        <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2832,118 +2775,7 @@ at initial time, to find a multidisciplinary feasible configuration.</p>
 </div>
 
 
-<h5 id="gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem-functions">Functions<a href="#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem-functions" class="headerlink" title="Permanent link">&para;</a></h5>
 
-<div class="doc doc-object doc-function">
-
-
-<h6 id="gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem.execute" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">execute</span>
-
-
-<a href="#gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem.execute" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">execute</span><span class="p">(</span>
-    <span class="n">input_data</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.core.discipline.discipline.DisciplineData">DisciplineData</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Execute the discipline, i.e. compute output data from input data.</p>
-<p>If
-[virtual_execution][gemseo.core.discipline.base_discipline.BaseDiscipline.virtual_execution]
-is <code>True</code>,
-this method returns the
-[default_output_data][gemseo.core.discipline.base_discipline.BaseDiscipline.default_output_data].
-Otherwise,
-it calls the <code>_run()</code> method performing the true execution
-and returns the corresponding output data.
-This <code>_run()</code> method must be implemented in subclasses.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>input_data</code></b>
-              (<code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>, default:
-                  <code><span title="gemseo.utils.constants.READ_ONLY_EMPTY_DICT">READ_ONLY_EMPTY_DICT</span></code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The input data.
-Complete this dictionary with the
-[default_input_data][gemseo.core.discipline.base_discipline.BaseDiscipline.default_input_data].</p>
-          </div>
-        </li>
-    </ul>
-
-
-<p><span class="doc-section-title">Returns:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-              <code><span title="gemseo.core.discipline.discipline.DisciplineData">DisciplineData</span></code>
-          –
-          <div class="doc-md-description">
-            <p>The input and output data.</p>
-          </div>
-        </li>
-    </ul>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/gemseo_fmu/disciplines/time_stepping_system.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa: D102</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">READ_ONLY_EMPTY_DICT</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineData</span><span class="p">:</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__restart</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__mda</span><span class="o">.</span><span class="n">default_input_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__time_manager</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">fmu_discipline</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fmu_disciplines</span><span class="p">:</span>
-            <span class="n">fmu_discipline</span><span class="o">.</span><span class="n">set_next_execution</span><span class="p">(</span><span class="n">restart</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__do_step</span><span class="p">:</span>
-        <span class="c1"># At initial time,</span>
-        <span class="c1"># the default input values are the ``default_inputs``.</span>
-        <span class="c1"># Afterward,</span>
-        <span class="c1"># the default input values are the input values from the previous time,</span>
-        <span class="c1"># which can be found in the local data with get_input_data(),</span>
-        <span class="c1"># returning an empty dictionary at initial time.</span>
-        <span class="n">original_input_data</span> <span class="o">=</span> <span class="n">input_data</span>
-        <span class="n">input_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input_data</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_input_data</span>
-        <span class="n">input_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">original_input_data</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
 
 
 

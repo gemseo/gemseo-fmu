@@ -1749,17 +1749,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.execute" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;execute
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.set_default_execution" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2455,17 +2444,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.execute" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;execute
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.set_default_execution" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2604,7 +2582,6 @@
         <p>A base discipline wrapping a Functional Mockup Unit (FMU) model.</p>
 <p>This discipline relies on <a href="https://github.com/CATIA-Systems/FMPy">FMPy</a>.</p>
 
-        <p>Initialize self.  See help(type(self)) for accurate signature.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2721,19 +2698,8 @@ otherwise use <code>0.</code>.</p>
           <div class="doc-md-description">
             <p>Whether the model is simulated over only one <code>time_step</code>
 when calling
-<a class="autorefs autorefs-internal" title="            execute" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">execute()</a>.
+[execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
 Otherwise, simulate the model from current time to final time in one go.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-            <b><code>name</code></b>
-              (<code><span title="str">str</span></code>, default:
-                  <code>&#39;&#39;</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The name of the discipline.
-If empty, use the name of the class.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
@@ -3192,124 +3158,6 @@ to <code>_pre_instantiate()</code>.</p>
 <div class="doc doc-object doc-function">
 
 
-<h6 id="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.execute" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">execute</span>
-
-
-<a href="#gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.execute" class="headerlink" title="Permanent link">&para;</a></h6>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">execute</span><span class="p">(</span>
-    <span class="n">input_data</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span>
-        <span class="n"><span title="str">str</span></span><span class="p">,</span>
-        <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-        <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a></span>
-        <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span></span><span class="p">],</span> <span class="n"><span title="float">float</span></span><span class="p">],</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n"><span title="types.MappingProxyType">MappingProxyType</span></span><span class="p">({}),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Execute the discipline, i.e. compute output data from input data.</p>
-<p>If
-[virtual_execution][gemseo.core.discipline.base_discipline.BaseDiscipline.virtual_execution]
-is <code>True</code>,
-this method returns the
-[default_output_data][gemseo.core.discipline.base_discipline.BaseDiscipline.default_output_data].
-Otherwise,
-it calls the <code>_run()</code> method performing the true execution
-and returns the corresponding output data.
-This <code>_run()</code> method must be implemented in subclasses.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-            <b><code>input_data</code></b>
-              (<code><span title="collections.abc.Mapping">Mapping</span>[<span title="str">str</span>, <span title="numpy.ndarray">ndarray</span> | <a class="autorefs autorefs-internal" title="            TimeSeries (gemseo_fmu.utils.time_series.TimeSeries)" href="../../utils/time_series/#gemseo_fmu.utils.time_series.TimeSeries">TimeSeries</a> | <span title="collections.abc.Callable">Callable</span>[[<span title="gemseo_fmu.utils.time_duration.TimeDurationType">TimeDurationType</span>], <span title="float">float</span>]]</code>, default:
-                  <code><span title="types.MappingProxyType">MappingProxyType</span>({})</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The input data.
-Complete this dictionary with the
-[default_input_data][gemseo.core.discipline.base_discipline.BaseDiscipline.default_input_data].</p>
-          </div>
-        </li>
-    </ul>
-
-
-<p><span class="doc-section-title">Returns:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-              <code><span title="gemseo.core.discipline.discipline_data.DisciplineData">DisciplineData</span></code>
-          –
-          <div class="doc-md-description">
-            <p>The input and output data.</p>
-          </div>
-        </li>
-    </ul>
-
-
-            <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/gemseo_fmu/disciplines/base_fmu_discipline.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">712</span>
-<span class="normal">713</span>
-<span class="normal">714</span>
-<span class="normal">715</span>
-<span class="normal">716</span>
-<span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span>
-<span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>  <span class="c1"># noqa:D102</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">input_data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span>
-        <span class="nb">str</span><span class="p">,</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimeSeries</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">TimeDurationType</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="n">MappingProxyType</span><span class="p">({}),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DisciplineData</span><span class="p">:</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__executed</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_simulation_settings</span><span class="o">.</span><span class="n">use_arrays_only</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
-
-    <span class="n">full_input_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">prepare_input_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
-    <span class="n">current_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_manager</span><span class="o">.</span><span class="n">current</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__functional_input_names</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">full_input_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="bp">cls</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span>
-        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">TimeSeries</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_to_fmu_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">time_function</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">compute</span>
-            <span class="n">full_input_data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">value</span><span class="o">.</span><span class="n">observable</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__functional_input_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_to_fmu_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">time_function</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="n">full_input_data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">value</span><span class="p">(</span><span class="n">current_time</span><span class="p">)])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__functional_input_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">full_input_data</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
 <h6 id="gemseo_fmu.disciplines.base_fmu_discipline.BaseFMUDiscipline.set_default_execution" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">set_default_execution</span>
 
@@ -3341,7 +3189,7 @@ Complete this dictionary with the
           <div class="doc-md-description">
             <p>Whether the model is simulated over only one <code>time_step</code>
 when calling
-<a class="autorefs autorefs-internal" title="            execute" href="../fmu_discipline/#gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute">execute()</a>.
+[execute()][gemseo_fmu.disciplines.fmu_discipline.FMUDiscipline.execute].
 Otherwise, simulate the model from current time to final time in one go.
 If <code>None</code>, use the value considered at the instantiation.</p>
           </div>
