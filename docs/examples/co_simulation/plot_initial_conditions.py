@@ -15,6 +15,8 @@
 # WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """# Co-simulation from multidisciplinary feasible initial conditions"""
 
+from __future__ import annotations
+
 from numpy import array
 
 from gemseo_fmu.disciplines.static_fmu_discipline import StaticFMUDiscipline

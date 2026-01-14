@@ -14,6 +14,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """Tests for the module time."""
 
+from __future__ import annotations
+
 from operator import eq
 from operator import ge
 from operator import gt

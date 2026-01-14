@@ -14,6 +14,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """This module is used to generate an FMU3 model using pythonfmu3."""
 
+from __future__ import annotations
+
 from enum import Enum
 
 from numpy import array
