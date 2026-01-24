@@ -44,7 +44,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.61.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@29a119740af8b3908560481a6f2e3138297168f4
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@037514e6fd668231ffc7061ff1cb429d71816469
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -332,7 +332,7 @@ watchdog==6.0.0
     # via mkdocs
 wcmatch==10.1
     # via mkdocs-include-markdown-plugin
-wcwidth==0.3.1
+wcwidth==0.3.2
     # via prettytable
 xdsmjs==2.0.0
     # via gemseo
