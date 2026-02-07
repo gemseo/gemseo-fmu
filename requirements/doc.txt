@@ -44,7 +44,7 @@ fmpy==0.3.19
     # via gemseo-fmu (pyproject.toml)
 fonttools==4.61.1
     # via matplotlib
-gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@ab5a606436f8023db6969fa7fbe3e12dd6ffd086
+gemseo @ git+https://gitlab.com/gemseo/dev/gemseo.git@268c1c96008a696d220a6c6dc3e62b945576d65a
     # via
     #   -c requirements/test-constraints.in
     #   gemseo-fmu (pyproject.toml)
@@ -290,7 +290,7 @@ scipy==1.16.3
     #   pydoe3
     #   scikit-learn
     #   spgl1
-setuptools==80.10.2
+setuptools==81.0.0
     # via mkdocs-bibtex
 six==1.17.0
     # via python-dateutil
@@ -332,7 +332,7 @@ watchdog==6.0.0
     # via mkdocs
 wcmatch==10.1
     # via mkdocs-include-markdown-plugin
-wcwidth==0.5.3
+wcwidth==0.6.0
     # via prettytable
 xdsmjs==2.0.0
     # via gemseo
