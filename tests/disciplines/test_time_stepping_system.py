@@ -20,8 +20,8 @@ import re
 
 import pytest
 from gemseo.disciplines.linear_combination import LinearCombination
+from gemseo.mda.chain import MDAChain
 from gemseo.mda.jacobi import MDAJacobi
-from gemseo.mda.mda_chain import MDAChain
 from numpy import array
 from numpy.testing import assert_allclose
 from numpy.testing import assert_equal
