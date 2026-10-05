@@ -15,12 +15,12 @@
 """Tests for TimeSteppingSystem."""
 
 from __future__ import annotations
+from gemseo.mda.mda_chain import MDAChain
 
 import re
 
 import pytest
 from gemseo.disciplines.linear_combination import LinearCombination
-from gemseo.mda.chain import MDAChain
 from gemseo.mda.jacobi import MDAJacobi
 from numpy import array
 from numpy.testing import assert_allclose

@@ -15,6 +15,7 @@
 """A system of static and time-stepping disciplines."""
 
 from __future__ import annotations
+from gemseo.mda.mda_chain import MDAChain
 
 from copy import copy
 from typing import TYPE_CHECKING
@@ -23,7 +24,6 @@ from typing import Any
 from gemseo.core._process_flow.base_process_flow import BaseProcessFlow
 from gemseo.core.coupling_structure import CouplingStructure
 from gemseo.core.discipline.discipline import Discipline
-from gemseo.mda.chain import MDAChain
 from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
 from numpy import atleast_1d
 from numpy import concatenate
