@@ -87,7 +87,7 @@ in order to identify the strong and weak coupling variables:
     [in this example](https://gemseo.readthedocs.io/en/stable/examples/disciplines/variables/plot_variable_renaming.html).
     In the specific case of FMU disciplines,
     the instantiation argument `variable_names` can be set to a
-    [VariableRenamer.translators][gemseo.util.variable_renaming.VariableRenamer.translators].
+    [VariableRenamer.translators][gemseo.util.discipline.VariableRenamer.translators].
 
 Then,
 it executes the disciplines sequentially according to the coupling graph orientation
@@ -108,14 +108,14 @@ and solves the cycles, *i.e.* groups of strongly coupled disciplines, with an MD
     This can be used to obtain multidisciplinary feasible initial conditions,
     in the case where the disciplines have inconsistent initial conditions.
 
-By default (`algo_name="MDAJacobi"`),
+By default (`mda_name="MDAJacobi"`),
 this algorithm is the Jacobi method,
 which enables parallel execution.
 One can also use the Gauss-Seidel method,
 which is a serial approach;
 initialize the
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
-class with `algo_name="MDAGaussSeidel"` to use it.
+class with `mda_name="MDAGaussSeidel"` to use it.
 
 !!! tip
 
