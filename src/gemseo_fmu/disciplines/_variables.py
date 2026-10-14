@@ -23,7 +23,7 @@ from typing import Any
 from typing import Generic
 from typing import TypeVar
 
-from gemseo.utils.metaclasses import ABCGoogleDocstringInheritanceMeta
+from gemseo.util.metaclass import ABCGoogleDocstringInheritanceMeta
 from numpy import atleast_1d
 
 T = TypeVar(

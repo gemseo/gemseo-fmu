@@ -54,7 +54,9 @@ discipline.execute()
 
 # %%
 # and store the time evolution of its position:
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 default_y_evolution = discipline.local_data["y"]
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 default_mass = discipline.local_data["mass.m"]
 
 # %%
@@ -67,10 +69,12 @@ discipline.execute({"mass.m": lambda t: 4 - 3 * t})
 # we use a chart to compare the positions of the mass:
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
 ax1.plot(discipline.time, default_y_evolution, label="Default")
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 p = ax1.plot(discipline.time, discipline.local_data["y"], label="Custom")
 ax1.set_ylabel("Amplitude [m]")
 ax1.legend()
 ax2.axhline(default_mass, label="Default")
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 ax2.plot(
     discipline.time,
     discipline.local_data["mass.m"],

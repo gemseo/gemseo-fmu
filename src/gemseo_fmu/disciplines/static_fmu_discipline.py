@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import ClassVar
 
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.util.constant import read_only_empty_dict
 
 from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 
@@ -47,7 +47,7 @@ class StaticFMUDiscipline(BaseFMUDiscipline):
         use_co_simulation: bool = True,
         model_instance_directory: str | Path = "",
         delete_model_instance_directory: bool = True,
-        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        variable_names: Mapping[str, str] = read_only_empty_dict,
         validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:

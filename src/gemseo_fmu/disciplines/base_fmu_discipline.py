@@ -39,12 +39,12 @@ from fmpy.fmi2 import FMU2Slave
 from fmpy.fmi3 import FMU3Model
 from fmpy.fmi3 import FMU3Slave
 from fmpy.util import fmu_info
-from gemseo.core.discipline.discipline import Discipline
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
-from gemseo.utils.pydantic_ndarray import NDArrayPydantic
+from gemseo.discipline import Discipline
+from gemseo.util.constant import read_only_empty_dict
+from gemseo.util.pydantic_ndarray import NDArrayPydantic
 from numpy import append
 from numpy import array
-from strenum import StrEnum
+from enum import StrEnum
 
 from gemseo_fmu.disciplines._variables import FMU3Variable
 from gemseo_fmu.disciplines._variables import FMUTimeVariable
@@ -61,9 +61,9 @@ if TYPE_CHECKING:
     from fmpy.model_description import ModelDescription
     from fmpy.simulation import Recorder
     from gemseo.core.discipline.discipline_data import DisciplineData
-    from gemseo.typing import NumberArray
-    from gemseo.typing import RealArray
-    from gemseo.typing import StrKeyMapping
+    from gemseo.util.typing import NumberArray
+    from gemseo.util.typing import RealArray
+    from gemseo.util.typing import StrKeyMapping
     from numpy import ndarray
 
     from gemseo_fmu.disciplines._variables import BaseFMUVariable
@@ -210,7 +210,7 @@ class BaseFMUDiscipline(Discipline):
         solver_name: Solver = Solver.CVODE,
         model_instance_directory: str | Path = "",
         delete_model_instance_directory: bool = True,
-        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        variable_names: Mapping[str, str] = read_only_empty_dict,
         validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:
@@ -945,6 +945,7 @@ class BaseFMUDiscipline(Discipline):
             input_data: The input values.
             time: The evaluation time.
         """
+        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
         data = self.io.data
         to_fmu_variables = self._to_fmu_variables
         for input_name, input_value in input_data.items():
@@ -968,6 +969,7 @@ class BaseFMUDiscipline(Discipline):
             time: The current time.
             recorder: A helper to record the variables during the simulation.
         """
+        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
         data = self.io.data
         for name in self.__functional_input_names:
             try:
@@ -1027,7 +1029,7 @@ class BaseFMUDiscipline(Discipline):
                 self.__time_variable
             )
 
-    _ATTR_NOT_TO_SERIALIZE = Discipline._ATTR_NOT_TO_SERIALIZE.union([
+    _attr_not_to_serialize = Discipline._attr_not_to_serialize.union([
         "_BaseFMUDiscipline__model",
         "_to_fmu_variables",
     ])

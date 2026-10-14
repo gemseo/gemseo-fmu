@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Any
 
-from gemseo.utils.constants import READ_ONLY_EMPTY_DICT
+from gemseo.util.constant import read_only_empty_dict
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
@@ -49,7 +49,7 @@ class DoStepFMUDiscipline(FMUDiscipline):
         solver_name: FMUDiscipline.Solver = FMUDiscipline.Solver.CVODE,
         fmu_instance_directory: str | Path = "",
         delete_fmu_instance_directory: bool = True,
-        variable_names: Mapping[str, str] = READ_ONLY_EMPTY_DICT,
+        variable_names: Mapping[str, str] = read_only_empty_dict,
         validate: bool = True,
         **pre_instantiation_parameters: Any,
     ) -> None:

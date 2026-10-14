@@ -15,13 +15,13 @@
 """Tests for TimeSteppingSystem."""
 
 from __future__ import annotations
-from gemseo.mda.mda_chain import MDAChain
+from gemseo.mda import MDAChain
 
 import re
 
 import pytest
-from gemseo.disciplines.linear_combination import LinearCombination
-from gemseo.mda.jacobi import MDAJacobi
+from gemseo.discipline import LinearCombination
+from gemseo.mda import MDAJacobi
 from numpy import array
 from numpy.testing import assert_allclose
 from numpy.testing import assert_equal
@@ -40,6 +40,7 @@ def test_standard_use(cls):
         get_fmu_file_path("MassSpringSystem"), final_time=10, time_step=0.1
     )
     discipline.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     x2_ref = discipline.io.data["x2"]
 
     # TimeSteppingSystem can use a mix of standard MDODisciplines,
@@ -62,7 +63,9 @@ def test_standard_use(cls):
     assert len(inner_mdas) == 1
     assert isinstance(inner_mdas[0], MDAJacobi)
 
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_allclose(system.io.data["x2"][:-1], x2_ref[1:])
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_allclose(system.io.data["x2_plus_one"], system.io.data["x2"] + 1)
 
 
@@ -114,6 +117,7 @@ def test_mda_max_iter_at_t0(
     assert tss._TimeSteppingSystem__mda.execution_statistics.n_executions == n_mda_exec
     assert discipline_1.execution_statistics.n_executions == n_disc_exec
     assert discipline_2.execution_statistics.n_executions == n_disc_exec
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     data = tss.io.data
     assert_allclose(data["MDA residuals norm"], array([norm]), atol=1e-6)
     assert data["out1"] == array([out1])
@@ -141,9 +145,11 @@ def test_restart(kwargs, n_executions, use_cache, enable_discipline_statistics):
 
     system.execute()
     system.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_equal(
         system.io.data["MassSpringSubSystem1_time"], array([1.0, 2.0, 3.0, 4.0, 5.0])
     )
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert system.io.data["x2"].size == 5
     assert system.execution_statistics.n_executions == n_executions
 
@@ -158,8 +164,10 @@ def test_do_step():
         restart=False,
     )
     discipline.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     first_ref_x_2 = discipline.io.data["x2"]
     discipline.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     second_ref_x_2 = discipline.io.data["x2"]
     assert first_ref_x_2 != second_ref_x_2
 
@@ -175,10 +183,14 @@ def test_do_step():
         restart=False,
     )
     system.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     first_system_x_2 = system.io.data["x2"]
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     first_system_x_2_plus_one = system.io.data["x2_plus_one"]
     system.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     second_system_x_2 = system.io.data["x2"]
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     second_system_x_2_plus_one = system.io.data["x2_plus_one"]
     assert first_system_x_2 != second_system_x_2
 
@@ -225,7 +237,9 @@ def test_apply_time_step_to_disciplines(apply, step1, step2):
     assert s1._BaseFMUDiscipline__default_simulation_settings.time_step == step1
     assert s2._BaseFMUDiscipline__default_simulation_settings.time_step == step2
     expected_time = array([0.01, 0.02, 0.03])
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_equal(system.io.data["MassSpringSubSystem1_time"], expected_time)
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_equal(system.io.data["MassSpringSubSystem2_time"], expected_time)
 
 
@@ -244,6 +258,7 @@ def test_time_series():
     })
     system.execute()
     expected_time = array([0.1, 0.2, 0.3])
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_allclose(system.io.data["MassSpringSubSystem1_time"], expected_time)
 
 
@@ -289,4 +304,5 @@ def test_mda_name(mda_name, expected):
         mda_name=mda_name,
     )
     system.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_allclose(system.io.data["x2"], expected, atol=1e-5)

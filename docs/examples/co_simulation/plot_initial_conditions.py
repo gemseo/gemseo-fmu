@@ -81,6 +81,7 @@ system = TimeSteppingSystem(
 _ = system.execute()
 # %%
 # and note the time evolutions of the output variables after three time steps:
+# TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
 {name: system.io.data[name] for name in ["x", "y"]}
 
 # %%
@@ -99,6 +100,7 @@ _ = system.execute()
 # %%
 # and see that
 # the time evolutions of the output variables after three time steps have changed:
+# TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
 {name: system.io.data[name] for name in ["x", "y"]}
 
 # %%

@@ -12,7 +12,7 @@
 A
 [TimeSteppingSystem][gemseo_fmu.disciplines.time_stepping_system.TimeSteppingSystem]
 is a
-[Discipline][gemseo.core.discipline.discipline.Discipline]
+[Discipline][gemseo.discipline.Discipline]
 defined by a system of static and time-stepping disciplines:
 
 - a static discipline computes an output $y$ at time $t_k$
@@ -87,7 +87,7 @@ in order to identify the strong and weak coupling variables:
     [in this example](https://gemseo.readthedocs.io/en/stable/examples/disciplines/variables/plot_variable_renaming.html).
     In the specific case of FMU disciplines,
     the instantiation argument `variable_names` can be set to a
-    [VariableRenamer.translators][gemseo.utils.variable_renaming.VariableRenamer.translators].
+    [VariableRenamer.translators][gemseo.util.variable_renaming.VariableRenamer.translators].
 
 Then,
 it executes the disciplines sequentially according to the coupling graph orientation
@@ -120,7 +120,7 @@ class with `algo_name="MDAGaussSeidel"` to use it.
 !!! tip
 
     Use the dictionary `mda_options` to customize the MDA algorithm
-    and subclass [BaseMDA][gemseo.mda.base_mda.BaseMDA] to create a new master algorithm.
+    and subclass [BaseMDA][gemseo.mda.core.base.BaseMDA] to create a new master algorithm.
 
 In the following,
 we explain the mechanics of the Jacobi and Gauss-Seidel algorithms.

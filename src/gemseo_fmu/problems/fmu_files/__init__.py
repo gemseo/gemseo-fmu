@@ -40,7 +40,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from gemseo.utils.portable_path import PLATFORM_IS_WINDOWS
+from gemseo.util.platform import platform_is_windows
 
 
 def get_fmu_file_path(model_name: str, directory_name: str = ".") -> Path:
@@ -54,5 +54,5 @@ def get_fmu_file_path(model_name: str, directory_name: str = ".") -> Path:
     Returns:
         The file path of the FMU model.
     """
-    os_dir = "win32" if PLATFORM_IS_WINDOWS else "linux"
+    os_dir = "win32" if platform_is_windows else "linux"
     return Path(__file__).parent / os_dir / directory_name / f"{model_name}.fmu"

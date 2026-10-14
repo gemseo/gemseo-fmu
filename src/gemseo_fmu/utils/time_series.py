@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING
 from typing import Any
 from typing import Literal
 
-from gemseo.utils.pydantic_ndarray import NDArrayPydantic
+from gemseo.util.pydantic_ndarray import NDArrayPydantic
 from numpy import array
 from pandas import read_csv
 from pydantic.dataclasses import dataclass

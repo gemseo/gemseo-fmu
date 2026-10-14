@@ -28,7 +28,7 @@ from fmpy.fmi2 import FMU2Slave
 from fmpy.model_description import ModelDescription
 from gemseo import from_pickle
 from gemseo import to_pickle
-from gemseo.utils.comparisons import compare_dict_of_arrays
+from gemseo.util.comparison import compare_dict_of_arrays
 from numpy import array
 from numpy import ndarray
 from numpy import ones
@@ -414,6 +414,7 @@ def test_time_series():
     """
     discipline = FMUDiscipline(get_fmu_file_path("add"), final_time=1.0, time_step=0.1)
     discipline.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["y"], zeros([11]))
     discipline.execute({
         "u1": array([1.0]),
@@ -421,20 +422,26 @@ def test_time_series():
         "add.k1": array([1.0]),
         "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0]),
     })
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data[f"{discipline.name}_time"],
         array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
     )
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["add.k1"], array([1.0]))
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data["add.k2"],
         array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0]),
     )
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(discipline.io.data["u1"], array([1.0]))
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data["u2"],
         array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
     )
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data["y"],
         array([1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0]),
@@ -577,6 +584,7 @@ def test_time_series_default_inputs_or_input_data(as_default_input, t0, expected
         input_data = custom_input_data
 
     discipline.execute(input_data)
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert discipline.io.data["y"].sum() == pytest.approx(expected)
 
 
@@ -603,6 +611,7 @@ def test_serialize(tmp_wd, do_step, restart):
 
     assert discipline._BaseFMUDiscipline__do_step == do_step
     assert discipline._BaseFMUDiscipline__default_simulation_settings.restart == restart
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
         discipline.io.data[OUTPUT_NAME], original_discipline.io.data[OUTPUT_NAME]
     )
@@ -641,9 +650,11 @@ def test_string_time(initial, final, step):
         time_step=step,
     )
     discipline.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
     discipline.set_next_execution(simulation_time=final, time_step=step)
     discipline.execute()
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
 
 
@@ -660,11 +671,13 @@ def test_scalar_input_variables():
     discipline.default_input_data[INPUT_NAME] = array([2.0])
     discipline.execute()
     discipline.execute({INPUT_NAME: array([2.1])})
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     output_data_with_array_input = discipline.io.data[OUTPUT_NAME]
 
     discipline.default_input_data[INPUT_NAME] = 2.0
     discipline.execute()
     discipline.execute({INPUT_NAME: 2.1})
+    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_equal(discipline.io.data[OUTPUT_NAME], output_data_with_array_input)
 
 

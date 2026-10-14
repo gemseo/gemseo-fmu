@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 from unittest import mock
 
 import pytest
+# TODO(bump-gemseo): gemseo.utils.testing.helpers.image_comparison: use the snapshot_matplotlib fixture of syrupy-matplotlib instead; add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, replace the @image_comparison([...]) decorator by a snapshot_matplotlib argument of the test, then run pytest --snapshot-update without -n (the baseline_images directories are no longer used)  # noqa: E501
 from gemseo.utils.testing.helpers import image_comparison
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
@@ -28,7 +29,7 @@ from gemseo_fmu.utils.plotting import plot_time_evolution
 from gemseo_fmu.utils.time_duration import TimeDuration
 
 if TYPE_CHECKING:
-    from gemseo.typing import RealArray
+    from gemseo.util.typing import RealArray
 
 
 @pytest.fixture(scope="module")
@@ -65,44 +66,39 @@ def test_plot(time, data, baseline_images, output_names):
     )
 
 
-@image_comparison(["time_unit"])
-def test_plot_time_unit(time, data):
+# TODO(bump-gemseo): image_comparison was replaced by the snapshot_matplotlib fixture of syrupy-matplotlib: add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, run pytest --snapshot-update without -n to create the snapshots of the figures, and remove the baseline_images directories  # noqa: E501
+def test_plot_time_unit(time, data, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution with a given time unit."""
     plot_time_evolution(
         time, {"x1": data["x1"]}, save=False, time_unit=TimeDuration.TimeUnit.MINUTES
     )
 
 
-@image_comparison(["abscissa_name"])
-def test_plot_abscissa_name(time, data):
+def test_plot_abscissa_name(time, data, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution wrt a variable."""
     plot_time_evolution(
         time, {"x1": data["x1"], "x2": data["x2"]}, save=False, abscissa_name="x2"
     )
 
 
-@image_comparison(["time_window_as_integer"])
-def test_plot_time_window_as_integer(time, data):
+def test_plot_time_window_as_integer(time, data, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution from a time index."""
     plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=500)
 
 
-@image_comparison(["time_window_as_integer_tuple"])
-def test_plot_time_window_as_integer_tuple(time, data):
+def test_plot_time_window_as_integer_tuple(time, data, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution from time indices."""
     plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=(500, 700))
 
 
 @pytest.mark.parametrize("time_window", [3.0, "3 seconds"])
-@image_comparison(["time_window_as_float"])
-def test_plot_time_window_as_float(time, data, time_window):
+def test_plot_time_window_as_float(time, data, time_window, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution from a time value."""
     plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=time_window)
 
 
 @pytest.mark.parametrize("time_window", [(3.0, 7.0), ("3 seconds", "7 seconds")])
-@image_comparison(["time_window_as_float_tuple"])
-def test_plot_time_window_as_float_tuple(time, data, time_window):
+def test_plot_time_window_as_float_tuple(time, data, time_window, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution from time values."""
     plot_time_evolution(time, {"x1": data["x1"]}, save=False, time_window=time_window)
 

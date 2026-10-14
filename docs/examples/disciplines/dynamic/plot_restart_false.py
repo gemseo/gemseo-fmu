@@ -62,6 +62,7 @@ discipline.execute()
 
 # %%
 # and store the time evolution of the position of the mass:
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 time_evolution_1 = (discipline.time, discipline.local_data["y"])
 
 # %%
@@ -71,11 +72,13 @@ discipline.execute({"mass.m": 1.5, "spring.c": 1050.0})
 
 # %%
 # store the results:
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 time_evolution_2 = (discipline.time, discipline.local_data["y"])
 
 # %%
 # and execute the discipline until the final time:
 discipline.execute()
+# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
 time_evolution_3 = (discipline.time, discipline.local_data["y"])
 
 # %%
