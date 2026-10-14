@@ -67,7 +67,7 @@ Set `do_step` to `True` if you want to simulate with only one time step.
 
 By default,
 the time-stepping disciplines use the time step passed at instantiation.
-Set `apply_time_step_to_disciplines` to `False`  if you want to use their specific time steps.
+Set `apply_time_step_to_disciplines` to `False` if you want to use their specific time steps.
 
 ## Master algorithms
 
@@ -91,7 +91,7 @@ in order to identify the strong and weak coupling variables:
 
 Then,
 it executes the disciplines sequentially according to the coupling graph orientation
-and solves the cycles, *i.e.* groups of strongly coupled disciplines, with an MDA algorithm.
+and solves the cycles, _i.e._ groups of strongly coupled disciplines, with an MDA algorithm.
 
 !!! warning
 

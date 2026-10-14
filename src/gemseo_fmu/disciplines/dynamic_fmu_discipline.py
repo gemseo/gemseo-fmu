@@ -16,6 +16,4 @@
 
 from __future__ import annotations
 
-from gemseo_fmu.disciplines.fmu_discipline import (  # noqa: F401
-    FMUDiscipline as DynamicFMUDiscipline,
-)
+from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline as DynamicFMUDiscipline  # noqa: F401
