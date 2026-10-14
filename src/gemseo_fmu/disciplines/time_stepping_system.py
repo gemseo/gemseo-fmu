@@ -15,15 +15,16 @@
 """A system of static and time-stepping disciplines."""
 
 from __future__ import annotations
-from gemseo.mda import MDAChain
 
-from copy import copy
 from typing import TYPE_CHECKING
 from typing import Any
 
 from gemseo.core._process_flow.base_process_flow import BaseProcessFlow
 from gemseo.core.coupling_structure import CouplingStructure
 from gemseo.discipline import Discipline
+from gemseo.mda import MDAChain
+from gemseo.mda import MDAChain_Settings
+from gemseo.mda import mda_factory
 from gemseo.util.constant import read_only_empty_dict
 from numpy import atleast_1d
 from numpy import concatenate
@@ -32,7 +33,6 @@ from gemseo_fmu.disciplines.base_fmu_discipline import BaseFMUDiscipline
 from gemseo_fmu.disciplines.do_step_fmu_discipline import DoStepFMUDiscipline
 from gemseo_fmu.utils.time_manager import TimeManager
 from gemseo_fmu.utils.time_series import TimeSeries
-from gemseo.mda import MDAChain_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -176,9 +176,15 @@ class TimeSteppingSystem(Discipline):
 
             input_grammar.update_from_names(array_strong_couplings)
 
-        # TODO(bump-gemseo): cannot transform: the Settings class is named by mda_name, which is not a string literal  # noqa: E501
+        inner_mda_settings_class = mda_factory.get_class(mda_name).settings_class
         self.__mda = MDAChain(
-            all_disciplines, settings=MDAChain_Settings(inner_mda_name=mda_name, max_mda_iter=0, inner_mda_settings=mda_options))
+            all_disciplines,
+            settings=MDAChain_Settings(
+                # TODO: add max_mda_iter argument when rollback will be available.
+                max_mda_iter=0,
+                inner_mda_settings=inner_mda_settings_class(**mda_options),
+            ),
+        )
         for mda in self.__mda.inner_mdas:
             mda.settings.max_mda_iter = 0
 
@@ -255,12 +261,12 @@ class TimeSteppingSystem(Discipline):
                 )
 
         input_data = dict(input_data)
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-        input_data.update(self.__mda.io.data)
+        input_data.update(self.__mda.io.get_merged_data())
         if self.__do_step:
             self.__simulate_one_time_step(input_data)
-            # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-            self.io.data.update(self.__mda.io.data)
+            mda_data = self.__mda.io.get_merged_data()
+            self.io.propagate_to_input(mda_data)
+            self.io.update_output_data(mda_data)
         else:
             self.__simulate_to_final_time(input_data)
 
@@ -279,10 +285,8 @@ class TimeSteppingSystem(Discipline):
         local_data_history = []
         while self.__time_manager.remaining > 0:
             self.__simulate_one_time_step(input_data)
-            # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-            local_data_history.append(copy(self.__mda.io.data))
-            # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-            input_data = self.__mda.io.data
+            input_data = self.__mda.io.get_merged_data()
+            local_data_history.append(input_data)
 
         # The different time steps are concatenated when the values are NumPy arrays.
         # Given a variable,

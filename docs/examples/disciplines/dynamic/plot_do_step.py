@@ -56,10 +56,9 @@ discipline = DoStepFMUDiscipline(
 # means that we are advancing 10 times by one time step.
 for _ in range(10):
     discipline.execute()
-    # TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
     plt.scatter(
         discipline.time,
-        discipline.local_data["y"],
+        discipline.io.get("y"),
     )
 plt.xlabel("Time [s]")
 plt.ylabel("Amplitude [m]")

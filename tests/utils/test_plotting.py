@@ -19,8 +19,6 @@ from typing import TYPE_CHECKING
 from unittest import mock
 
 import pytest
-# TODO(bump-gemseo): gemseo.utils.testing.helpers.image_comparison: use the snapshot_matplotlib fixture of syrupy-matplotlib instead; add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, replace the @image_comparison([...]) decorator by a snapshot_matplotlib argument of the test, then run pytest --snapshot-update without -n (the baseline_images directories are no longer used)  # noqa: E501
-from gemseo.utils.testing.helpers import image_comparison
 
 from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
@@ -51,22 +49,17 @@ def time(discipline) -> RealArray:
 @pytest.fixture(scope="module")
 def data(discipline) -> RealArray:
     """The time evolution of the variables of interest."""
-    return discipline.io.data
+    return discipline.io.get_merged_data()
 
 
-@pytest.mark.parametrize(
-    ("baseline_images", "output_names"),
-    [(["one_output"], "x1"), (["two_outputs"], ["x1", "x2"])],
-)
-@image_comparison(None)
-def test_plot(time, data, baseline_images, output_names):
+@pytest.mark.parametrize("output_names", ["x1", ["x1", "x2"]])
+def test_plot(time, data, output_names, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution."""
     plot_time_evolution(
         time, {k: v for k, v in data.items() if k in output_names}, save=False
     )
 
 
-# TODO(bump-gemseo): image_comparison was replaced by the snapshot_matplotlib fixture of syrupy-matplotlib: add syrupy-matplotlib to the test dependencies, set snapshot_matplotlib_tolerance = 0.01 in .pytest.ini, run pytest --snapshot-update without -n to create the snapshots of the figures, and remove the baseline_images directories  # noqa: E501
 def test_plot_time_unit(time, data, snapshot_matplotlib):
     """Verify that the discipline can plot the last execution with a given time unit."""
     plot_time_evolution(

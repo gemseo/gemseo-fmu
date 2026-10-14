@@ -20,11 +20,11 @@ from typing import TYPE_CHECKING
 
 from gemseo.dataset import Dataset
 from gemseo.post.dataset import Lines
+from gemseo.post.dataset.lines_settings import Lines_Settings
 from numpy import newaxis
 from numpy import searchsorted
 
 from gemseo_fmu.utils.time_duration import TimeDuration
-from gemseo.post.dataset.lines_settings import Lines_Settings
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -98,6 +98,9 @@ def plot_time_evolution(
     for name in set(data).union({abscissa_name}) - {time_name}:
         dataset.add_variable(name, data[name][time_window, newaxis])
 
-    figure = Lines(dataset, settings=Lines_Settings(variables=list(data), abscissa_variable=abscissa_name))
+    figure = Lines(
+        dataset,
+        settings=Lines_Settings(variables=list(data), abscissa_variable=abscissa_name),
+    )
     figure.execute(save=save, show=show, file_path=file_path)
     return figure

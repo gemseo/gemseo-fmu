@@ -55,8 +55,7 @@ discipline.execute()
 
 # %%
 # and store the time evolution of the position of the mass:
-# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
-default_y_evolution = discipline.local_data["y"]
+default_y_evolution = discipline.io.get("y")
 
 # %%
 # Then,
@@ -68,8 +67,7 @@ discipline.execute({"mass.m": 1.5, "spring.c": 1050.0})
 # Lastly,
 # we use a chart to compare the positions of the mass:
 plt.plot(discipline.time, default_y_evolution, label="Default")
-# TODO(bump-gemseo): local_data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or io.update_output_data(data)), write the inputs to input_data, and read input_data, output_data or io.get_merged_data()  # noqa: E501
-plt.plot(discipline.time, discipline.local_data["y"], label="Custom")
+plt.plot(discipline.time, discipline.io.get("y"), label="Custom")
 plt.xlabel("Time [s]")
 plt.ylabel("Amplitude [m]")
 plt.legend()

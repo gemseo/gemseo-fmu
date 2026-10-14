@@ -267,15 +267,15 @@ from gemseo_fmu.disciplines.fmu_discipline import FMUDiscipline
 
 discipline = FMUDiscipline("my_model.fmu")
 discipline.execute()
-default_trajectory = discipline.local_data["y"]
+default_trajectory = discipline.io.get("y")
 
 discipline.execute({"x": array([12.3])})
-first_custom_trajectory = discipline.local_data["y"]
+first_custom_trajectory = discipline.io.get("y")
 
 discipline.execute({"x": array([16.8])})
-second_custom_trajectory = discipline.local_data["y"]
+second_custom_trajectory = discipline.io.get("y")
 
-time = discipline.local_data["time"]
+time = discipline.io.get("time")
 
 plt.plot(time, default_trajectory, label="Default")
 plt.plot(time, first_custom_trajectory, label="Option 1")

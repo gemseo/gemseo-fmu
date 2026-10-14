@@ -20,6 +20,7 @@ import logging
 from collections.abc import Callable
 from copy import copy
 from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
 from shutil import rmtree
 from types import MappingProxyType
@@ -44,7 +45,6 @@ from gemseo.util.constant import read_only_empty_dict
 from gemseo.util.pydantic_ndarray import NDArrayPydantic
 from numpy import append
 from numpy import array
-from enum import StrEnum
 
 from gemseo_fmu.disciplines._variables import FMU3Variable
 from gemseo_fmu.disciplines._variables import FMUTimeVariable
@@ -945,8 +945,7 @@ class BaseFMUDiscipline(Discipline):
             input_data: The input values.
             time: The evaluation time.
         """
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-        data = self.io.data
+        data = self.io.input_data
         to_fmu_variables = self._to_fmu_variables
         for input_name, input_value in input_data.items():
             if (function := to_fmu_variables[input_name].time_function) is not None:
@@ -969,8 +968,7 @@ class BaseFMUDiscipline(Discipline):
             time: The current time.
             recorder: A helper to record the variables during the simulation.
         """
-        # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-        data = self.io.data
+        data = self.io.input_data
         for name in self.__functional_input_names:
             try:
                 value = (variable := self._to_fmu_variables[name]).time_function(time)

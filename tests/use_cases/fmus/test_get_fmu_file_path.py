@@ -21,7 +21,7 @@ import gemseo_fmu.problems.fmu_files as fmus
 from gemseo_fmu.problems.fmu_files import get_fmu_file_path
 
 
-@mock.patch("gemseo_fmu.problems.fmu_files.PLATFORM_IS_WINDOWS", False)
+@mock.patch("gemseo_fmu.problems.fmu_files.platform_is_windows", False)
 def test_get_fmu_file_path_without_windows():
     """Check get_fmu_file_path() with another OS than Windows (assumed to be linux)."""
     assert get_fmu_file_path("foo") == Path(fmus.__file__).parent / "linux" / "foo.fmu"
@@ -31,7 +31,7 @@ def test_get_fmu_file_path_without_windows():
     )
 
 
-@mock.patch("gemseo_fmu.problems.fmu_files.PLATFORM_IS_WINDOWS", True)
+@mock.patch("gemseo_fmu.problems.fmu_files.platform_is_windows", True)
 def test_get_fmu_file_path_with_windows():
     """Check get_fmu_file_path() under Windows."""
     assert get_fmu_file_path("foo") == Path(fmus.__file__).parent / "win32" / "foo.fmu"

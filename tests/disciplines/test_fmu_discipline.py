@@ -205,7 +205,7 @@ def test_namespace(
         ramp_discipline_do_step_w_restart.add_namespace_to_output(OUTPUT_NAME, "ns")
     ramp_discipline_do_step_w_restart.execute({input_name: array([1.0])})
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[output_name], array([0.2])
+        ramp_discipline_do_step_w_restart.io.get(output_name), array([0.2])
     )
 
 
@@ -248,11 +248,11 @@ def test_execute_without_do_step(ramp_discipline_wo_restart):
     ramp_discipline_wo_restart.execute()
     assert_almost_equal(ramp_discipline_wo_restart.time, array([0.0, 0.2, 0.4, 0.6]))
     assert_almost_equal(
-        ramp_discipline_wo_restart.io.data[f"{ramp_discipline_wo_restart.name}_time"],
+        ramp_discipline_wo_restart.io.get(f"{ramp_discipline_wo_restart.name}_time"),
         array([0.0, 0.2, 0.4, 0.6]),
     )
     assert_almost_equal(
-        ramp_discipline_wo_restart.io.data[OUTPUT_NAME],
+        ramp_discipline_wo_restart.io.get(OUTPUT_NAME),
         array([0.0, 0.4, 0.8, 1.2]),
     )
     with pytest.raises(
@@ -275,14 +275,14 @@ def test_execute_without_do_step_r(ramp_discipline_w_restart, caplog):
     output_data = array([0.0, 0.4, 0.8, 1.2])
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
-    assert_almost_equal(ramp_discipline_w_restart.io.data[OUTPUT_NAME], output_data)
+    assert_almost_equal(ramp_discipline_w_restart.io.get(OUTPUT_NAME), output_data)
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
-    assert_almost_equal(ramp_discipline_w_restart.io.data[OUTPUT_NAME], output_data)
+    assert_almost_equal(ramp_discipline_w_restart.io.get(OUTPUT_NAME), output_data)
     ramp_discipline_w_restart.set_next_execution(simulation_time=0.8)
     ramp_discipline_w_restart.execute()
     assert_almost_equal(ramp_discipline_w_restart.time, time_data)
-    assert_almost_equal(ramp_discipline_w_restart.io.data[OUTPUT_NAME], output_data)
+    assert_almost_equal(ramp_discipline_w_restart.io.get(OUTPUT_NAME), output_data)
     _, level, msg = caplog.record_tuples[0]
     assert level == logging.DEBUG
     assert msg == (
@@ -299,33 +299,33 @@ def test_execute_with_do_step(ramp_discipline_do_step):
     # One step forward with the standard ramp.
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.2]))
-    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.4]))
+    assert_almost_equal(ramp_discipline_do_step.io.get(OUTPUT_NAME), array([0.4]))
 
     # One step forward with the standard ramp.
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.4]))
-    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.8]))
+    assert_almost_equal(ramp_discipline_do_step.io.get(OUTPUT_NAME), array([0.8]))
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step.time, array([0.6]))
-    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.6]))
+    assert_almost_equal(ramp_discipline_do_step.io.get(OUTPUT_NAME), array([0.6]))
 
     # One step forward with the standard ramp.
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.8]))
-    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([1.6]))
+    assert_almost_equal(ramp_discipline_do_step.io.get(OUTPUT_NAME), array([1.6]))
 
     # One step forward with the standard ramp after restart.
     ramp_discipline_do_step.set_next_execution(restart=True)
     ramp_discipline_do_step.execute()
     assert_almost_equal(ramp_discipline_do_step.time, array([0.2]))
-    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.4]))
+    assert_almost_equal(ramp_discipline_do_step.io.get(OUTPUT_NAME), array([0.4]))
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step.time, array([0.4]))
-    assert_almost_equal(ramp_discipline_do_step.io.data[OUTPUT_NAME], array([0.4]))
+    assert_almost_equal(ramp_discipline_do_step.io.get(OUTPUT_NAME), array([0.4]))
 
 
 def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
@@ -337,21 +337,21 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.4])
+        ramp_discipline_do_step_w_restart.io.get(OUTPUT_NAME), array([0.4])
     )
 
     # One step forward with the standard ramp.
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.4])
+        ramp_discipline_do_step_w_restart.io.get(OUTPUT_NAME), array([0.4])
     )
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step_w_restart.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.2])
+        ramp_discipline_do_step_w_restart.io.get(OUTPUT_NAME), array([0.2])
     )
 
     # One step forward with the standard ramp and a custom time step.
@@ -359,7 +359,7 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.1]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.2])
+        ramp_discipline_do_step_w_restart.io.get(OUTPUT_NAME), array([0.2])
     )
 
     # One step forward with the standard ramp without restart.
@@ -367,14 +367,14 @@ def test_execute_with_do_step_r(ramp_discipline_do_step_w_restart):
     ramp_discipline_do_step_w_restart.execute()
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.3]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.6])
+        ramp_discipline_do_step_w_restart.io.get(OUTPUT_NAME), array([0.6])
     )
 
     # One step forward with a custom ramp.
     ramp_discipline_do_step_w_restart.execute({INPUT_NAME: array([1.0])})
     assert_almost_equal(ramp_discipline_do_step_w_restart.time, array([0.2]))
     assert_almost_equal(
-        ramp_discipline_do_step_w_restart.io.data[OUTPUT_NAME], array([0.2])
+        ramp_discipline_do_step_w_restart.io.get(OUTPUT_NAME), array([0.2])
     )
 
 
@@ -414,36 +414,29 @@ def test_time_series():
     """
     discipline = FMUDiscipline(get_fmu_file_path("add"), final_time=1.0, time_step=0.1)
     discipline.execute()
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["y"], zeros([11]))
+    assert_almost_equal(discipline.io.get("y"), zeros([11]))
     discipline.execute({
         "u1": array([1.0]),
         "u2": TimeSeries([0.0, 0.5, 0.7], [0.0, 1.0, 0.0]),
         "add.k1": array([1.0]),
         "add.k2": TimeSeries([0.0, 0.9], [1.0, 2.0]),
     })
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
-        discipline.io.data[f"{discipline.name}_time"],
+        discipline.io.get(f"{discipline.name}_time"),
         array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]),
     )
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["add.k1"], array([1.0]))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
+    assert_almost_equal(discipline.io.get("add.k1"), array([1.0]))
     assert_almost_equal(
-        discipline.io.data["add.k2"],
+        discipline.io.get("add.k2"),
         array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0]),
     )
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["u1"], array([1.0]))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
+    assert_almost_equal(discipline.io.get("u1"), array([1.0]))
     assert_almost_equal(
-        discipline.io.data["u2"],
+        discipline.io.get("u2"),
         array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
     )
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
-        discipline.io.data["y"],
+        discipline.io.get("y"),
         array([1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0]),
     )
 
@@ -470,7 +463,8 @@ def test_time_series_do_step():
     k1 = []
     k2 = []
     for _ in range(10):
-        result = discipline.execute()
+        discipline.execute()
+        result = discipline.io.get_merged_data()
         time.append(result[f"{discipline.name}_time"][0])
         y.append(result["y"][0])
         u1.append(result["u1"][0])
@@ -584,8 +578,7 @@ def test_time_series_default_inputs_or_input_data(as_default_input, t0, expected
         input_data = custom_input_data
 
     discipline.execute(input_data)
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert discipline.io.data["y"].sum() == pytest.approx(expected)
+    assert discipline.io.get("y").sum() == pytest.approx(expected)
 
 
 @pytest.mark.parametrize("do_step", [False, True])
@@ -611,9 +604,8 @@ def test_serialize(tmp_wd, do_step, restart):
 
     assert discipline._BaseFMUDiscipline__do_step == do_step
     assert discipline._BaseFMUDiscipline__default_simulation_settings.restart == restart
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
     assert_almost_equal(
-        discipline.io.data[OUTPUT_NAME], original_discipline.io.data[OUTPUT_NAME]
+        discipline.io.get(OUTPUT_NAME), original_discipline.io.get(OUTPUT_NAME)
     )
 
 
@@ -650,12 +642,10 @@ def test_string_time(initial, final, step):
         time_step=step,
     )
     discipline.execute()
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
+    assert_equal(discipline.io.get(OUTPUT_NAME), array([0.0, 0.25, 0.5, 0.75, 1.0]))
     discipline.set_next_execution(simulation_time=final, time_step=step)
     discipline.execute()
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_equal(discipline.io.data[OUTPUT_NAME], array([0.0, 0.25, 0.5, 0.75, 1.0]))
+    assert_equal(discipline.io.get(OUTPUT_NAME), array([0.0, 0.25, 0.5, 0.75, 1.0]))
 
 
 def test_scalar_input_variables():
@@ -671,14 +661,12 @@ def test_scalar_input_variables():
     discipline.default_input_data[INPUT_NAME] = array([2.0])
     discipline.execute()
     discipline.execute({INPUT_NAME: array([2.1])})
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    output_data_with_array_input = discipline.io.data[OUTPUT_NAME]
+    output_data_with_array_input = discipline.io.get(OUTPUT_NAME)
 
     discipline.default_input_data[INPUT_NAME] = 2.0
     discipline.execute()
     discipline.execute({INPUT_NAME: 2.1})
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_equal(discipline.io.data[OUTPUT_NAME], output_data_with_array_input)
+    assert_equal(discipline.io.get(OUTPUT_NAME), output_data_with_array_input)
 
 
 @pytest.mark.parametrize(
@@ -773,11 +761,11 @@ def test_variable_names(variable_names, offset_name, output_name):
     assert offset_name in discipline.default_input_data
 
     data = discipline.execute()
-    assert_equal(data[offset_name], array([0.0]))
+    assert_equal(discipline.io.input_data[offset_name], array([0.0]))
     assert_equal(data[output_name][0:3], array([0.0, 0.002, 0.004]))
 
     data = discipline.execute({offset_name: array([1.0])})
-    assert_equal(data[offset_name], array([1.0]))
+    assert_equal(discipline.io.input_data[offset_name], array([1.0]))
     assert_equal(data[output_name][0:3], array([1.0, 1.002, 1.004]))
 
 

@@ -38,8 +38,7 @@ def test_fmu3(do_step, time, output):
     discipline.io.input_grammar.defaults["increment"] = 2.0
     discipline.execute()
     assert_almost_equal(discipline.time, array(time))
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_almost_equal(discipline.io.data["output"], array(output))
+    assert_almost_equal(discipline.io.get("output"), array(output))
 
 
 def test_data_types():
@@ -95,5 +94,4 @@ def test_array(do_step, output_vector):
         get_fmu_file_path("FMU3Model"), final_time=1.0, time_step=0.2, do_step=do_step
     )
     discipline.execute()
-    # TODO(bump-gemseo): IO.data is deprecated and returns a copy of the input and output data, so setting, updating or removing an item through it has no effect, and an output that _run produces through it is missing, even when produced by changing an input in place; return the outputs from _run or write them to output_data (or update_output_data(data)), write the inputs to input_data, and read input_data, output_data or get_merged_data()  # noqa: E501
-    assert_equal(discipline.io.data["vector"], output_vector)
+    assert_equal(discipline.io.get("vector"), output_vector)
